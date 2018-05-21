@@ -1,0 +1,36 @@
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://127.0.0.1:8761/eureka/
+server:
+    port: 8770
+spring:
+    application:
+        name: zb-live-media
+
+
+platfrom:
+    tencent:
+        producer: https://cloud.tencent.com
+        key: e01837ea60ab36fde4b666dda2108c73
+        appid: 1255349331
+        bizid: 13308
+        type: flv
+        pushUrl:
+            rtmp:  rtmp://%1$s.livepush.myqcloud.com/live/%2$s
+            flv: http://%1$s.livepush.myqcloud.com/live/%2$s.flv
+            hls: http://%1$s.livepush.myqcloud.com/live/%2$s.m3u8
+        playUrl:
+            rtmp:  rtmp://%1$s.liveplay.myqcloud.com/live/%2$s
+            flv: http://%1$s.liveplay.myqcloud.com/live/%2$s.flv
+            hls: http://%1$s.liveplay.myqcloud.com/live/%2$s.m3u8
+    jsy:
+            producer: https://kls.ksyun.com
+            appName: live
+            live: r1
+            pushUrl:
+                r1:  rtmp://rtmp.xzjcn.com/live/%1$s
+                r2:  rtmp://push.xzjcn.com/live/%1$s
+            playUrl:
+                r1:  http://down.xzjcn.com/live/%1$s/index.m3u8
+                r2:  rtmp://pull.xzjcn.com/live/%1$s

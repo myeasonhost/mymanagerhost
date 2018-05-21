@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/config-client/config-client.iml" filepath="$PROJECT_DIR$/config-client/config-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/config-server/config-server.iml" filepath="$PROJECT_DIR$/config-server/config-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parent.iml" filepath="$PROJECT_DIR$/parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-admin/service-admin.iml" filepath="$PROJECT_DIR$/service-admin/service-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-api-common/service-api-common.iml" filepath="$PROJECT_DIR$/service-api-common/service-api-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-api-wx-impl/service-api-wx-impl.iml" filepath="$PROJECT_DIR$/service-api-wx-impl/service-api-wx-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-api-zb/service-api-zb.iml" filepath="$PROJECT_DIR$/service-api-zb/service-api-zb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-api-zb-impl/service-api-zb-impl.iml" filepath="$PROJECT_DIR$/service-api-zb-impl/service-api-zb-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-feign/service-feign.iml" filepath="$PROJECT_DIR$/service-feign/service-feign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-ribbon/service-ribbon.iml" filepath="$PROJECT_DIR$/service-ribbon/service-ribbon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-scheduler/service-scheduler.iml" filepath="$PROJECT_DIR$/service-scheduler/service-scheduler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-zuul/service-zuul.iml" filepath="$PROJECT_DIR$/service-zuul/service-zuul.iml" />
+      <module fileurl="file://$PROJECT_DIR$/socket-server/socket-server.iml" filepath="$PROJECT_DIR$/socket-server/socket-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zb-live-media/zb-live-media.iml" filepath="$PROJECT_DIR$/zb-live-media/zb-live-media.iml" />
+    </modules>
+  </component>
+</project>
