@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="de2134be-04e2-4697-8588-92d678511d8f" name="Default" comment="Signed-off-by: eason &lt;myeasonhost@gmail.com&gt;&#10;微配置部署">
-      <change beforePath="" afterPath="$PROJECT_DIR$/service-feign/src/main/java/com/eason/api/ServiceFeignApplication.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -1430,8 +1430,8 @@
       <file leaf-file-name="ServiceFeignApplication.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/service-feign/src/main/java/com/eason/api/ServiceFeignApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+            <state relative-caret-position="270">
+              <caret line="16" column="36" lean-forward="true" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -2102,7 +2102,7 @@
       <workItem from="1526432194226" duration="62781000" />
       <workItem from="1526871560963" duration="591000" />
       <workItem from="1526873013456" duration="339000" />
-      <workItem from="1526873397858" duration="243000" />
+      <workItem from="1526873397858" duration="558000" />
     </task>
     <task id="LOCAL-00001" summary="Signed-off-by: eason &lt;myeasonhost@gmail.com&gt;&#10;版本号修正">
       <created>1512638353211</created>
@@ -2448,7 +2448,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1115062000" />
+    <option name="totallyTimeSpent" value="1115377000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -2482,7 +2482,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run Dashboard" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37323177" sideWeight="0.48187634" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32752994" sideWeight="0.49573562" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3264418" sideWeight="0.48773986" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3264418" sideWeight="0.48773986" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32861805" sideWeight="0.4978678" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297062" sideWeight="0.4936034" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20362474" sideWeight="0.529927" order="5" side_tool="true" content_ui="tabs" />
@@ -2951,8 +2951,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/service-feign/src/main/java/com/eason/api/ServiceFeignApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        <state relative-caret-position="270">
+          <caret line="16" column="36" lean-forward="true" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
           <folding />
         </state>
       </provider>

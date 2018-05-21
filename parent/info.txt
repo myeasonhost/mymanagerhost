@@ -1,0 +1,97 @@
+6217857600020747650
+
+禅道：eason/Eason123
+测试：
+45.61.238.184      root  jLv4xbPsEq9XsNXQ
+110	root  JohalcJCARbQvL7G
+
+java 的都部署在这里
+
+配置测试：45.61.238.182
+
+
+第一层 45.126.124.39      administrator  Changeitfast1!
+第二层 138.128.243.127
+项目部署：
+（1）启动关闭的脚本，分别在/usr/local/eason/api下：
+2个文件：
+shutdown01,shutdown02
+startup01,startup02
+（2）项目的端口，全部是以87**开头，除了暴露端的是80之外
+（3）项目的配置在GIT服务器上面，地址：http://118.193.190.240/qvodgitadmin/zb_api_server/src/master/parent/config-service/zb
+（4）配置文件后缀，以xxxxx-zb.yml结尾的;就是线上的项目配置···
+
+
+45.61.238.153  192.168.111.10    root  YGQNrk4ywvlSpQPe
+
+
+myeasonhost@gmail.com/215006987name
+
+
+myeasonhost@gmail.com/215006987name
+
+
+de8f528e8b6bb7d4fd893fb9e04ed84a、
+
+67b75f01a4d2443feb7bffed2047537b
+
+c766d9dcd96c45b6
+
+
+启动memcache:
+/usr/local/memcache/bin/memcached -d -l 127.0.0.1 -p 11211 -m 2048 -u root
+查看端口状态:
+netstat -ntpl
+
+118.193.185.11      root  bKqLXsnZ   這是外網的地址，leo， eason，降你們相應的程序部署上去。
+seven, [12.12.17 14:14]
+118.193.185.11  root  58e32e5eeeeae
+
+seven, [12.12.17 14:14]
+MONGO_DB_CONNECTION=mongodb
+MONGO_DB_HOST=127.0.0.1
+MONGO_DB_PORT=27017
+MONGO_DB_DATABASE=qvod
+MONGO_DB_USERNAME=dashu
+MONGO_DB_PASSWORD=123456
+
+
+
+
+
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=778092c2cd71661098ff920af0feb89a
+REDIS_PORT=6379
+
+
+SSH：192.168.0.109  root/redhat  
+SSH：192.168.0.1
+
+6379 redis    redis密码: zbredis
+27017 mongodb 用户名 zb 密码zbmongo 
+3306 mysql   用户名 root 密码redhat789
+
+大树, [01.11.17 16:48]
+git@118.193.190.240:qvodgitadmin/zb_msg_server.git
+
+大树, [01.11.17 16:48]
+git@118.193.190.240:qvodgitadmin/zb_api_server.git
+
+大树, [01.11.17 16:49]
+java-eason java-eason668git
+
+
+myeasonhost@gmail.com/eason
+
+seven, [07.12.17 10:54]
+redis  mongodb  tomcat  都在/usr/local
+
+seven, [07.12.17 10:54]
+mysql  root redhat789
+
+seven, [07.12.17 11:14]
+redhat
+
+地址：https://portal.dnion.com/#page/index
+账号：heyu
+密码：heyu123
