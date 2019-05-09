@@ -4,4 +4,3 @@
 |:--|:--|:--|:--|:--|
 |2017/11/11 |EASON|用户API |关注/取消关注|新增渠道字段，用于后台统计；API调整：/user/{userId}/**{channel}**/isAttention/{zbId}/{isAttention}|
 |2017/11/14 |EASON|三方平台API|获取列表IM/Media地址|新增主播id，用于auth认证；API调整：/api/platform/im/get/**{zbId}**；修改端口字段调整Integer类型|
-|2017/11/15 |EASON|房间API|房间是否收费|新增返回用户试看信息，是否试看，试看时间等|
