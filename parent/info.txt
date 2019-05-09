@@ -1,25 +1,25 @@
 6217857600020747650
 
-ìøµÀ£ºeason/Eason123
-²âÊÔ£º
+ç¦…é“ï¼šeason/Eason123
+æµ‹è¯•ï¼š
 45.61.238.184      root  jLv4xbPsEq9XsNXQ
 110	root  JohalcJCARbQvL7G
 
-java µÄ¶¼²¿ÊğÔÚÕâÀï
+java çš„éƒ½éƒ¨ç½²åœ¨è¿™é‡Œ
 
-ÅäÖÃ²âÊÔ£º45.61.238.182
+é…ç½®æµ‹è¯•ï¼š45.61.238.182
 
 
-µÚÒ»²ã 45.126.124.39      administrator  Changeitfast1!
-µÚ¶ş²ã 138.128.243.127
-ÏîÄ¿²¿Êğ£º
-£¨1£©Æô¶¯¹Ø±ÕµÄ½Å±¾£¬·Ö±ğÔÚ/usr/local/eason/apiÏÂ£º
-2¸öÎÄ¼ş£º
+ç¬¬ä¸€å±‚ 45.126.124.39      administrator  Changeitfast1!
+ç¬¬äºŒå±‚ 138.128.243.127
+é¡¹ç›®éƒ¨ç½²ï¼š
+ï¼ˆ1ï¼‰å¯åŠ¨å…³é—­çš„è„šæœ¬ï¼Œåˆ†åˆ«åœ¨/usr/local/eason/apiä¸‹ï¼š
+2ä¸ªæ–‡ä»¶ï¼š
 shutdown01,shutdown02
 startup01,startup02
-£¨2£©ÏîÄ¿µÄ¶Ë¿Ú£¬È«²¿ÊÇÒÔ87**¿ªÍ·£¬³ıÁË±©Â¶¶ËµÄÊÇ80Ö®Íâ
-£¨3£©ÏîÄ¿µÄÅäÖÃÔÚGIT·şÎñÆ÷ÉÏÃæ£¬µØÖ·£ºhttp://118.193.190.240/qvodgitadmin/zb_api_server/src/master/parent/config-service/zb
-£¨4£©ÅäÖÃÎÄ¼şºó×º£¬ÒÔxxxxx-zb.yml½áÎ²µÄ;¾ÍÊÇÏßÉÏµÄÏîÄ¿ÅäÖÃ¡¤¡¤¡¤
+ï¼ˆ2ï¼‰é¡¹ç›®çš„ç«¯å£ï¼Œå…¨éƒ¨æ˜¯ä»¥87**å¼€å¤´ï¼Œé™¤äº†æš´éœ²ç«¯çš„æ˜¯80ä¹‹å¤–
+ï¼ˆ3ï¼‰é¡¹ç›®çš„é…ç½®åœ¨GITæœåŠ¡å™¨ä¸Šé¢ï¼Œåœ°å€ï¼šhttp://118.193.190.240/qvodgitadmin/zb_api_server/src/master/parent/config-service/zb
+ï¼ˆ4ï¼‰é…ç½®æ–‡ä»¶åç¼€ï¼Œä»¥xxxxx-zb.ymlç»“å°¾çš„;å°±æ˜¯çº¿ä¸Šçš„é¡¹ç›®é…ç½®Â·Â·Â·
 
 
 45.61.238.153  192.168.111.10    root  YGQNrk4ywvlSpQPe
@@ -31,19 +31,19 @@ myeasonhost@gmail.com/215006987name
 myeasonhost@gmail.com/215006987name
 
 
-de8f528e8b6bb7d4fd893fb9e04ed84a¡¢
+de8f528e8b6bb7d4fd893fb9e04ed84aã€
 
 67b75f01a4d2443feb7bffed2047537b
 
 c766d9dcd96c45b6
 
 
-Æô¶¯memcache:
+å¯åŠ¨memcache:
 /usr/local/memcache/bin/memcached -d -l 127.0.0.1 -p 11211 -m 2048 -u root
-²é¿´¶Ë¿Ú×´Ì¬:
+æŸ¥çœ‹ç«¯å£çŠ¶æ€:
 netstat -ntpl
 
-118.193.185.11      root  bKqLXsnZ   ß@ÊÇÍâ¾WµÄµØÖ·£¬leo£¬ eason£¬½µÄã‚ƒÏà‘ªµÄ³ÌĞò²¿ÊğÉÏÈ¥¡£
+118.193.185.11      root  bKqLXsnZ   é€™æ˜¯å¤–ç¶²çš„åœ°å€ï¼Œleoï¼Œ easonï¼Œé™ä½ å€‘ç›¸æ‡‰çš„ç¨‹åºéƒ¨ç½²ä¸Šå»ã€‚
 seven, [12.12.17 14:14]
 118.193.185.11  root  58e32e5eeeeae
 
@@ -57,41 +57,17 @@ MONGO_DB_PASSWORD=123456
 
 
 
-
-
 REDIS_HOST=127.0.0.1
 REDIS_PASSWORD=778092c2cd71661098ff920af0feb89a
 REDIS_PORT=6379
 
 
-SSH£º192.168.0.109  root/redhat  
-SSH£º192.168.0.1
+SSHï¼š192.168.0.109  root/redhat  
+SSHï¼š192.168.0.1
 
-6379 redis    redisÃÜÂë: zbredis
-27017 mongodb ÓÃ»§Ãû zb ÃÜÂëzbmongo 
-3306 mysql   ÓÃ»§Ãû root ÃÜÂëredhat789
-
-´óÊ÷, [01.11.17 16:48]
-git@118.193.190.240:qvodgitadmin/zb_msg_server.git
-
-´óÊ÷, [01.11.17 16:48]
-git@118.193.190.240:qvodgitadmin/zb_api_server.git
-
-´óÊ÷, [01.11.17 16:49]
-java-eason java-eason668git
+6379 redis    rediså¯†ç : zbredis
+27017 mongodb ç”¨æˆ·å zb å¯†ç zbmongo 
+3306 mysql   ç”¨æˆ·å root å¯†ç redhat789
 
 
-myeasonhost@gmail.com/eason
 
-seven, [07.12.17 10:54]
-redis  mongodb  tomcat  ¶¼ÔÚ/usr/local
-
-seven, [07.12.17 10:54]
-mysql  root redhat789
-
-seven, [07.12.17 11:14]
-redhat
-
-µØÖ·£ºhttps://portal.dnion.com/#page/index
-ÕËºÅ£ºheyu
-ÃÜÂë£ºheyu123
