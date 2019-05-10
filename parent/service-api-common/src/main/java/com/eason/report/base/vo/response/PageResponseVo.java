@@ -1,4 +1,4 @@
-package com.eason.api.base.vo.response;
+package com.eason.report.base.vo.response;
 
 import java.util.List;
 

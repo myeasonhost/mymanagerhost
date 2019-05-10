@@ -1,4 +1,4 @@
-package com.eason.api.base.vo.request;
+package com.eason.report.base.vo.request;
 
 import java.io.Serializable;
 
