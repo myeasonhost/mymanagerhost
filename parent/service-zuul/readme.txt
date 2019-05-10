@@ -1,1 +1,0 @@
-apidoc -i ../service-api-zb-impl/src/ -o src/main/resources/apidoc/
