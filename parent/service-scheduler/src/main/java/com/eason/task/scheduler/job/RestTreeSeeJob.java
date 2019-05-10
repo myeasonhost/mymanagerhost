@@ -19,7 +19,7 @@ public class RestTreeSeeJob implements BaseJob{
     @Autowired
     private  RestTemplate restTemplate;
 
-    @Value("${zb.api.resetTrySee}")
+    @Value("${zb.report.resetTrySee}")
     private String resetTrySee;
 
     @Override
