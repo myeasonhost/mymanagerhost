@@ -44,5 +44,5 @@ public interface ICommonAPI {
 
     public String getGameOrders (GameOrders vo);
 
-    public String getScenesOfUserReportExt (ScenesOfUserReportExt vo);
+    public String getScenesOfUserRep2ortExt (ScenesOfUserReportExt vo);
 }
