@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.eason.report</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>report-api</artifactId>
 		<version>2019-5-10</version>
 	</parent>
 
