@@ -22,12 +22,12 @@
         <repository>
             <id>eason-releases</id>
             <name>eason releases Repository</name>
-            <url>http://${env.host}/nexus/content/repositories/releases/</url>
+            <url>http://${env.host}/nexus/content/repositories/eason-releases/</url>
         </repository>
         <snapshotRepository>
             <id>eason-snapshots</id>
             <name>eason snapshots Repository</name>
-            <url>http://${env.host}/nexus/content/repositories/snapshots/</url>
+            <url>http://${env.host}/nexus/content/repositories/eason-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
