@@ -1,5 +1,12 @@
 package com.eason.report.pull.ag.vo.common;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class XinEventRes {
     private String cAgent;
     private String startDate;
@@ -7,43 +14,4 @@ public class XinEventRes {
     private String key;
     private String userName;
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getcAgent() {
-        return cAgent;
-    }
-
-    public void setcAgent(String cAgent) {
-        this.cAgent = cAgent;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
 }
