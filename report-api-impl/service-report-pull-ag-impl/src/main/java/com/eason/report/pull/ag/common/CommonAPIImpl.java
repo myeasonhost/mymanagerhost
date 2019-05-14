@@ -82,4 +82,9 @@ public class CommonAPIImpl implements ICommonAPI {
     public String getScenesOfUserReportExt(ScenesOfUserReportExt vo) {
         return null;
     }
+
+    //@Override
+    public String getsumorders_days_xin(SumordersDaysXinVo vo) {
+        return null;
+    }
 }

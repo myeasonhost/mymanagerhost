@@ -7,11 +7,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="service-report-pull-ag" />
+        <module name="service-report-pull-ag-impl" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="parent" target="1.5" />
+      <module name="report-api" target="1.5" />
+      <module name="report-api-impl" target="1.8" />
       <module name="service-report-pull-ag" target="1.8" />
+      <module name="service-report-pull-ag-impl" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/report-api/report-api.iml" filepath="$PROJECT_DIR$/report-api/report-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/report-api-impl/report-api-impl.iml" filepath="$PROJECT_DIR$/report-api-impl/report-api-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/report-api/service-report-pull-ag/service-report-pull-ag.iml" filepath="$PROJECT_DIR$/report-api/service-report-pull-ag/service-report-pull-ag.iml" />
+      <module fileurl="file://$PROJECT_DIR$/report-api-impl/service-report-pull-ag-impl/service-report-pull-ag-impl.iml" filepath="$PROJECT_DIR$/report-api-impl/service-report-pull-ag-impl/service-report-pull-ag-impl.iml" />
+    </modules>
+  </component>
+</project>
