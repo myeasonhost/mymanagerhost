@@ -8,12 +8,10 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class XinSlotEventRes implements Serializable {
+public class YoPlayOrdersExVo implements Serializable {
     private String cAgent;
     private String startDate;
     private String endDate;
     private String key;
-    private String userName;
-
 
 }

@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SlotOrdersTEX implements Serializable {
+public class SlotOrdersTExVo implements Serializable {
     private String cAgent;
     private String startDate;
     private String endDate;

@@ -10,8 +10,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GameOrders implements Serializable {
-
+public class ScenesOfUserReportExtVo implements Serializable {
     private String act;
     private String pidtoken;
     private String productid;
@@ -19,5 +18,6 @@ public class GameOrders implements Serializable {
     private BigDecimal endtime;
     private Integer page;
     private String sessionkey;
+
 
 }

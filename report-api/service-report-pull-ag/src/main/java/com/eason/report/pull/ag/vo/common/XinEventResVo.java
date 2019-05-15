@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class XinEventRes {
+public class XinEventResVo {
     private String cAgent;
     private String startDate;
     private String endDate;
