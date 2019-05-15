@@ -1,6 +1,5 @@
 package com.eason.report.pull.ag.xstreamDemo;
 
-import com.eason.report.pull.ag.util.AgModel;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import lombok.AllArgsConstructor;
