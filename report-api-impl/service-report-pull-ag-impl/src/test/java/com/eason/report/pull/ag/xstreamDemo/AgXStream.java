@@ -1,7 +1,6 @@
 package com.eason.report.pull.ag.xstreamDemo;
 
 
-import com.eason.report.pull.ag.util.AgList;
 import com.thoughtworks.xstream.XStream;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

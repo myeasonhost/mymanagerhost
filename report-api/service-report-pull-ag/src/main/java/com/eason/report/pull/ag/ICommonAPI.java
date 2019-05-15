@@ -3,14 +3,14 @@ package com.eason.report.pull.ag;
 import com.eason.report.pull.ag.vo.common.*;
 
 /**
- * @apiDefine common 通用API
+ * @apiDefine api 通用API
  */
 public interface ICommonAPI {
 
     /**
      * @apiVersion 3.4.0
-     * @apiGroup common
-     * @api {GET} /common/getsumorders 获取订单总计
+     * @apiGroup api
+     * @api {GET} /api/getsumorders 获取订单总计
      * @apiName getsumorders
      *
      *
