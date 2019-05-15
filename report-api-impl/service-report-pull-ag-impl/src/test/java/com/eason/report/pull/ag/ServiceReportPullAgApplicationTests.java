@@ -1,5 +1,6 @@
 package com.eason.report.pull.ag;
 
+import com.eason.report.pull.ag.activemqDemo.ActivemqService;
 import com.eason.report.pull.ag.api.CommonAPIImpl;
 import com.eason.report.pull.ag.vo.common.SumordersVo;
 import org.junit.Test;
@@ -21,6 +22,10 @@ public class ServiceReportPullAgApplicationTests {
     @Autowired
     private StringRedisTemplate stringRedisTemplate10;
 
+    @Autowired
+    private ActivemqService activemqService;
+
+
     @Test
     public void contextLoads() {
         //"enddate=2019-05-09 00:10:00&cagent=CS2&startdate=2019-05-09 00:00:00" +
@@ -39,6 +44,11 @@ public class ServiceReportPullAgApplicationTests {
         System.out.println(pullUrl);
 
 
+    }
+
+    @Test
+    public void testActivemq(){
+        activemqService.sendMsg("123456789");
     }
 
 }
