@@ -5,18 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comporders implements Serializable {
-
+public class XinSlotEventResVo implements Serializable {
     private String cAgent;
     private String startDate;
     private String endDate;
     private String key;
-    private String sessionid;
-    private String comptype;
+    private String userName;
 
 
 }

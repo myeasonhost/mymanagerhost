@@ -20,29 +20,29 @@ public interface ICommonAPI {
      *
      * @apiSuccess {String} result 		成功或者失败
      */
-    public String getsumorders(SumordersVo vo);
+    public SumordersResponseVo getsumorders(SumordersVo vo);
 
-    public String getsumorders_days(SumordersDaysVo vo);
+    public SumordersDaysResponseVo getsumorders_days(SumordersDaysVo vo);
 
-    public String getsumorders_days_xin(SumordersDaysXinVo vo);
+    public SumordersDaysXinResponseVo getsumorders_days_xin(SumordersDaysXinVo vo);
 
-    public String getOrders(OrdersVo vo);
+    public OrdersResponseVo getOrders(OrdersVo vo);
 
-    public String getSlotOrdersEX(SlotOrdersVo vo);
+    public SlotOrdersResponseVo getSlotOrdersEX(SlotOrdersVo vo);
 
-    public String getYoPlayOrdersEX (YoPlayOrdersEX vo);
+    public YoPlayOrdersExReponseVo getYoPlayOrdersEX (YoPlayOrdersExVo vo);
 
-    public String getSlotOrdersTEX (SlotOrdersTEX vo);
+    public SlotOrdersTExResponseVo getSlotOrdersTEX (SlotOrdersTExVo vo);
 
-    public String getAgSportOrdersEX(AgSportOrdersEX vo);
+    public AgSportOrdersResponseVo getAgSportOrdersEX(AgSportOrdersExVo vo);
 
-    public String getXinSlotEventRes(XinSlotEventRes vo);
+    public XinSlotEventReponseVo getXinSlotEventRes(XinSlotEventResVo vo);
 
-    public String getXinEventRes(XinEventRes vo);
+    public XinEventResResponseVo getXinEventRes(XinEventResVo vo);
 
-    public String getComporders(Comporders vo);
+    public CompOrdersResponseVo getComporders(CompordersVo vo);
 
-    public String getGameOrders (GameOrders vo);
+    public GameOrdersResponseVo getGameOrders (GameOrdersVo vo);
 
-    public String getScenesOfUserReportExt (ScenesOfUserReportExt vo);
+    public ScenesOfUserResponseVo getScenesOfUserReportExt (ScenesOfUserReportExtVo vo);
 }
