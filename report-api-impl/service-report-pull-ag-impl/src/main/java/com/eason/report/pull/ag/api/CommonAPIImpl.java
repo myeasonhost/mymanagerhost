@@ -45,7 +45,7 @@ public class CommonAPIImpl extends BaseAPI implements ICommonAPI {
     }
 
     @Override
-    public String getsumorders_daysgetsumorders_days(SumordersDaysXinVo vo) {
+    public String getsumorders_days_xin(SumordersDaysXinVo vo) {
         return null;
     }
 
