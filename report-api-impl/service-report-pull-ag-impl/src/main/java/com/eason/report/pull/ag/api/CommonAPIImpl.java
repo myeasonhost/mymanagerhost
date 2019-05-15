@@ -34,7 +34,7 @@ public class CommonAPIImpl extends BaseAPI implements ICommonAPI {
 
         String key= Md5Util.makeMd5Sum((vo.getCAgent()+vo.getStartDate()+vo.getEndDate()+pidtoken).getBytes());
         vo.setKey(key);
-        String str=restTemplate.getForObject(pullUrl,String.class,vo);
+        String str=restTemplate.getForObject(pullUrl+"?enddate=2019-05-09 00:10:00&cagent=CS2&startdate=2019-05-09 00:00:00&key=208c5d78b7b95fe29f401e270de22c98",String.class);
         System.out.println(str);
         return null;
 }
