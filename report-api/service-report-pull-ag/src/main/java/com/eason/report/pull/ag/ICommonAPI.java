@@ -24,7 +24,7 @@ public interface ICommonAPI {
 
     public String getsumorders_days(SumordersDaysVo vo);
 
-    public String getsumorders_daysgetsumorders_days(SumordersDaysXinVo vo);
+    public String getsumorders_days_xin(SumordersDaysXinVo vo);
 
     public String getOrders(OrdersVo vo);
 
