@@ -1,4 +1,4 @@
-package com.eason.report.pull.ag.vo.common;
+package com.eason.report.pull.ag.vo.hunter;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class YoPlayOrdersExReponseVo implements Serializable{
+public class ScenesOfUserReportExtRo implements Serializable{
 
     @XStreamAlias("result")
     private String result;
@@ -64,5 +64,4 @@ public class YoPlayOrdersExReponseVo implements Serializable{
         @XStreamAlias("recalcuTime")
         private String recalcuTime;
     }
-
 }

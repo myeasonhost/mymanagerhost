@@ -1,4 +1,4 @@
-package com.eason.report.pull.ag.vo.common;
+package com.eason.report.pull.ag.vo.slot;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

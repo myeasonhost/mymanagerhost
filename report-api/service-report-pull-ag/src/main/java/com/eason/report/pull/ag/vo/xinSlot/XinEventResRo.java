@@ -1,4 +1,4 @@
-package com.eason.report.pull.ag.vo.common;
+package com.eason.report.pull.ag.vo.xinSlot;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GameOrdersResponseVo implements Serializable{
+public class XinEventResRo implements Serializable{
 
     @XStreamAlias("result")
     private String result;

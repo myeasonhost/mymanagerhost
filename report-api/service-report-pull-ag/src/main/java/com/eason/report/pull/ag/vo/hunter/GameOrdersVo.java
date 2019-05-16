@@ -1,4 +1,4 @@
-package com.eason.report.pull.ag.vo.common;
+package com.eason.report.pull.ag.vo.hunter;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,8 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScenesOfUserReportExtVo implements Serializable {
+public class GameOrdersVo implements Serializable {
+
     private String act;
     private String pidtoken;
     private String productid;
@@ -18,6 +19,5 @@ public class ScenesOfUserReportExtVo implements Serializable {
     private BigDecimal endtime;
     private Integer page;
     private String sessionkey;
-
 
 }

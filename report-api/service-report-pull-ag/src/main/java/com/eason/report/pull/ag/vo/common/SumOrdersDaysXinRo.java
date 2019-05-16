@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class XinEventResResponseVo implements Serializable{
+public class SumOrdersDaysXinRo implements Serializable{
 
     @XStreamAlias("result")
     private String result;

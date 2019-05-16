@@ -1,4 +1,4 @@
-package com.eason.report.pull.ag.vo.common;
+package com.eason.report.pull.ag.vo.yoPlay;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -11,7 +11,8 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AgSportOrdersResponseVo implements Serializable{
+public class YoPlayOrdersExRo implements Serializable{
+
     @XStreamAlias("result")
     private String result;
 
@@ -24,7 +25,7 @@ public class AgSportOrdersResponseVo implements Serializable{
         private String addition;
 
     }
-     class Data{
+    class Data{
 
         @XStreamAsAttribute
         @XStreamAlias("billNo")
@@ -63,4 +64,5 @@ public class AgSportOrdersResponseVo implements Serializable{
         @XStreamAlias("recalcuTime")
         private String recalcuTime;
     }
+
 }

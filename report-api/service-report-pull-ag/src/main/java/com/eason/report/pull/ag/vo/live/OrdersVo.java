@@ -1,14 +1,14 @@
-package com.eason.report.pull.ag.vo.common;
+package com.eason.report.pull.ag.vo.live;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.io.Serializable;
 
+import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SumordersDaysVo implements Serializable {
+public class OrdersVo implements Serializable {
     private String cAgent;
     private String startDate;
     private String endDate;

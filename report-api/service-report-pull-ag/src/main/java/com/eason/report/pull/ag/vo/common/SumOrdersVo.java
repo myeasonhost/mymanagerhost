@@ -5,11 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SumordersDaysXinVo implements Serializable {
+public class SumOrdersVo implements Serializable {
     private String cAgent;
     private String startDate;
     private String endDate;
