@@ -28,7 +28,7 @@ public class CommonAPIImpl extends BaseAPI implements ICommonAPI {
 
 
     @Override
-    public String getsumorders(SumordersVo vo) {
+    public SumordersResponseVo getsumorders(SumordersVo vo) {
         String pullUrl=stringRedisTemplate10.boundHashOps("ag").get("pullUrl").toString();
         String pidtoken=stringRedisTemplate10.boundHashOps("ag").get("pidtoken").toString();
 
@@ -37,70 +37,66 @@ public class CommonAPIImpl extends BaseAPI implements ICommonAPI {
         String str=restTemplate.getForObject(pullUrl+"?enddate=2019-05-09 00:10:00&cagent=CS2&startdate=2019-05-09 00:00:00&key=208c5d78b7b95fe29f401e270de22c98",String.class);
         System.out.println(str);
         return null;
-}
-
-    @Override
-    public String getsumorders_days(SumordersDaysVo vo) {
-        return null;
     }
 
     @Override
-    public String getsumorders_days_xin(SumordersDaysXinVo vo) {
+    public SumordersDaysResponseVo getsumorders_days(SumordersDaysVo vo) {
         return null;
     }
 
     @Override
-    public String getOrders(OrdersVo vo) {
+    public SumordersDaysXinResponseVo getsumorders_days_xin(SumordersDaysXinVo vo) {
         return null;
     }
 
     @Override
-    public String getSlotOrdersEX(SlotOrdersVo vo) {
+    public OrdersResponseVo getOrders(OrdersVo vo) {
         return null;
     }
 
     @Override
-    public String getYoPlayOrdersEX(YoPlayOrdersEX vo) {
+    public SlotOrdersResponseVo getSlotOrdersEX(SlotOrdersVo vo) {
         return null;
     }
 
     @Override
-    public String getSlotOrdersTEX(SlotOrdersTEX vo) {
+    public YoPlayOrdersExReponseVo getYoPlayOrdersEX(YoPlayOrdersExVo vo) {
         return null;
     }
 
     @Override
-    public String getAgSportOrdersEX(AgSportOrdersEX vo) {
+    public SlotOrdersTExResponseVo getSlotOrdersTEX(SlotOrdersTExVo vo) {
         return null;
     }
 
     @Override
-    public String getXinSlotEventRes(XinSlotEventRes vo) {
+    public AgSportOrdersResponseVo getAgSportOrdersEX(AgSportOrdersExVo vo) {
         return null;
     }
 
     @Override
-    public String getXinEventRes(XinEventRes vo) {
+    public XinSlotEventReponseVo getXinSlotEventRes(XinSlotEventResVo vo) {
         return null;
     }
 
     @Override
-    public String getComporders(Comporders vo) {
+    public XinEventResResponseVo getXinEventRes(XinEventResVo vo) {
         return null;
     }
 
     @Override
-    public String getGameOrders(GameOrders vo) {
+    public CompOrdersResponseVo getComporders(CompordersVo vo) {
         return null;
     }
 
     @Override
-    public String getScenesOfUserReportExt(ScenesOfUserReportExt vo) {
+    public GameOrdersResponseVo getGameOrders(GameOrdersVo vo) {
         return null;
     }
 
-    //@Override
-    public String getsumorders_days_xin(SumordersDaysXinVo vo) {
+    @Override
+    public ScenesOfUserResponseVo getScenesOfUserReportExt(ScenesOfUserReportExtVo vo) {
         return null;
     }
+
 }
