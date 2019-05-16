@@ -1,6 +1,26 @@
 package com.eason.report.pull.ag;
 
 import com.eason.report.pull.ag.vo.common.*;
+import com.eason.report.pull.ag.vo.competition.CompOrdersRo;
+import com.eason.report.pull.ag.vo.competition.CompOrdersVo;
+import com.eason.report.pull.ag.vo.hunter.GameOrdersRo;
+import com.eason.report.pull.ag.vo.hunter.GameOrdersVo;
+import com.eason.report.pull.ag.vo.hunter.ScenesOfUserReportExtVo;
+import com.eason.report.pull.ag.vo.hunter.ScenesOfUserReportExtRo;
+import com.eason.report.pull.ag.vo.live.OrdersRo;
+import com.eason.report.pull.ag.vo.live.OrdersVo;
+import com.eason.report.pull.ag.vo.slot.SlotOrdersRo;
+import com.eason.report.pull.ag.vo.slot.SlotOrdersTExRo;
+import com.eason.report.pull.ag.vo.slot.SlotOrdersTExVo;
+import com.eason.report.pull.ag.vo.slot.SlotOrdersVo;
+import com.eason.report.pull.ag.vo.sport.AgSportOrdersExVo;
+import com.eason.report.pull.ag.vo.sport.AgSportOrdersExRo;
+import com.eason.report.pull.ag.vo.xinSlot.XinEventResRo;
+import com.eason.report.pull.ag.vo.xinSlot.XinEventResVo;
+import com.eason.report.pull.ag.vo.xinSlot.XinSlotEventResRo;
+import com.eason.report.pull.ag.vo.xinSlot.XinSlotEventResVo;
+import com.eason.report.pull.ag.vo.yoPlay.YoPlayOrdersExRo;
+import com.eason.report.pull.ag.vo.yoPlay.YoPlayOrdersExVo;
 
 /**
  * @apiDefine api 通用API
@@ -20,29 +40,29 @@ public interface ICommonAPI {
      *
      * @apiSuccess {String} result 		成功或者失败
      */
-    public SumordersResponseVo getsumorders(SumordersVo vo);
+    public SumOrdersRo getSumOrders(SumOrdersVo vo);
 
-    public SumordersDaysResponseVo getsumorders_days(SumordersDaysVo vo);
+    public SumOrdersDaysRo getSumOrdersDays(SumOrdersDaysVo vo);
 
-    public SumordersDaysXinResponseVo getsumorders_days_xin(SumordersDaysXinVo vo);
+    public SumOrdersDaysXinRo getSumOrdersDaysXin(SumOrdersDaysXinVo vo);
 
-    public OrdersResponseVo getOrders(OrdersVo vo);
+    public OrdersRo getOrders(OrdersVo vo);
 
-    public SlotOrdersResponseVo getSlotOrdersEX(SlotOrdersVo vo);
+    public SlotOrdersRo getSlotOrdersEX(SlotOrdersVo vo);
 
-    public YoPlayOrdersExReponseVo getYoPlayOrdersEX (YoPlayOrdersExVo vo);
+    public YoPlayOrdersExRo getYoPlayOrdersEX (YoPlayOrdersExVo vo);
 
-    public SlotOrdersTExResponseVo getSlotOrdersTEX (SlotOrdersTExVo vo);
+    public SlotOrdersTExRo getSlotOrdersTEX (SlotOrdersTExVo vo);
 
-    public AgSportOrdersResponseVo getAgSportOrdersEX(AgSportOrdersExVo vo);
+    public AgSportOrdersExRo getAgSportOrdersEX(AgSportOrdersExVo vo);
 
-    public XinSlotEventReponseVo getXinSlotEventRes(XinSlotEventResVo vo);
+    public XinSlotEventResRo getXinSlotEventRes(XinSlotEventResVo vo);
 
-    public XinEventResResponseVo getXinEventRes(XinEventResVo vo);
+    public XinEventResRo getXinEventRes(XinEventResVo vo);
 
-    public CompOrdersResponseVo getComporders(CompordersVo vo);
+    public CompOrdersRo getComPorders(CompOrdersVo vo);
 
-    public GameOrdersResponseVo getGameOrders (GameOrdersVo vo);
+    public GameOrdersRo getGameOrders (GameOrdersVo vo);
 
-    public ScenesOfUserResponseVo getScenesOfUserReportExt (ScenesOfUserReportExtVo vo);
+    public ScenesOfUserReportExtRo getScenesOfUserReportExt (ScenesOfUserReportExtVo vo);
 }
