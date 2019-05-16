@@ -22,7 +22,7 @@ public class SlotOrdersRo implements Serializable{
     @XStreamAlias("addition")
     private String addition;
     @XStreamImplicit(itemFieldName="row")
-    private List<SlotOrdersRo> SlotOrdersRoList;
+    private List<SlotOrdersRoList> SlotOrdersRoList;
 
     @XStreamAlias("row")
     class SlotOrdersRoList{

@@ -23,7 +23,7 @@ public class AgSportOrdersExRo implements Serializable{
     @XStreamAlias("addition")
     private String addition;
     @XStreamImplicit(itemFieldName="row")
-    private List<AgSportOrdersExRo> AgSportOrdersExRoList;
+    private List<AgSportOrdersExRoList> AgSportOrdersExRoList;
 
     @XStreamAlias("row")
     class AgSportOrdersExRoList{

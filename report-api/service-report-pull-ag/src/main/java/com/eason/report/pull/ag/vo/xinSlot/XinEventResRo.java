@@ -23,7 +23,7 @@ public class XinEventResRo implements Serializable{
     @XStreamAlias("addition")
     private String addition;
     @XStreamImplicit(itemFieldName="row")
-    private List<XinEventResRo> XinEventResRoList;
+    private List<XinEventResRoList> XinEventResRoList;
 
     @XStreamAlias("row")
     class XinEventResRoList{

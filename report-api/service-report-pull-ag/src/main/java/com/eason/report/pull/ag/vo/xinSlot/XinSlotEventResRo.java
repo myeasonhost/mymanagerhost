@@ -21,7 +21,7 @@ public class XinSlotEventResRo implements Serializable{
     @XStreamAlias("addition")
     private String addition;
     @XStreamImplicit(itemFieldName="row")
-    private List<XinSlotEventResRo> XinSlotEventResRoList;
+    private List<XinSlotEventResRoList> XinSlotEventResRoList;
 
     @XStreamAlias("row")
     class XinSlotEventResRoList{
