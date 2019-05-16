@@ -22,7 +22,7 @@ public class CompOrdersRo implements Serializable{
     @XStreamAlias("addition")
     private String addition;
     @XStreamImplicit(itemFieldName="row")
-    private List<CompOrdersRo> CompOrdersRoList;
+    private List<CompOrdersRoList> CompOrdersRoList;
 
     @XStreamAlias("row")
     class CompOrdersRoList{
@@ -30,6 +30,9 @@ public class CompOrdersRo implements Serializable{
         @XStreamAsAttribute
         @XStreamAlias("billNo")
         private String billNo;
+        @XStreamAsAttribute
+        @XStreamAlias("cagent")
+        private String cAgent;
         @XStreamAsAttribute
         @XStreamAlias("playName")
         private String playName;
@@ -42,6 +45,9 @@ public class CompOrdersRo implements Serializable{
         @XStreamAsAttribute
         @XStreamAlias("betTime")
         private String betTime;
+        @XStreamAsAttribute
+        @XStreamAlias("recalcuTime")
+        private String recalcuTime;
         @XStreamAsAttribute
         @XStreamAlias("betAmount")
         private String betAmount;
@@ -58,10 +64,20 @@ public class CompOrdersRo implements Serializable{
         @XStreamAlias("currency")
         private String currency;
         @XStreamAsAttribute
-        @XStreamAlias("tableCode")
-        private String tableCode;
+        @XStreamAlias("compType")
+        private String compType;
         @XStreamAsAttribute
-        @XStreamAlias("recalcuTime")
-        private String recalcuTime;
+        @XStreamAlias("sessionId")
+        private String sessionId;
+        @XStreamAsAttribute
+        @XStreamAlias("vid")
+        private String vid;
+        @XStreamAsAttribute
+        @XStreamAlias("remark")
+        private String remark;
+        @XStreamAsAttribute
+        @XStreamAlias("deviceType")
+        private String deviceType;
+
     }
 }
