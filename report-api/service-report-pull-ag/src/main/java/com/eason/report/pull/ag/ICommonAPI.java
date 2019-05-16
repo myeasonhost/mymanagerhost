@@ -40,7 +40,7 @@ public interface ICommonAPI {
      *
      * @apiSuccess {String} result 		成功或者失败
      */
-    public SumOrdersRo getSumOrders(SumOrdersVo vo);
+    public SumOrdersRo getSumOrders(SumOrdersVo vo) throws Exception;
 
     public SumOrdersDaysRo getSumOrdersDays(SumOrdersDaysVo vo);
 

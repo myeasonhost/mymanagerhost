@@ -2,30 +2,29 @@ package com.eason.report.pull.ag.vo.hunter;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@XStreamAlias("result")
 public class ScenesOfUserReportExtRo implements Serializable{
 
-    @XStreamAlias("result")
-    private String result;
+    @XStreamAlias("info")
+    private String info;
+    @XStreamAlias("addition")
+    private String addition;
+    @XStreamImplicit(itemFieldName="row")
+    private List<ScenesOfUserReportExtRo> ScenesOfUserReportExtRoList;
 
-    class OrderResponseVo{
-        @XStreamAlias("info")
-        private String info;
-        @XStreamAlias("row")
-        private String row;
-        @XStreamAlias("addition")
-        private String addition;
-
-    }
-    class Data{
+    @XStreamAlias("row")
+    class ScenesOfUserReportExtRoList{
 
         @XStreamAsAttribute
         @XStreamAlias("billNo")
