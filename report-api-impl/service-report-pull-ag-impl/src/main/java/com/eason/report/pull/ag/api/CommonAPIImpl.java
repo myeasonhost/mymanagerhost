@@ -2,6 +2,7 @@ package com.eason.report.pull.ag.api;
 
 import com.eason.report.pull.ag.ICommonAPI;
 import com.eason.report.pull.ag.utils.Md5Util;
+import com.eason.report.pull.ag.utils.XStreamUtil;
 import com.eason.report.pull.ag.vo.common.*;
 import com.eason.report.pull.ag.vo.competition.CompOrdersRo;
 import com.eason.report.pull.ag.vo.competition.CompOrdersVo;
@@ -28,6 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import static com.eason.report.pull.ag.utils.XStreamUtil.xmlStrToOject;
@@ -49,18 +52,19 @@ public class CommonAPIImpl implements ICommonAPI {
 
 
     @Override
-    public SumOrdersRo getSumOrders(SumOrdersVo vo) {
-        try {
-            String pullUrl = stringRedisTemplate10.boundHashOps("ag").get("pullUrl").toString();
-            String pidtoken = stringRedisTemplate10.boundHashOps("ag").get("pidtoken").toString();
-
-            String key = Md5Util.makeMd5Sum((vo.getCAgent() + vo.getStartDate() + vo.getEndDate() + pidtoken).getBytes());
-            vo.setKey(key);
-          /*  String str = restTemplate.getForObject(pullUrl, SumOrdersRo.class, SumOrdersVo.class).toString();
-            SumOrdersRo agList = (SumOrdersRo) xmlStrToOject(SumOrdersRo.class, str);*/
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public SumOrdersRo getSumOrders(SumOrdersVo vo) throws Exception {
+        String pullUrl=stringRedisTemplate10.boundHashOps("ag").get("pullUrl").toString();
+        String pidtoken=stringRedisTemplate10.boundHashOps("ag").get("pidtoken").toString();
+        MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
+        String key= Md5Util.makeMd5Sum((vo.getCAgent()+vo.getStartDate()+vo.getEndDate()+pidtoken).getBytes());
+        request.add("key",key);
+        request.add("cagent",vo.getCAgent());
+        request.add("startdate",vo.getStartDate());
+        request.add("enddate",vo.getEndDate());
+        String str=restTemplate.postForObject(pullUrl,request,String.class);
+        System.out.println("str="+str);
+        SumOrdersRo sumOrdersRo= (SumOrdersRo) XStreamUtil.xmlStrToOject(SumOrdersRo.class,str);
+        System.out.println("SumOrdersRo="+sumOrdersRo.getInfo());
         return null;
     }
     @Override
