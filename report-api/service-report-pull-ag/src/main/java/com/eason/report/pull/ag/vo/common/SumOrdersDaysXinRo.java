@@ -19,7 +19,7 @@ public class SumOrdersDaysXinRo implements Serializable{
     @XStreamAlias("info")
     private String info;
     @XStreamImplicit(itemFieldName="row")
-    private List<SumOrdersDaysXinRo> SumOrdersDaysXinRoList;
+    private List<SumOrdersDaysXinRoList> SumOrdersDaysXinRoList;
 
     @XStreamAlias("row")
     class SumOrdersDaysXinRoList{
