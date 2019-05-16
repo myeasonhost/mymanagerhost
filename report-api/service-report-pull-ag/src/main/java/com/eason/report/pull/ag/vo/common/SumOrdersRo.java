@@ -17,29 +17,14 @@ import java.util.List;
 public class SumOrdersRo implements Serializable{
     @XStreamAlias("info")
     private String info;
-    @XStreamAlias("addition")
-    private String addition;
     @XStreamImplicit(itemFieldName="row")
     private List<SumOrdersList> sumOrdersList;
 
     @XStreamAlias("row")
     class SumOrdersList{
-
-        @XStreamAsAttribute
-        @XStreamAlias("billNo")
-        private String billNo;
-        @XStreamAsAttribute
-        @XStreamAlias("playName")
-        private String playName;
-        @XStreamAsAttribute
-        @XStreamAlias("gameCode")
-        private String gameCode;
         @XStreamAsAttribute
         @XStreamAlias("netAmount")
         private String netAmount;
-        @XStreamAsAttribute
-        @XStreamAlias("betTime")
-        private String betTime;
         @XStreamAsAttribute
         @XStreamAlias("betAmount")
         private String betAmount;
@@ -47,19 +32,10 @@ public class SumOrdersRo implements Serializable{
         @XStreamAlias("validBetAmount")
         private String validBetAmount;
         @XStreamAsAttribute
-        @XStreamAlias("flag")
-        private String flag;
-        @XStreamAsAttribute
-        @XStreamAlias("playType")
-        private String playType;
-        @XStreamAsAttribute
         @XStreamAlias("currency")
         private String currency;
         @XStreamAsAttribute
-        @XStreamAlias("tableCode")
-        private String tableCode;
-        @XStreamAsAttribute
-        @XStreamAlias("recalcuTime")
-        private String recalcuTime;
+        @XStreamAlias("wagersTotal")
+        private String wagersTotal;
     }
 }

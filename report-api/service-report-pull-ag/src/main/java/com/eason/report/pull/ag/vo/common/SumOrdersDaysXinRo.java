@@ -18,8 +18,6 @@ public class SumOrdersDaysXinRo implements Serializable{
 
     @XStreamAlias("info")
     private String info;
-    @XStreamAlias("addition")
-    private String addition;
     @XStreamImplicit(itemFieldName="row")
     private List<SumOrdersDaysXinRo> SumOrdersDaysXinRoList;
 
@@ -27,20 +25,11 @@ public class SumOrdersDaysXinRo implements Serializable{
     class SumOrdersDaysXinRoList{
 
         @XStreamAsAttribute
-        @XStreamAlias("billNo")
-        private String billNo;
-        @XStreamAsAttribute
-        @XStreamAlias("playName")
-        private String playName;
-        @XStreamAsAttribute
-        @XStreamAlias("gameCode")
-        private String gameCode;
+        @XStreamAlias("RoundDate")
+        private String RoundDate;
         @XStreamAsAttribute
         @XStreamAlias("netAmount")
         private String netAmount;
-        @XStreamAsAttribute
-        @XStreamAlias("betTime")
-        private String betTime;
         @XStreamAsAttribute
         @XStreamAlias("betAmount")
         private String betAmount;
@@ -48,19 +37,11 @@ public class SumOrdersDaysXinRo implements Serializable{
         @XStreamAlias("validBetAmount")
         private String validBetAmount;
         @XStreamAsAttribute
-        @XStreamAlias("flag")
-        private String flag;
-        @XStreamAsAttribute
-        @XStreamAlias("playType")
-        private String playType;
+        @XStreamAlias("wagersTotal")
+        private String wagersTotal;
         @XStreamAsAttribute
         @XStreamAlias("currency")
         private String currency;
-        @XStreamAsAttribute
-        @XStreamAlias("tableCode")
-        private String tableCode;
-        @XStreamAsAttribute
-        @XStreamAlias("recalcuTime")
-        private String recalcuTime;
+
     }
 }
