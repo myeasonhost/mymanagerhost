@@ -2,7 +2,7 @@ package com.eason.report.pull.ag;
 
 import com.eason.report.pull.ag.activemqDemo.ActivemqService;
 import com.eason.report.pull.ag.api.CommonAPIImpl;
-import com.eason.report.pull.ag.vo.common.SumordersVo;
+import com.eason.report.pull.ag.vo.common.SumOrdersVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +27,14 @@ public class ServiceReportPullAgApplicationTests {
 
 
     @Test
-    public void contextLoads() {
+    public void contextLoads() throws Exception {
         //"enddate=2019-05-09 00:10:00&cagent=CS2&startdate=2019-05-09 00:00:00" +
         //            "&key=208c5d78b7b95fe29f401e270de22c98
-        SumordersVo vo=new SumordersVo();
+        SumOrdersVo vo=new SumOrdersVo();
         vo.setCAgent("CS2");
         vo.setStartDate("2019-05-09 00:00:00");
         vo.setEndDate("2019-05-09 00:10:00");
-        commonAPI.getsumorders(vo);
+        commonAPI.getSumOrders(vo);
 
     }
 
