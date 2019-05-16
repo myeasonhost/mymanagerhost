@@ -16,18 +16,16 @@ import java.util.List;
 @AllArgsConstructor
 @XStreamAlias("result")
 public class OrdersRo implements Serializable{
-
+    @XStreamAlias("result")
+    private String result;
     @XStreamAlias("info")
     private String info;
     @XStreamAlias("addition")
     private String addition;
 
     @XStreamImplicit(itemFieldName="row")
-    private List<OrdersRo> OrdersRoList;
-
-    @XStreamAlias("row")
+    private List<OrdersRoList> OrdersRoList;
     class OrdersRoList{
-
         @XStreamAsAttribute
         @XStreamAlias("billNo")
         private String billNo;
