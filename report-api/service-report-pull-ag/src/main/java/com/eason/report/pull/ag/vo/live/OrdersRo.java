@@ -20,17 +20,8 @@ public class OrdersRo implements Serializable{
     @XStreamAlias("info")
     private String info;
     @XStreamAlias("addition")
-    class addition{
-        @XStreamAlias("total")
-        private String total;
-        @XStreamAlias("num_per_page")
-        private String numPerPage;
-        @XStreamAlias("currentpage")
-        private String currentPage;
-        @XStreamAlias("perpage")
-        private String perPage;
+    private String addition;
 
-    }
     @XStreamImplicit(itemFieldName="row")
     private List<OrdersRo> OrdersRoList;
 
