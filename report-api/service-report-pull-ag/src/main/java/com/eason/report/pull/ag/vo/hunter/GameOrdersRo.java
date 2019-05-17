@@ -14,54 +14,98 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@XStreamAlias("result")
+@XStreamAlias("OrderRes")
 public class GameOrdersRo implements Serializable{
 
-    @XStreamAlias("info")
-    private String info;
-    @XStreamAlias("addition")
-    private String addition;
-    @XStreamImplicit(itemFieldName="row")
-    private List<GameOrdersRo> GameOrdersRoList;
+    @XStreamAlias("Code")
+    private String code;
+    @XStreamAlias("Total")
+    private String total;
+    @XStreamAlias("TotalCashPay")
+    private String totalCashPay;
+    @XStreamAlias("TotalCashBalance")
+    private String TotalCashBalance;
+    @XStreamAlias("perpage")
+    private String perpage;
+    @XStreamAlias("numpage")
+    private String numpage;
+    @XStreamAlias("TotalJackpotComm")
+    private String totalJackpotComm;
 
-    @XStreamAlias("row")
+    @XStreamAlias("Bill")
     class CompOrdersRoList{
 
         @XStreamAsAttribute
-        @XStreamAlias("billNo")
-        private String billNo;
+        @XStreamAlias("RoomId")
+        private String roomId;
         @XStreamAsAttribute
-        @XStreamAlias("playName")
-        private String playName;
+        @XStreamAlias("RoomBet")
+        private String roomBet;
         @XStreamAsAttribute
-        @XStreamAlias("gameCode")
-        private String gameCode;
+        @XStreamAlias("UserId")
+        private String userId;
         @XStreamAsAttribute
-        @XStreamAlias("netAmount")
-        private String netAmount;
+        @XStreamAlias("BombFish")
+        private String bombFish;
         @XStreamAsAttribute
-        @XStreamAlias("betTime")
-        private String betTime;
+        @XStreamAlias("Hunted")
+        private String hunted;
         @XStreamAsAttribute
-        @XStreamAlias("betAmount")
-        private String betAmount;
+        @XStreamAlias("FishType")
+        private String fishType;
         @XStreamAsAttribute
-        @XStreamAlias("validBetAmount")
-        private String validBetAmount;
+        @XStreamAlias("FishLife")
+        private String fishLife;
         @XStreamAsAttribute
-        @XStreamAlias("flag")
-        private String flag;
+        @XStreamAlias("FishId")
+        private String fishId;
         @XStreamAsAttribute
-        @XStreamAlias("playType")
-        private String playType;
+        @XStreamAlias("CannonBoost")
+        private String cannonBoost;
         @XStreamAsAttribute
-        @XStreamAlias("currency")
-        private String currency;
+        @XStreamAlias("CannonCost")
+        private String cannonCost;
         @XStreamAsAttribute
-        @XStreamAlias("tableCode")
-        private String tableCode;
+        @XStreamAlias("FishCost")
+        private String fishCost;
         @XStreamAsAttribute
-        @XStreamAlias("recalcuTime")
-        private String recalcuTime;
+        @XStreamAlias("UserCashBefore")
+        private String userCashBefore;
+        @XStreamAsAttribute
+        @XStreamAlias("UserCashDelta")
+        private String userCashDelta;
+        @XStreamAsAttribute
+        @XStreamAlias("UserCashCurrent")
+        private String userCashCurrent;
+        @XStreamAsAttribute
+        @XStreamAlias("SceneId")
+        private String sceneId;
+        @XStreamAsAttribute
+        @XStreamAlias("Time")
+        private String time;
+        @XStreamAsAttribute
+        @XStreamAlias("UserCashPay")
+        private String userCashPay;
+        @XStreamAsAttribute
+        @XStreamAlias("UserCashEarn")
+        private String userCashEarn;
+        @XStreamAsAttribute
+        @XStreamAlias("userName")
+        private String UserName;
+        @XStreamAsAttribute
+        @XStreamAlias("ProductId")
+        private String productId;
+        @XStreamAsAttribute
+        @XStreamAlias("UserType")
+        private String userType;
+        @XStreamAsAttribute
+        @XStreamAlias("BillId")
+        private String billId;
+        @XStreamAsAttribute
+        @XStreamAlias("JackPotComm")
+        private String jackPotComm;
+        @XStreamAsAttribute
+        @XStreamAlias("OperType")
+        private String operType;
     }
 }
