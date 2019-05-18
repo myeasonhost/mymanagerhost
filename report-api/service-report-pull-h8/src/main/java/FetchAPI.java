@@ -4,7 +4,7 @@ import com.eason.report.pull.h8.vo.fetchRo;
 import com.eason.report.pull.h8.vo.fetchVo;
 
 public interface FetchAPI {
-    public fetchRo getSumOrders(fetchVo vo) throws Exception;
+    public fetchRo fetchOrder(fetchVo vo) throws Exception;
 
-    public fetchResultRo getSumOrdersDays(fetchResultVo vo);
+    public fetchResultRo fetchh_result(fetchResultVo vo);
 }
