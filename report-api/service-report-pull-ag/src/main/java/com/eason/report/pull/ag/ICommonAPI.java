@@ -19,8 +19,8 @@ import com.eason.report.pull.ag.vo.xinSlot.XinEventResRo;
 import com.eason.report.pull.ag.vo.xinSlot.XinEventResVo;
 import com.eason.report.pull.ag.vo.xinSlot.XinSlotEventResRo;
 import com.eason.report.pull.ag.vo.xinSlot.XinSlotEventResVo;
-import com.eason.report.pull.ag.vo.yoPlay.YoPlayOrdersExRo;
-import com.eason.report.pull.ag.vo.yoPlay.YoPlayOrdersExVo;
+import com.eason.report.pull.h8.vo.YoPlayOrdersExRo;
+import com.eason.report.pull.h8.vo.YoPlayOrdersExVo;
 
 /**
  * @apiDefine api 通用API

@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>service-report-pull-ag</module>
+        <module>service-report-pull-h8</module>
     </modules>
 
     <properties>
