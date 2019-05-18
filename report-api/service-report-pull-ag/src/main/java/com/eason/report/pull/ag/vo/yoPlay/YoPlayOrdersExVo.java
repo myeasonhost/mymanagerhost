@@ -1,4 +1,4 @@
-package com.eason.report.pull.h8.vo;
+package com.eason.report.pull.ag.vo.yoPlay;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
