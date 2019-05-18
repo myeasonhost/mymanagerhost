@@ -18,6 +18,7 @@
 
     <modules>
         <module>service-report-pull-ag-impl</module>
+        <module>service-report-pull-pt-impl</module>
     </modules>
 
     <!--SpringCloud的配置-->
