@@ -4,7 +4,8 @@ import com.eason.report.pull.h8.vo.fetchRo;
 import com.eason.report.pull.h8.vo.fetchVo;
 
 public interface FetchAPI {
+
     public fetchRo fetchOrder(fetchVo vo) throws Exception;
 
-    public fetchResultRo fetchh_result(fetchResultVo vo);
+    public fetchResultRo fetchhResult(fetchResultVo vo);
 }
