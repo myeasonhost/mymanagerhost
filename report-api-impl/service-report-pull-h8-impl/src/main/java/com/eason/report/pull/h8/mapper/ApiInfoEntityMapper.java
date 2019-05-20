@@ -1,7 +1,7 @@
 package com.eason.report.pull.h8.mapper;
 
-import com.kg.live.entity.ApiInfoEntity;
-import com.kg.live.entity.ApiInfoEntityExample;
+import com.eason.report.pull.h8.vo.ApiInfoEntity;
+import com.eason.report.pull.h8.vo.ApiInfoEntityExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
