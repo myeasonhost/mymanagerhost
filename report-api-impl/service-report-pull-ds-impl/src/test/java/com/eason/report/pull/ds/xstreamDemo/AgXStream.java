@@ -14,7 +14,7 @@ public class AgXStream {
     public static void main(String[] args){
         try{
             // 读取XML文件
-            Resource resource = new ClassPathResource("ag.xml");
+            Resource resource = new ClassPathResource("sgs.xml");
             BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "utf-8"));
             StringBuffer buffer = new StringBuffer();
             String line = "";

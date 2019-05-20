@@ -1,0 +1,47 @@
+package com.eason.report.pull.ag.xstreamDemo;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@XStreamAlias("result")
+public class AgList {
+    @XStreamImplicit(itemFieldName="row")
+    private List<com.eason.report.pull.ag.xstreamDemo.AgModel> agList;
+    @XStreamAlias("info")
+    private String info;
+    @XStreamAlias("addition")
+    private String addition;
+
+    public List<com.eason.report.pull.ag.xstreamDemo.AgModel> getAgList() {
+        return agList;
+    }
+
+    public void setAgList(List<AgModel> agList) {
+        this.agList = agList;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getAddition() {
+        return addition;
+    }
+
+    public void setAddition(String addition) {
+        this.addition = addition;
+    }
+}

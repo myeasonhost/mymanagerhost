@@ -1,6 +1,6 @@
-package com.eason.report.pull.sgs;
+package com.eason.report.pull.ag;
 
-import com.eason.report.pull.sgs.activemqDemo.ActivemqService;
+import com.eason.report.pull.ag.activemqDemo.ActivemqService;
 import com.eason.report.pull.ag.api.CommonAPIImpl;
 import com.eason.report.pull.sgs.vo.common.SumOrdersVo;
 import org.junit.Test;
