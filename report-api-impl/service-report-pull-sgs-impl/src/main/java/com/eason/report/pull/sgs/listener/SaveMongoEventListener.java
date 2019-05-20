@@ -1,7 +1,5 @@
 package com.eason.report.pull.sgs.listener;
 
-import com.eason.report.pull.ag.listener.GeneratedValue;
-import com.eason.report.pull.ag.listener.SequenceId;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
@@ -55,7 +53,7 @@ public class SaveMongoEventListener extends AbstractMongoEventListener<Object> {
         FindAndModifyOptions options = new FindAndModifyOptions();
         options.upsert(true);
         options.returnNew(true);
-        com.eason.report.pull.ag.listener.SequenceId seqId = mongoTemplate.findAndModify(query, update, options, SequenceId.class);
+        SequenceId seqId = mongoTemplate.findAndModify(query, update, options, SequenceId.class);
         return seqId.getSeqId();
     }
 }

@@ -1,7 +1,5 @@
 package com.eason.report.pull.sgs.utils;
 
-import com.eason.report.pull.ag.utils.Base64Util;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
