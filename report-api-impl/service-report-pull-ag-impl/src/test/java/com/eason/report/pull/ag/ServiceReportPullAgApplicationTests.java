@@ -2,7 +2,7 @@ package com.eason.report.pull.ag;
 
 import com.eason.report.pull.ag.activemqDemo.ActivemqService;
 import com.eason.report.pull.ag.api.CommonAPIImpl;
-import com.eason.report.pull.ag.vo.common.SumOrdersVo;
+import com.eason.report.pull.sgs.vo.common.SumOrdersVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class ServiceReportPullAgApplicationTests {
 
     @Test
     public void testRedis() {
-        String  pullUrl=stringRedisTemplate10.boundHashOps("ag").get("pullUrl").toString();
+        String  pullUrl=stringRedisTemplate10.boundHashOps("sgs").get("pullUrl").toString();
         System.out.println(pullUrl);
 
 

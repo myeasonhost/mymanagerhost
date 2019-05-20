@@ -23,7 +23,7 @@ public class AgXStream {
             }
             br.close();
             // XML转为Java对象
-            AgList agList = (AgList)xmlStrToOject(AgList.class, buffer.toString());
+            com.eason.report.pull.ag.xstreamDemo.AgList agList = (com.eason.report.pull.ag.xstreamDemo.AgList)xmlStrToOject(AgList.class, buffer.toString());
             System.out.print(agList.getInfo());
             System.out.print(agList.getAgList());
         }catch (Exception e){

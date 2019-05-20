@@ -15,13 +15,13 @@ import java.util.List;
 @XStreamAlias("result")
 public class AgList {
     @XStreamImplicit(itemFieldName="row")
-    private List<AgModel> agList;
+    private List<com.eason.report.pull.ag.xstreamDemo.AgModel> agList;
     @XStreamAlias("info")
     private String info;
     @XStreamAlias("addition")
     private String addition;
 
-    public List<AgModel> getAgList() {
+    public List<com.eason.report.pull.ag.xstreamDemo.AgModel> getAgList() {
         return agList;
     }
 

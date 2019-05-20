@@ -1,7 +1,7 @@
 package com.eason.report.pull.ag.utils;
 
 
-import com.eason.report.pull.ag.vo.sport.AgSportOrdersExVo;
+import com.eason.report.pull.sgs.vo.sport.AgSportOrdersExVo;
 import com.thoughtworks.xstream.XStream;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

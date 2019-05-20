@@ -53,7 +53,7 @@ public class SaveMongoEventListener extends AbstractMongoEventListener<Object> {
         FindAndModifyOptions options = new FindAndModifyOptions();
         options.upsert(true);
         options.returnNew(true);
-        SequenceId seqId = mongoTemplate.findAndModify(query, update, options, SequenceId.class);
+        com.eason.report.pull.ag.listener.SequenceId seqId = mongoTemplate.findAndModify(query, update, options, SequenceId.class);
         return seqId.getSeqId();
     }
 }

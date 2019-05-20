@@ -16,10 +16,18 @@
     <version>2019-5-10</version>
     <packaging>pom</packaging>
 
+
     <modules>
         <module>service-report-pull-ag-impl</module>
+        <module>service-report-pull-bbin-impl</module>
+        <module>service-report-pull-ds-impl</module>
         <module>service-report-pull-h8-impl</module>
+        <module>service-report-pull-ky-impl</module>
+        <module>service-report-pull-lmg-impl</module>
+        <module>service-report-pull-mdt-impl</module>
+        <module>service-report-pull-mg-impl</module>
         <module>service-report-pull-pt-impl</module>
+        <module>service-report-pull-sgs-impl</module>
     </modules>
 
     <!--SpringCloud的配置-->

@@ -1,29 +1,29 @@
 package com.eason.report.pull.ag.api;
 
-import com.eason.report.pull.ag.ICommonAPI;
-import com.eason.report.pull.ag.utils.Md5Util;
 import com.eason.report.pull.ag.utils.XStreamUtil;
-import com.eason.report.pull.ag.vo.common.*;
-import com.eason.report.pull.ag.vo.competition.CompOrdersRo;
-import com.eason.report.pull.ag.vo.competition.CompOrdersVo;
-import com.eason.report.pull.ag.vo.hunter.GameOrdersRo;
-import com.eason.report.pull.ag.vo.hunter.GameOrdersVo;
-import com.eason.report.pull.ag.vo.hunter.ScenesOfUserReportExtVo;
-import com.eason.report.pull.ag.vo.hunter.ScenesOfUserReportExtRo;
-import com.eason.report.pull.ag.vo.live.OrdersRo;
-import com.eason.report.pull.ag.vo.live.OrdersVo;
-import com.eason.report.pull.ag.vo.slot.SlotOrdersRo;
-import com.eason.report.pull.ag.vo.slot.SlotOrdersTExRo;
-import com.eason.report.pull.ag.vo.slot.SlotOrdersTExVo;
-import com.eason.report.pull.ag.vo.slot.SlotOrdersVo;
-import com.eason.report.pull.ag.vo.sport.AgSportOrdersExVo;
-import com.eason.report.pull.ag.vo.sport.AgSportOrdersExRo;
-import com.eason.report.pull.ag.vo.xinSlot.XinEventResRo;
-import com.eason.report.pull.ag.vo.xinSlot.XinEventResVo;
-import com.eason.report.pull.ag.vo.xinSlot.XinSlotEventResRo;
-import com.eason.report.pull.ag.vo.xinSlot.XinSlotEventResVo;
-import com.eason.report.pull.ag.vo.yoPlay.YoPlayOrdersExRo;
-import com.eason.report.pull.ag.vo.yoPlay.YoPlayOrdersExVo;
+import com.eason.report.pull.sgs.ICommonAPI;
+import com.eason.report.pull.ag.utils.Md5Util;
+import com.eason.report.pull.sgs.vo.common.*;
+import com.eason.report.pull.sgs.vo.competition.CompOrdersRo;
+import com.eason.report.pull.sgs.vo.competition.CompOrdersVo;
+import com.eason.report.pull.sgs.vo.hunter.GameOrdersRo;
+import com.eason.report.pull.sgs.vo.hunter.GameOrdersVo;
+import com.eason.report.pull.sgs.vo.hunter.ScenesOfUserReportExtVo;
+import com.eason.report.pull.sgs.vo.hunter.ScenesOfUserReportExtRo;
+import com.eason.report.pull.sgs.vo.live.OrdersRo;
+import com.eason.report.pull.sgs.vo.live.OrdersVo;
+import com.eason.report.pull.sgs.vo.slot.SlotOrdersRo;
+import com.eason.report.pull.sgs.vo.slot.SlotOrdersTExRo;
+import com.eason.report.pull.sgs.vo.slot.SlotOrdersTExVo;
+import com.eason.report.pull.sgs.vo.slot.SlotOrdersVo;
+import com.eason.report.pull.sgs.vo.sport.AgSportOrdersExVo;
+import com.eason.report.pull.sgs.vo.sport.AgSportOrdersExRo;
+import com.eason.report.pull.sgs.vo.xinSlot.XinEventResRo;
+import com.eason.report.pull.sgs.vo.xinSlot.XinEventResVo;
+import com.eason.report.pull.sgs.vo.xinSlot.XinSlotEventResRo;
+import com.eason.report.pull.sgs.vo.xinSlot.XinSlotEventResVo;
+import com.eason.report.pull.sgs.vo.yoPlay.YoPlayOrdersExRo;
+import com.eason.report.pull.sgs.vo.yoPlay.YoPlayOrdersExVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -32,8 +32,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import static com.eason.report.pull.ag.utils.XStreamUtil.xmlStrToOject;
 
 /**
  * @author EASON LI
@@ -53,8 +51,8 @@ public class CommonAPIImpl implements ICommonAPI {
 
     @Override
     public SumOrdersRo getSumOrders(SumOrdersVo vo) throws Exception {
-        String pullUrl=stringRedisTemplate10.boundHashOps("ag").get("pullUrl").toString();
-        String pidtoken=stringRedisTemplate10.boundHashOps("ag").get("pidtoken").toString();
+        String pullUrl=stringRedisTemplate10.boundHashOps("sgs").get("pullUrl").toString();
+        String pidtoken=stringRedisTemplate10.boundHashOps("sgs").get("pidtoken").toString();
         MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
         String key= Md5Util.makeMd5Sum((vo.getCAgent()+vo.getStartDate()+vo.getEndDate()+pidtoken).getBytes());
         request.add("key",key);
