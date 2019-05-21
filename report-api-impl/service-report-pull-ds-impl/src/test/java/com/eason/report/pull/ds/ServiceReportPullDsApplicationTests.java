@@ -22,7 +22,7 @@ public class ServiceReportPullDsApplicationTests {
     @Test
     public void contextLoads() throws Exception {
         gfPullAPIImpl.getPullBet();
-//        jdPullAPIImpl.getPullBet();
+        jdPullAPIImpl.getPullBet();
 
     }
 
