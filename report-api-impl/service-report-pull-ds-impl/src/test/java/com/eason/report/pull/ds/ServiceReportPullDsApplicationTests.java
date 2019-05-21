@@ -1,42 +1,29 @@
 package com.eason.report.pull.ds;
 
-import com.eason.report.pull.sgs.activemqDemo.ActivemqService;
+import com.eason.report.pull.ds.api.GFPullAPIImpl;
+import com.eason.report.pull.ds.api.JDPullAPIImpl;
+import com.eason.report.pull.ds.model.MsgModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ServiceReportPullDsApplicationTests {
     @Autowired
-    private RedisTemplate redisTemplate10;
+    private GFPullAPIImpl gfPullAPIImpl;
     @Autowired
-    private StringRedisTemplate stringRedisTemplate10;
-
-    @Autowired
-    private ActivemqService activemqService;
+    private JDPullAPIImpl jdPullAPIImpl;
 
 
     @Test
     public void contextLoads() throws Exception {
+        gfPullAPIImpl.getPullBet();
+//        jdPullAPIImpl.getPullBet();
 
-    }
-
-    @Test
-    public void testRedis() {
-        String  pullUrl=stringRedisTemplate10.boundHashOps("sgs").get("pullUrl").toString();
-        System.out.println(pullUrl);
-
-
-    }
-
-    @Test
-    public void testActivemq(){
-        activemqService.sendMsg("123456789");
     }
 
 }

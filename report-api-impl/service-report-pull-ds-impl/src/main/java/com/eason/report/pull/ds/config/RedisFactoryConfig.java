@@ -1,4 +1,4 @@
-package com.eason.report.pull.sgs.config;
+package com.eason.report.pull.ds.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

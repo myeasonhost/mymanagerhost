@@ -1,6 +1,7 @@
-package com.eason.report.pull.sgs.utils;
+package com.eason.report.pull.ds.utils;
 import java.io.CharArrayWriter;
 import java.io.IOException;
+import java.util.Base64;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -34,7 +35,7 @@ public class Base64Util {
         try {
             if (StringUtils.isNotBlank(str)) {
                 byte[] bs = str.getBytes("UTF-8");
-                String result = new sun.misc.BASE64Encoder().encodeBuffer(bs);
+                String result = Base64.getEncoder().encodeToString(bs);
                 return result;
             }
         } catch (Exception e) {
@@ -56,7 +57,7 @@ public class Base64Util {
         try {
             if (StringUtils.isNotBlank(str)) {
                 byte[] bt;
-                bt = new sun.misc.BASE64Decoder().decodeBuffer(str);
+                bt = Base64.getDecoder().decode(str);
                 str = new String(bt, "UTF-8");
                 return str;
             }

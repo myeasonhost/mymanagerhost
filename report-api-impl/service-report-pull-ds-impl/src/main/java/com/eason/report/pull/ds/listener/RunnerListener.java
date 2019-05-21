@@ -1,11 +1,11 @@
-package com.eason.report.pull.sgs.listener;
+package com.eason.report.pull.ds.listener;
 
-import com.eason.report.pull.sgs.config.AgInfoConfig;
-import com.eason.report.pull.sgs.exception.AgException;
+import com.eason.report.pull.ds.exception.DsException;
+import com.eason.report.pull.ds.manager.DtGFMgr;
+import com.eason.report.pull.ds.manager.DtJDMgr;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 
@@ -13,24 +13,21 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class RunnerListener implements CommandLineRunner {
 
-    @Autowired
-    private AgInfoConfig agInfoConfig;
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate10;
+//    @Autowired
+//    private DtGFMgr dtGFMgr;
+//    @Autowired
+//    private DtJDMgr dtJDMgr;
+
 
     @Override
     public void run(String... args) throws Exception {
-        Object pullUrl = stringRedisTemplate10.boundHashOps("sgs").get("pullUrl");
-        Object pidtoken = stringRedisTemplate10.boundHashOps("sgs").get("pidtoken");
-        if (pullUrl == null) {
-            throw new AgException("AG读取缓存的配置，pullUrl为空，请正确配置");
-        }
-        if (pidtoken == null) {
-            throw new AgException("AG读取缓存的配置，pidtoken为空，请正确配置");
-        }
-        agInfoConfig.setPidtoken(pidtoken.toString());
-        agInfoConfig.setPullUrl(pullUrl.toString());
-        log.info("AG读取缓存的配置：pullUrl=" + pullUrl + ",pidtoken=" + pidtoken);
+//        try {
+//            dtGFMgr.loadConfig();
+//            dtJDMgr.loadConfig();
+//        }catch (Exception e){
+//            throw new DsException(e.getMessage());
+//        }
+
     }
 
 }

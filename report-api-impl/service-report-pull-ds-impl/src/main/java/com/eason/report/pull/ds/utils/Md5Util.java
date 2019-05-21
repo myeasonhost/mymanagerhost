@@ -1,4 +1,4 @@
-package com.eason.report.pull.sgs.utils;
+package com.eason.report.pull.ds.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
