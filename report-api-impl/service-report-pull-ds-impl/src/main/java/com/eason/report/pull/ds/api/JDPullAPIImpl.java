@@ -85,8 +85,8 @@ public class JDPullAPIImpl extends BaseAPI {
                 if (flag){
                     Long endId=dtJDDao.getMaxId();
                     DsLotteryModel dsLotteryModel=DsLotteryModel.builder()
-                            .startId(startId+"")
-                            .endId(endId+"")
+                            .startId(startId)
+                            .endId(endId)
                             .siteId(jdAppInfoConfig.getSiteId()).build();
                     mqServiceListener.sendReceiverMsg(
                             MsgModel.builder()

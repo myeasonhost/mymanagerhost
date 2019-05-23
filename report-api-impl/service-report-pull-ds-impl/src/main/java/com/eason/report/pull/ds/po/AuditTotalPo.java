@@ -7,6 +7,15 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "audit_total")
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "ds_gf_audit_report", procedureName = "ds_gf_audit_report",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "prex", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "type", type = Integer.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "res", type = Integer.class)})})
 public class AuditTotalPo {
     private long id;
     private Integer liveId;

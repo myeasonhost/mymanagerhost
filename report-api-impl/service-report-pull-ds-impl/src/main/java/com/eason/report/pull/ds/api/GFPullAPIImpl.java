@@ -46,11 +46,11 @@ public class GFPullAPIImpl extends BaseAPI {
     /**
      * 官方彩拉取
      */
-    public void getPullBet() throws DsException {
+    public void getPullBet(Long maxId) throws DsException {
         try {
             boolean flag=false;
-            log.info("DS-JD官方彩开始准备拉取,拉取配置", GFAppInfoConfig);
-            Long startId = dtGFDao.getMaxId();
+            Long startId = maxId==null?dtGFDao.getMaxId():maxId;
+            log.info("DS-JD官方从startId="+startId+"开始准备拉取,拉取配置", GFAppInfoConfig);
 
             JSONObject request = new JSONObject();
             request.put("num", GFAppInfoConfig.getLength()+"");
@@ -86,8 +86,8 @@ public class GFPullAPIImpl extends BaseAPI {
                 if (flag){
                     Long endId=dtGFDao.getMaxId();
                     DsLotteryModel dsLotteryModel=DsLotteryModel.builder()
-                            .startId(startId+"")
-                            .endId(endId+"")
+                            .startId(startId)
+                            .endId(endId)
                             .siteId(GFAppInfoConfig.getSiteId()).build();
                     mqServiceListener.sendReceiverMsg(
                             MsgModel.builder()

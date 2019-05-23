@@ -16,7 +16,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Builder
 public class DsLotteryModel implements Serializable {
-    private String startId;
-    private String endId;
+    private Long startId;
+    private Long endId;
     private Map<String,String> siteId;
 }

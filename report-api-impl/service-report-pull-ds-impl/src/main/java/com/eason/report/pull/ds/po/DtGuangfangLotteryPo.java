@@ -7,6 +7,13 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "dt_guangfang_lottery")
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "ds_gf_site_pull", procedureName = "ds_gf_site_pull",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "num", type = Long.class)})})
 public class DtGuangfangLotteryPo {
     private long tid;
     private Long id;
