@@ -4,6 +4,7 @@ package com.eason.report.pull.ds.mysqlDao;
 import com.eason.report.pull.ds.po.DtJingdianLotteryPo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -13,4 +14,10 @@ public interface DtJDDao extends JpaRepository<DtJingdianLotteryPo, String>{
   Long getMaxId();
 
   DtJingdianLotteryPo findByNid(String nid);
+
+  @Procedure(procedureName = "ds_jd_site_pull")
+  Integer sitePull(Integer siteId,String prex,Long startId,Long endId);
+
+  @Procedure(procedureName = "ds_jd_audit_report")
+  String createAuditAndReport(Integer siteId, Long startId, Long endId);
 }

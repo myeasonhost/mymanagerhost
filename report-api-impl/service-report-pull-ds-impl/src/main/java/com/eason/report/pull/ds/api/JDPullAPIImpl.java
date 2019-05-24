@@ -17,6 +17,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -46,15 +47,28 @@ public class JDPullAPIImpl extends BaseAPI {
      * 经典彩拉取
      */
     public void getPullBet() throws DsException {
+        Long maxId=dtJDDao.getMaxId();
+        Integer length=jdAppInfoConfig.getLength();
+        if (maxId ==0 || length==0){
+            log.error("DS-JD经典从startId="+maxId+"开始准备拉取,拉取配置可能有误，长度length="+length);
+            return;
+        }
+        getPullBet(maxId+1,length); //下一个开始
+    }
+
+    /**
+     * 经典彩拉取
+     */
+    public void getPullBet(Long maxId,Integer length) throws DsException {
         try {
             boolean flag=false;
             log.info("DS-JD经典彩开始准备拉取,拉取配置", jdAppInfoConfig);
             Long startId = dtJDDao.getMaxId();
 
             JSONObject request = new JSONObject();
-            request.put("num", jdAppInfoConfig.getLength()+"");
+            request.put("num", jdAppInfoConfig.getLength());
             request.put("username", jdAppInfoConfig.getUser());
-            request.put("beginId", startId + 1);
+            request.put("beginId", startId);
             request.put("accType", jdAppInfoConfig.getLevel());
             HttpEntity<String> entity = new HttpEntity<>(request.toString());
             ResponseEntity<JSONObject> exchange=restTemplate.exchange(jdAppInfoConfig.getPullUrl(), HttpMethod.POST,entity,JSONObject.class);
@@ -69,17 +83,8 @@ public class JDPullAPIImpl extends BaseAPI {
                 int arraySize = array.size();
                 log.info("DS-JD经典彩网站={},拉取到注单 ,数量={}", jdAppInfoConfig.getUser(), arraySize);
                 for (int i = 0; i < array.size(); i++) {
-                    DtJingdianLotteryPo jingdianEntity = array.getObject(i, DtJingdianLotteryPo.class);
-                    DtJingdianLotteryPo po=dtJDDao.findByNid(jingdianEntity.getNid());
-                    if (po!=null){
-                        mqServiceListener.sendErrorMsg(
-                                MsgModel.builder()
-                                        .code("DS-JD-1111")
-                                        .message("新拉取发现重复nid="+jingdianEntity.getNid())
-                                        .object(jingdianEntity).build());
-                    }
-                    jingdianEntity=this.dtJDMgr.extAttr(jingdianEntity,jdAppInfoConfig);
-                     this.dtJDDao.saveAndFlush(jingdianEntity);
+                    DtJingdianLotteryPo jingdianEntityPo = array.getObject(i, DtJingdianLotteryPo.class);
+                    dtJDMgr.saveAndUpdate(jingdianEntityPo,jdAppInfoConfig);
                     flag=true;
                 }
                 if (flag){
@@ -103,6 +108,10 @@ public class JDPullAPIImpl extends BaseAPI {
                 return;
             }
         }catch (Exception e){
+            if (e instanceof ResourceAccessException){
+                log.error("DS-JD经典彩未添加白名单或者可能在维护，错误信息={}",e.getMessage());
+                return;
+            }
             e.printStackTrace();
             throw new DsException(e.getMessage());
         }

@@ -17,7 +17,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 
 
 /**
@@ -42,20 +46,31 @@ public class GFPullAPIImpl extends BaseAPI {
     @Autowired
     private MQServiceListener mqServiceListener;
 
-
     /**
      * 官方彩拉取
      */
-    public void getPullBet(Long maxId) throws DsException {
+    public void getPullBet() throws DsException {
+        Long maxId=dtGFDao.getMaxId();
+        Integer length=GFAppInfoConfig.getLength();
+        if (maxId ==0 || length==0){
+           log.error("DS-GF官方彩从startId="+maxId+"开始准备拉取,拉取配置可能有误，长度length="+length);
+           return;
+        }
+        getPullBet(maxId+1,length); //下一个开始
+    }
+    /**
+     * 官方彩拉取
+     */
+    public void getPullBet(Long maxId,Integer length) throws DsException {
         try {
             boolean flag=false;
-            Long startId = maxId==null?dtGFDao.getMaxId():maxId;
-            log.info("DS-JD官方从startId="+startId+"开始准备拉取,拉取配置", GFAppInfoConfig);
+            Long startId = maxId;
+            log.info("DS-GF官方彩从startId="+startId+"开始准备拉取length="+length+",拉取配置GFAppInfoConfig={}", GFAppInfoConfig);
 
             JSONObject request = new JSONObject();
-            request.put("num", GFAppInfoConfig.getLength()+"");
+            request.put("num", length);
             request.put("username", GFAppInfoConfig.getUser());
-            request.put("beginId", startId + 1);
+            request.put("beginId", startId);
             request.put("accType", GFAppInfoConfig.getLevel());
             HttpEntity<String> entity = new HttpEntity<>(request.toString());
             ResponseEntity<JSONObject> exchange=restTemplate.exchange(GFAppInfoConfig.getPullUrl(), HttpMethod.POST,entity,JSONObject.class);
@@ -70,17 +85,8 @@ public class GFPullAPIImpl extends BaseAPI {
                 int arraySize = array.size();
                 log.info("DS-GF官方彩网站={},拉取到注单 ,数量={}", GFAppInfoConfig.getUser(), arraySize);
                 for (int i = 0; i < array.size(); i++) {
-                    DtGuangfangLotteryPo guanfangEntity = array.getObject(i, DtGuangfangLotteryPo.class);
-                    DtGuangfangLotteryPo po=dtGFDao.findByNid(guanfangEntity.getNid());
-                    if (po!=null){
-                        mqServiceListener.sendErrorMsg(
-                                MsgModel.builder()
-                                        .code("DS-GF-1111")
-                                        .message("新拉取发现重复nid="+guanfangEntity.getNid())
-                                        .object(guanfangEntity).build());
-                    }
-                    guanfangEntity=this.dtDFMgr.extAttr(guanfangEntity,GFAppInfoConfig);
-                    this.dtGFDao.saveAndFlush(guanfangEntity);
+                    DtGuangfangLotteryPo guanfangEntityPo = array.getObject(i, DtGuangfangLotteryPo.class);
+                    dtDFMgr.saveAndUpdate(guanfangEntityPo,GFAppInfoConfig);
                     flag=true;
                 }
                 if (flag){
@@ -104,6 +110,10 @@ public class GFPullAPIImpl extends BaseAPI {
                 return;
             }
         }catch (Exception e){
+            if (e instanceof ResourceAccessException){
+                log.error("DS-GF官方彩未添加白名单或者可能在维护，错误信息={}",e.getMessage());
+                return;
+            }
             e.printStackTrace();
             throw new DsException(e.getMessage());
         }

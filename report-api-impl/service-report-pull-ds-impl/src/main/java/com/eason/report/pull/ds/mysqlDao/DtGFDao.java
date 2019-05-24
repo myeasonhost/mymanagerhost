@@ -16,9 +16,9 @@ public interface DtGFDao extends JpaRepository<DtGuangfangLotteryPo, String>{
   DtGuangfangLotteryPo findByNid(String nid);
 
   @Procedure(procedureName = "ds_gf_site_pull")
-  Integer sitePull(Integer siteId,Long startId,Long endId);
+  Integer sitePull(Integer siteId,String prex,Long startId,Long endId);
 
   @Procedure(procedureName = "ds_gf_audit_report")
-  String createAuditAndReport(Integer siteId, String prex, Integer type, Long startId, Long endId);
+  String createAuditAndReport(Integer siteId, Long startId, Long endId);
 
 }

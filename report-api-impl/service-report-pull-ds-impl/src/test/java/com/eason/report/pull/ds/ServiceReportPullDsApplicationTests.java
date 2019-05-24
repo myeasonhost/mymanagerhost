@@ -23,15 +23,15 @@ public class ServiceReportPullDsApplicationTests {
 
     @Test
     public void contextLoads() throws Exception {
-        gfPullAPIImpl.getPullBet(34369023L);
+        gfPullAPIImpl.getPullBet(34369023L,1000);
 //        jdPullAPIImpl.getPullBet();
     }
 
     @Test
     public void testDao() throws Exception {
-        dtGFDao.sitePull(1020,34369023L,35182641L);
+        dtGFDao.sitePull(1020,"888821_TYZ",34369023L,35182641L);
 
-        String result=dtGFDao.createAuditAndReport(1020,"888821_TYZ",45,34369023L,35182641L);
+        String result=dtGFDao.createAuditAndReport(1020,34369023L,35182641L);
         System.out.println(result);
     }
 

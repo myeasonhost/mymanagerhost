@@ -1,17 +1,24 @@
 package com.eason.report.pull.ds.manager;
 
 
+import com.eason.report.pull.ds.config.GFAppInfoConfig;
 import com.eason.report.pull.ds.config.JDAppInfoConfig;
 import com.eason.report.pull.ds.exception.DsException;
+import com.eason.report.pull.ds.mysqlDao.DtGFDao;
+import com.eason.report.pull.ds.mysqlDao.DtJDDao;
 import com.eason.report.pull.ds.po.DtGuangfangLotteryPo;
 import com.eason.report.pull.ds.po.DtJingdianLotteryPo;
 import com.eason.report.pull.ds.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,6 +32,10 @@ public class DtJDMgr {
   private StringRedisTemplate stringRedisTemplate10;
   @Autowired
   private JDAppInfoConfig jdAppInfoConfig;
+  @Autowired
+  private DtJDDao dtJDDao;
+  @Resource
+  private EntityManager entityManager;
 
   public JDAppInfoConfig loadConfig() throws Exception{
     try {
@@ -95,5 +106,20 @@ public class DtJDMgr {
     return jingdianEntity;
   }
 
+  @Transactional
+  public void saveAndUpdate(DtJingdianLotteryPo jingdianEntityPo, JDAppInfoConfig jdAppInfoConfig){
+    DtJingdianLotteryPo po=dtJDDao.findByNid(jingdianEntityPo.getNid());
+    if (po!=null){
+      jingdianEntityPo=this.extAttr(jingdianEntityPo,jdAppInfoConfig);
+      Long tid=po.getTid();
+      BeanUtils.copyProperties(jingdianEntityPo,po);
+      po.setTid(tid);
+      entityManager.merge(po);
+    }else{
+      jingdianEntityPo=this.extAttr(jingdianEntityPo,jdAppInfoConfig);
+      this.dtJDDao.save(jingdianEntityPo);
+    }
+
+  }
 
 }

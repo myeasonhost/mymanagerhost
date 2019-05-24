@@ -6,16 +6,20 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "audit_total")
+@Table(name = "ds_audit_total")
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "ds_gf_audit_report", procedureName = "ds_gf_audit_report",
                 parameters = {
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "prex", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "type", type = Integer.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
-                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "res", type = Integer.class)})})
+                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
+        @NamedStoredProcedureQuery(name = "ds_jd_audit_report", procedureName = "ds_jd_audit_report",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)})})
 public class AuditTotalPo {
     private long id;
     private Integer liveId;

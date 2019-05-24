@@ -4,16 +4,21 @@ package com.eason.report.pull.ds.manager;
 import com.eason.report.pull.ds.config.GFAppInfoConfig;
 import com.eason.report.pull.ds.config.JDAppInfoConfig;
 import com.eason.report.pull.ds.exception.DsException;
+import com.eason.report.pull.ds.mysqlDao.DtGFDao;
 import com.eason.report.pull.ds.po.DtGuangfangLotteryPo;
 import com.eason.report.pull.ds.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.HashMap;
@@ -27,6 +32,10 @@ public class DtGFMgr {
   private StringRedisTemplate stringRedisTemplate10;
   @Autowired
   private GFAppInfoConfig gfAppInfoConfig;
+  @Autowired
+  private DtGFDao dtGFDao;
+  @Resource
+  private EntityManager entityManager;
 
   public GFAppInfoConfig loadConfig() throws Exception{
     try {
@@ -99,6 +108,22 @@ public class DtGFMgr {
       guanfangEntity.setWins(wins);
     }
     return guanfangEntity;
+  }
+
+  @Transactional
+  public void saveAndUpdate(DtGuangfangLotteryPo guanfangEntityPo,GFAppInfoConfig GFAppInfoConfig){
+    DtGuangfangLotteryPo po=dtGFDao.findByNid(guanfangEntityPo.getNid());
+    if (po!=null){
+      guanfangEntityPo=this.extAttr(guanfangEntityPo,GFAppInfoConfig);
+      Long tid=po.getTid();
+      BeanUtils.copyProperties(guanfangEntityPo,po);
+      po.setTid(tid);
+      entityManager.merge(po);
+    }else{
+      guanfangEntityPo=this.extAttr(guanfangEntityPo,GFAppInfoConfig);
+      this.dtGFDao.save(guanfangEntityPo);
+    }
+
   }
 
 

@@ -1,6 +1,7 @@
 package com.eason.report.pull.ds.po;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -11,10 +12,11 @@ import java.util.Objects;
         @NamedStoredProcedureQuery(name = "ds_gf_site_pull", procedureName = "ds_gf_site_pull",
                 parameters = {
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "prex", type = String.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
                         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "num", type = Long.class)})})
-public class DtGuangfangLotteryPo {
+public class DtGuangfangLotteryPo implements Serializable {
     private long tid;
     private Long id;
     private Integer siteid;
