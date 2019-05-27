@@ -49,10 +49,10 @@ public class MQServiceReceiver {
                             if ("DS-GF-0000".equals(msg.getCode())) {
                                 Integer siteId = Integer.parseInt(value);
                                 Integer rows = dtGFDao.sitePull(siteId, key, dsLotteryModel.getStartId(), dsLotteryModel.getEndId());
-                                log.info("DS-GF官方彩站点siteId={}，执行分表存储过程，CALL ds_gf_site_pull({},{},{},{},@num);SELECT @num;返回数据rows={}", siteId,
+                                log.info("DS-GF官方彩站点siteId={}，执行分表存储过程，CALL ds_gf_site_pull({},'{}',{},{},@num);SELECT @num;返回数据rows={}", siteId,
                                         siteId, key, dsLotteryModel.getStartId(), dsLotteryModel.getEndId(), rows);
                                 String result = dtGFDao.createAuditAndReport(siteId, dsLotteryModel.getStartId(), dsLotteryModel.getEndId());
-                                log.info("DS-GF官方彩站点siteId={}，执行审计报表存储过程，CALL ds_gf_audit_report({},{},{},@result);SELECT @result;返回结果result={}", siteId,
+                                log.info("DS-GF官方彩站点siteId={}，执行审计报表存储过程，CALL ds_gf_audit_report({},'{}',{},@result);SELECT @result;返回结果result={}", siteId,
                                         siteId, dsLotteryModel.getStartId(), dsLotteryModel.getEndId(), result);
                             } else if ("DS-JD-0000".equals(msg.getCode())) {
                                 Integer siteId = Integer.parseInt(value);

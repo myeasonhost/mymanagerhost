@@ -63,10 +63,10 @@ public class JDPullAPIImpl extends BaseAPI {
         try {
             boolean flag=false;
             log.info("DS-JD经典彩开始准备拉取,拉取配置", jdAppInfoConfig);
-            Long startId = dtJDDao.getMaxId();
+            Long startId = maxId;
 
             JSONObject request = new JSONObject();
-            request.put("num", jdAppInfoConfig.getLength());
+            request.put("num",length);
             request.put("username", jdAppInfoConfig.getUser());
             request.put("beginId", startId);
             request.put("accType", jdAppInfoConfig.getLevel());
