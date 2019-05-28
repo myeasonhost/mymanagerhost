@@ -1,6 +1,7 @@
 package com.eason.report.pull.mg;
 
 import com.eason.report.pull.sgs.activemqDemo.ActivemqService;
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,9 +31,7 @@ public class ServiceReportPullMgApplicationTests {
 
     @Test
     public void testRedis() {
-        String  pullUrl=stringRedisTemplate10.boundHashOps("sgs").get("pullUrl").toString();
-        System.out.println(pullUrl);
-
+        stringRedisTemplate10.boundHashOps("mg_pull_config").put("endTime", new Date());
 
     }
 
