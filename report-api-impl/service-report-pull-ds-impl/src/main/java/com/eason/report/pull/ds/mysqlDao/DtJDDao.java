@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DtJDDao extends JpaRepository<DtJingdianLotteryPo, String>{
+public interface DtJDDao extends JpaRepository<DtJingdianLotteryPo, Long>{
 
   @Query(value = "select COALESCE(max(id),0) from dt_jingdian_lottery",nativeQuery = true)
   Long getMaxId();

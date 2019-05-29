@@ -4,6 +4,7 @@ import com.eason.report.pull.ds.model.DsLotteryModel;
 import com.eason.report.pull.ds.model.MsgModel;
 import com.eason.report.pull.ds.mysqlDao.DtGFDao;
 import com.eason.report.pull.ds.mysqlDao.DtJDDao;
+import com.eason.report.pull.ds.mysqlDao.MdtJDDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
@@ -21,6 +22,8 @@ public class MQServiceReceiver {
     private DtGFDao dtGFDao;
     @Autowired
     private DtJDDao dtJDDao;
+    @Autowired
+    private MdtJDDao mdtJDDao;
 
     private ExecutorService executorService =  Executors.newFixedThreadPool(5);
 
@@ -62,8 +65,16 @@ public class MQServiceReceiver {
                                 String result = dtJDDao.createAuditAndReport(siteId, dsLotteryModel.getStartId(), dsLotteryModel.getEndId());
                                 log.info("DS-JD经典彩站点siteId={}，执行审计报表存储过程，CALL ds_jd_audit_report({},{},{},@result);SELECT @result;返回结果result={}", siteId,
                                         siteId, dsLotteryModel.getStartId(), dsLotteryModel.getEndId(), result);
+                            } else if ("MDT-JD-0000".equals(msg.getCode())) {
+                                Integer siteId = Integer.parseInt(value);
+                                Integer rows = mdtJDDao.sitePull(siteId, key, dsLotteryModel.getStartId(), dsLotteryModel.getEndId());
+                                log.info("MDT-JD经典彩站点siteId={}，执行分表存储过程，CALL mdt_jd_site_pull({},{},{},{},@num);SELECT @num;返回数据rows={}", siteId,
+                                        siteId, key, dsLotteryModel.getStartId(), dsLotteryModel.getEndId(), rows);
+                                String result = mdtJDDao.createAuditAndReport(siteId, dsLotteryModel.getStartId(), dsLotteryModel.getEndId());
+                                log.info("MDT-JD经典彩站点siteId={}，执行审计报表存储过程，CALL mdt_jd_audit_report({},{},{},@result);SELECT @result;返回结果result={}", siteId,
+                                        siteId, dsLotteryModel.getStartId(), dsLotteryModel.getEndId(), result);
                             } else {
-                                log.error("消息信号ds_pull_receiver不正确，仅支持DS-GF-0000或者DS-JD-0000");
+                                log.error("消息信号ds_pull_receiver不正确，仅支持DS-GF-0000或者DS-JD-0000或者MDT-JD-0000");
                             }
                         }
                     } catch (Exception e) {

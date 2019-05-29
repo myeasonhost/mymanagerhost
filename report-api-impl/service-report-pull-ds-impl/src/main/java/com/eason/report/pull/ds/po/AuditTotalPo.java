@@ -19,6 +19,12 @@ import java.util.Objects;
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
+        @NamedStoredProcedureQuery(name = "mdt_jd_audit_report", procedureName = "mdt_jd_audit_report",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
                         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)})})
 public class AuditTotalPo {
     private long id;

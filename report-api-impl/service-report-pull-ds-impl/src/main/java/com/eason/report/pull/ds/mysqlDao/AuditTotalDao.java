@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AuditTotalDao extends JpaRepository<AuditTotalPo, String>{
+public interface AuditTotalDao extends JpaRepository<AuditTotalPo, Long>{
 
 
 }
