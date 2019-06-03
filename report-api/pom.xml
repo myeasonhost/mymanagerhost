@@ -9,8 +9,7 @@
     <version>2019-5-10</version>
     <packaging>pom</packaging>
     <modules>
-        <module>service-report-pull-ag</module>
-        <module>service-report-pull-h8</module>
+        <module>service-report-pull-core</module>
     </modules>
 
     <properties>
