@@ -1,4 +1,4 @@
-package com.eason.report.pull.ds.po;
+package com.eason.report.pull.ds.mysqlDao.po;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -25,6 +25,12 @@ import java.util.Objects;
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
+        @NamedStoredProcedureQuery(name = "ds_mg_audit_report", procedureName = "ds_mg_audit_report",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = String.class),
                         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)})})
 public class AuditTotalPo {
     private long id;

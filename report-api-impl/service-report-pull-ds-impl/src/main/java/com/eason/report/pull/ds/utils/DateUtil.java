@@ -35,7 +35,7 @@ public class DateUtil {
 	 * @throws RuntimeException
 	 *             异常：非法日期格式
 	 */
-	static SimpleDateFormat getDateFormat(String pattern)
+	public static SimpleDateFormat getDateFormat(String pattern)
 			throws RuntimeException {
 		SimpleDateFormat dateFormat = threadLocal.get();
 		if (dateFormat == null) {

@@ -2,17 +2,16 @@ package com.eason.report.pull.ds.manager;
 
 
 import com.eason.report.pull.ds.config.GFAppInfoConfig;
-import com.eason.report.pull.ds.config.JDAppInfoConfig;
 import com.eason.report.pull.ds.exception.DsException;
 import com.eason.report.pull.ds.mysqlDao.DtGFDao;
-import com.eason.report.pull.ds.po.DtGuangfangLotteryPo;
+import com.eason.report.pull.ds.mysqlDao.po.DtGuangfangLotteryPo;
 import com.eason.report.pull.ds.utils.DateUtil;
+import com.eason.report.pull.h8.mongo.mgo.DtGFMgo;
+import com.eason.report.pull.h8.mongo.po.DtGFMgoPo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +19,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -34,6 +31,8 @@ public class DtGFMgr {
   private GFAppInfoConfig gfAppInfoConfig;
   @Autowired
   private DtGFDao dtGFDao;
+  @Autowired
+  private DtGFMgo dtGFMgo;
   @Resource
   private EntityManager entityManager;
 
@@ -60,11 +59,11 @@ public class DtGFMgr {
       if (siteId == null || StringUtils.isEmpty(siteId.toString())) {
         throw new DsException("DS-GF读取缓存的配置，siteId为空，请正确配置");
       }
-      Map<String,String> map=new HashMap<>();
+      Map<Integer,String> map=new HashMap<>();
       String[] ary=siteId.toString().split(","); //TYZ_1020,MHD_1040,MAA_1070,MAB_1080
       for (String s:ary){ //TYZ_1020
         String[] i=s.split("_");
-        map.put(user+"_"+i[0],i[1]);
+        map.put(Integer.parseInt(i[1]),user+"_"+i[0]);
       }
       gfAppInfoConfig.setPullUrl(pullUrl.toString());
       gfAppInfoConfig.setUser(user.toString());
@@ -81,9 +80,9 @@ public class DtGFMgr {
   public DtGuangfangLotteryPo extAttr(DtGuangfangLotteryPo guanfangEntity,GFAppInfoConfig GFAppInfoConfig) {
     guanfangEntity.setReportTime(DateUtil.covertTime(guanfangEntity.getDrawTime()));
     guanfangEntity.setBetTime(DateUtil.covertTime(guanfangEntity.getAddTime()));
-    for(Map.Entry<String,String> site:GFAppInfoConfig.getSiteId().entrySet()){
-      if(guanfangEntity.getUserName().startsWith(site.getKey())){
-        guanfangEntity.setSiteid(Integer.parseInt(site.getValue()));
+    for(Map.Entry<Integer,String> site:GFAppInfoConfig.getSiteId().entrySet()){
+      if(guanfangEntity.getUserName().startsWith(site.getValue())){
+        guanfangEntity.setSiteid(site.getKey());
       }
     }
     /**
@@ -124,6 +123,9 @@ public class DtGFMgr {
       this.dtGFDao.save(guanfangEntityPo);
     }
 
+    DtGFMgoPo dtGFMgoPo=new DtGFMgoPo();
+    BeanUtils.copyProperties(guanfangEntityPo,dtGFMgoPo);
+    this.dtGFMgo.save(dtGFMgoPo);
   }
 
 

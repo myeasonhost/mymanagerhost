@@ -1,13 +1,11 @@
 package com.eason.report.pull.ds.manager;
 
 
-import com.eason.report.pull.ds.config.GFAppInfoConfig;
 import com.eason.report.pull.ds.config.JDAppInfoConfig;
 import com.eason.report.pull.ds.exception.DsException;
-import com.eason.report.pull.ds.mysqlDao.DtGFDao;
 import com.eason.report.pull.ds.mysqlDao.DtJDDao;
-import com.eason.report.pull.ds.po.DtGuangfangLotteryPo;
-import com.eason.report.pull.ds.po.DtJingdianLotteryPo;
+import com.eason.report.pull.ds.mysqlDao.po.DtGuangfangLotteryPo;
+import com.eason.report.pull.ds.mysqlDao.po.DtJingdianLotteryPo;
 import com.eason.report.pull.ds.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -19,8 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,11 +57,11 @@ public class DtJDMgr {
       if (siteId == null || StringUtils.isEmpty(siteId.toString())) {
         throw new DsException("DS-JD读取缓存的配置，siteId为空，请正确配置");
       }
-      Map<String,String> map=new HashMap<>();
+      Map<Integer,String> map=new HashMap<>();
       String[] ary=siteId.toString().split(","); //TYZ_1020,MHD_1040,MAA_1070,MAB_1080
       for (String s:ary){ //TYZ_1020
         String[] i=s.split("_");
-        map.put(user+"_"+i[0],i[1]);
+        map.put(Integer.parseInt(i[1]),user+"_"+i[0]);
       }
       jdAppInfoConfig.setPullUrl(pullUrl.toString());
       jdAppInfoConfig.setUser(user.toString());
@@ -82,9 +78,9 @@ public class DtJDMgr {
   public DtJingdianLotteryPo extAttr(DtJingdianLotteryPo jingdianEntity,JDAppInfoConfig jdAppInfoConfig) {
     jingdianEntity.setBetTime(DateUtil.covertTime(jingdianEntity.getTimeAdd()));
     jingdianEntity.setReportTime(DateUtil.covertTime(jingdianEntity.getTimeDraw()));
-    for(Map.Entry<String,String> site:jdAppInfoConfig.getSiteId().entrySet()){
-      if(jingdianEntity.getUser().startsWith(site.getKey())){
-        jingdianEntity.setSiteid(Integer.parseInt(site.getValue()));
+    for(Map.Entry<Integer,String> site:jdAppInfoConfig.getSiteId().entrySet()){
+      if(jingdianEntity.getUser().startsWith(site.getValue())){
+        jingdianEntity.setSiteid(site.getKey());
       }
     }
 

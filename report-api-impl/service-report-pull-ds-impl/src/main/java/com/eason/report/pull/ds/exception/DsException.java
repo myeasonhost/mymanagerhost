@@ -1,6 +1,8 @@
 package com.eason.report.pull.ds.exception;
 
-public class DsException extends Exception{
+import com.eason.report.pull.h8.exception.ServiceException;
+
+public class DsException extends ServiceException {
     public DsException() {
         super();
     }

@@ -17,5 +17,5 @@ public class JDAppInfoConfig implements Serializable {
     private Integer level;
     private String pullUrl;
     private Integer length;
-    private Map<String,String> siteId;
+    private Map<Integer,String> siteId;
 }

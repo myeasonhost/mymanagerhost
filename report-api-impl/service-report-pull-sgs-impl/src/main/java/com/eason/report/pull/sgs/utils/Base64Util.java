@@ -13,7 +13,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class Base64Util {
 
-    private final static Log logger = LogFactory.getLog(com.eason.report.pull.ag.utils.Base64Util.class);
+    private final static Log logger = LogFactory.getLog(Base64Util.class);
 
     private static final char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
             .toCharArray();

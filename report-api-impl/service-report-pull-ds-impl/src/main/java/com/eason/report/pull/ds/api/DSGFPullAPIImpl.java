@@ -2,31 +2,32 @@ package com.eason.report.pull.ds.api;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.eason.report.pull.ds.base.BaseAPI;
 import com.eason.report.pull.ds.config.GFAppInfoConfig;
 import com.eason.report.pull.ds.exception.DsException;
-import com.eason.report.pull.ds.listener.MQServiceListener;
 import com.eason.report.pull.ds.manager.DtGFMgr;
-import com.eason.report.pull.ds.model.DsLotteryModel;
-import com.eason.report.pull.ds.model.MsgModel;
 import com.eason.report.pull.ds.mysqlDao.DtGFDao;
-import com.eason.report.pull.ds.po.DtGuangfangLotteryPo;
+import com.eason.report.pull.ds.mysqlDao.po.DtGuangfangLotteryPo;
+import com.eason.report.pull.h8.annotation.MQProducer;
+import com.eason.report.pull.h8.api.PullAPIService;
+import com.eason.report.pull.h8.exception.ServiceException;
+import com.eason.report.pull.h8.model.NumModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.concurrent.CountDownLatch;
 
 
 /**
  * @author EASON LI
  */
-@Service
+@MQProducer
 @Slf4j
-public class GFPullAPIImpl extends BaseAPI {
+public class DSGFPullAPIImpl extends PullAPIService {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -39,9 +40,6 @@ public class GFPullAPIImpl extends BaseAPI {
 
     @Autowired
     private DtGFDao dtGFDao;
-
-    @Autowired
-    private MQServiceListener mqServiceListener;
 
     /**
      * 官方彩拉取
@@ -88,16 +86,28 @@ public class GFPullAPIImpl extends BaseAPI {
                 }
                 if (flag){
                     Long endId=dtGFDao.getMaxId();
-                    DsLotteryModel dsLotteryModel=DsLotteryModel.builder()
+                    NumModel model= NumModel.builder()
                             .startId(startId)
                             .endId(endId)
                             .siteId(GFAppInfoConfig.getSiteId()).build();
-                    mqServiceListener.sendReceiverMsg(
-                            MsgModel.builder()
-                                    .code("DS-GF-0000")
-                                    .message("当前拉取size="+arraySize+"条已完成，开始分发")
-                                    .object(dsLotteryModel).build());
-                    log.info("DS-GF-0000当前startId={}——endId={}拉取size="+arraySize+"条已完成，开始分发",dsLotteryModel.getStartId(),dsLotteryModel.getEndId());
+                    CountDownLatch cdl = new CountDownLatch(GFAppInfoConfig.getSiteId().size());
+                    GFAppInfoConfig.getSiteId().forEach((key,value)-> {
+                        executorService.submit(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    if (!executorService.isShutdown()) {
+                                        notifySite(key, arraySize,model);
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                } finally {
+                                    cdl.countDown();
+                                }
+                            }
+                        });
+                    });
+
                 }
             } else if (object.getString("status").equals("10000") && object.getJSONArray("message").size() == 0) { // 没有拉取到注单
                 log.info("DS-GF官方彩网站={} 拉取成功,但注单数量为0,休眠1分钟,拉取结果={}", GFAppInfoConfig.getUser(), object.toJSONString());
@@ -117,4 +127,8 @@ public class GFPullAPIImpl extends BaseAPI {
 
     }
 
+    @Override
+    protected void getPullBet(String maxId, Integer length) throws ServiceException {
+
+    }
 }

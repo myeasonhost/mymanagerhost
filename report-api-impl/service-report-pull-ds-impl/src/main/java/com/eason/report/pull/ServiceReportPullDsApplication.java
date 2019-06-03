@@ -1,4 +1,4 @@
-package com.eason.report.pull.ds;
+package com.eason.report.pull;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

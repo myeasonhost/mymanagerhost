@@ -1,4 +1,4 @@
-package com.eason.report.pull.ds.po;
+package com.eason.report.pull.ds.mysqlDao.po;
 
 import javax.persistence.*;
 import java.io.Serializable;
