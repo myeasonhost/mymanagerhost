@@ -9,10 +9,10 @@
     </parent>
 
     <groupId>com.eason.report</groupId>
-    <artifactId>service-report-pull-mg-impl</artifactId>
+    <artifactId>service-report-pull-data</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>service-report-pull-mg-impl</name>
-    <description>Demo project for Spring Boot</description>
+    <name>service-report-pull-data</name>
+    <description>报表站点数据接收</description>
 
     <dependencies>
         <dependency>
@@ -52,7 +52,7 @@
 
         <dependency>
             <groupId>com.eason.report</groupId>
-            <artifactId>service-report-pull-h8</artifactId>
+            <artifactId>service-report-pull-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
