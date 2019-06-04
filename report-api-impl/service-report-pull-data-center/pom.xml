@@ -12,7 +12,7 @@
     <artifactId>service-report-pull-data-center</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>service-report-pull-data-center</name>
-    <description>报表中央信息库</description>
+    <description>中央信息库</description>
 
     <dependencies>
         <dependency>

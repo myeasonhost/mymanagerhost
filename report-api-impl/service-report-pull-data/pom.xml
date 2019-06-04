@@ -12,7 +12,7 @@
     <artifactId>service-report-pull-data</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>service-report-pull-data</name>
-    <description>报表站点数据接收</description>
+    <description>单元库统计接收站</description>
 
     <dependencies>
         <dependency>
