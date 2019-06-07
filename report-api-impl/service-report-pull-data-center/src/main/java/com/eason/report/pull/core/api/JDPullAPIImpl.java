@@ -8,7 +8,7 @@
 //import com.eason.report.pull.core.manager.DtJDMgr;
 //import com.eason.report.pull.core.mysqlDao.DtJDDao;
 //import com.eason.report.pull.core.mysqlDao.po.DtJingdianLotteryPo;
-//import com.eason.report.pull.core.api.PullAPIService;
+//import com.eason.report.pull.core.service.PullAPIService;
 //import com.eason.report.pull.core.model.DateModel;
 //import com.eason.report.pull.core.model.MsgModel;
 //import com.eason.report.pull.core.mq.MQServiceProducer;

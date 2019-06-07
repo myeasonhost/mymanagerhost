@@ -19,7 +19,9 @@
 
     <modules>
         <module>service-report-pull-data-center</module>
-        <module>service-report-pull-data-1020</module>
+        <module>service-report-pull-data</module>
+        <module>service-report-pull-scheduler</module>
+
     </modules>
 
     <!--SpringCloud的配置-->

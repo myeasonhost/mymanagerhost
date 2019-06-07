@@ -3,15 +3,15 @@ package com.eason.report.pull.core.manager;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.eason.report.pull.core.base.BaseAPI;
 import com.eason.report.pull.core.config.MGAppInfoConfig;
 import com.eason.report.pull.core.exception.MgException;
 import com.eason.report.pull.core.exception.TimeOutException;
+import com.eason.report.pull.core.mongo.mgo.DsMGMgo;
+import com.eason.report.pull.core.mongo.po.DsMGMgoPo;
 import com.eason.report.pull.core.mysqlDao.DsMGDao;
 import com.eason.report.pull.core.mysqlDao.po.DsMgGamePo;
 import com.eason.report.pull.core.utils.DateUtil;
-import com.eason.report.pull.core.base.BaseAPI;
-import com.eason.report.pull.core.mongo.mgo.DsMGMgo;
-import com.eason.report.pull.core.mongo.po.DsMGMgoPo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.BeanUtils;
@@ -228,7 +228,6 @@ public class DsMGMgr extends BaseAPI {
 
     DsMGMgoPo dtGFMgoPo=new DsMGMgoPo();
     BeanUtils.copyProperties(vo,dtGFMgoPo);
-    dtGFMgoPo.setLiveId();
     this.dsMGMgo.save(dtGFMgoPo);
 
   }

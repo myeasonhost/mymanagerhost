@@ -1,6 +1,6 @@
 package com.eason.report.pull.core.mq;
 
-import com.eason.report.pull.core.api.PushAPIService;
+import com.eason.report.pull.core.api.PushAPI;
 import com.eason.report.pull.core.base.BaseAPI;
 import com.eason.report.pull.core.model.DateModel;
 import com.eason.report.pull.core.model.Model;
@@ -23,7 +23,7 @@ public class MQServiceConsumer extends BaseAPI {
         String prex=null;
         try {
             type=msg.getType();
-            PushAPIService pushAPIService=(PushAPIService) consumerMap.get(type+xxxPushAPIImpl);
+            PushAPI pushAPIService=(PushAPI) consumerMap.get(type+xxxPushAPIImpl);
             if (StringUtils.isEmpty(type) && pushAPIService!=null) {
                 log.error("站点siteId={},pushAPIService={}消息接收任务不能执行，请检查类名规则",siteId,pushAPIService);
                 return;

@@ -1,13 +1,15 @@
 package com.eason.report.pull.core.mysqlDao.config;
 
+import com.eason.report.pull.core.base.BaseConfig;
+
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "dt_lottery_config")
-public class DtLotteryConfigPo implements Serializable {
+public class DtLotteryConfigPo extends BaseConfig {
     private int id;
+    private String code;
     private Integer liveId;
     private String liveName;
     private String gameKind;
@@ -20,6 +22,8 @@ public class DtLotteryConfigPo implements Serializable {
     private Integer state;
     private String info;
 
+
+
     @Id
     @Column(name = "id")
     public int getId() {
@@ -28,6 +32,16 @@ public class DtLotteryConfigPo implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "code")
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Basic
@@ -162,5 +176,24 @@ public class DtLotteryConfigPo implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, liveId, liveName, gameKind, gameKindName, user, siteId, level, recordUrl, length, state, info);
+    }
+
+    @Override
+    public String toString() {
+        return "DtLotteryConfigPo{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", liveId=" + liveId +
+                ", liveName='" + liveName + '\'' +
+                ", gameKind='" + gameKind + '\'' +
+                ", gameKindName='" + gameKindName + '\'' +
+                ", user='" + user + '\'' +
+                ", siteId='" + siteId + '\'' +
+                ", level=" + level +
+                ", recordUrl='" + recordUrl + '\'' +
+                ", length=" + length +
+                ", state=" + state +
+                ", info='" + info + '\'' +
+                '}';
     }
 }

@@ -3,16 +3,16 @@ package com.eason.report.pull.core.manager;
 
 import com.eason.report.pull.core.config.GFAppInfoConfig;
 import com.eason.report.pull.core.exception.DsException;
-import com.eason.report.pull.core.mysqlDao.DtGFDao;
-import com.eason.report.pull.core.mysqlDao.po.DtGuangfangLotteryPo;
-import com.eason.report.pull.core.utils.DateUtil;
 import com.eason.report.pull.core.mongo.mgo.DtGFMgo;
 import com.eason.report.pull.core.mongo.po.DtGFMgoPo;
+import com.eason.report.pull.core.mysqlDao.DtGFDao;
+import com.eason.report.pull.core.mysqlDao.DtLotteryConfigDao;
+import com.eason.report.pull.core.mysqlDao.config.DtLotteryConfigPo;
+import com.eason.report.pull.core.mysqlDao.po.DtGuangfangLotteryPo;
+import com.eason.report.pull.core.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,67 +20,43 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
 @Slf4j
 public class DtGFMgr {
   @Autowired
-  private StringRedisTemplate stringRedisTemplate10;
-  @Autowired
   private GFAppInfoConfig gfAppInfoConfig;
   @Autowired
   private DtGFDao dtGFDao;
   @Autowired
   private DtGFMgo dtGFMgo;
+  @Autowired
+  private DtLotteryConfigDao dtLotteryConfigDao;
   @Resource
   private EntityManager entityManager;
 
-  public GFAppInfoConfig loadConfig() throws Exception{
-    try {
-      Object pullUrl = stringRedisTemplate10.boundHashOps("ds-gf").get("pullUrl");
-      Object user = stringRedisTemplate10.boundHashOps("ds-gf").get("user");
-      Object level = stringRedisTemplate10.boundHashOps("ds-gf").get("level");
-      Object length = stringRedisTemplate10.boundHashOps("ds-gf").get("length");
-      Object siteId = stringRedisTemplate10.boundHashOps("ds-gf").get("siteId");
-
-      if (pullUrl == null || StringUtils.isEmpty(pullUrl.toString())) {
-        throw new DsException("DS-GF读取缓存的配置，pullUrl为空，请正确配置");
-      }
-      if (user == null || StringUtils.isEmpty(user.toString())) {
-        throw new DsException("DS-GF读取缓存的配置，user为空，请正确配置");
-      }
-      if (level == null || StringUtils.isEmpty(level.toString())) {
-        throw new DsException("DS-GF读取缓存的配置，level为空，请正确配置");
-      }
-      if (length == null || StringUtils.isEmpty(length.toString())) {
-        throw new DsException("DS-GF读取缓存的配置，length为空，请正确配置");
-      }
-      if (siteId == null || StringUtils.isEmpty(siteId.toString())) {
-        throw new DsException("DS-GF读取缓存的配置，siteId为空，请正确配置");
-      }
+  public List<DtLotteryConfigPo> loadConfig(){
+    List<DtLotteryConfigPo> dfConfigList=dtLotteryConfigDao.findDsDfConfig();
+    dfConfigList.forEach(po -> {
       Map<Integer,String> map=new HashMap<>();
-      String[] ary=siteId.toString().split(","); //TYZ_1020,MHD_1040,MAA_1070,MAB_1080
+      String[] ary=po.getSiteId().split(","); //TYZ_1020,MHD_1040,MAA_1070,MAB_1080
       for (String s:ary){ //TYZ_1020
         String[] i=s.split("_");
-        map.put(Integer.parseInt(i[1]),user+"_"+i[0]);
+        map.put(Integer.parseInt(i[1]),po.getUser()+"_"+i[0]);
       }
-      gfAppInfoConfig.setPullUrl(pullUrl.toString());
-      gfAppInfoConfig.setUser(user.toString());
-      gfAppInfoConfig.setLevel(Integer.parseInt(level.toString()));
-      gfAppInfoConfig.setLength(Integer.parseInt(length.toString()));
-      gfAppInfoConfig.setSiteId(map);
-      log.info("DS-GF读取缓存的配置：gfAppInfoConfig="+gfAppInfoConfig);
-      return gfAppInfoConfig;
-    }catch (Exception e){
-      throw new DsException(e.getMessage());
-    }
+      po.setSiteMap(map);
+    });
+    gfAppInfoConfig.setGfListConfig(dfConfigList);
+    log.info("DS-GF读取缓存的配置：dfConfigList="+dfConfigList);
+    return dfConfigList;
   }
 
-  public DtGuangfangLotteryPo extAttr(DtGuangfangLotteryPo guanfangEntity,GFAppInfoConfig GFAppInfoConfig) {
+  public DtGuangfangLotteryPo extAttr(DtGuangfangLotteryPo guanfangEntity,DtLotteryConfigPo configPo) {
     guanfangEntity.setReportTime(DateUtil.covertTime(guanfangEntity.getDrawTime()));
     guanfangEntity.setBetTime(DateUtil.covertTime(guanfangEntity.getAddTime()));
-    for(Map.Entry<Integer,String> site:GFAppInfoConfig.getSiteId().entrySet()){
+    for(Map.Entry<Integer,String> site:configPo.getSiteMap().entrySet()){
       if(guanfangEntity.getUserName().startsWith(site.getValue())){
         guanfangEntity.setSiteid(site.getKey());
       }
@@ -110,16 +86,16 @@ public class DtGFMgr {
   }
 
   @Transactional
-  public void saveAndUpdate(DtGuangfangLotteryPo guanfangEntityPo,GFAppInfoConfig GFAppInfoConfig){
+  public void saveAndUpdate(DtGuangfangLotteryPo guanfangEntityPo,DtLotteryConfigPo configPo){
     DtGuangfangLotteryPo po=dtGFDao.findByNid(guanfangEntityPo.getNid());
     if (po!=null){
-      guanfangEntityPo=this.extAttr(guanfangEntityPo,GFAppInfoConfig);
+      guanfangEntityPo=this.extAttr(guanfangEntityPo,configPo);
       Long tid=po.getTid();
       BeanUtils.copyProperties(guanfangEntityPo,po);
       po.setTid(tid);
       entityManager.merge(po);
     }else{
-      guanfangEntityPo=this.extAttr(guanfangEntityPo,GFAppInfoConfig);
+      guanfangEntityPo=this.extAttr(guanfangEntityPo,configPo);
       this.dtGFDao.save(guanfangEntityPo);
     }
 

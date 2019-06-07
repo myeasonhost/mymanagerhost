@@ -1,6 +1,6 @@
 package com.eason.report.pull.core.mq;
 
-import com.eason.report.pull.core.api.PullAPIService;
+import com.eason.report.pull.core.api.PullAPI;
 import com.eason.report.pull.core.base.BaseAPI;
 import com.eason.report.pull.core.model.DateModel;
 import com.eason.report.pull.core.model.Model;
@@ -22,7 +22,7 @@ public class MQServiceProducer extends BaseAPI {
     protected void notifySite(Integer siteId,Integer size,Model model){
         String className=this.getClass().getSimpleName();
         String type=className.substring(0, className.indexOf(xxxPullAPIImpl));
-        PullAPIService pullAPIService=(PullAPIService)producerMap.get(className);
+        PullAPI pullAPIService=(PullAPI)producerMap.get(className);
         if(className!=null && pullAPIService!=null){
             if(StringUtils.isEmpty(type)){
                 log.error("站点siteId={},className={}消息发送任务不能执行，请检查类名规则",siteId,className);
