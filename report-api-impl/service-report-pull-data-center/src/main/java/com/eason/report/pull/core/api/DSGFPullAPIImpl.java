@@ -8,7 +8,6 @@ import com.eason.report.pull.core.base.BaseConfig;
 import com.eason.report.pull.core.config.GFAppInfoConfig;
 import com.eason.report.pull.core.exception.DsException;
 import com.eason.report.pull.core.manager.DtGFMgr;
-import com.eason.report.pull.core.model.Model;
 import com.eason.report.pull.core.model.NumModel;
 import com.eason.report.pull.core.model.ResponseModel;
 import com.eason.report.pull.core.mq.MQServiceProducer;
