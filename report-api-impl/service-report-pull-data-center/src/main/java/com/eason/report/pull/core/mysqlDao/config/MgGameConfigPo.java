@@ -1,12 +1,13 @@
 package com.eason.report.pull.core.mysqlDao.config;
 
+import com.eason.report.pull.core.base.BaseConfig;
+
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "ds_mg_game_config")
-public class DsMgGameConfigPo implements Serializable {
+public class MgGameConfigPo extends BaseConfig {
     private int id;
     private Integer agentId;
     private Integer liveId;
@@ -166,7 +167,7 @@ public class DsMgGameConfigPo implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DsMgGameConfigPo that = (DsMgGameConfigPo) o;
+        MgGameConfigPo that = (MgGameConfigPo) o;
         return id == that.id &&
                 Objects.equals(agentId, that.agentId) &&
                 Objects.equals(liveId, that.liveId) &&

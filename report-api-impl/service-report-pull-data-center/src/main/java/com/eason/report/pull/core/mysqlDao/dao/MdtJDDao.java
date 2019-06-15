@@ -1,4 +1,4 @@
-package com.eason.report.pull.core.mysqlDao;
+package com.eason.report.pull.core.mysqlDao.dao;
 
 
 import com.eason.report.pull.core.mysqlDao.po.MdtJingdianLotteryPo;

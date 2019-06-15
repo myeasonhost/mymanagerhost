@@ -1,7 +1,7 @@
 package com.eason.report.pull.core.mongo.mgo;
 
 
-import com.eason.report.pull.core.mongo.po.MGMgoPo;
+import com.eason.report.pull.core.mongo.po.DtJDMgoPo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 
 @Repository
-public interface DsMGMgo extends MongoRepository<MGMgoPo, BigInteger>, PagingAndSortingRepository<MGMgoPo, BigInteger>{
+public interface DtJDMgo extends MongoRepository<DtJDMgoPo, BigInteger>, PagingAndSortingRepository<DtJDMgoPo, BigInteger>{
 ////    @Query("{'userId':{$in:?#{[0]}}}")
 ////    Page<AgModel> findByUserIds(List<Integer> userIds, Pageable pageable);
 ////    @Query("{'roomType': {$in:?#{[0]}}}")
@@ -21,7 +21,6 @@ public interface DsMGMgo extends MongoRepository<MGMgoPo, BigInteger>, PagingAnd
 ////    AgModel findByRoomId(Integer roomId);
 ////    @Query("{'zbId': ?#{[0]}}")
 ////    AgModel findByZbId(Integer zbId);
-        @Query("{'siteId':?#{[0]},'transTime':{'$gte':?#{[1]},'$lte':?#{[2]}}}")
-        MGMgoPo findAllBySiteId(Integer siteId, String startTime, String endTime);
-
+        @Query("{'siteId':?#{[0]},'id':{'$gte':?#{[1]},'$lte':?#{[2]}}}")
+        DtJDMgoPo findAllBySiteId(Integer siteId, Long startId, Long endId);
 }

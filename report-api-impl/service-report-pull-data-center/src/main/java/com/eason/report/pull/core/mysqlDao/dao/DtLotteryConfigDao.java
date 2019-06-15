@@ -1,4 +1,4 @@
-package com.eason.report.pull.core.mysqlDao;
+package com.eason.report.pull.core.mysqlDao.dao;
 
 
 import com.eason.report.pull.core.mysqlDao.config.DtLotteryConfigPo;
@@ -14,7 +14,7 @@ public interface DtLotteryConfigDao extends JpaRepository<DtLotteryConfigPo, Int
     @Query(value = "SELECT * FROM dt_lottery_config t WHERE t.code='DS-GF' AND t.state=50",nativeQuery = true)
     List<DtLotteryConfigPo> findDsDfConfig();
 
-    @Query(value = "SELECT * FROM dt_lottery_config t WHERE t.code='JD-GF' AND t.state=50",nativeQuery = true)
+    @Query(value = "SELECT * FROM dt_lottery_config t WHERE t.code='DS-JD' AND t.state=50",nativeQuery = true)
     List<DtLotteryConfigPo> findJdConfig();
 
 }

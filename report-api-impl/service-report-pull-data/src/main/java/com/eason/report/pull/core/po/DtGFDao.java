@@ -1,7 +1,6 @@
-package com.eason.report.pull.core.mysqlDao;
+package com.eason.report.pull.core.po;
 
 
-import com.eason.report.pull.core.mysqlDao.po.DtGuangfangLotteryPo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
@@ -16,7 +15,7 @@ public interface DtGFDao extends JpaRepository<DtGuangfangLotteryPo, Long>{
   DtGuangfangLotteryPo findByNid(String nid);
 
   @Procedure(procedureName = "ds_gf_site_pull")
-  Integer sitePull(Integer siteId,String prex,Long startId,Long endId);
+  Integer sitePull(Integer siteId, String prex, Long startId, Long endId);
 
   @Procedure(procedureName = "ds_gf_audit_report")
   String createAuditAndReport(Integer siteId, Long startId, Long endId);

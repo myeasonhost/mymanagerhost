@@ -1,4 +1,4 @@
-package com.eason.report.pull.core.mysqlDao;
+package com.eason.report.pull.core.mysqlDao.dao;
 
 
 import com.eason.report.pull.core.mysqlDao.po.DsMgGamePo;
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Repository
 public interface DsMGDao extends JpaRepository<DsMgGamePo, String>{
 
-  @Query(value = "select COALESCE(max(transTime),now()) from ds_mg_game",nativeQuery = true)
+  @Query(value = "select COALESCE(max(transTime),now()) from ds_mg_game ",nativeQuery = true)
   Timestamp getMaxId();
 
   DsMgGamePo findByColId(String colid);

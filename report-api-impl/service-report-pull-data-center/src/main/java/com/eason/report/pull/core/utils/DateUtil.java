@@ -14,8 +14,28 @@ public class DateUtil {
 	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	private static String defaultDatePattern = "yyyy-MM-dd ";
-	
+
+	public static String covertStr(Date date) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			return sdf.format(date);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public static Timestamp covertTime(String time) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			return new Timestamp(sdf.parse(time).getTime());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static Timestamp covertGMTTime(String time) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 			sdf.setTimeZone(TimeZone.getTimeZone("GMT-4"));

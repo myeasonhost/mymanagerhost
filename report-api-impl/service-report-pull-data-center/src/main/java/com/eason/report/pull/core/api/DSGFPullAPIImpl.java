@@ -5,15 +5,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.eason.report.pull.core.annotation.MQProducer;
 import com.eason.report.pull.core.base.BaseAPI;
 import com.eason.report.pull.core.base.BaseConfig;
-import com.eason.report.pull.core.config.GFAppInfoConfig;
 import com.eason.report.pull.core.exception.DsException;
 import com.eason.report.pull.core.manager.DtGFMgr;
 import com.eason.report.pull.core.model.NumModel;
 import com.eason.report.pull.core.model.ResponseModel;
+import com.eason.report.pull.core.mongo.po.DtGFMgoPo;
 import com.eason.report.pull.core.mq.MQServiceProducer;
-import com.eason.report.pull.core.mysqlDao.DtGFDao;
 import com.eason.report.pull.core.mysqlDao.config.DtLotteryConfigPo;
-import com.eason.report.pull.core.mysqlDao.po.DtGuangfangLotteryPo;
+import com.eason.report.pull.core.mysqlDao.dao.DsGameTypeDao;
+import com.eason.report.pull.core.mysqlDao.vo.DsGameTypeVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -47,18 +47,16 @@ public class DSGFPullAPIImpl extends MQServiceProducer implements PullAPI{
     private DtGFMgr dtDFMgr;
 
     @Autowired
-    private DtGFDao dtGFDao;
-
-    @Autowired
-    private GFAppInfoConfig appInfoConfig;
+    private DsGameTypeDao dsGameTypeDao;
 
     @RequestMapping(value = "/getPullBet",method = RequestMethod.POST)
     public List<ResponseModel> getPullBet() throws DsException {
         try{
-            Long maxId=dtGFDao.getMaxId();
-            CountDownLatch cdl = new CountDownLatch(appInfoConfig.getGfListConfig().size());
+            Long maxId=dtDFMgr.getMaxId()+1;
+            List<DtLotteryConfigPo> lotteryConfigPoList=dtDFMgr.loadConfig();
+            CountDownLatch cdl = new CountDownLatch(lotteryConfigPoList.size());
             List<ResponseModel> list=new ArrayList<>();
-            appInfoConfig.getGfListConfig().forEach(configPo -> {
+            lotteryConfigPoList.forEach(configPo -> {
                 Integer length=configPo.getLength();
                 if (maxId ==0 || length<=0){
                     log.error("DS-GF官方彩从startId="+maxId+"开始准备拉取,拉取配置可能有误，长度length="+length);
@@ -102,9 +100,10 @@ public class DSGFPullAPIImpl extends MQServiceProducer implements PullAPI{
         try {
             boolean flag=false;
             Long startId = maxId;
-            log.info("DS-GF官方彩从startId="+startId+"开始准备拉取length="+length+",拉取配置appInfoConfig={}", appInfoConfig);
-
             DtLotteryConfigPo configPo=(DtLotteryConfigPo) config;
+            log.info("DS-GF官方彩从startId="+startId+"开始准备拉取length="+length+",拉取配置configPo={}", configPo);
+            List<DsGameTypeVo> dsGameTypePoList=dsGameTypeDao.findByGameTypeList(configPo.getGameKind());
+
             JSONObject request = new JSONObject();
             request.put("num", length);
             request.put("username", configPo.getUser());
@@ -123,12 +122,12 @@ public class DSGFPullAPIImpl extends MQServiceProducer implements PullAPI{
                 int arraySize = array.size();
                 log.info("DS-GF官方彩网站={},拉取到注单,数量={}", configPo.getUser(), arraySize);
                 for (int i = 0; i < array.size(); i++) {
-                    DtGuangfangLotteryPo guanfangEntityPo = array.getObject(i, DtGuangfangLotteryPo.class);
-                    dtDFMgr.saveAndUpdate(guanfangEntityPo,configPo);
+                    DtGFMgoPo po = array.getObject(i, DtGFMgoPo.class);
+                    dtDFMgr.saveAndUpdate(po,configPo,dsGameTypePoList);
                     flag=true;
                 }
                 if (flag){
-                    Long endId=dtGFDao.getMaxId();
+                    Long endId=dtDFMgr.getMaxId();
                     NumModel model= NumModel.builder()
                             .startId(startId)
                             .endId(endId)

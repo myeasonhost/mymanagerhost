@@ -1,12 +1,14 @@
 package com.eason.report.pull.core.mysqlDao.config;
 
+import com.eason.report.pull.core.base.BaseConfig;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "mdt_lottery_config")
-public class MdtLotteryConfigPo implements Serializable {
+public class MdtLotteryConfigPo extends BaseConfig {
     private int id;
     private Integer liveId;
     private String liveName;

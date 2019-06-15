@@ -1,83 +1,58 @@
 package com.eason.report.pull.core.manager;
 
 
-import com.eason.report.pull.core.config.JDAppInfoConfig;
-import com.eason.report.pull.core.exception.DsException;
-import com.eason.report.pull.core.mysqlDao.DtJDDao;
+import com.eason.report.pull.core.mongo.mgo.DtJDMgo;
+import com.eason.report.pull.core.mongo.po.DtJDMgoPo;
+import com.eason.report.pull.core.mysqlDao.config.DtLotteryConfigPo;
+import com.eason.report.pull.core.mysqlDao.dao.DtJDDao;
+import com.eason.report.pull.core.mysqlDao.dao.DtLotteryConfigDao;
+import com.eason.report.pull.core.mysqlDao.po.DsGameTypePo;
 import com.eason.report.pull.core.mysqlDao.po.DtJingdianLotteryPo;
+import com.eason.report.pull.core.mysqlDao.vo.DsGameTypeVo;
 import com.eason.report.pull.core.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
 @Slf4j
 public class DtJDMgr {
-
-  @Autowired
-  private StringRedisTemplate stringRedisTemplate10;
-  @Autowired
-  private JDAppInfoConfig jdAppInfoConfig;
   @Autowired
   private DtJDDao dtJDDao;
+  @Autowired
+  private DtJDMgo dtJDMgo;
+  @Autowired
+  private DtLotteryConfigDao dtLotteryConfigDao;
   @Resource
   private EntityManager entityManager;
 
-  public JDAppInfoConfig loadConfig() throws Exception{
-    try {
-      Object pullUrl = stringRedisTemplate10.boundHashOps("ds-jd").get("pullUrl");
-      Object user = stringRedisTemplate10.boundHashOps("ds-jd").get("user");
-      Object level = stringRedisTemplate10.boundHashOps("ds-jd").get("level");
-      Object length = stringRedisTemplate10.boundHashOps("ds-jd").get("length");
-      Object siteId = stringRedisTemplate10.boundHashOps("ds-jd").get("siteId");
-
-
-      if (pullUrl == null|| StringUtils.isEmpty(pullUrl.toString())) {
-        throw new DsException("DS-JD读取缓存的配置，pullUrl为空，请正确配置");
-      }
-      if (user == null|| StringUtils.isEmpty(user.toString())) {
-        throw new DsException("DS-JD读取缓存的配置，user为空，请正确配置");
-      }
-      if (level == null|| StringUtils.isEmpty(level.toString())) {
-        throw new DsException("DS-JD读取缓存的配置，level为空，请正确配置");
-      }
-      if (length == null|| StringUtils.isEmpty(length.toString())) {
-        throw new DsException("DS-JD读取缓存的配置，length为空，请正确配置");
-      }
-      if (siteId == null || StringUtils.isEmpty(siteId.toString())) {
-        throw new DsException("DS-JD读取缓存的配置，siteId为空，请正确配置");
-      }
+  public List<DtLotteryConfigPo> loadConfig(){
+    List<DtLotteryConfigPo> dfConfigList=dtLotteryConfigDao.findDsDfConfig();
+    dfConfigList.forEach(po -> {
       Map<Integer,String> map=new HashMap<>();
-      String[] ary=siteId.toString().split(","); //TYZ_1020,MHD_1040,MAA_1070,MAB_1080
+      String[] ary=po.getSiteId().split(","); //TYZ_1020,MHD_1040,MAA_1070,MAB_1080
       for (String s:ary){ //TYZ_1020
         String[] i=s.split("_");
-        map.put(Integer.parseInt(i[1]),user+"_"+i[0]);
+        map.put(Integer.parseInt(i[1]),po.getUser()+"_"+i[0]);
       }
-      jdAppInfoConfig.setPullUrl(pullUrl.toString());
-      jdAppInfoConfig.setUser(user.toString());
-      jdAppInfoConfig.setLevel(Integer.parseInt(level.toString()));
-      jdAppInfoConfig.setLength(Integer.parseInt(length.toString()));
-      jdAppInfoConfig.setSiteId(map);
-      log.info("DS-JD读取缓存的配置：jdAppInfoConfig="+jdAppInfoConfig);
-      return jdAppInfoConfig;
-    }catch (Exception e){
-      throw new DsException(e.getMessage());
-    }
+      po.setSiteMap(map);
+    });
+    log.info("DS-GF读取缓存的配置：dfConfigList="+dfConfigList);
+    return dfConfigList;
   }
 
-  public DtJingdianLotteryPo extAttr(DtJingdianLotteryPo jingdianEntity,JDAppInfoConfig jdAppInfoConfig) {
+  public DtJingdianLotteryPo extAttr(DtJingdianLotteryPo jingdianEntity,DtLotteryConfigPo configPo) {
     jingdianEntity.setBetTime(DateUtil.covertTime(jingdianEntity.getTimeAdd()));
     jingdianEntity.setReportTime(DateUtil.covertTime(jingdianEntity.getTimeDraw()));
-    for(Map.Entry<Integer,String> site:jdAppInfoConfig.getSiteId().entrySet()){
+    for(Map.Entry<Integer,String> site:configPo.getSiteMap().entrySet()){
       if(jingdianEntity.getUser().startsWith(site.getValue())){
         jingdianEntity.setSiteid(site.getKey());
       }
@@ -102,19 +77,43 @@ public class DtJDMgr {
   }
 
   @Transactional
-  public void saveAndUpdate(DtJingdianLotteryPo jingdianEntityPo, JDAppInfoConfig jdAppInfoConfig){
+  public void saveAndUpdate(DtJingdianLotteryPo jingdianEntityPo, DtLotteryConfigPo configPo, List<DsGameTypeVo> dsGameTypePoList){
     DtJingdianLotteryPo po=dtJDDao.findByNid(jingdianEntityPo.getNid());
-    if (po!=null){
-      jingdianEntityPo=this.extAttr(jingdianEntityPo,jdAppInfoConfig);
+
+    DtJDMgoPo dtJDMgoPo=new DtJDMgoPo();
+    BeanUtils.copyProperties(jingdianEntityPo,dtJDMgoPo);
+//    dtJDMgoPo.setLiveName(configPo.getLiveName());
+//    dsGameTypePoList.forEach(dsGameTypePo -> {
+//      if(dtJDMgoPo.getLid().equals(dsGameTypePo.getOutGameCode())){
+//        dtJDMgoPo.setLiveId(dsGameTypePo.getFkLiveId().intValue());
+//        dtJDMgoPo.setParentType(dsGameTypePo.getParentId());
+//        dtJDMgoPo.setParentName(dsGameTypePo.getParentName());
+//        dtJDMgoPo.setType(dtJDMgoPo.getLid().intValue());
+//        dtJDMgoPo.setGameName(dsGameTypePo.getGameName());
+//      }else{
+//        DsGameTypePo dsGameTypePo1=new DsGameTypePo();
+//        String newGameName=String.format(configPo.getInfo(),dtJDMgoPo.getLid());
+//        dsGameTypePo1.setGameName(newGameName);
+//        dsGameTypePo1.setOutGameCode(dtJDMgoPo.getLid().toString());
+//        dsGameTypePo1.setParentId(Integer.parseInt(configPo.getGameKind().split(",")[0]));
+//        dsGameTypePo1.setFkLiveId(configPo.getLiveId().byteValue());
+//        entityManager.persist(dsGameTypePo1);
+//      }
+//    });
+    this.dtJDMgo.save(dtJDMgoPo);
+
+    if(po!=null){
+      jingdianEntityPo=this.extAttr(jingdianEntityPo,configPo);
       Long tid=po.getTid();
       BeanUtils.copyProperties(jingdianEntityPo,po);
       po.setTid(tid);
       entityManager.merge(po);
     }else{
-      jingdianEntityPo=this.extAttr(jingdianEntityPo,jdAppInfoConfig);
+      jingdianEntityPo=this.extAttr(jingdianEntityPo,configPo);
       this.dtJDDao.save(jingdianEntityPo);
     }
 
   }
+
 
 }

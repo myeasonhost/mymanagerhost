@@ -32,14 +32,6 @@ public class BaseAPI implements ApplicationContextAware {
     public static final String xxxPushAPIImpl="PushAPIImpl";
 
 
-    /**MG的配置**/
-    public static final String DATE_PATTERN="yyyy:MM:dd:HH:mm:ss";
-    public static final String MG_PULL_CONFIG="mg_pull_config";
-    public static final String START_TIME="startTime";
-    public static final String END_TIME="endTime";
-    public static final String CREATE_TIME="createTime";
-
-
     protected Map<String, Object> producerMap;
     protected Map<String, Object> consumerMap;
 
