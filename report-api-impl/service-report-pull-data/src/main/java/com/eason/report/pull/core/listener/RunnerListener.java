@@ -1,6 +1,6 @@
 package com.eason.report.pull.core.listener;
 
-import com.eason.report.pull.core.exception.MgException;
+import com.eason.report.pull.core.exception.DataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -14,11 +14,11 @@ public class RunnerListener implements CommandLineRunner {
 //    private DtMGMgr dtMGMgr;
 
     @Override
-    public void run(String... args) throws MgException {
+    public void run(String... args) throws DataException {
 //        try {
 //            dtMGMgr.loadConfig();
 //        }catch (Exception e){
-//            throw new MgException(e.getMessage());
+//            throw new DataException(e.getMessage());
 //        }
 
     }

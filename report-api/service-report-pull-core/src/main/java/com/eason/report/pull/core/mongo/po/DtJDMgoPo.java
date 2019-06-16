@@ -1,15 +1,15 @@
 package com.eason.report.pull.core.mongo.po;
 
-import com.eason.report.pull.core.mongo.config.GeneratedValue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Document(collection = "dt_jingdian_lottery")
 @Data
@@ -18,8 +18,8 @@ import java.sql.Timestamp;
 @Builder
 public class DtJDMgoPo extends BasePo {
     @Id
-    @GeneratedValue
-    private long tid;
+    private String tid;
+    @Indexed(unique=true)
     private long id;
     private int siteid;
     private String nid;
@@ -79,8 +79,8 @@ public class DtJDMgoPo extends BasePo {
     private String timePay;
     private boolean isCancel;
     private String cancelContent;
-    private Timestamp betTime;
+    private Date betTime;
     private Byte winLoseType;
-    private Timestamp reportTime;
+    private Date reportTime;
 
 }

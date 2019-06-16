@@ -11,12 +11,14 @@ import java.util.Objects;
         @NamedStoredProcedureQuery(name = "ds_gf_audit_report", procedureName = "ds_gf_audit_report",
                 parameters = {
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
                         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
         @NamedStoredProcedureQuery(name = "ds_jd_audit_report", procedureName = "ds_jd_audit_report",
                 parameters = {
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
                         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
@@ -42,7 +44,7 @@ public class AuditTotalPo {
     private BigDecimal validAmount;
     private BigDecimal payAmount;
     private int type;
-    private String gameName;
+    private String parentType;
     private Timestamp createTime;
     private Timestamp updateTime;
 
@@ -137,13 +139,13 @@ public class AuditTotalPo {
     }
 
     @Basic
-    @Column(name = "game_name")
-    public String getGameName() {
-        return gameName;
+    @Column(name = "parent_type")
+    public String getParentType() {
+        return parentType;
     }
 
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
+    public void setParentType(String gameName) {
+        this.parentType = parentType;
     }
 
     @Basic
@@ -180,13 +182,13 @@ public class AuditTotalPo {
                 Objects.equals(betAmount, that.betAmount) &&
                 Objects.equals(validAmount, that.validAmount) &&
                 Objects.equals(payAmount, that.payAmount) &&
-                Objects.equals(gameName, that.gameName) &&
+                Objects.equals(parentType, that.parentType) &&
                 Objects.equals(createTime, that.createTime) &&
                 Objects.equals(updateTime, that.updateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, liveId, orderNo, username, betTime, betAmount, validAmount, payAmount, type, gameName, createTime, updateTime);
+        return Objects.hash(id, liveId, orderNo, username, betTime, betAmount, validAmount, payAmount, type, parentType, createTime, updateTime);
     }
 }

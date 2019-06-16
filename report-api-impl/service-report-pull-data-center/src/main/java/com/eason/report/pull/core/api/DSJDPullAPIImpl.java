@@ -9,18 +9,14 @@ import com.eason.report.pull.core.exception.DsException;
 import com.eason.report.pull.core.manager.DtJDMgr;
 import com.eason.report.pull.core.model.NumModel;
 import com.eason.report.pull.core.model.ResponseModel;
+import com.eason.report.pull.core.mongo.po.DtJDMgoPo;
 import com.eason.report.pull.core.mq.MQServiceProducer;
 import com.eason.report.pull.core.mysqlDao.config.DtLotteryConfigPo;
-import com.eason.report.pull.core.mysqlDao.dao.DsGameTypeDao;
-import com.eason.report.pull.core.mysqlDao.dao.DtJDDao;
-import com.eason.report.pull.core.mysqlDao.po.DtJingdianLotteryPo;
-import com.eason.report.pull.core.mysqlDao.vo.DsGameTypeVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,19 +42,13 @@ public class DSJDPullAPIImpl extends MQServiceProducer implements PullAPI{
     private RestTemplate restTemplate;
 
     @Autowired
-    private DtJDMgr dtDFMgr;
-
-    @Autowired
-    private DtJDDao dtJDDao;
-
-    @Autowired
-    private DsGameTypeDao dsGameTypeDao;
+    private DtJDMgr dtJDMgr;
 
     @RequestMapping(value = "/getPullBet",method = RequestMethod.POST)
     public List<ResponseModel> getPullBet() throws DsException {
         try{
-            Long maxId=dtJDDao.getMaxId();
-            List<DtLotteryConfigPo> lotteryConfigPoList=dtDFMgr.loadConfig();
+            Long maxId=dtJDMgr.getMaxId()+1;
+            List<DtLotteryConfigPo> lotteryConfigPoList=dtJDMgr.loadConfig();
             CountDownLatch cdl = new CountDownLatch(lotteryConfigPoList.size());
             List<ResponseModel> list=new ArrayList<>();
             lotteryConfigPoList.forEach(configPo -> {
@@ -107,7 +97,6 @@ public class DSJDPullAPIImpl extends MQServiceProducer implements PullAPI{
             Long startId = maxId;
             DtLotteryConfigPo configPo=(DtLotteryConfigPo) config;
             log.info("DS-JD经典彩从startId="+startId+"开始准备拉取length="+length+",拉取配置configPo={}", configPo);
-            List<DsGameTypeVo> dsGameTypePoList=dsGameTypeDao.findByGameTypeList(configPo.getGameKind());
 
             JSONObject request = new JSONObject();
             request.put("num", length);
@@ -127,16 +116,15 @@ public class DSJDPullAPIImpl extends MQServiceProducer implements PullAPI{
                 int arraySize = array.size();
                 log.info("DS-JD经典彩网站={},拉取到注单,数量={}", configPo.getUser(), arraySize);
                 for (int i = 0; i < array.size(); i++) {
-                    DtJingdianLotteryPo jingdianEntityPo = array.getObject(i, DtJingdianLotteryPo.class);
-                    dtDFMgr.saveAndUpdate(jingdianEntityPo,configPo,dsGameTypePoList);
+                    DtJDMgoPo po = array.getObject(i, DtJDMgoPo.class);
+                    dtJDMgr.saveAndUpdate(po,configPo);
                     flag=true;
                 }
                 if (flag){
-                    Long endId=dtJDDao.getMaxId();
+                    Long endId=dtJDMgr.getMaxId();
                     NumModel model= NumModel.builder()
                             .startId(startId)
-                            .endId(endId)
-                            .siteId(configPo.getSiteMap()).build();
+                            .endId(endId).build();
                     configPo.getSiteMap().forEach((key,value)-> {
                         notifySite(key, arraySize,model);
                     });

@@ -1,29 +1,19 @@
 package com.eason.report.pull.core.manager;
 
 
-import com.eason.report.pull.core.mongo.config.SequenceId;
 import com.eason.report.pull.core.mongo.po.DtGFMgoPo;
 import com.eason.report.pull.core.mysqlDao.config.DtLotteryConfigPo;
 import com.eason.report.pull.core.mysqlDao.dao.DtLotteryConfigDao;
-import com.eason.report.pull.core.mysqlDao.po.DsGameTypePo;
-import com.eason.report.pull.core.mysqlDao.vo.DsGameTypeVo;
 import com.eason.report.pull.core.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.FindAndReplaceOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -31,7 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -40,8 +31,6 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 public class DtGFMgr {
   @Autowired
   private DtLotteryConfigDao dtLotteryConfigDao;
-  @Resource
-  private EntityManager entityManager;
   @Resource
   private MongoTemplate mongoTemplate;
 
@@ -66,6 +55,7 @@ public class DtGFMgr {
     for(Map.Entry<Integer,String> site:configPo.getSiteMap().entrySet()){
       if(po.getUserName().startsWith(site.getValue())){
         po.setSiteid(site.getKey());
+        po.setUserName(po.getUserName().substring(site.getValue().length()));
       }
     }
     /**
@@ -93,25 +83,8 @@ public class DtGFMgr {
   }
 
   @Transactional
-  public void saveAndUpdate(DtGFMgoPo po,DtLotteryConfigPo configPo, List<DsGameTypeVo> dsGameTypePoList){
+  public void saveAndUpdate(DtGFMgoPo po,DtLotteryConfigPo configPo){
     po=this.extAttr(po,configPo);
-    boolean flag=false;
-    for(DsGameTypeVo vo:dsGameTypePoList){
-      if(po.getLid().toString().equals(vo.getOutGameCode())){
-        flag=true;
-        break;
-      }
-    }
-    if(!flag){
-      DsGameTypePo dsGameTypePo1=new DsGameTypePo();
-      String newGameName=String.format(configPo.getInfo(),po.getLid());
-      dsGameTypePo1.setGameName(newGameName);
-      dsGameTypePo1.setOutGameCode(po.getLid().toString());
-      dsGameTypePo1.setParentId(Integer.parseInt(configPo.getGameKind().split(",")[0]));
-      dsGameTypePo1.setFkLiveId(configPo.getLiveId().byteValue());
-      entityManager.persist(dsGameTypePo1);
-    }
-
     Optional<DtGFMgoPo> result =mongoTemplate.update(DtGFMgoPo.class)
             .matching(query(where("id").is(po.getId())))
             .replaceWith(po)

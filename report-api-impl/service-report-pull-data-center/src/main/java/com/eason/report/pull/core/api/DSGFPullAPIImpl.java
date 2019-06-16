@@ -12,8 +12,6 @@ import com.eason.report.pull.core.model.ResponseModel;
 import com.eason.report.pull.core.mongo.po.DtGFMgoPo;
 import com.eason.report.pull.core.mq.MQServiceProducer;
 import com.eason.report.pull.core.mysqlDao.config.DtLotteryConfigPo;
-import com.eason.report.pull.core.mysqlDao.dao.DsGameTypeDao;
-import com.eason.report.pull.core.mysqlDao.vo.DsGameTypeVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -45,9 +43,6 @@ public class DSGFPullAPIImpl extends MQServiceProducer implements PullAPI{
 
     @Autowired
     private DtGFMgr dtDFMgr;
-
-    @Autowired
-    private DsGameTypeDao dsGameTypeDao;
 
     @RequestMapping(value = "/getPullBet",method = RequestMethod.POST)
     public List<ResponseModel> getPullBet() throws DsException {
@@ -102,7 +97,6 @@ public class DSGFPullAPIImpl extends MQServiceProducer implements PullAPI{
             Long startId = maxId;
             DtLotteryConfigPo configPo=(DtLotteryConfigPo) config;
             log.info("DS-GF官方彩从startId="+startId+"开始准备拉取length="+length+",拉取配置configPo={}", configPo);
-            List<DsGameTypeVo> dsGameTypePoList=dsGameTypeDao.findByGameTypeList(configPo.getGameKind());
 
             JSONObject request = new JSONObject();
             request.put("num", length);
@@ -123,15 +117,14 @@ public class DSGFPullAPIImpl extends MQServiceProducer implements PullAPI{
                 log.info("DS-GF官方彩网站={},拉取到注单,数量={}", configPo.getUser(), arraySize);
                 for (int i = 0; i < array.size(); i++) {
                     DtGFMgoPo po = array.getObject(i, DtGFMgoPo.class);
-                    dtDFMgr.saveAndUpdate(po,configPo,dsGameTypePoList);
+                    dtDFMgr.saveAndUpdate(po,configPo);
                     flag=true;
                 }
                 if (flag){
                     Long endId=dtDFMgr.getMaxId();
                     NumModel model= NumModel.builder()
                             .startId(startId)
-                            .endId(endId)
-                            .siteId(configPo.getSiteMap()).build();
+                            .endId(endId).build();
                     configPo.getSiteMap().forEach((key,value)-> {
                         notifySite(key, arraySize,model);
                     });

@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public interface DtLotteryConfigDao extends JpaRepository<DtLotteryConfigPo, Integer>{
 
-    @Query(value = "SELECT * FROM dt_lottery_config t WHERE t.code='DS-GF' AND t.state=50",nativeQuery = true)
+    @Query(value = "SELECT * FROM dt_lottery_config t WHERE t.code='DSGF' AND t.state=50",nativeQuery = true)
     List<DtLotteryConfigPo> findDsDfConfig();
 
-    @Query(value = "SELECT * FROM dt_lottery_config t WHERE t.code='DS-JD' AND t.state=50",nativeQuery = true)
-    List<DtLotteryConfigPo> findJdConfig();
+    @Query(value = "SELECT * FROM dt_lottery_config t WHERE t.code='DSJD' AND t.state=50",nativeQuery = true)
+    List<DtLotteryConfigPo> findDsJdConfig();
 
 }

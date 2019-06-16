@@ -127,8 +127,7 @@ public class MGPullAPIImpl  extends MQServiceProducer implements PullAPI {
                 Timestamp endId=dsMGDao.getMaxId();
                 NumModel model= NumModel.builder()
                         .startId(DateUtil.covertTime(startId).getTime())
-                        .endId(endId.getTime())
-                        .siteId(configPo.getSiteMap()).build();
+                        .endId(endId.getTime()).build();
                 configPo.getSiteMap().forEach((key,value)-> {
                     notifySite(key, arraySize,model);
                 });

@@ -10,16 +10,10 @@ import org.springframework.stereotype.Repository;
 public interface DSAuditTotalDao extends JpaRepository<AuditTotalPo, Long>{
 
     @Procedure(procedureName = "ds_gf_audit_report")
-    String createAuditAndReportForDSGF(Integer siteId, Long startId, Long endId);
-
-    @Procedure(procedureName = "ds_jd_site_pull")
-    Integer sitePullForDSJD(Integer siteId,String prex,Long startId,Long endId);
+    String createAuditAndReportForDSGF(Integer siteId,String type, Long startId, Long endId);
 
     @Procedure(procedureName = "ds_jd_audit_report")
-    String createAuditAndReportForDSJD(Integer siteId, Long startId, Long endId);
-
-    @Procedure(procedureName = "mdt_jd_site_pull")
-    Integer sitePullForMdtJD(Integer siteId,String prex,Long startId,Long endId);
+    String createAuditAndReportForDSJD(Integer siteId,String type, Long startId, Long endId);
 
     @Procedure(procedureName = "mdt_jd_audit_report")
     String createAuditAndReportForMdtJD(Integer siteId, Long startId, Long endId);

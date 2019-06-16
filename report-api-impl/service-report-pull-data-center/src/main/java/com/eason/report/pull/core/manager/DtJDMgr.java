@@ -1,41 +1,40 @@
 package com.eason.report.pull.core.manager;
 
 
-import com.eason.report.pull.core.mongo.mgo.DtJDMgo;
 import com.eason.report.pull.core.mongo.po.DtJDMgoPo;
 import com.eason.report.pull.core.mysqlDao.config.DtLotteryConfigPo;
-import com.eason.report.pull.core.mysqlDao.dao.DtJDDao;
 import com.eason.report.pull.core.mysqlDao.dao.DtLotteryConfigDao;
-import com.eason.report.pull.core.mysqlDao.po.DsGameTypePo;
-import com.eason.report.pull.core.mysqlDao.po.DtJingdianLotteryPo;
-import com.eason.report.pull.core.mysqlDao.vo.DsGameTypeVo;
 import com.eason.report.pull.core.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.FindAndReplaceOptions;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
 @Slf4j
 public class DtJDMgr {
   @Autowired
-  private DtJDDao dtJDDao;
-  @Autowired
-  private DtJDMgo dtJDMgo;
-  @Autowired
   private DtLotteryConfigDao dtLotteryConfigDao;
   @Resource
-  private EntityManager entityManager;
+  private MongoTemplate mongoTemplate;
 
   public List<DtLotteryConfigPo> loadConfig(){
-    List<DtLotteryConfigPo> dfConfigList=dtLotteryConfigDao.findDsDfConfig();
+    List<DtLotteryConfigPo> dfConfigList=dtLotteryConfigDao.findDsJdConfig();
     dfConfigList.forEach(po -> {
       Map<Integer,String> map=new HashMap<>();
       String[] ary=po.getSiteId().split(","); //TYZ_1020,MHD_1040,MAA_1070,MAB_1080
@@ -45,74 +44,59 @@ public class DtJDMgr {
       }
       po.setSiteMap(map);
     });
-    log.info("DS-GF读取缓存的配置：dfConfigList="+dfConfigList);
+    log.info("DS-JD读取缓存的配置：dfConfigList="+dfConfigList);
     return dfConfigList;
   }
 
-  public DtJingdianLotteryPo extAttr(DtJingdianLotteryPo jingdianEntity,DtLotteryConfigPo configPo) {
-    jingdianEntity.setBetTime(DateUtil.covertTime(jingdianEntity.getTimeAdd()));
-    jingdianEntity.setReportTime(DateUtil.covertTime(jingdianEntity.getTimeDraw()));
+  public DtJDMgoPo extAttr(DtJDMgoPo po,DtLotteryConfigPo configPo) {
+    po.setBetTime(DateUtil.covertGMTTime(po.getTimeAdd()));
+    po.setReportTime(DateUtil.covertGMTTime(po.getTimeDraw()));
     for(Map.Entry<Integer,String> site:configPo.getSiteMap().entrySet()){
-      if(jingdianEntity.getUser().startsWith(site.getValue())){
-        jingdianEntity.setSiteid(site.getKey());
+      if(po.getUser().startsWith(site.getValue())){
+        po.setSiteid(site.getKey());
+        po.setUser(po.getUser().substring(site.getValue().length()));
       }
     }
 
-    if (jingdianEntity.isCancel()) { // 取消 前端定义
-      jingdianEntity.setWinLoseType(Byte.valueOf("4")); // 取消 数据库定义
-      return jingdianEntity;
+    if (po.isCancel()) { // 取消 前端定义
+      po.setWinLoseType(Byte.valueOf("4")); // 取消 数据库定义
+      return po;
     }
-    switch (jingdianEntity.getStataus()) {
+    switch (po.getStataus()) {
       case 1: // 和 前端定义
-        jingdianEntity.setWinLoseType(Byte.valueOf("3")); // 和 数据库定义
+        po.setWinLoseType(Byte.valueOf("3")); // 和 数据库定义
         break;
       case 2: // 赢 前端定义
-        jingdianEntity.setWinLoseType(Byte.valueOf("2")); // 赢 数据库定义
+        po.setWinLoseType(Byte.valueOf("2")); // 赢 数据库定义
         break;
       case 3: // 输 前端定义
-        jingdianEntity.setWinLoseType(Byte.valueOf("1")); // 输 数据库定义
+        po.setWinLoseType(Byte.valueOf("1")); // 输 数据库定义
         break;
     }
-    return jingdianEntity;
+    return po;
   }
 
+
   @Transactional
-  public void saveAndUpdate(DtJingdianLotteryPo jingdianEntityPo, DtLotteryConfigPo configPo, List<DsGameTypeVo> dsGameTypePoList){
-    DtJingdianLotteryPo po=dtJDDao.findByNid(jingdianEntityPo.getNid());
-
-    DtJDMgoPo dtJDMgoPo=new DtJDMgoPo();
-    BeanUtils.copyProperties(jingdianEntityPo,dtJDMgoPo);
-//    dtJDMgoPo.setLiveName(configPo.getLiveName());
-//    dsGameTypePoList.forEach(dsGameTypePo -> {
-//      if(dtJDMgoPo.getLid().equals(dsGameTypePo.getOutGameCode())){
-//        dtJDMgoPo.setLiveId(dsGameTypePo.getFkLiveId().intValue());
-//        dtJDMgoPo.setParentType(dsGameTypePo.getParentId());
-//        dtJDMgoPo.setParentName(dsGameTypePo.getParentName());
-//        dtJDMgoPo.setType(dtJDMgoPo.getLid().intValue());
-//        dtJDMgoPo.setGameName(dsGameTypePo.getGameName());
-//      }else{
-//        DsGameTypePo dsGameTypePo1=new DsGameTypePo();
-//        String newGameName=String.format(configPo.getInfo(),dtJDMgoPo.getLid());
-//        dsGameTypePo1.setGameName(newGameName);
-//        dsGameTypePo1.setOutGameCode(dtJDMgoPo.getLid().toString());
-//        dsGameTypePo1.setParentId(Integer.parseInt(configPo.getGameKind().split(",")[0]));
-//        dsGameTypePo1.setFkLiveId(configPo.getLiveId().byteValue());
-//        entityManager.persist(dsGameTypePo1);
-//      }
-//    });
-    this.dtJDMgo.save(dtJDMgoPo);
-
-    if(po!=null){
-      jingdianEntityPo=this.extAttr(jingdianEntityPo,configPo);
-      Long tid=po.getTid();
-      BeanUtils.copyProperties(jingdianEntityPo,po);
-      po.setTid(tid);
-      entityManager.merge(po);
-    }else{
-      jingdianEntityPo=this.extAttr(jingdianEntityPo,configPo);
-      this.dtJDDao.save(jingdianEntityPo);
+  public void saveAndUpdate(DtJDMgoPo po, DtLotteryConfigPo configPo){
+    po=this.extAttr(po,configPo);
+    Optional<DtJDMgoPo> result =mongoTemplate.update(DtJDMgoPo.class)
+            .matching(query(where("id").is(po.getId())))
+            .replaceWith(po)
+            .withOptions(FindAndReplaceOptions.options().upsert())
+            .findAndReplace();
+    if(result.isPresent()){
+      log.info("DS-JD存在重复值DtJDMgoPo={}",result.get().toString());
     }
+  }
 
+  public Long getMaxId(){
+    TypedAggregation<DtJDMgoPo> agg = newAggregation(DtJDMgoPo.class,
+            group().max("$id").as("id")
+    );
+    AggregationResults<DtJDMgoPo> results = mongoTemplate.aggregate(agg,DtJDMgoPo.class);
+    DtJDMgoPo po = results.getUniqueMappedResult();
+    return po.getId();
   }
 
 

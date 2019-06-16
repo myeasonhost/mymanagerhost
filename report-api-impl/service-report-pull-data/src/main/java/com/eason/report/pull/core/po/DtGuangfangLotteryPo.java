@@ -3,13 +3,12 @@ package com.eason.report.pull.core.po;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "dt_guangfang_lottery")
 public class DtGuangfangLotteryPo implements Serializable {
-    private Long tid;
     private Long id;
     private Integer siteid;
     private String nid;
@@ -62,22 +61,11 @@ public class DtGuangfangLotteryPo implements Serializable {
     private Integer isJiesuan;
     private Integer isPay;
     private Integer cancelAdminId;
-    private Timestamp betTime;
+    private Date betTime;
     private Byte winLoseType;
-    private Timestamp reportTime;
+    private Date reportTime;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "tid")
-    public Long getTid() {
-        return tid;
-    }
-
-    public void setTid(Long tid) {
-        this.tid = tid;
-    }
-
-    @Basic
     @Column(name = "id")
     public Long getId() {
         return id;
@@ -600,11 +588,11 @@ public class DtGuangfangLotteryPo implements Serializable {
 
     @Basic
     @Column(name = "bet_time")
-    public Timestamp getBetTime() {
+    public Date getBetTime() {
         return betTime;
     }
 
-    public void setBetTime(Timestamp betTime) {
+    public void setBetTime(Date betTime) {
         this.betTime = betTime;
     }
 
@@ -620,11 +608,11 @@ public class DtGuangfangLotteryPo implements Serializable {
 
     @Basic
     @Column(name = "report_time")
-    public Timestamp getReportTime() {
+    public Date getReportTime() {
         return reportTime;
     }
 
-    public void setReportTime(Timestamp reportTime) {
+    public void setReportTime(Date reportTime) {
         this.reportTime = reportTime;
     }
 
@@ -633,8 +621,7 @@ public class DtGuangfangLotteryPo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DtGuangfangLotteryPo that = (DtGuangfangLotteryPo) o;
-        return tid == that.tid &&
-                Objects.equals(id, that.id) &&
+        return Objects.equals(id, that.id) &&
                 Objects.equals(siteid, that.siteid) &&
                 Objects.equals(nid, that.nid) &&
                 Objects.equals(lid, that.lid) &&
@@ -693,6 +680,6 @@ public class DtGuangfangLotteryPo implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(tid, id, siteid, nid, lid, uid, userName, top1, top2, top3, top4, proportion1, proportion2, proportion3, proportion4, proportion5, pan, issue, mgId, traceId, singleNum, multiple, modes, odd, amount, amount1, amount2, amount3, amount4, amount5, wins, win1, win2, win3, win4, win5, hitDetail, proxyIp, uIp, serverIp, hashValue, code, updateTime, drawTime, sendPrizeTime, addTime, jiesuanTime, cancelTime, isTake, isCancel, isJiesuan, isPay, cancelAdminId, betTime, winLoseType, reportTime);
+        return Objects.hash(id, siteid, nid, lid, uid, userName, top1, top2, top3, top4, proportion1, proportion2, proportion3, proportion4, proportion5, pan, issue, mgId, traceId, singleNum, multiple, modes, odd, amount, amount1, amount2, amount3, amount4, amount5, wins, win1, win2, win3, win4, win5, hitDetail, proxyIp, uIp, serverIp, hashValue, code, updateTime, drawTime, sendPrizeTime, addTime, jiesuanTime, cancelTime, isTake, isCancel, isJiesuan, isPay, cancelAdminId, betTime, winLoseType, reportTime);
     }
 }

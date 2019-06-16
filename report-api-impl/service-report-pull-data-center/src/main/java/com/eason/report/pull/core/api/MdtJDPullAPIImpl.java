@@ -150,8 +150,7 @@ public class MdtJDPullAPIImpl extends MQServiceProducer implements PullAPI {
                     Long endId=mdtJDDao.getMaxId();
                     NumModel model= NumModel.builder()
                             .startId(startId)
-                            .endId(endId)
-                            .siteId(configPo.getSiteMap()).build();
+                            .endId(endId).build();
                     configPo.getSiteMap().forEach((key,value)-> {
                         notifySite(key, arraySize,model);
                     });

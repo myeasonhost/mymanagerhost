@@ -15,5 +15,4 @@ import java.util.Map;
 public class NumModel extends Model{
     private Long startId;
     private Long endId;
-    private Map<Integer,String> siteId;
 }

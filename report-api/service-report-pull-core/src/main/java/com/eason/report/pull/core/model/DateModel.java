@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Map;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,5 +13,4 @@ import java.util.Map;
 public class DateModel extends Model{
     private String startId;
     private String endId;
-    private Map<Integer,String> siteId;
 }

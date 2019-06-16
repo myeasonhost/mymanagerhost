@@ -19,8 +19,7 @@ public class MQServiceConsumer extends BaseAPI {
     @JmsListener(destination = "${target.siteId}")
     protected void receiverSite(MsgModel msg){
         log.info("站点siteId={},收到消息={}",siteId,msg);
-        String type=null;
-        String prex=null;
+        String type;
         try {
             type=msg.getType();
             PushAPI pushAPIService=(PushAPI) consumerMap.get(type+xxxPushAPIImpl);
@@ -31,21 +30,11 @@ public class MQServiceConsumer extends BaseAPI {
             Model model=msg.getModel();
             if(model instanceof NumModel){
                 NumModel numModel=(NumModel)model;
-                prex=numModel.getSiteId().get(siteId);
-                if(StringUtils.isEmpty(prex) || StringUtils.isEmpty(msg.getType()) || !type.equals(msg.getType())){
-                    log.error("站点siteId={},prex={},msg.getType()={}消息接收任务不能执行，请检查消息类型Type",siteId,prex,msg.getType());
-                    return;
-                }
-                pushAPIService.getPushBet(siteId,prex, numModel.getStartId(), numModel.getEndId());
+                pushAPIService.getPushBet(siteId, type, numModel.getStartId(), numModel.getEndId());
                 log.info("站点siteId={}，游戏type={},当前startId={}——endId={}，开始分发",siteId,type,numModel.getStartId(),numModel.getEndId());
             }else if(model instanceof DateModel){
                 DateModel dateModel=(DateModel)model;
-                prex=dateModel.getSiteId().get(siteId);
-                if(StringUtils.isEmpty(prex) || StringUtils.isEmpty(msg.getType()) || !type.equals(msg.getType())){
-                    log.error("站点siteId={},prex={},msg.getType()={}消息接收任务不能执行，请检查消息类型Type",siteId,prex,msg.getType());
-                    return;
-                }
-                pushAPIService.getPushBet(siteId,prex, dateModel.getStartId(), dateModel.getEndId());
+                pushAPIService.getPushBet(siteId, type, dateModel.getStartId(), dateModel.getEndId());
                 log.info("站点siteId={}，游戏type={},当前startId={}——endId={}，开始分发",siteId,type,dateModel.getStartId(),dateModel.getEndId());
             }else{
                 log.error("站点siteId={},model={}消息接收任务不能执行，请检查消息模型Model",siteId,model);

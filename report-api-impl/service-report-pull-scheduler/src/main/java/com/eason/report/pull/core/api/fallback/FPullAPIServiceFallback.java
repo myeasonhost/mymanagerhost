@@ -14,7 +14,11 @@ public class FPullAPIServiceFallback implements FPullAPIService {
 
     @Override
     public List<ResponseModel> getPullBet() throws FeignException {
-        System.out.println("hello world service is not available !");
+        throw new FeignException();
+    }
+
+    @Override
+    public List<ResponseModel> getPullBetForDSJD() throws FeignException {
         throw new FeignException();
     }
 

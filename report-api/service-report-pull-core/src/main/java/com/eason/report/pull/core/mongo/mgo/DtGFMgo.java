@@ -24,7 +24,4 @@ public interface DtGFMgo extends MongoRepository<DtGFMgoPo, BigInteger>, PagingA
 ////    AgModel findByZbId(Integer zbId);
         @Query("{'siteid':?#{[0]},'id':{'$gte':?#{[1]},'$lte':?#{[2]}}}")
         List<DtGFMgoPo> findAllBySiteId(Integer siteId, Long startId, Long endId);
-
-        @Query("[{$group:{id:{$max:'$id'}}}]")
-        Long getMaxId();
 }

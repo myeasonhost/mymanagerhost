@@ -1,6 +1,6 @@
 package com.eason.report.pull.core.exception;
 
-public class TimeOutException extends MgException{
+public class TimeOutException extends DataException {
     public TimeOutException() {
         super();
     }
