@@ -10,9 +10,6 @@ import java.util.Objects;
 public class DtLotteryConfigPo extends BaseConfig {
     private int id;
     private String code;
-    private Integer liveId;
-    private String liveName;
-    private String gameKind;
     private String gameKindName;
     private String user;
     private String siteId;
@@ -42,36 +39,6 @@ public class DtLotteryConfigPo extends BaseConfig {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    @Basic
-    @Column(name = "live_id")
-    public Integer getLiveId() {
-        return liveId;
-    }
-
-    public void setLiveId(Integer liveId) {
-        this.liveId = liveId;
-    }
-
-    @Basic
-    @Column(name = "live_name")
-    public String getLiveName() {
-        return liveName;
-    }
-
-    public void setLiveName(String liveName) {
-        this.liveName = liveName;
-    }
-
-    @Basic
-    @Column(name = "game_kind")
-    public String getGameKind() {
-        return gameKind;
-    }
-
-    public void setGameKind(String gameKind) {
-        this.gameKind = gameKind;
     }
 
     @Basic
@@ -160,9 +127,6 @@ public class DtLotteryConfigPo extends BaseConfig {
         if (o == null || getClass() != o.getClass()) return false;
         DtLotteryConfigPo that = (DtLotteryConfigPo) o;
         return id == that.id &&
-                Objects.equals(liveId, that.liveId) &&
-                Objects.equals(liveName, that.liveName) &&
-                Objects.equals(gameKind, that.gameKind) &&
                 Objects.equals(gameKindName, that.gameKindName) &&
                 Objects.equals(user, that.user) &&
                 Objects.equals(siteId, that.siteId) &&
@@ -175,7 +139,7 @@ public class DtLotteryConfigPo extends BaseConfig {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, liveId, liveName, gameKind, gameKindName, user, siteId, level, recordUrl, length, state, info);
+        return Objects.hash(id, gameKindName, user, siteId, level, recordUrl, length, state, info);
     }
 
     @Override
@@ -183,9 +147,6 @@ public class DtLotteryConfigPo extends BaseConfig {
         return "DtLotteryConfigPo{" +
                 "id=" + id +
                 ", code='" + code + '\'' +
-                ", liveId=" + liveId +
-                ", liveName='" + liveName + '\'' +
-                ", gameKind='" + gameKind + '\'' +
                 ", gameKindName='" + gameKindName + '\'' +
                 ", user='" + user + '\'' +
                 ", siteId='" + siteId + '\'' +

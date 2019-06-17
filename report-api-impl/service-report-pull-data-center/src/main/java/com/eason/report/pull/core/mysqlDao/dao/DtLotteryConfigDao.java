@@ -17,4 +17,7 @@ public interface DtLotteryConfigDao extends JpaRepository<DtLotteryConfigPo, Int
     @Query(value = "SELECT * FROM dt_lottery_config t WHERE t.code='DSJD' AND t.state=50",nativeQuery = true)
     List<DtLotteryConfigPo> findDsJdConfig();
 
+    @Query(value = "SELECT * FROM dt_lottery_config t WHERE t.code='MdtJD' AND t.state=50",nativeQuery = true)
+    List<DtLotteryConfigPo> findMdtJdConfig();
+
 }

@@ -47,7 +47,7 @@ public class DSGFPullAPIImpl extends MQServiceProducer implements PullAPI{
     @RequestMapping(value = "/getPullBet",method = RequestMethod.POST)
     public List<ResponseModel> getPullBet() throws DsException {
         try{
-            Long maxId=dtDFMgr.getMaxId()+1;
+            Long maxId=dtDFMgr.getMaxId();
             List<DtLotteryConfigPo> lotteryConfigPoList=dtDFMgr.loadConfig();
             CountDownLatch cdl = new CountDownLatch(lotteryConfigPoList.size());
             List<ResponseModel> list=new ArrayList<>();
@@ -62,7 +62,7 @@ public class DSGFPullAPIImpl extends MQServiceProducer implements PullAPI{
                     public ResponseModel call() throws Exception {
                         try {
                             if (!executorService.isShutdown()) {
-                                ResponseModel result=getPullBet(maxId,length, configPo); //下一个开始
+                                ResponseModel result=getPullBet(maxId+1,length, configPo); //下一个开始
                                 return result;
                             }
                         } catch (Exception e) {
@@ -138,6 +138,12 @@ public class DSGFPullAPIImpl extends MQServiceProducer implements PullAPI{
 
             } else if (object.getString("status").equals("10000") && object.getJSONArray("message").size() == 0) { // 没有拉取到注单
                 log.info("DS-GF官方彩网站={} 拉取成功,但注单数量为0,拉取结果={}", configPo.getUser(), object.toJSONString());
+                ResponseModel responseModel=ResponseModel.builder()
+                        .code(SUCCESS)
+                        .massge(String.format("DS-GF官方彩站点=%s,拉取到注单,数量=%s",  configPo.getUser(), 0))
+                        .obj(object.toString())
+                        .build();
+                return responseModel;
             } else if (!object.getString("status").equals("10000")) {
                 log.error("DS-GF官方彩网站={} 拉取数据失败,请检查配置,错误消息={}", configPo.getUser(), object.toJSONString());
             }

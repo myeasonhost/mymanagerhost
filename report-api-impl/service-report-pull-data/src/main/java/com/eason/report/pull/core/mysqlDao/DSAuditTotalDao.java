@@ -16,6 +16,6 @@ public interface DSAuditTotalDao extends JpaRepository<AuditTotalPo, Long>{
     String createAuditAndReportForDSJD(Integer siteId,String type, Long startId, Long endId);
 
     @Procedure(procedureName = "mdt_jd_audit_report")
-    String createAuditAndReportForMdtJD(Integer siteId, Long startId, Long endId);
+    String createAuditAndReportForMdtJD(Integer siteId,String type, Long startId, Long endId);
 
 }

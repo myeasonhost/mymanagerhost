@@ -19,6 +19,9 @@ public interface FPullAPIService extends PullAPI{
     @PostMapping(value = "/dsjd/getPullBet")
     List<ResponseModel> getPullBetForDSJD() throws FeignException;
 
+    @PostMapping(value = "/mdtjd/getPullBet")
+    List<ResponseModel> getPullBetForMdtJD() throws FeignException;
+
     @PostMapping(value = "/getPullBet/{maxId}/{length}")
     ResponseModel getPullBet(@PathVariable(value = "maxId") Long maxId,
                              @PathVariable(value = "length") Integer length,

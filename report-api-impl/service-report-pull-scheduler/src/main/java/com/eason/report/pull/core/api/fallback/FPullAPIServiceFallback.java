@@ -23,6 +23,11 @@ public class FPullAPIServiceFallback implements FPullAPIService {
     }
 
     @Override
+    public List<ResponseModel> getPullBetForMdtJD() throws FeignException {
+        throw new FeignException();
+    }
+
+    @Override
     public ResponseModel getPullBet(Long maxId, Integer length, BaseConfig config) throws FeignException{
         throw new FeignException("此接口对外不暴露");
     }
