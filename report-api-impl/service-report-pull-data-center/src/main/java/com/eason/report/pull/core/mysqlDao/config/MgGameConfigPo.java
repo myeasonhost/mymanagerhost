@@ -9,10 +9,8 @@ import java.util.Objects;
 @Table(name = "ds_mg_game_config")
 public class MgGameConfigPo extends BaseConfig {
     private int id;
-    private Integer agentId;
-    private Integer liveId;
-    private String liveName;
-    private String gameKind;
+    private String agentId;
+    private String code;
     private String gameKindName;
     private String username;
     private String password;
@@ -35,42 +33,22 @@ public class MgGameConfigPo extends BaseConfig {
 
     @Basic
     @Column(name = "agentId")
-    public Integer getAgentId() {
+    public String getAgentId() {
         return agentId;
     }
 
-    public void setAgentId(Integer agentId) {
+    public void setAgentId(String agentId) {
         this.agentId = agentId;
     }
 
     @Basic
-    @Column(name = "live_id")
-    public Integer getLiveId() {
-        return liveId;
+    @Column(name = "code")
+    public String getCode() {
+        return code;
     }
 
-    public void setLiveId(Integer liveId) {
-        this.liveId = liveId;
-    }
-
-    @Basic
-    @Column(name = "live_name")
-    public String getLiveName() {
-        return liveName;
-    }
-
-    public void setLiveName(String liveName) {
-        this.liveName = liveName;
-    }
-
-    @Basic
-    @Column(name = "game_kind")
-    public String getGameKind() {
-        return gameKind;
-    }
-
-    public void setGameKind(String gameKind) {
-        this.gameKind = gameKind;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Basic
@@ -170,9 +148,7 @@ public class MgGameConfigPo extends BaseConfig {
         MgGameConfigPo that = (MgGameConfigPo) o;
         return id == that.id &&
                 Objects.equals(agentId, that.agentId) &&
-                Objects.equals(liveId, that.liveId) &&
-                Objects.equals(liveName, that.liveName) &&
-                Objects.equals(gameKind, that.gameKind) &&
+                Objects.equals(code, that.code) &&
                 Objects.equals(gameKindName, that.gameKindName) &&
                 Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
@@ -186,6 +162,24 @@ public class MgGameConfigPo extends BaseConfig {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, agentId, liveId, liveName, gameKind, gameKindName, username, password, prex, siteId, length, pullUrl, state, info);
+        return Objects.hash(id, agentId, code, gameKindName, username, password, prex, siteId, length, pullUrl, state, info);
+    }
+
+    @Override
+    public String toString() {
+        return "MgGameConfigPo{" +
+                "id=" + id +
+                ", agentId='" + agentId + '\'' +
+                ", code='" + code + '\'' +
+                ", gameKindName='" + gameKindName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", prex='" + prex + '\'' +
+                ", siteId='" + siteId + '\'' +
+                ", length=" + length +
+                ", pullUrl='" + pullUrl + '\'' +
+                ", state=" + state +
+                ", info='" + info + '\'' +
+                '}';
     }
 }

@@ -6,7 +6,9 @@ import com.eason.report.pull.core.exception.FeignException;
 import com.eason.report.pull.core.exception.ServiceException;
 import com.eason.report.pull.core.model.ResponseModel;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -21,6 +23,9 @@ public interface FPullAPIService extends PullAPI{
 
     @PostMapping(value = "/mdtjd/getPullBet")
     List<ResponseModel> getPullBetForMdtJD() throws FeignException;
+
+    @PostMapping(value = "/mg/getPullBet")
+    List<ResponseModel> getPullBetForMG() throws FeignException;
 
     @PostMapping(value = "/getPullBet/{maxId}/{length}")
     ResponseModel getPullBet(@PathVariable(value = "maxId") Long maxId,

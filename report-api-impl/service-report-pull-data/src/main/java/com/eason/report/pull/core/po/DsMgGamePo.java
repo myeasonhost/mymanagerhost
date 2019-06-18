@@ -1,26 +1,17 @@
-package com.eason.report.pull.core.mysqlDao.po;
+package com.eason.report.pull.core.po;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "ds_mg_game")
-@NamedStoredProcedureQueries({
-        @NamedStoredProcedureQuery(name = "ds_mg_site_pull", procedureName = "ds_mg_site_pull",
-                parameters = {
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "prex", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "num", type = Long.class)})})
 public class DsMgGamePo implements Serializable {
-    private long id;
+    private String colId;
     private Integer siteId;
     private String userName;
-    private String colId;
     private String agentId;
     private String mbrId;
     private String mbrCode;
@@ -33,22 +24,22 @@ public class DsMgGamePo implements Serializable {
     private BigDecimal balance;
     private String mgsGameId;
     private String mgsActionId;
-    private Timestamp transTime;
+    private Date transTime;
     private Integer refTransId;
     private String refTransType;
-    private Timestamp createTime;
-    private Timestamp lastUpdateTime;
+    private Date createTime;
+    private Date lastUpdateTime;
     private String keyB;
     private String memo;
 
     @Id
-    @Column(name = "id")
-    public long getId() {
-        return id;
+    @Column(name = "colId")
+    public String getColId() {
+        return colId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setColId(String colId) {
+        this.colId = colId;
     }
 
     @Basic
@@ -69,16 +60,6 @@ public class DsMgGamePo implements Serializable {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    @Basic
-    @Column(name = "colId")
-    public String getColId() {
-        return colId;
-    }
-
-    public void setColId(String colId) {
-        this.colId = colId;
     }
 
     @Basic
@@ -203,11 +184,11 @@ public class DsMgGamePo implements Serializable {
 
     @Basic
     @Column(name = "transTime")
-    public Timestamp getTransTime() {
+    public Date getTransTime() {
         return transTime;
     }
 
-    public void setTransTime(Timestamp transTime) {
+    public void setTransTime(Date transTime) {
         this.transTime = transTime;
     }
 
@@ -233,21 +214,21 @@ public class DsMgGamePo implements Serializable {
 
     @Basic
     @Column(name = "create_time")
-    public Timestamp getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
     @Basic
     @Column(name = "last_update_time")
-    public Timestamp getLastUpdateTime() {
+    public Date getLastUpdateTime() {
         return lastUpdateTime;
     }
 
-    public void setLastUpdateTime(Timestamp lastUpdateTime) {
+    public void setLastUpdateTime(Date lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
     }
 
@@ -276,8 +257,7 @@ public class DsMgGamePo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DsMgGamePo that = (DsMgGamePo) o;
-        return id == that.id &&
-                Objects.equals(siteId, that.siteId) &&
+        return  Objects.equals(siteId, that.siteId) &&
                 Objects.equals(userName, that.userName) &&
                 Objects.equals(colId, that.colId) &&
                 Objects.equals(agentId, that.agentId) &&
@@ -303,6 +283,6 @@ public class DsMgGamePo implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, siteId, userName, colId, agentId, mbrId, mbrCode, transId, winLossType, gameId, transType, amnt, clrngAmnt, balance, mgsGameId, mgsActionId, transTime, refTransId, refTransType, createTime, lastUpdateTime, keyB, memo);
+        return Objects.hash(siteId, userName, colId, agentId, mbrId, mbrCode, transId, winLossType, gameId, transType, amnt, clrngAmnt, balance, mgsGameId, mgsActionId, transTime, refTransId, refTransType, createTime, lastUpdateTime, keyB, memo);
     }
 }

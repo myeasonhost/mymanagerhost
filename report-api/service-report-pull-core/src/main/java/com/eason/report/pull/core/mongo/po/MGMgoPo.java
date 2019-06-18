@@ -1,15 +1,15 @@
 package com.eason.report.pull.core.mongo.po;
 
-import com.eason.report.pull.core.mongo.config.GeneratedValue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Document(collection = "ds_mg_game")
 @Data
@@ -18,11 +18,11 @@ import java.sql.Timestamp;
 @Builder
 public class MGMgoPo extends BasePo {
     @Id
-    @GeneratedValue
-    private long id;
+    private String tid;
+    @Indexed(unique=true)
+    private String colId;
     private Integer siteId;
     private String userName;
-    private String colId;
     private String agentId;
     private String mbrId;
     private String mbrCode;
@@ -35,11 +35,11 @@ public class MGMgoPo extends BasePo {
     private BigDecimal balance;
     private String mgsGameId;
     private String mgsActionId;
-    private Timestamp transTime;
+    private Date transTime;
     private Integer refTransId;
     private String refTransType;
-    private Timestamp createTime;
-    private Timestamp lastUpdateTime;
+    private Date createTime;
+    private Date lastUpdateTime;
     private String keyB;
     private String memo;
 

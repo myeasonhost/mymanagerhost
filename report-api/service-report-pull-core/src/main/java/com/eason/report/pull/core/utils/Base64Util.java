@@ -1,11 +1,12 @@
 package com.eason.report.pull.core.utils;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.util.StringUtils;
+
 import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.util.Base64;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * String 工具类
@@ -33,7 +34,7 @@ public class Base64Util {
      */
     public static String convertToByte(String str) {
         try {
-            if (StringUtils.isNotBlank(str)) {
+            if (!StringUtils.isEmpty(str)) {
                 byte[] bs = str.getBytes("UTF-8");
                 String result = Base64.getEncoder().encodeToString(bs);
                 return result;
@@ -55,7 +56,7 @@ public class Base64Util {
      */
     public static String convertToString(String str) {
         try {
-            if (StringUtils.isNotBlank(str)) {
+            if (!StringUtils.isEmpty(str)) {
                 byte[] bt;
                 bt = Base64.getDecoder().decode(str);
                 str = new String(bt, "UTF-8");

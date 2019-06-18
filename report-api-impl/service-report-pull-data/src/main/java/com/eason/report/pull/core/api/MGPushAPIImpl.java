@@ -1,9 +1,9 @@
 package com.eason.report.pull.core.api;
 
 import com.eason.report.pull.core.annotation.MQConsumer;
+import com.eason.report.pull.core.api.service.MGServiceImpl;
 import com.eason.report.pull.core.model.ResponseModel;
 import com.eason.report.pull.core.mq.MQServiceConsumer;
-import com.eason.report.pull.core.mysqlDao.MGAuditTotalDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,23 +12,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MGPushAPIImpl extends MQServiceConsumer implements PushAPI {
 
     @Autowired
-    private MGAuditTotalDao dsDao;
+    private MGServiceImpl mgServiceImpl;
 
     @Override
-    public ResponseModel getPushBet(Integer siteId, String prex, Long startId, Long endId) {
-        return errorModel;
+    public ResponseModel getPushBet(Integer siteId, String type, String startId, String endId) {
+        try{
+            if(mgServiceImpl.insertSource(siteId, type, startId, endId)){
+                mgServiceImpl.insertReport(siteId, type, startId, endId);
+                return successModel;
+            }
+            return errorModel;
+        }catch (Exception e){
+            int num=mgServiceImpl.deleteRollback(siteId, type, startId, endId);
+            log.error("MG大富豪站点siteId={}，数据回滚num={}，异常信息={}",siteId,num,e.getMessage());
+            e.printStackTrace();
+            return errorModel;
+        }
     }
 
     @Override
-    public ResponseModel getPushBet(Integer siteId, String prex, String startId, String endId) {
-        Integer rows = dsDao.sitePull(siteId, prex, startId, endId);
-        log.info("MG站点siteId={}，执行分表存储过程，CALL ds_mg_site_pull({},'{}','{}','{}',@num);SELECT @num;", siteId,
-                siteId, prex,startId, endId);
-        log.info("分表Procedure返回数据rows={}",rows);
-        String result = dsDao.createAuditAndReport(siteId, startId, endId);
-        log.info("MG站点siteId={}，执行审计报表存储过程，CALL ds_mg_audit_report({},'{}','{}',@result);SELECT @result;", siteId,
-                siteId, startId,endId);
-        log.info("审计报表Procedure返回结果result={}",result);
-        return successModel;
+    public ResponseModel getPushBet(Integer siteId, String type, Long startId, Long endId) {
+        return errorModel;
     }
 }

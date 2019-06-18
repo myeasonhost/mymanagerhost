@@ -4,23 +4,20 @@ package com.eason.report.pull.core.manager;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.eason.report.pull.core.base.BaseAPI;
-import com.eason.report.pull.core.config.MGConfigMgoCo;
 import com.eason.report.pull.core.exception.MgException;
 import com.eason.report.pull.core.exception.TimeOutException;
-import com.eason.report.pull.core.mongo.mgo.DsMGMgo;
-import com.eason.report.pull.core.mongo.mgo.MGConfigMgo;
 import com.eason.report.pull.core.mongo.po.MGMgoPo;
 import com.eason.report.pull.core.mysqlDao.config.MgGameConfigPo;
-import com.eason.report.pull.core.mysqlDao.dao.DsMGDao;
 import com.eason.report.pull.core.mysqlDao.dao.MGConfigDao;
-import com.eason.report.pull.core.mysqlDao.po.DsGameTypePo;
-import com.eason.report.pull.core.mysqlDao.po.DsMgGamePo;
-import com.eason.report.pull.core.mysqlDao.vo.DsGameTypeVo;
 import com.eason.report.pull.core.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.time.DateUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.FindAndReplaceOptions;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -28,11 +25,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.*;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
 @Slf4j
@@ -41,25 +40,17 @@ public class MGMgr extends BaseAPI {
   public static final String DATE_PATTERN="yyyy:MM:dd:HH:mm:ss";
 
   @Autowired
-  private DsMGDao dsMGDao;
-  @Autowired
-  private DsMGMgo dsMGMgo;
-  @Resource
-  private EntityManager entityManager;
-  @Autowired
   private RestTemplate restTemplate;
   @Autowired
-  private MGConfigDao mgConfigDao;
+  private StringRedisTemplate stringRedisTemplate10;
   @Autowired
-  private MGConfigMgo mgConfigMgo;
+  private MongoTemplate mongoTemplate;
+  @Autowired
+  private MGConfigDao mgConfigDao;
 
-  public List<MGConfigMgoCo> loadConfig() throws MgException {
-    List<MGConfigMgoCo> configMgoList=mgConfigMgo.findAll();
-    if(configMgoList==null){
-         List<MgGameConfigPo> configDaoList=mgConfigDao.findConfig();
-         configDaoList=Collections.EMPTY_LIST;
-         Collections.copy(configDaoList,configDaoList);
-    }
+
+  public List<MgGameConfigPo> loadConfig() {
+    List<MgGameConfigPo> configMgoList=mgConfigDao.findConfig();
     configMgoList.forEach(po -> {
       Map<Integer,String> map=new HashMap<>();
       String[] ary=po.getSiteId().split(","); //TYZ_1020,MHD_1040,MAA_1070,MAB_1080
@@ -70,33 +61,29 @@ public class MGMgr extends BaseAPI {
       po.setSiteMap(map);
     });
 
-    log.info("MG大富豪读取缓存的配置：configList="+configMgoList);
+    log.info("MG大富豪读取的配置：configList="+configMgoList);
     return configMgoList;
   }
 
   /**
    *  Transaction History To EndTime>TransTime
-   *  在length时间内，如果拉取数据为0，提高拉取速度到10秒一次，超过的length时间，或者当前时间，恢复调度时间
+   *  在startDate拉取长度length=30分钟内<当前时间，如果没有数据，根据AgentId缓存水位时间标记
+   *  如果超过水位标记，删除掉水位标记即可
    */
-  public JSONArray loadDataToEndTime(String token, Date pullDate, Integer length, MGConfigMgoCo configPo) throws MgException {
+  public JSONArray loadDataToEndTime(String token, Date pullDate, Integer length, MgGameConfigPo configPo) throws MgException {
     try {
       Date startDate= pullDate;
       Date endDate= DateUtils.addMinutes(startDate,length);
+      Date date=new Date();
       JSONArray jsonArray=this.viewHorTxCall(token,startDate,endDate,configPo);
-
-      configPo.setStartTime(new Timestamp(startDate.getTime()));
-      configPo.setEndTime(new Timestamp(endDate.getTime()));
-      configPo.setCreateTime(new Timestamp(System.currentTimeMillis()));
-      mgConfigMgo.save(configPo);
 
       if (jsonArray.isEmpty() || jsonArray.size()==0){
         log.info("MG大富豪网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), startDate, pullDate);
-        if(endDate.compareTo(new Date())==-1 && configPo.getUpTime()<length*60*1000L){
-          log.info("从startTime={}，上升={}，休息10秒钟",endDate.getTime(),length);
-          Thread.sleep(10*1000L);
-          configPo.setUpTime(configPo.getUpTime()+10*1000L);
-          this.loadDataToEndTime(token,endDate,length,configPo);
+        if(endDate.compareTo(date)==-1){
+          stringRedisTemplate10.boundHashOps("mg_pull_config").put("endTime_"+configPo.getAgentId(), DateUtil.covertStr(endDate));
         }
+      }else{
+        stringRedisTemplate10.boundHashOps("mg_pull_config").delete("endTime_"+configPo.getAgentId());
       }
       return jsonArray;
     } catch (Exception e) {
@@ -110,7 +97,7 @@ public class MGMgr extends BaseAPI {
   /**
    *  Transaction History
    */
-  public JSONArray viewHorTxCall(String token, Date startDate, Date endDate, MGConfigMgoCo configPo) throws MgException {
+  public JSONArray viewHorTxCall(String token, Date startDate, Date endDate, MgGameConfigPo configPo) throws MgException {
     try {
       HttpHeaders requestHeaders = new HttpHeaders();
       requestHeaders.add("user-agent", "PostmanRuntime/7.13.0");
@@ -152,7 +139,7 @@ public class MGMgr extends BaseAPI {
   /**
    *  login to API Website
    */
-  public JSONObject loginWebSite(MGConfigMgoCo configPo) throws MgException {
+  public JSONObject loginWebSite(MgGameConfigPo configPo) throws MgException {
     try {
       HttpHeaders requestHeaders = new HttpHeaders();
       requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -186,51 +173,8 @@ public class MGMgr extends BaseAPI {
     }
   }
 
-  @Transactional
-  public void saveAndUpdate(DsMgGamePo vo, MGConfigMgoCo configPo,List<DsGameTypeVo> dsGameTypePoList){
 
-    DsMgGamePo po= dsMGDao.findByColId(vo.getColId());
-
-    MGMgoPo mgMgoPo=new MGMgoPo();
-    BeanUtils.copyProperties(vo,mgMgoPo);
-//    mgMgoPo.setLiveName(configPo.getLiveName());
-//    dsGameTypePoList.forEach(dsGameTypePo -> {
-//      if(mgMgoPo.getGameId().equals(dsGameTypePo.getOutGameCode())){
-//        mgMgoPo.setLiveId(dsGameTypePo.getFkLiveId().intValue());
-//        mgMgoPo.setParentType(dsGameTypePo.getParentId());
-//        mgMgoPo.setParentName(dsGameTypePo.getParentName());
-//        mgMgoPo.setType(mgMgoPo.getGameId());
-//        mgMgoPo.setGameName(dsGameTypePo.getGameName());
-//      }else{
-//        DsGameTypePo dsGameTypePo1=new DsGameTypePo();
-//        String newGameName=String.format(configPo.getInfo(),mgMgoPo.getGameId());
-//        dsGameTypePo1.setGameName(newGameName);
-//        dsGameTypePo1.setOutGameCode(mgMgoPo.getGameId().toString());
-//        dsGameTypePo1.setParentId(Integer.parseInt(configPo.getGameKind().split(",")[0]));
-//        dsGameTypePo1.setFkLiveId(configPo.getLiveId().byteValue());
-//        entityManager.persist(dsGameTypePo1);
-//      }
-//    });
-    this.dsMGMgo.save(mgMgoPo);
-
-
-    vo=this.extAttr(vo,configPo);
-    if (po!=null){
-      Long id=po.getId();
-      BeanUtils.copyProperties(vo,po);
-      po.setId(id);
-      entityManager.merge(po);
-    }else{
-      this.dsMGDao.save(vo);
-    }
-
-    MGMgoPo dtGFMgoPo=new MGMgoPo();
-    BeanUtils.copyProperties(vo,dtGFMgoPo);
-    this.dsMGMgo.save(dtGFMgoPo);
-
-  }
-
-  public DsMgGamePo extAttr(DsMgGamePo po, MGConfigMgoCo configPo) {
+  public MGMgoPo extAttr(MGMgoPo po, MgGameConfigPo configPo) {
     for(Map.Entry<Integer,String> site:configPo.getSiteMap().entrySet()){
       if(po.getMbrCode().startsWith(site.getValue())){
         po.setUserName(po.getMbrCode().substring(site.getValue().length()));
@@ -251,5 +195,34 @@ public class MGMgr extends BaseAPI {
     return po;
   }
 
+  @Transactional
+  public void saveAndUpdate(MGMgoPo po, MgGameConfigPo configPo){
+    po=this.extAttr(po,configPo);
+    Optional<MGMgoPo> result =mongoTemplate.update(MGMgoPo.class)
+            .matching(query(where("colId").is(po.getColId())))
+            .replaceWith(po)
+            .withOptions(FindAndReplaceOptions.options().upsert())
+            .findAndReplace();
+    if(result.isPresent()){
+      log.info("MG存在重复值MGMgoPo={}",result.get().toString());
+    }
+  }
+
+  public Date getMaxId(MgGameConfigPo configPo){
+    TypedAggregation<MGMgoPo> agg = newAggregation(MGMgoPo.class,
+            match(where("agentId").is(configPo.getAgentId())),
+            group().max("$transTime").as("transTime")
+    );
+    AggregationResults<MGMgoPo> results = mongoTemplate.aggregate(agg,MGMgoPo.class);
+    MGMgoPo po = results.getUniqueMappedResult();
+    Object obj=stringRedisTemplate10.boundHashOps("mg_pull_config").get("endTime_"+configPo.getAgentId());
+    Date endDate;
+    if(obj==null || po.getTransTime().compareTo(endDate=DateUtil.covertTime((String)obj))==1){
+      return po.getTransTime();
+    }else{
+      stringRedisTemplate10.boundHashOps("mg_pull_config").delete("endTime_"+configPo.getAgentId());
+    }
+    return endDate;
+  }
 
 }
