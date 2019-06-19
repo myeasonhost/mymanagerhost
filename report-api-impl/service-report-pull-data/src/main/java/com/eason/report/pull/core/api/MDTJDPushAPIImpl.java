@@ -1,36 +1,40 @@
 package com.eason.report.pull.core.api;
 
+import com.eason.report.pull.core.annotation.AuditReport;
 import com.eason.report.pull.core.annotation.MQConsumer;
-import com.eason.report.pull.core.api.service.MDTJDServiceImpl;
-import com.eason.report.pull.core.model.ResponseModel;
-import com.eason.report.pull.core.mq.MQServiceConsumer;
+import com.eason.report.pull.core.annotation.SourceQuery;
+import com.eason.report.pull.core.api.service.SourceServiceImpl;
+import com.eason.report.pull.core.exception.ServiceException;
+import com.eason.report.pull.core.mongo.po.MdtJDMgoPo;
+import com.eason.report.pull.core.mysqlDao.DSAuditTotalDao;
+import com.eason.report.pull.core.po.DtJingdianLotteryPo;
+import com.eason.report.pull.core.po.MdtJingdianLotteryPo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @MQConsumer
 @Slf4j
-public class MDTJDPushAPIImpl extends MQServiceConsumer implements PushAPI {
+public class MDTJDPushAPIImpl{
     @Autowired
-    private MDTJDServiceImpl mdtJDServiceImpl;
+    private SourceServiceImpl sourceService;
 
-    @Override
-    public ResponseModel getPushBet(Integer siteId, String type, Long startId, Long endId) {
+    @SourceQuery(targetId = "id",targetMgo = MdtJDMgoPo.class)
+    public void getPushBet(Integer siteId, List<MdtJDMgoPo> list) throws ServiceException {
         try{
-            if(mdtJDServiceImpl.insertSource(siteId, type, startId, endId)){
-                mdtJDServiceImpl.insertReport(siteId, type, startId, endId);
-                return successModel;
-            }
-            return errorModel;
+            log.info("Mdt-JD经典彩站点siteId={}，接收数据rows={}",siteId,list.size());
+            sourceService.insertSource(list, MdtJingdianLotteryPo.class);
         }catch (Exception e){
-            int num=mdtJDServiceImpl.deleteRollback(siteId, type, startId, endId);
-            log.error("MDT-JD经典彩站点siteId={}，数据回滚num={}，异常信息={}",siteId,num,e.getMessage());
-            e.printStackTrace();
-            return errorModel;
+            throw new ServiceException(e);
         }
     }
 
-    @Override
-    public ResponseModel getPushBet(Integer siteId, String type, String startId, String endId) {
-        return errorModel;
+    @AuditReport(procedureName = "createAuditAndReportForMdtJD",targetDao = DSAuditTotalDao.class)
+    public void auditReport(Integer siteId,String result) {
+        log.info("审计报表Procedure返回结果result={}",result);
+        if(result.isEmpty()){
+            log.error("Mdt-JD经典彩站点siteId={}，执行审计报表存储过程为空，请查看传参",siteId);
+        }
     }
 }

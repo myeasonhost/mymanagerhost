@@ -1,36 +1,41 @@
 package com.eason.report.pull.core.api;
 
+import com.eason.report.pull.core.annotation.AuditReport;
 import com.eason.report.pull.core.annotation.MQConsumer;
-import com.eason.report.pull.core.api.service.DSGFServiceImpl;
-import com.eason.report.pull.core.model.ResponseModel;
-import com.eason.report.pull.core.mq.MQServiceConsumer;
+import com.eason.report.pull.core.annotation.SourceQuery;
+import com.eason.report.pull.core.api.service.SourceServiceImpl;
+import com.eason.report.pull.core.exception.ServiceException;
+import com.eason.report.pull.core.mongo.po.DtGFMgoPo;
+import com.eason.report.pull.core.mysqlDao.DSAuditTotalDao;
+import com.eason.report.pull.core.po.DtGuangfangLotteryPo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @MQConsumer
 @Slf4j
-public class DSGFPushAPIImpl extends MQServiceConsumer implements PushAPI {
+public class DSGFPushAPIImpl{
     @Autowired
-    private DSGFServiceImpl dSGFServiceImpl;
+    private SourceServiceImpl sourceService;
 
-    @Override
-    public ResponseModel getPushBet(Integer siteId, String type, Long startId, Long endId) {
+
+    @SourceQuery(targetId = "id",targetMgo = DtGFMgoPo.class)
+    public void getPushBet(Integer siteId,List<DtGFMgoPo> list) throws ServiceException{
         try{
-            if(dSGFServiceImpl.insertSource(siteId, type, startId, endId)){
-                dSGFServiceImpl.insertReport(siteId, type, startId, endId);
-                return successModel;
-            }
-            return errorModel;
+            log.info("DS-GF官方彩站点siteId={}，接收数据rows={}",siteId,list.size());
+            sourceService.insertSource(list,DtGuangfangLotteryPo.class);
         }catch (Exception e){
-            int num=dSGFServiceImpl.deleteRollback(siteId, type, startId, endId);
-            log.error("DS-GF官方彩站点siteId={}，数据回滚num={}，异常信息={}",siteId,num,e.getMessage());
-            e.printStackTrace();
-            return errorModel;
+            throw new ServiceException(e);
         }
     }
 
-    @Override
-    public ResponseModel getPushBet(Integer siteId, String type, String startId, String endId) {
-        return errorModel;
+    @AuditReport(procedureName = "createAuditAndReportForDSGF",targetDao = DSAuditTotalDao.class)
+    public void auditReport(Integer siteId,String result) {
+        log.info("审计报表Procedure返回结果result={}",result);
+        if(result.isEmpty()){
+            log.error("DS-GF官方彩站点siteId={}，执行审计报表存储过程为空，请查看传参",siteId);
+        }
     }
+
 }

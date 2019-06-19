@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class BaseAPI implements ApplicationContextAware {
+public class BaseAPI{
 
     @Value("${target.siteId}")
     protected Integer siteId;
@@ -27,18 +27,7 @@ public class BaseAPI implements ApplicationContextAware {
     public static final ResponseModel successModel=ResponseModel.builder().code(SUCCESS).massge("操作成功").build();
     public static final ResponseModel errorModel=ResponseModel.builder().code(ERROR).massge("操作失败 ").build();
 
-
     public static final String xxxPullAPIImpl="PullAPIImpl";
     public static final String xxxPushAPIImpl="PushAPIImpl";
-
-
-    protected Map<String, Object> producerMap;
-    protected Map<String, Object> consumerMap;
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        producerMap = applicationContext.getBeansWithAnnotation(MQProducer.class); // 获取所有带有 MQProducer 注解的 Spring Bean
-        consumerMap = applicationContext.getBeansWithAnnotation(MQConsumer.class); // 获取所有带有 MQConsumer 注解的 Spring Bean
-    }
 
 }
