@@ -6,8 +6,7 @@ import com.eason.report.pull.core.annotation.SourceQuery;
 import com.eason.report.pull.core.api.service.SourceServiceImpl;
 import com.eason.report.pull.core.exception.ServiceException;
 import com.eason.report.pull.core.mongo.po.MdtJDMgoPo;
-import com.eason.report.pull.core.mysqlDao.DSAuditTotalDao;
-import com.eason.report.pull.core.po.DtJingdianLotteryPo;
+import com.eason.report.pull.core.mysqlDao.AuditTotalDao;
 import com.eason.report.pull.core.po.MdtJingdianLotteryPo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class MDTJDPushAPIImpl{
         }
     }
 
-    @AuditReport(procedureName = "createAuditAndReportForMdtJD",targetDao = DSAuditTotalDao.class)
+    @AuditReport(procedureName = "createAuditAndReportForMdtJD",targetDao = AuditTotalDao.class)
     public void auditReport(Integer siteId,String result) {
         log.info("审计报表Procedure返回结果result={}",result);
         if(result.isEmpty()){

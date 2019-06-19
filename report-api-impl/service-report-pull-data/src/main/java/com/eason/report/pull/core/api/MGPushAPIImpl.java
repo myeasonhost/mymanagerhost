@@ -5,13 +5,9 @@ import com.eason.report.pull.core.annotation.MQConsumer;
 import com.eason.report.pull.core.annotation.SourceQuery;
 import com.eason.report.pull.core.api.service.SourceServiceImpl;
 import com.eason.report.pull.core.exception.ServiceException;
-import com.eason.report.pull.core.model.ResponseModel;
 import com.eason.report.pull.core.mongo.po.MGMgoPo;
-import com.eason.report.pull.core.mongo.po.MdtJDMgoPo;
-import com.eason.report.pull.core.mq.MQServiceConsumer;
-import com.eason.report.pull.core.mysqlDao.DSAuditTotalDao;
+import com.eason.report.pull.core.mysqlDao.AuditTotalDao;
 import com.eason.report.pull.core.po.DsMgGamePo;
-import com.eason.report.pull.core.po.MdtJingdianLotteryPo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -34,7 +30,7 @@ public class MGPushAPIImpl{
         }
     }
 
-    @AuditReport(procedureName = "createAuditAndReportForMG",targetDao = DSAuditTotalDao.class)
+    @AuditReport(procedureName = "createAuditAndReportForMG",targetDao = AuditTotalDao.class)
     public void auditReport(Integer siteId,String result) {
         log.info("审计报表Procedure返回结果result={}",result);
         if(result.isEmpty()){

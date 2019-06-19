@@ -1,6 +1,8 @@
 package com.eason.report.pull.core.manager;
 
 
+import com.eason.report.pull.core.api.IPullMgr;
+import com.eason.report.pull.core.mongo.po.DtJDMgoPo;
 import com.eason.report.pull.core.mongo.po.MdtJDMgoPo;
 import com.eason.report.pull.core.mysqlDao.config.DtLotteryConfigPo;
 import com.eason.report.pull.core.mysqlDao.dao.DtLotteryConfigDao;
@@ -20,35 +22,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
 @Slf4j
-public class MdtJDMgr {
-  @Autowired
-  private DtLotteryConfigDao dtLotteryConfigDao;
+public class MdtJDMgr implements IPullMgr<MdtJDMgoPo,DtLotteryConfigPo> {
 
   @Resource
   private MongoTemplate mongoTemplate;
 
-  public List<DtLotteryConfigPo> loadConfig(){
-    List<DtLotteryConfigPo> dfConfigList=dtLotteryConfigDao.findMdtJdConfig();
-    dfConfigList.forEach(po -> {
-      Map<Integer,String> map=new HashMap<>();
-      String[] ary=po.getSiteId().split(","); //_1020,_1040,_1070,_1080
-      for (String s:ary){ //TYZ_1020
-        String[] i=s.split("_");
-        map.put(Integer.parseInt(i[1]),po.getUser()+"_"+i[0]);
-      }
-      po.setSiteMap(map);
-    });
-    log.info("MDT-JD读取缓存的配置：dfConfigList="+dfConfigList);
-    return dfConfigList;
-  }
-
+  @Override
   public MdtJDMgoPo extAttr(MdtJDMgoPo po,DtLotteryConfigPo configPo) {
     po.setBetTime(DateUtil.covertGMTTime(po.getTimeAdd()));
     po.setReportTime(DateUtil.covertGMTTime(po.getTimeDraw()));
@@ -77,6 +62,7 @@ public class MdtJDMgr {
   }
 
   @Transactional
+  @Override
   public void saveAndUpdate(MdtJDMgoPo po, DtLotteryConfigPo configPo){
     po=this.extAttr(po,configPo);
     Optional<MdtJDMgoPo> result =mongoTemplate.update(MdtJDMgoPo.class)
@@ -89,8 +75,10 @@ public class MdtJDMgr {
     }
   }
 
-  public Long getMaxId(){
+  @Override
+  public Long getMaxId(DtLotteryConfigPo configPo){
     TypedAggregation<MdtJDMgoPo> agg = newAggregation(MdtJDMgoPo.class,
+            match(where("user4").is(configPo.getUser())),
             group().max("$id").as("id")
     );
     AggregationResults<MdtJDMgoPo> results = mongoTemplate.aggregate(agg,MdtJDMgoPo.class);
@@ -98,4 +86,8 @@ public class MdtJDMgr {
     return po.getId();
   }
 
+  @Override
+  public Object getNextId(DtLotteryConfigPo configPo) {
+    return getMaxId(configPo)+1;
+  }
 }

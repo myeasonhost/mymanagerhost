@@ -15,22 +15,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class RunnerListener implements CommandLineRunner {
 
-    @Autowired
-    private DtGFMgr dtGFMgr;
-    @Autowired
-    private DtJDMgr dtJDMgr;
-    @Autowired
-    private MdtJDMgr mdtJDMgr;
-    @Autowired
-    private MGMgr MGMgr;
-
     @Override
     public void run(String... args) throws Exception {
         try {
-            dtGFMgr.loadConfig();
-            dtJDMgr.loadConfig();
-            mdtJDMgr.loadConfig();
-            MGMgr.loadConfig();
+
         }catch (Exception e){
             throw new DsException(e.getMessage());
         }

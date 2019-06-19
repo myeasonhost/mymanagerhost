@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @FeignClient(value = "service-report-pull-data-center", fallback = FPullAPIServiceFallback.class)
-public interface FPullAPIService extends PullAPI{
+public interface FPullAPIService{
 
     @PostMapping(value = "/dsgf/getPullBet")
     List<ResponseModel> getPullBet() throws FeignException;

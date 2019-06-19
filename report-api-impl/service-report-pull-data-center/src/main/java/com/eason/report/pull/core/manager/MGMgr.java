@@ -3,12 +3,11 @@ package com.eason.report.pull.core.manager;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.eason.report.pull.core.base.BaseAPI;
+import com.eason.report.pull.core.api.IPullMgr;
 import com.eason.report.pull.core.exception.MgException;
 import com.eason.report.pull.core.exception.TimeOutException;
 import com.eason.report.pull.core.mongo.po.MGMgoPo;
 import com.eason.report.pull.core.mysqlDao.config.MgGameConfigPo;
-import com.eason.report.pull.core.mysqlDao.dao.MGConfigDao;
 import com.eason.report.pull.core.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.time.DateUtils;
@@ -27,7 +26,10 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -35,7 +37,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
 @Slf4j
-public class MGMgr extends BaseAPI {
+public class MGMgr implements IPullMgr<MGMgoPo, MgGameConfigPo> {
   /**MG的配置**/
   public static final String DATE_PATTERN="yyyy:MM:dd:HH:mm:ss";
 
@@ -45,25 +47,6 @@ public class MGMgr extends BaseAPI {
   private StringRedisTemplate stringRedisTemplate10;
   @Autowired
   private MongoTemplate mongoTemplate;
-  @Autowired
-  private MGConfigDao mgConfigDao;
-
-
-  public List<MgGameConfigPo> loadConfig() {
-    List<MgGameConfigPo> configMgoList=mgConfigDao.findConfig();
-    configMgoList.forEach(po -> {
-      Map<Integer,String> map=new HashMap<>();
-      String[] ary=po.getSiteId().split(","); //TYZ_1020,MHD_1040,MAA_1070,MAB_1080
-      for (String s:ary){ //TYZ_1020
-        String[] i=s.split("_");
-        map.put(Integer.parseInt(i[1]),po.getPrex()+""+i[0]);
-      }
-      po.setSiteMap(map);
-    });
-
-    log.info("MG大富豪读取的配置：configList="+configMgoList);
-    return configMgoList;
-  }
 
   /**
    *  Transaction History To EndTime>TransTime
@@ -173,7 +156,7 @@ public class MGMgr extends BaseAPI {
     }
   }
 
-
+  @Override
   public MGMgoPo extAttr(MGMgoPo po, MgGameConfigPo configPo) {
     for(Map.Entry<Integer,String> site:configPo.getSiteMap().entrySet()){
       if(po.getMbrCode().startsWith(site.getValue())){
@@ -196,6 +179,7 @@ public class MGMgr extends BaseAPI {
   }
 
   @Transactional
+  @Override
   public void saveAndUpdate(MGMgoPo po, MgGameConfigPo configPo){
     po=this.extAttr(po,configPo);
     Optional<MGMgoPo> result =mongoTemplate.update(MGMgoPo.class)
@@ -208,6 +192,7 @@ public class MGMgr extends BaseAPI {
     }
   }
 
+  @Override
   public Date getMaxId(MgGameConfigPo configPo){
     TypedAggregation<MGMgoPo> agg = newAggregation(MGMgoPo.class,
             match(where("agentId").is(configPo.getAgentId())),
@@ -225,4 +210,9 @@ public class MGMgr extends BaseAPI {
     return endDate;
   }
 
+  @Override
+  public Object getNextId(MgGameConfigPo configPo) {
+    Date startId= DateUtils.addSeconds(new Date(getMaxId(configPo).getTime()),1);
+    return startId;
+  }
 }

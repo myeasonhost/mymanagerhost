@@ -5,11 +5,8 @@ import com.eason.report.pull.core.annotation.MQConsumer;
 import com.eason.report.pull.core.annotation.SourceQuery;
 import com.eason.report.pull.core.base.BaseAPI;
 import com.eason.report.pull.core.exception.ServiceException;
-import com.eason.report.pull.core.model.DateModel;
 import com.eason.report.pull.core.model.Model;
 import com.eason.report.pull.core.model.MsgModel;
-import com.eason.report.pull.core.model.NumModel;
-import com.eason.report.pull.core.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +30,8 @@ public class MQServiceConsumer extends BaseAPI implements ApplicationContextAwar
 
     @Autowired
     private MongoTemplate mongoTemplate;
-    protected Map<String, Object> consumerMap;
-    protected ApplicationContext applicationContext;
+    private Map<String, Object> consumerMap;
+    private ApplicationContext applicationContext;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -58,84 +55,45 @@ public class MQServiceConsumer extends BaseAPI implements ApplicationContextAwar
                 return;
             }
             Model model=msg.getModel();
-            if(model instanceof NumModel){
-                NumModel numModel=(NumModel)model;
-                Method[] methods=pushAPIService.getClass().getDeclaredMethods();
-                for(Method method:methods){
-                    if(method.isAnnotationPresent(SourceQuery.class)){
-                        SourceQuery query=method.getAnnotation(SourceQuery.class);
-                        try{
-                            List list=mongoTemplate.find(query(where(query.targetId())
-                                    .gte(numModel.getStartId())
-                                    .lte(numModel.getEndId())
-                                    .and("siteid").is(siteId)),query.targetMgo());
-                            if(list.isEmpty()){
-                                throw new ServiceException("接收数据为空");
-                            }
-                            method.invoke(pushAPIService,siteId,list);
-                            for(Method ar:methods){
-                                if(ar.isAnnotationPresent(AuditReport.class)){
-                                    AuditReport auditReport=ar.getAnnotation(AuditReport.class);
-                                    Object obj=applicationContext.getBean(auditReport.targetDao());
-                                    String result=(String) obj
-                                            .getClass()
-                                            .getMethod(auditReport.procedureName(),Integer.class,String.class,Long.class,Long.class)
-                                            .invoke(obj,siteId,type,numModel.getStartId(),numModel.getEndId());
-                                    ar.invoke(pushAPIService,siteId,result);
+            Method[] methods=pushAPIService.getClass().getDeclaredMethods();
+            for(Method method:methods){
+                if(method.isAnnotationPresent(SourceQuery.class)){
+                    SourceQuery query=method.getAnnotation(SourceQuery.class);
+                    try{
+                        List list=mongoTemplate.find(query(where(query.targetId())
+                                .gte(model.getStartId())
+                                .lte(model.getEndId())
+                                .and("siteid").is(siteId)),query.targetMgo());
+                        if(list.isEmpty()){
+                            throw new ServiceException("接收数据为空");
+                        }
+                        method.invoke(pushAPIService,siteId,list);
+                        for(Method ar:methods){
+                            if(ar.isAnnotationPresent(AuditReport.class)){
+                                AuditReport auditReport=ar.getAnnotation(AuditReport.class);
+                                Object obj=applicationContext.getBean(auditReport.targetDao());
+                                Method[] methods1=obj.getClass().getMethods();
+                                for(Method method1:methods1){
+                                    if(auditReport.procedureName().equals(method1.getName())){
+                                        String result=(String) method1.invoke(obj,siteId,type,model.getStartId(),model.getEndId());
+                                        ar.invoke(pushAPIService,siteId,result);
+                                    }
                                 }
                             }
-                        }catch(Exception e){
-                            List list=mongoTemplate.findAllAndRemove(query(where(query.targetId())
-                                    .gte(numModel.getStartId())
-                                    .lte(numModel.getEndId())
-                                    .and("siteid").is(siteId)),query.targetMgo());
-                            log.error("{}站点siteId={}，数据回滚num={}，请查看传参",type,siteId,list.size());
-                            e.printStackTrace();
                         }
-
+                    }catch(Exception e){
+                        List list=mongoTemplate.findAllAndRemove(query(where(query.targetId())
+                                .gte(model.getStartId())
+                                .lte(model.getEndId())
+                                .and("siteid").is(siteId)),query.targetMgo());
+                        log.error("{}站点siteId={}，数据回滚num={}，请查看传参",type,siteId,list.size());
+                        e.printStackTrace();
                     }
 
                 }
-                log.info("站点siteId={}，游戏type={},当前startId={}——endId={}，开始分发",siteId,type,numModel.getStartId(),numModel.getEndId());
-            }else if(model instanceof DateModel){
-                DateModel dateModel=(DateModel)model;
-                Method[] methods=pushAPIService.getClass().getDeclaredMethods();
-                for(Method method:methods){
-                    if(method.isAnnotationPresent(SourceQuery.class)){
-                        SourceQuery query=method.getAnnotation(SourceQuery.class);
-                        try{
-                            List list=mongoTemplate.find(query(where(query.targetId())
-                                    .gte(DateUtil.covertTime(dateModel.getStartId()))
-                                    .lte(DateUtil.covertTime(dateModel.getEndId()))
-                                    .and("siteId").is(siteId)),query.targetMgo());
-                            method.invoke(pushAPIService,siteId,list);
-                            for(Method ar:methods){
-                                if(ar.isAnnotationPresent(AuditReport.class)){
-                                    AuditReport auditReport=ar.getAnnotation(AuditReport.class);
-                                    Object obj=applicationContext.getBean(auditReport.targetDao());
-                                    String result=(String) obj
-                                            .getClass()
-                                            .getMethod(auditReport.procedureName(),Integer.class,String.class,String.class,String.class)
-                                            .invoke(obj,siteId,type,dateModel.getStartId(),dateModel.getEndId());
-                                    ar.invoke(pushAPIService,siteId,result);
-                                }
-                            }
-                        }catch(Exception e){
-                            List list=mongoTemplate.findAllAndRemove(query(where(query.targetId())
-                                    .gte(DateUtil.covertTime(dateModel.getStartId()))
-                                    .lte(DateUtil.covertTime(dateModel.getEndId()))
-                                    .and("siteId").is(siteId)),query.targetMgo());
-                            log.error("{}站点siteId={}，数据回滚num={}，请查看传参",type,siteId,list.size());
-                            e.printStackTrace();
-                        }
 
-                    }
-
-                }
-                log.info("站点siteId={}，游戏type={},当前startId={}——endId={}，开始分发",siteId,type,dateModel.getStartId(),dateModel.getEndId());
-            }else{
-                log.error("站点siteId={},model={}消息接收任务不能执行，请检查消息模型Model",siteId,model);
             }
+            log.info("站点siteId={}，游戏type={},当前startId={}——endId={}，开始分发",siteId,type,model.getStartId(),model.getEndId());
 
         } catch (Exception e) {
             log.error("站点siteId={},系统异常={}", siteId,e.getMessage());

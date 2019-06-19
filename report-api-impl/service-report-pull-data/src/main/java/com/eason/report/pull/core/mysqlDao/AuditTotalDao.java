@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DSAuditTotalDao extends JpaRepository<AuditTotalPo, Long>{
+public interface AuditTotalDao extends JpaRepository<AuditTotalPo, Long>{
 
     @Procedure(procedureName = "ds_gf_audit_report")
     String createAuditAndReportForDSGF(Integer siteId,String type, Long startId, Long endId);

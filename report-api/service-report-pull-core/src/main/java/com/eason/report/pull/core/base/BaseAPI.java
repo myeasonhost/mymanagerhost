@@ -1,16 +1,9 @@
 package com.eason.report.pull.core.base;
 
-import com.eason.report.pull.core.annotation.MQConsumer;
-import com.eason.report.pull.core.annotation.MQProducer;
 import com.eason.report.pull.core.model.ResponseModel;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 @Component
 @Slf4j

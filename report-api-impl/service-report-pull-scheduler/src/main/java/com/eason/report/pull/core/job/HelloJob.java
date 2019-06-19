@@ -1,7 +1,6 @@
 package com.eason.report.pull.core.job;
 
 import com.eason.report.pull.core.api.FPullAPIService;
-import com.eason.report.pull.core.model.NumModel;
 import com.eason.report.pull.core.model.ResponseModel;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
@@ -25,7 +24,7 @@ public class HelloJob implements BaseJob {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         _log.info("Hello Job执行时间: " + new Date());
         try {
-            List<ResponseModel> responseModelList=fPullAPIServiceFallback.getPullBet();
+            List<ResponseModel> responseModelList=fPullAPIServiceFallback.getPullBetForMG();
             log.info(responseModelList.toString());
         }catch (Exception e){
             e.printStackTrace();

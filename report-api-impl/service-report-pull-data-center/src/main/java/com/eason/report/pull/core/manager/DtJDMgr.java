@@ -1,12 +1,11 @@
 package com.eason.report.pull.core.manager;
 
 
+import com.eason.report.pull.core.api.IPullMgr;
 import com.eason.report.pull.core.mongo.po.DtJDMgoPo;
 import com.eason.report.pull.core.mysqlDao.config.DtLotteryConfigPo;
-import com.eason.report.pull.core.mysqlDao.dao.DtLotteryConfigDao;
 import com.eason.report.pull.core.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndReplaceOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -15,39 +14,20 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
 @Slf4j
-public class DtJDMgr {
-  @Autowired
-  private DtLotteryConfigDao dtLotteryConfigDao;
+public class DtJDMgr implements IPullMgr<DtJDMgoPo,DtLotteryConfigPo> {
   @Resource
   private MongoTemplate mongoTemplate;
 
-  public List<DtLotteryConfigPo> loadConfig(){
-    List<DtLotteryConfigPo> dfConfigList=dtLotteryConfigDao.findDsJdConfig();
-    dfConfigList.forEach(po -> {
-      Map<Integer,String> map=new HashMap<>();
-      String[] ary=po.getSiteId().split(","); //TYZ_1020,MHD_1040,MAA_1070,MAB_1080
-      for (String s:ary){ //TYZ_1020
-        String[] i=s.split("_");
-        map.put(Integer.parseInt(i[1]),po.getUser()+"_"+i[0]);
-      }
-      po.setSiteMap(map);
-    });
-    log.info("DS-JD读取缓存的配置：dfConfigList="+dfConfigList);
-    return dfConfigList;
-  }
-
+  @Override
   public DtJDMgoPo extAttr(DtJDMgoPo po,DtLotteryConfigPo configPo) {
     po.setBetTime(DateUtil.covertGMTTime(po.getTimeAdd()));
     po.setReportTime(DateUtil.covertGMTTime(po.getTimeDraw()));
@@ -78,6 +58,7 @@ public class DtJDMgr {
 
 
   @Transactional
+  @Override
   public void saveAndUpdate(DtJDMgoPo po, DtLotteryConfigPo configPo){
     po=this.extAttr(po,configPo);
     Optional<DtJDMgoPo> result =mongoTemplate.update(DtJDMgoPo.class)
@@ -89,9 +70,10 @@ public class DtJDMgr {
       log.info("DS-JD存在重复值DtJDMgoPo={}",result.get().toString());
     }
   }
-
-  public Long getMaxId(){
+  @Override
+  public Long getMaxId(DtLotteryConfigPo configPo){
     TypedAggregation<DtJDMgoPo> agg = newAggregation(DtJDMgoPo.class,
+            match(where("user4").is(configPo.getUser())),
             group().max("$id").as("id")
     );
     AggregationResults<DtJDMgoPo> results = mongoTemplate.aggregate(agg,DtJDMgoPo.class);
@@ -99,5 +81,9 @@ public class DtJDMgr {
     return po.getId();
   }
 
+  @Override
+  public Object getNextId(DtLotteryConfigPo configPo) {
+    return getMaxId(configPo)+1;
+  }
 
 }

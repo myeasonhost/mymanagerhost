@@ -1,51 +1,54 @@
 package com.eason.report.pull.core.po;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ds_audit_total")
+@Table(name = "audit_total")
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "ds_gf_audit_report", procedureName = "ds_gf_audit_report",
                 parameters = {
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Object.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Object.class),
                         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
         @NamedStoredProcedureQuery(name = "ds_jd_audit_report", procedureName = "ds_jd_audit_report",
                 parameters = {
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Object.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Object.class),
                         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
         @NamedStoredProcedureQuery(name = "mdt_jd_audit_report", procedureName = "mdt_jd_audit_report",
                 parameters = {
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Long.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Object.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Object.class),
                         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
         @NamedStoredProcedureQuery(name = "ds_mg_audit_report", procedureName = "ds_mg_audit_report",
                 parameters = {
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Object.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Object.class),
                         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)})})
-public class AuditTotalPo {
+public class AuditTotalPo implements Serializable {
     private long id;
-    private Integer liveId;
-    private String orderNo;
     private String username;
-    private Timestamp betTime;
+    private String targetId;
+    private String orderNo;
     private BigDecimal betAmount;
     private BigDecimal validAmount;
     private BigDecimal payAmount;
-    private int type;
-    private String parentType;
+    private String gameKind;
+    private int gameType;
+    private Timestamp betTime;
+    private String heartbeat;
     private Timestamp createTime;
     private Timestamp updateTime;
 
@@ -60,26 +63,6 @@ public class AuditTotalPo {
     }
 
     @Basic
-    @Column(name = "live_id")
-    public Integer getLiveId() {
-        return liveId;
-    }
-
-    public void setLiveId(Integer liveId) {
-        this.liveId = liveId;
-    }
-
-    @Basic
-    @Column(name = "order_no")
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-    }
-
-    @Basic
     @Column(name = "username")
     public String getUsername() {
         return username;
@@ -90,13 +73,23 @@ public class AuditTotalPo {
     }
 
     @Basic
-    @Column(name = "bet_time")
-    public Timestamp getBetTime() {
-        return betTime;
+    @Column(name = "target_id")
+    public String getTargetId() {
+        return targetId;
     }
 
-    public void setBetTime(Timestamp betTime) {
-        this.betTime = betTime;
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
+    }
+
+    @Basic
+    @Column(name = "order_no")
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
     @Basic
@@ -130,23 +123,43 @@ public class AuditTotalPo {
     }
 
     @Basic
-    @Column(name = "type")
-    public int getType() {
-        return type;
+    @Column(name = "game_kind")
+    public String getGameKind() {
+        return gameKind;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setGameKind(String gameKind) {
+        this.gameKind = gameKind;
     }
 
     @Basic
-    @Column(name = "parent_type")
-    public String getParentType() {
-        return parentType;
+    @Column(name = "game_type")
+    public int getGameType() {
+        return gameType;
     }
 
-    public void setParentType(String gameName) {
-        this.parentType = parentType;
+    public void setGameType(int gameType) {
+        this.gameType = gameType;
+    }
+
+    @Basic
+    @Column(name = "bet_time")
+    public Timestamp getBetTime() {
+        return betTime;
+    }
+
+    public void setBetTime(Timestamp betTime) {
+        this.betTime = betTime;
+    }
+
+    @Basic
+    @Column(name = "heartbeat")
+    public String getHeartbeat() {
+        return heartbeat;
+    }
+
+    public void setHeartbeat(String heartbeat) {
+        this.heartbeat = heartbeat;
     }
 
     @Basic
@@ -175,21 +188,22 @@ public class AuditTotalPo {
         if (o == null || getClass() != o.getClass()) return false;
         AuditTotalPo that = (AuditTotalPo) o;
         return id == that.id &&
-                type == that.type &&
-                Objects.equals(liveId, that.liveId) &&
-                Objects.equals(orderNo, that.orderNo) &&
+                gameType == that.gameType &&
                 Objects.equals(username, that.username) &&
-                Objects.equals(betTime, that.betTime) &&
+                Objects.equals(targetId, that.targetId) &&
+                Objects.equals(orderNo, that.orderNo) &&
                 Objects.equals(betAmount, that.betAmount) &&
                 Objects.equals(validAmount, that.validAmount) &&
                 Objects.equals(payAmount, that.payAmount) &&
-                Objects.equals(parentType, that.parentType) &&
+                Objects.equals(gameKind, that.gameKind) &&
+                Objects.equals(betTime, that.betTime) &&
+                Objects.equals(heartbeat, that.heartbeat) &&
                 Objects.equals(createTime, that.createTime) &&
                 Objects.equals(updateTime, that.updateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, liveId, orderNo, username, betTime, betAmount, validAmount, payAmount, type, parentType, createTime, updateTime);
+        return Objects.hash(id, username, targetId, orderNo, betAmount, validAmount, payAmount, gameKind, gameType, betTime, heartbeat, createTime, updateTime);
     }
 }
