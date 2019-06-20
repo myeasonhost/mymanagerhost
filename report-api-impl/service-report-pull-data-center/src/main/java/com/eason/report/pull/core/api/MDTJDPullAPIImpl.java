@@ -6,7 +6,6 @@ import com.eason.report.pull.core.annotation.LoadConfig;
 import com.eason.report.pull.core.annotation.MQProducer;
 import com.eason.report.pull.core.annotation.TypeMgr;
 import com.eason.report.pull.core.base.BaseAPI;
-import com.eason.report.pull.core.base.BaseConfig;
 import com.eason.report.pull.core.exception.DsException;
 import com.eason.report.pull.core.manager.MdtJDMgr;
 import com.eason.report.pull.core.mongo.po.MdtJDMgoPo;
@@ -25,7 +24,7 @@ import java.util.Map;
 /**
  * @author EASON LI
  */
-@MQProducer
+@MQProducer(code = "MDT-JD")
 @Slf4j
 public class MDTJDPullAPIImpl extends BaseAPI {
     @Autowired
@@ -42,7 +41,7 @@ public class MDTJDPullAPIImpl extends BaseAPI {
             String[] ary=po.getSiteId().split(","); //_1020,_1040,_1070,_1080
             for (String s:ary){ //TYZ_1020
                 String[] i=s.split("_");
-                map.put(Integer.parseInt(i[1]),po.getUser()+"_"+i[0]);
+                map.put(Integer.parseInt(i[1]),po.getAgentId()+"_"+i[0]);
             }
             po.setSiteMap(map);
         });
@@ -51,11 +50,10 @@ public class MDTJDPullAPIImpl extends BaseAPI {
     }
 
     @TypeMgr(name = "拉取操作",targetMgr = MdtJDMgr.class)
-    public int getPullBet(BaseConfig config, IPullMgr iPullMgr) throws DsException {
+    public int getPullBet(DtLotteryConfigPo configPo, MdtJDMgr iPullMgr) throws DsException {
         try{
-            Long startId=(Long)iPullMgr.getNextId(config);
-            Integer length=config.getLength();
-            DtLotteryConfigPo configPo=(DtLotteryConfigPo) config;
+            Long startId=iPullMgr.getNextId(configPo);
+            Integer length=configPo.getLength();
             log.info("MDT-JD经典彩从startId="+startId+"开始准备拉取length="+length+",拉取配置configPo={}", configPo);
 
             HttpHeaders requestHeaders = new HttpHeaders();
@@ -66,7 +64,7 @@ public class MDTJDPullAPIImpl extends BaseAPI {
 
             JSONObject request = new JSONObject();
             request.put("len",length);
-            request.put("user", configPo.getUser());
+            request.put("user", configPo.getAgentId());
             request.put("startId", startId);
             request.put("level", configPo.getLevel());
 
@@ -76,18 +74,18 @@ public class MDTJDPullAPIImpl extends BaseAPI {
             JSONObject object=exchange.getBody();
 
             if (object.getString("Message").equals("success") && object.getJSONArray("Result").size() != 0) {// 获取成功
-                JSONArray array = object.getJSONArray("message");
+                JSONArray array = object.getJSONArray("Result");
                 int arraySize = array.size();
-                log.info("MDT-JD经典彩网站={},拉取到注单,数量={}", configPo.getUser(), arraySize);
+                log.info("MDT-JD经典彩网站={},拉取到注单,数量={}", configPo.getAgentId(), arraySize);
                 for (int i = 0; i < array.size(); i++) {
                     MdtJDMgoPo po = array.getObject(i, MdtJDMgoPo.class);
                     iPullMgr.saveAndUpdate(po,configPo);
                 }
                 return arraySize;
             } else if (object.getString("Message").equals("success") && object.getJSONArray("Result").size() == 0) { // 没有拉取到注单
-                log.info("MDT-JD经典彩网站={} 拉取成功,但注单数量为0,拉取结果={}", configPo.getUser(), object.toJSONString());
+                log.info("MDT-JD经典彩网站={} 拉取成功,但注单数量为0,拉取结果={}", configPo.getAgentId(), object.toJSONString());
             } else if (!object.getString("Message").equals("success")) {
-                log.error("MDT-JD经典彩网站={} 拉取数据失败,请检查配置,错误消息={}", configPo.getUser(), object.toJSONString());
+                log.error("MDT-JD经典彩网站={} 拉取数据失败,请检查配置,错误消息={}", configPo.getAgentId(), object.toJSONString());
             }
             return 0;
         }catch(Exception e){

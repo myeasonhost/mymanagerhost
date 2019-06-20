@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class Model implements Serializable {
-    private String type;
+    private String code;
     private Object startId;
     private Object endId;
 }

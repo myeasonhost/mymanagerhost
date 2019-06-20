@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@MQConsumer
+@MQConsumer(code = "DS-GF")
 @Slf4j
 public class DSGFPushAPIImpl{
     @Autowired

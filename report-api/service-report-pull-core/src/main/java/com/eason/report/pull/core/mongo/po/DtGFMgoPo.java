@@ -21,7 +21,6 @@ public class DtGFMgoPo extends BasePo {
     private String tid;
     @Indexed(unique=true)
     private Long id;
-    private Integer siteid;
     private String nid;
     private Integer lid;
     private Integer uid;

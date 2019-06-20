@@ -9,10 +9,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class BaseAPI{
 
+    //彩票、视讯、电游、棋牌、体育
     @Value("${target.siteId}")
     protected Integer siteId;
-
-    public static final Integer GAMENUM=11; //彩票、视讯、电游、棋牌、体育
 
     public static final String SUCCESS="0000";
     public static final String ERROR="1111";

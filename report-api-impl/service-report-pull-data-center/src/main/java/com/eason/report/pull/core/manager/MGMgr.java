@@ -193,7 +193,7 @@ public class MGMgr implements IPullMgr<MGMgoPo, MgGameConfigPo> {
   }
 
   @Override
-  public Date getMaxId(MgGameConfigPo configPo){
+  public Timestamp getMaxId(MgGameConfigPo configPo){
     TypedAggregation<MGMgoPo> agg = newAggregation(MGMgoPo.class,
             match(where("agentId").is(configPo.getAgentId())),
             group().max("$transTime").as("transTime")
@@ -203,16 +203,16 @@ public class MGMgr implements IPullMgr<MGMgoPo, MgGameConfigPo> {
     Object obj=stringRedisTemplate10.boundHashOps("mg_pull_config").get("endTime_"+configPo.getAgentId());
     Date endDate;
     if(obj==null || po.getTransTime().compareTo(endDate=DateUtil.covertTime((String)obj))==1){
-      return po.getTransTime();
+      return new Timestamp(po.getTransTime().getTime());
     }else{
       stringRedisTemplate10.boundHashOps("mg_pull_config").delete("endTime_"+configPo.getAgentId());
     }
-    return endDate;
+    return new Timestamp(endDate.getTime());
   }
 
   @Override
-  public Object getNextId(MgGameConfigPo configPo) {
-    Date startId= DateUtils.addSeconds(new Date(getMaxId(configPo).getTime()),1);
-    return startId;
+  public Timestamp getNextId(MgGameConfigPo configPo) {
+    Date startId= DateUtils.addSeconds(getMaxId(configPo),1);
+    return new Timestamp(startId.getTime());
   }
 }

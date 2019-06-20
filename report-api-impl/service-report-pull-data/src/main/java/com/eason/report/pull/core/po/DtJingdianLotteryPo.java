@@ -10,7 +10,7 @@ import java.util.Objects;
 @Table(name = "dt_jingdian_lottery")
 public class DtJingdianLotteryPo implements Serializable {
     private long id;
-    private int siteid;
+    private int siteId;
     private String nid;
     private byte lid;
     private String user;
@@ -83,13 +83,13 @@ public class DtJingdianLotteryPo implements Serializable {
     }
 
     @Basic
-    @Column(name = "siteid")
-    public int getSiteid() {
-        return siteid;
+    @Column(name = "siteId")
+    public int getSiteId() {
+        return siteId;
     }
 
-    public void setSiteid(int siteid) {
-        this.siteid = siteid;
+    public void setSiteId(int siteId) {
+        this.siteId = siteId;
     }
 
     @Basic
@@ -698,7 +698,7 @@ public class DtJingdianLotteryPo implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         DtJingdianLotteryPo that = (DtJingdianLotteryPo) o;
         return  id == that.id &&
-                siteid == that.siteid &&
+                siteId == that.siteId &&
                 lid == that.lid &&
                 userType == that.userType &&
                 qishu == that.qishu &&
@@ -763,6 +763,6 @@ public class DtJingdianLotteryPo implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, siteid, nid, lid, user, userType, user1, user2, user3, user4, pan, qishu, pid, oid, project, itmes, content, odds, jiner, jiner1, jiner2, jiner3, jiner4, jiner5, jinerb, share1, share2, share3, share4, share5, winDream, win, win1, win2, win3, win4, win5, bonus, bonus1, bonus2, bonus3, bonus4, bonus5, tuishui, tuishui1, tuishui2, tuishui3, tuishui4, tuishui5, ip, hash, stataus, timeDraw, timeIn, timeAdd, timeJiesuan, timePay, isCancel, cancelContent, betTime, winLoseType, reportTime);
+        return Objects.hash(id, siteId, nid, lid, user, userType, user1, user2, user3, user4, pan, qishu, pid, oid, project, itmes, content, odds, jiner, jiner1, jiner2, jiner3, jiner4, jiner5, jinerb, share1, share2, share3, share4, share5, winDream, win, win1, win2, win3, win4, win5, bonus, bonus1, bonus2, bonus3, bonus4, bonus5, tuishui, tuishui1, tuishui2, tuishui3, tuishui4, tuishui5, ip, hash, stataus, timeDraw, timeIn, timeAdd, timeJiesuan, timePay, isCancel, cancelContent, betTime, winLoseType, reportTime);
     }
 }

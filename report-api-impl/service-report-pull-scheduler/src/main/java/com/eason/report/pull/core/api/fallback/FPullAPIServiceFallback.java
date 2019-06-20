@@ -32,13 +32,4 @@ public class FPullAPIServiceFallback implements FPullAPIService {
         throw new FeignException();
     }
 
-    @Override
-    public ResponseModel getPullBet(Long maxId, Integer length, BaseConfig config) throws FeignException{
-        throw new FeignException("此接口对外不暴露");
-    }
-
-    @Override
-    public ResponseModel getPullBet(String maxId, Integer length, BaseConfig config) throws ServiceException {
-        throw new FeignException("此接口对外不暴露");
-    }
 }

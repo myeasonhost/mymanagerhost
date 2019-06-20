@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class BaseConfig implements Serializable {
     private Integer length;
-    private String agent;
+    private String agentId;
     @Transient
     private Map<Integer,String> siteMap;
 
@@ -27,11 +27,11 @@ public class BaseConfig implements Serializable {
         this.length = length;
     }
 
-    public String getAgent() {
-        return agent;
+    public String getAgentId() {
+        return agentId;
     }
 
-    public void setAgent(String agent) {
-        this.agent = agent;
+    public void setAgentId(String agentId) {
+        this.agentId = agentId;
     }
 }

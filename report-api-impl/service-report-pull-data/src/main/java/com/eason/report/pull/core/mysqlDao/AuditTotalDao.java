@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+
 @Repository
 public interface AuditTotalDao extends JpaRepository<AuditTotalPo, Long>{
 
@@ -19,6 +21,6 @@ public interface AuditTotalDao extends JpaRepository<AuditTotalPo, Long>{
     String createAuditAndReportForMdtJD(Integer siteId,String type, Long startId, Long endId);
 
     @Procedure(procedureName = "ds_mg_audit_report")
-    String createAuditAndReportForMG(Integer siteId,String type, String startId, String endId);
+    String createAuditAndReportForMG(Integer siteId, String type, Timestamp startId, Timestamp endId);
 
 }

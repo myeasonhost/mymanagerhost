@@ -19,5 +19,5 @@ public @interface MQConsumer {
      * （2）服务名的命名规则：服务名首字母小写
      * @return
      */
-    String name() default "";
+    String code() default "";
 }

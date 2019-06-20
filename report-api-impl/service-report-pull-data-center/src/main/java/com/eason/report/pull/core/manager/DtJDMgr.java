@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -29,11 +30,11 @@ public class DtJDMgr implements IPullMgr<DtJDMgoPo,DtLotteryConfigPo> {
 
   @Override
   public DtJDMgoPo extAttr(DtJDMgoPo po,DtLotteryConfigPo configPo) {
+    po.setReportTime(new Date());
     po.setBetTime(DateUtil.covertGMTTime(po.getTimeAdd()));
-    po.setReportTime(DateUtil.covertGMTTime(po.getTimeDraw()));
     for(Map.Entry<Integer,String> site:configPo.getSiteMap().entrySet()){
       if(po.getUser().startsWith(site.getValue())){
-        po.setSiteid(site.getKey());
+        po.setSiteId(site.getKey());
         po.setUser(po.getUser().substring(site.getValue().length()));
       }
     }
@@ -73,7 +74,7 @@ public class DtJDMgr implements IPullMgr<DtJDMgoPo,DtLotteryConfigPo> {
   @Override
   public Long getMaxId(DtLotteryConfigPo configPo){
     TypedAggregation<DtJDMgoPo> agg = newAggregation(DtJDMgoPo.class,
-            match(where("user4").is(configPo.getUser())),
+            match(where("user4").is(configPo.getAgentId())),
             group().max("$id").as("id")
     );
     AggregationResults<DtJDMgoPo> results = mongoTemplate.aggregate(agg,DtJDMgoPo.class);
@@ -82,7 +83,7 @@ public class DtJDMgr implements IPullMgr<DtJDMgoPo,DtLotteryConfigPo> {
   }
 
   @Override
-  public Object getNextId(DtLotteryConfigPo configPo) {
+  public Long getNextId(DtLotteryConfigPo configPo) {
     return getMaxId(configPo)+1;
   }
 

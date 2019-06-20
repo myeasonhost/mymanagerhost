@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@MQConsumer
+@MQConsumer(code = "MDT-JD")
 @Slf4j
 public class MDTJDPushAPIImpl{
     @Autowired

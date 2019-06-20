@@ -11,7 +11,7 @@ public class DtLotteryConfigPo extends BaseConfig {
     private int id;
     private String code;
     private String gameKindName;
-    private String user;
+    private String agentId;
     private String siteId;
     private Integer level;
     private String recordUrl;
@@ -52,13 +52,13 @@ public class DtLotteryConfigPo extends BaseConfig {
     }
 
     @Basic
-    @Column(name = "user")
-    public String getUser() {
-        return user;
+    @Column(name = "agentId")
+    public String getAgentId() {
+        return agentId;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setAgentId(String agentId) {
+        this.agentId = agentId;
     }
 
     @Basic
@@ -128,7 +128,7 @@ public class DtLotteryConfigPo extends BaseConfig {
         DtLotteryConfigPo that = (DtLotteryConfigPo) o;
         return id == that.id &&
                 Objects.equals(gameKindName, that.gameKindName) &&
-                Objects.equals(user, that.user) &&
+                Objects.equals(agentId, that.agentId) &&
                 Objects.equals(siteId, that.siteId) &&
                 Objects.equals(level, that.level) &&
                 Objects.equals(recordUrl, that.recordUrl) &&
@@ -139,7 +139,7 @@ public class DtLotteryConfigPo extends BaseConfig {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, gameKindName, user, siteId, level, recordUrl, length, state, info);
+        return Objects.hash(id, gameKindName, agentId, siteId, level, recordUrl, length, state, info);
     }
 
     @Override
@@ -148,7 +148,7 @@ public class DtLotteryConfigPo extends BaseConfig {
                 "id=" + id +
                 ", code='" + code + '\'' +
                 ", gameKindName='" + gameKindName + '\'' +
-                ", user='" + user + '\'' +
+                ", agentId='" + agentId + '\'' +
                 ", siteId='" + siteId + '\'' +
                 ", level=" + level +
                 ", recordUrl='" + recordUrl + '\'' +

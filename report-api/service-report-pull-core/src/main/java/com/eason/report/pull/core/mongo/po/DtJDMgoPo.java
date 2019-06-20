@@ -21,7 +21,6 @@ public class DtJDMgoPo extends BasePo {
     private String tid;
     @Indexed(unique=true)
     private long id;
-    private int siteid;
     private String nid;
     private Byte lid;
     private String user;

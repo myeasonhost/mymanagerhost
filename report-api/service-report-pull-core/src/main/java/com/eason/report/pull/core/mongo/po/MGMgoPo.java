@@ -21,7 +21,6 @@ public class MGMgoPo extends BasePo {
     private String tid;
     @Indexed(unique=true)
     private String colId;
-    private Integer siteId;
     private String userName;
     private String agentId;
     private String mbrId;

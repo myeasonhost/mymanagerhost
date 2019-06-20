@@ -13,14 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@MQConsumer
+@MQConsumer(code = "DS-MG")
 @Slf4j
 public class MGPushAPIImpl{
 
     @Autowired
     private SourceServiceImpl sourceService;
 
-    @SourceQuery(targetId = "id",targetMgo = MGMgoPo.class)
+    @SourceQuery(targetId = "transTime",targetMgo = MGMgoPo.class)
     public void getPushBet(Integer siteId, List<MGMgoPo> list) throws ServiceException {
         try{
             log.info("Mdt-JD经典彩站点siteId={}，接收数据rows={}",siteId,list.size());
