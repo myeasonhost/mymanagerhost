@@ -1,6 +1,5 @@
 package com.eason.report.pull.core.api.service;
 
-import com.eason.report.pull.core.exception.DataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class SourceServiceImpl {
     private EntityManager entityManager;
 
     @Transactional
-    public <T,K> void insertSource(List<K> list,Class<T> tClass) throws DataException {
+    public <T,K> void insertSource(List<K> list,Class<T> tClass) throws Exception {
         try{
             String idName=null;
             Method[] methods=tClass.getMethods();
@@ -49,7 +48,7 @@ public class SourceServiceImpl {
                 }
             }
         }catch (Exception e){
-            throw new DataException(e);
+            throw new Exception(e);
         }
     }
 

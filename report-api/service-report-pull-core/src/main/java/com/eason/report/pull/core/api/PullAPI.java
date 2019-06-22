@@ -6,6 +6,7 @@ import com.eason.report.pull.core.annotation.TypeMgr;
 import com.eason.report.pull.core.base.BaseAPI;
 import com.eason.report.pull.core.base.BaseConfig;
 import com.eason.report.pull.core.exception.ServiceException;
+import com.eason.report.pull.core.mgr.IPullMgr;
 import com.eason.report.pull.core.model.MsgModel;
 import com.eason.report.pull.core.model.ResponseModel;
 import com.eason.report.pull.core.mq.MQServiceProducer;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,19 +42,18 @@ public class PullAPI extends BaseAPI implements ApplicationContextAware {
         producerMap = applicationContext.getBeansWithAnnotation(MQProducer.class);
     }
 
-    @RequestMapping(value = "/{type}/getPullBet",method = RequestMethod.POST)
-    public <T extends BaseConfig, K extends IPullMgr> List<ResponseModel> getPullBet(@PathVariable(value = "type") String type) throws ServiceException{
+    @RequestMapping(value = "/{type}/{opt}",method = RequestMethod.POST)
+    public <T extends BaseConfig, K extends IPullMgr>
+    List<ResponseModel> getPullBet(@PathVariable(name = "type") String type,
+                                   @PathVariable(name = "opt") String opt) throws ServiceException{
         try{
             List<T> tList=null;
-            final String UpperType=type.toUpperCase();
-            Object pullAPIService=producerMap.get(UpperType+xxxPullAPIImpl);
-            if(pullAPIService==null){
-                throw new ServiceException("不支持当前类型type="+UpperType);
-            }
+            String url=String.format("/%s/%s",type,opt);
+            Object pullAPIService=getObject(producerMap,url);
             MQProducer mqProducer=pullAPIService.getClass().getAnnotation(MQProducer.class);
             String code=mqProducer.code();
             if(StringUtils.isEmpty(code)){
-                throw new ServiceException("请配置当前@MQProducer的code="+code);
+                throw new ServiceException("当前@MQProducer服务名code错误");
             }
             Method[] methods=pullAPIService.getClass().getDeclaredMethods();
             for(Method method:methods) {
@@ -98,7 +99,7 @@ public class PullAPI extends BaseAPI implements ApplicationContextAware {
                                 }
                                 Object endId=k.getMaxId(t);
                                 MsgModel msg=MsgModel.builder()
-                                        .type(UpperType)
+                                        .type(code)
                                         .message("当前拉取size="+size+"条已完成，开始分发").build();
                                 t.getSiteMap().forEach((key,value)-> {
                                     mqServiceProducer.notifySite(key,code,startId,endId,msg);
@@ -110,9 +111,9 @@ public class PullAPI extends BaseAPI implements ApplicationContextAware {
                                         .build();
                                 return responseModel;
                             }
-                        } catch (Exception e) {
+                        } catch (InvocationTargetException e) {
                             e.printStackTrace();
-                            log.error("{}拉取数据失败,错误消息={},请检查配置={}", code, e.getMessage(), t);
+                            log.error("{}拉取数据失败,错误消息={},请检查配置={}", code,  e.getTargetException().getMessage(), t);
                         } finally {
                             cdl.countDown();
                         }
@@ -131,5 +132,19 @@ public class PullAPI extends BaseAPI implements ApplicationContextAware {
         }catch(Exception e){
             throw new ServiceException(e);
         }
+    }
+
+    private Object getObject(Map<String, Object> producerMap,String url) throws ServiceException{
+        for(Map.Entry<String,Object> entry:producerMap.entrySet()){
+            String serverName=entry.getKey();
+            Object pullAPIService=entry.getValue();
+            MQProducer mqProducer=pullAPIService.getClass().getAnnotation(MQProducer.class);
+            String name=mqProducer.name();
+            String url2=mqProducer.url();
+            if(serverName.equalsIgnoreCase(name) && url.equals(url2)){
+                return pullAPIService;
+            }
+        }
+        throw new ServiceException("当前@MQProducer服务名name或者url错误");
     }
 }

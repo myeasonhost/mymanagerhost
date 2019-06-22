@@ -19,7 +19,4 @@ public class BaseAPI{
     public static final ResponseModel successModel=ResponseModel.builder().code(SUCCESS).massge("操作成功").build();
     public static final ResponseModel errorModel=ResponseModel.builder().code(ERROR).massge("操作失败 ").build();
 
-    public static final String xxxPullAPIImpl="PullAPIImpl";
-    public static final String xxxPushAPIImpl="PushAPIImpl";
-
 }

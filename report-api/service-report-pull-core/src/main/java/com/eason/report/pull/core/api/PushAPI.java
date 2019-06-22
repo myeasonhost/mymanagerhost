@@ -13,7 +13,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -38,11 +37,7 @@ public class PushAPI extends BaseAPI implements ApplicationContextAware {
 
     public void getPushBet(String type, Model model){
         try {
-            Object pushAPIService=consumerMap.get(type+xxxPushAPIImpl);
-            if (StringUtils.isEmpty(type) && pushAPIService==null) {
-                String info=String.format("站点siteId={},pushAPIService={}消息接收任务不能执行，请检查类名规则",siteId,pushAPIService);
-                throw new ServiceException(info);
-            }
+            Object pushAPIService=getObject(consumerMap,model.getCode());
             MQConsumer mqConsumer=pushAPIService.getClass().getAnnotation(MQConsumer.class);
             String code=mqConsumer.code();
             if (!code.equals(model.getCode())) {
@@ -92,6 +87,20 @@ public class PushAPI extends BaseAPI implements ApplicationContextAware {
             log.error("站点siteId={},系统异常={}", siteId,e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private Object getObject(Map<String, Object> consumerMap,String code) throws ServiceException{
+        for(Map.Entry<String,Object> entry:consumerMap.entrySet()){
+            String serverName=entry.getKey();
+            Object pullAPIService=entry.getValue();
+            MQConsumer mqProducer=pullAPIService.getClass().getAnnotation(MQConsumer.class);
+            String name=mqProducer.name();
+            String code2=mqProducer.code();
+            if(serverName.equalsIgnoreCase(name) && code.equals(code2)){
+                return pullAPIService;
+            }
+        }
+        throw new ServiceException("当前@MQConsumer服务名name错误");
     }
 
 }

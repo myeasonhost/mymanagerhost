@@ -36,6 +36,13 @@ import java.util.Objects;
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Object.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Object.class),
+                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
+        @NamedStoredProcedureQuery(name = "ky_audit_report", procedureName = "ky_audit_report",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Object.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Object.class),
                         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)})})
 public class AuditTotalPo implements Serializable {
     private long id;

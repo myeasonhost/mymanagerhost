@@ -23,6 +23,9 @@ public interface FPullAPIService{
     @PostMapping(value = "/mg/getPullBet")
     List<ResponseModel> getPullBetForMG() throws FeignException;
 
+    @PostMapping(value = "/ky/getPullBet")
+    List<ResponseModel> getPullBetForKY() throws FeignException;
+
 //    @PostMapping(value = "/getPullBet/{maxId}/{length}")
 //    ResponseModel getPullBet(@PathVariable(value = "maxId") Long maxId,
 //                             @PathVariable(value = "length") Integer length,
