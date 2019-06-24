@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * @author EASON LI
  */
-@MQProducer(name = "DSMGPullAPIImpl",code = "DS-MG",url = "/mg/getPullBet")
+@MQProducer(name = "DSMGPullAPIImpl",code = "DS-MG",url = "/dsmg/getPullBet")
 @Slf4j
 public class DSMGPullAPIImpl extends BaseAPI {
 

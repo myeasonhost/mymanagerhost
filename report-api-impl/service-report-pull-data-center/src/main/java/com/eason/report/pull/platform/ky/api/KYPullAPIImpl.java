@@ -37,7 +37,7 @@ public class KYPullAPIImpl extends BaseAPI {
             String[] ary=po.getSiteId().split(","); //_1020,_1040,_1070,_1080
             for (String s:ary){ //_1020
                 String[] i=s.split("_");
-                map.put(Integer.parseInt(i[1]),""+i[0]);
+                map.put(Integer.parseInt(i[1]),po.getAgentId()+"_"+i[0]);
             }
             po.setSiteMap(map);
         });

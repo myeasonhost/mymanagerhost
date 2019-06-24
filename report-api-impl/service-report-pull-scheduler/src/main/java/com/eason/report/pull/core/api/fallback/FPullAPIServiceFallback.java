@@ -1,9 +1,7 @@
 package com.eason.report.pull.core.api.fallback;
 
 import com.eason.report.pull.core.api.FPullAPIService;
-import com.eason.report.pull.core.base.BaseConfig;
 import com.eason.report.pull.core.exception.FeignException;
-import com.eason.report.pull.core.exception.ServiceException;
 import com.eason.report.pull.core.model.ResponseModel;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +32,11 @@ public class FPullAPIServiceFallback implements FPullAPIService {
 
     @Override
     public List<ResponseModel> getPullBetForKY() throws FeignException {
+        throw new FeignException();
+    }
+
+    @Override
+    public List<ResponseModel> getPullBetForDSLMG() throws FeignException {
         throw new FeignException();
     }
 
