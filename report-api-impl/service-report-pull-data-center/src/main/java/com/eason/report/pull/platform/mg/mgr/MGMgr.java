@@ -193,14 +193,17 @@ public class MGMgr implements IPullMgr<MGMgoPo, MgGameConfigPo> {
     );
     AggregationResults<MGMgoPo> results = mongoTemplate.aggregate(agg,MGMgoPo.class);
     MGMgoPo po = results.getUniqueMappedResult();
+    if(po==null){
+      return new Timestamp(configPo.getInitStartId().getTime());
+    }
     Object obj=stringRedisTemplate10.boundHashOps("mg_pull_config").get("endTime_"+configPo.getAgentId());
-    Date endDate;
-    if(obj==null || po.getTransTime().compareTo(endDate=DateUtil.covertTime((String)obj))==1){
-      return new Timestamp(po.getTransTime().getTime());
+    Date endDate= DateUtil.covertTime((String)obj);
+    if(obj!=null || endDate.compareTo(po.getTransTime())==1){
+      return new Timestamp(endDate.getTime());
     }else{
       stringRedisTemplate10.boundHashOps("mg_pull_config").delete("endTime_"+configPo.getAgentId());
     }
-    return new Timestamp(endDate.getTime());
+    return new Timestamp(po.getTransTime().getTime());
   }
 
   @Override

@@ -15,6 +15,16 @@ public class DateUtil {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	private static String defaultDatePattern = "yyyy-MM-dd ";
 
+	public static String covertStr(Date date,String format) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat(format);
+			return sdf.format(date);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public static String covertStr(Date date) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -86,17 +86,18 @@ public class KYMgr implements IPullMgr<KyMgoPo, KYGameConfigPo> {
     );
     AggregationResults<KyMgoPo> results = mongoTemplate.aggregate(agg,KyMgoPo.class);
     KyMgoPo po = results.getUniqueMappedResult();
-    Object obj=stringRedisTemplate10.boundHashOps("ky_pull_config").get("endTime_"+configPo.getAgentId());
-    Date endDate;
     if(po==null){
       return new Timestamp(configPo.getInitStartId().getTime());
     }
-    if(obj==null || po.getGameEndTime().compareTo(endDate=DateUtil.covertTime((String)obj))==1){
-      return new Timestamp(po.getGameEndTime().getTime());
+
+    Object obj=stringRedisTemplate10.boundHashOps("ky_pull_config").get("endTime_"+configPo.getAgentId());
+    Date endDate= DateUtil.covertTime((String)obj);
+    if(obj!=null || endDate.compareTo(po.getGameEndTime())==1){
+      return new Timestamp(endDate.getTime());
     }else{
       stringRedisTemplate10.boundHashOps("ky_pull_config").delete("endTime_"+configPo.getAgentId());
     }
-    return new Timestamp(endDate.getTime());
+    return new Timestamp(po.getGameEndTime().getTime());
   }
 
   @Override

@@ -3,6 +3,7 @@ package com.eason.report.pull.platform.mg.dao.po;
 import com.eason.report.pull.core.base.BaseConfig;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +19,7 @@ public class MgGameConfigPo extends BaseConfig {
     private String siteId;
     private Integer length;
     private String pullUrl;
+    private Date initStartId;
     private Integer state;
     private String info;
 
@@ -121,6 +123,17 @@ public class MgGameConfigPo extends BaseConfig {
         this.pullUrl = pullUrl;
     }
 
+
+    @Basic
+    @Column(name = "initStartId")
+    public Date getInitStartId() {
+        return initStartId;
+    }
+
+    public void setInitStartId(Date initStartId) {
+        this.initStartId = initStartId;
+    }
+
     @Basic
     @Column(name = "state")
     public Integer getState() {
@@ -178,6 +191,7 @@ public class MgGameConfigPo extends BaseConfig {
                 ", siteId='" + siteId + '\'' +
                 ", length=" + length +
                 ", pullUrl='" + pullUrl + '\'' +
+                ", initStartId=" + initStartId +
                 ", state=" + state +
                 ", info='" + info + '\'' +
                 '}';
