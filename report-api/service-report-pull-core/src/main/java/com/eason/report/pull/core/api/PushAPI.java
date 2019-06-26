@@ -6,6 +6,7 @@ import com.eason.report.pull.core.annotation.SourceQuery;
 import com.eason.report.pull.core.base.BaseAPI;
 import com.eason.report.pull.core.exception.ServiceException;
 import com.eason.report.pull.core.model.Model;
+import com.eason.report.pull.core.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +56,8 @@ public class PushAPI extends BaseAPI implements ApplicationContextAware {
                                 .lte(model.getEndId())
                                 .and("siteId").is(siteId)),query.targetMgo());
                         if(list.isEmpty()){
-                            throw new ServiceException("接收数据为空");
+                            log.error("{}站点siteId={}，从startId={}到endId={}，接收数据为空，请仔细核对当前站点是否有数据.",type,siteId,list.size());
+                            return;
                         }
                         method.invoke(pushAPIService,siteId,list);
                         for(Method ar:methods){
@@ -64,7 +67,14 @@ public class PushAPI extends BaseAPI implements ApplicationContextAware {
                                 Method[] methods1=obj.getClass().getMethods();
                                 for(Method method1:methods1){
                                     if(auditReport.procedureName().equals(method1.getName())){
-                                        String result=(String) method1.invoke(obj,siteId,model.getCode(),model.getStartId(),model.getEndId());
+                                        String result;
+                                        if(model.getStartId() instanceof Timestamp && model.getEndId() instanceof Timestamp){
+                                            String startId= DateUtil.covertStr((Timestamp)model.getStartId());
+                                            String endId= DateUtil.covertStr((Timestamp)model.getEndId());
+                                            result=(String) method1.invoke(obj,siteId,model.getCode(),startId,endId);
+                                        }else{
+                                            result=(String) method1.invoke(obj,siteId,model.getCode(),model.getStartId(),model.getEndId());
+                                        }
                                         ar.invoke(pushAPIService,siteId,result);
                                     }
                                 }

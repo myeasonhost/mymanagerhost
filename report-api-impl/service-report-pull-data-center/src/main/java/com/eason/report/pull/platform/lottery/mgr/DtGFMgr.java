@@ -84,6 +84,9 @@ public class DtGFMgr implements IPullMgr<DtGFMgoPo,DtLotteryConfigPo> {
     );
     AggregationResults<DtGFMgoPo> results = mongoTemplate.aggregate(agg,DtGFMgoPo.class);
     DtGFMgoPo po = results.getUniqueMappedResult();
+    if(po==null){
+      return configPo.getInitStartId();
+    }
     return po.getId();
   }
 

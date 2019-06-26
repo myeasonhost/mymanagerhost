@@ -24,7 +24,7 @@ public class HelloJob implements BaseJob {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         _log.info("Hello Job执行时间: " + new Date());
         try {
-            List<ResponseModel> responseModelList=fPullAPIServiceFallback.getPullBetForDSSGS();
+            List<ResponseModel> responseModelList=fPullAPIServiceFallback.getPullBet();
             log.info(responseModelList.toString());
         }catch (Exception e){
             e.printStackTrace();

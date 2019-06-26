@@ -77,6 +77,9 @@ public class MdtJDMgr implements IPullMgr<MdtJDMgoPo,DtLotteryConfigPo> {
     );
     AggregationResults<MdtJDMgoPo> results = mongoTemplate.aggregate(agg,MdtJDMgoPo.class);
     MdtJDMgoPo po = results.getUniqueMappedResult();
+    if(po==null){
+      return configPo.getInitStartId();
+    }
     return po.getId();
   }
 

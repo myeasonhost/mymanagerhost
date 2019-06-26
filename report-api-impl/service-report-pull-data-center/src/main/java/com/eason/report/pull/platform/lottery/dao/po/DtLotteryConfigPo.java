@@ -17,7 +17,7 @@ public class DtLotteryConfigPo extends BaseConfig {
     private Integer level;
     private String recordUrl;
     private Integer length;
-    private Integer initStartId;
+    private Long initStartId;
     private Integer state;
     private String info;
 
@@ -105,11 +105,11 @@ public class DtLotteryConfigPo extends BaseConfig {
 
     @Basic
     @Column(name = "initStartId")
-    public Integer getInitStartId() {
+    public Long getInitStartId() {
         return initStartId;
     }
 
-    public void setInitStartId(Integer initStartId) {
+    public void setInitStartId(Long initStartId) {
         this.initStartId = initStartId;
     }
 
