@@ -91,8 +91,8 @@ public class KYMgr implements IPullMgr<KyMgoPo, KYGameConfigPo> {
     }
 
     Object obj=stringRedisTemplate10.boundHashOps("ky_pull_config").get("endTime_"+configPo.getAgentId());
-    Date endDate= DateUtil.covertTime((String)obj);
-    if(obj!=null || endDate.compareTo(po.getGameEndTime())==1){
+    Date endDate=obj==null?null:DateUtil.covertTime((String)obj);
+    if(endDate!=null && endDate.compareTo(po.getGameEndTime())==1){
       return new Timestamp(endDate.getTime());
     }else{
       stringRedisTemplate10.boundHashOps("ky_pull_config").delete("endTime_"+configPo.getAgentId());

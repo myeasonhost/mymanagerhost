@@ -165,7 +165,9 @@ public class KYGameConfigPo extends BaseConfig {
                 ", length=" + length +
                 ", pullUrl='" + pullUrl + '\'' +
                 ", state=" + state +
+                ", initStartId=" + initStartId +
                 ", info='" + info + '\'' +
+                ", siteMap=" + siteMap +
                 '}';
     }
 }

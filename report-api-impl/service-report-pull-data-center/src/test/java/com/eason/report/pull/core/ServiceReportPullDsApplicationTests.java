@@ -1,8 +1,6 @@
 package com.eason.report.pull.core;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sun.deploy.net.HttpUtils;
-import org.apache.http.client.HttpClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +10,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLDecoder;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,6 +60,5 @@ public class ServiceReportPullDsApplicationTests {
         HttpEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
         System.out.println(response);
     }
-
 
 }

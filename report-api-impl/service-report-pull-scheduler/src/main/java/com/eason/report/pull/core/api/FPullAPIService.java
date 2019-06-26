@@ -21,7 +21,7 @@ public interface FPullAPIService{
     List<ResponseModel> getPullBetForMdtJD() throws FeignException;
 
     @PostMapping(value = "/dsmg/getPullBet")
-    List<ResponseModel> getPullBetForMG() throws FeignException;
+    List<ResponseModel> getPullBetForDSMG() throws FeignException;
 
     @PostMapping(value = "/ky/getPullBet")
     List<ResponseModel> getPullBetForKY() throws FeignException;
@@ -32,9 +32,7 @@ public interface FPullAPIService{
     @PostMapping(value = "/dspt/getPullBet")
     List<ResponseModel> getPullBetForDSPT() throws FeignException;
 
-//    @PostMapping(value = "/getPullBet/{maxId}/{length}")
-//    ResponseModel getPullBet(@PathVariable(value = "maxId") Long maxId,
-//                             @PathVariable(value = "length") Integer length,
-//                             @RequestBody BaseConfig config) throws ServiceException;
+    @PostMapping(value = "/dssgs/getPullBet")
+    List<ResponseModel> getPullBetForDSSGS() throws FeignException;
 
 }

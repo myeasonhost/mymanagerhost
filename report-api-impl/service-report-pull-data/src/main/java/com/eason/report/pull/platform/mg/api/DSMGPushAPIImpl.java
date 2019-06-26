@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@MQConsumer(name = "DSMGPullAPIImpl",code = "DS-MG")
+@MQConsumer(name = "DSMGPushAPIImpl",code = "DS-MG")
 @Slf4j
 public class DSMGPushAPIImpl {
 
@@ -23,7 +23,7 @@ public class DSMGPushAPIImpl {
     @SourceQuery(targetId = "transTime",targetMgo = MGMgoPo.class)
     public void getPushBet(Integer siteId, List<MGMgoPo> list) throws ServiceException {
         try{
-            log.info("Mdt-JD经典彩站点siteId={}，接收数据rows={}",siteId,list.size());
+            log.info("DS-MG站点siteId={}，接收数据rows={}",siteId,list.size());
             sourceService.insertSource(list, DsMgGamePo.class);
         }catch (Exception e){
             throw new ServiceException(e);
@@ -34,7 +34,7 @@ public class DSMGPushAPIImpl {
     public void auditReport(Integer siteId,String result) {
         log.info("审计报表Procedure返回结果result={}",result);
         if(result.isEmpty()){
-            log.error("Mdt-JD经典彩站点siteId={}，执行审计报表存储过程为空，请查看传参",siteId);
+            log.error("DS-MG站点siteId={}，执行审计报表存储过程为空，请查看传参",siteId);
         }
     }
 }

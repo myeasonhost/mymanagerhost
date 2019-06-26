@@ -9,7 +9,7 @@ public class BaseConfig implements Serializable {
     private Integer length;
     private String agentId;
     @Transient
-    private Map<Integer,String> siteMap;
+    protected Map<Integer,String> siteMap;
 
     public Map<Integer, String> getSiteMap() {
         return siteMap;

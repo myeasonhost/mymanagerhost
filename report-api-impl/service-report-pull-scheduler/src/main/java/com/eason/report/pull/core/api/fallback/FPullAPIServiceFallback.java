@@ -26,7 +26,7 @@ public class FPullAPIServiceFallback implements FPullAPIService {
     }
 
     @Override
-    public List<ResponseModel> getPullBetForMG() throws FeignException {
+    public List<ResponseModel> getPullBetForDSMG() throws FeignException {
         throw new FeignException();
     }
 
@@ -42,6 +42,11 @@ public class FPullAPIServiceFallback implements FPullAPIService {
 
     @Override
     public List<ResponseModel> getPullBetForDSPT() throws FeignException {
+        throw new FeignException();
+    }
+
+    @Override
+    public List<ResponseModel> getPullBetForDSSGS() throws FeignException {
         throw new FeignException();
     }
 }
