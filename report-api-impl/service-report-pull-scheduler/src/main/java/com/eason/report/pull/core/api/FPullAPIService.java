@@ -35,4 +35,7 @@ public interface FPullAPIService{
     @PostMapping(value = "/dssgs/getPullBet")
     List<ResponseModel> getPullBetForDSSGS() throws FeignException;
 
+    @PostMapping(value = "/dsbbin/getPullBet")
+    List<ResponseModel> getPullBetForDSBBIN() throws FeignException;
+
 }

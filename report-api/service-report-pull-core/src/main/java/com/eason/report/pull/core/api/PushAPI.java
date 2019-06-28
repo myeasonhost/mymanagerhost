@@ -56,9 +56,12 @@ public class PushAPI extends BaseAPI implements ApplicationContextAware {
                                 .lte(model.getEndId())
                                 .and("siteId").is(siteId)),query.targetMgo());
                         if(list.isEmpty()){
-                            log.error("{}站点siteId={}，从startId={}到endId={}，接收数据为空，请仔细核对当前站点是否有数据.",type,siteId,list.size());
+                            log.error("{}站点siteId={}，targetId={}从startId={}到endId={}，接收数据为空，请仔细核对当前站点是否有数据."
+                                    ,type,siteId,query.targetId(),model.getStartId(),model.getEndId());
                             return;
                         }
+                        log.info("{}站点siteId={}，targetId={}从startId={}到endId={}，接收数据num={}，请仔细核对当前站点是否有数据."
+                                ,type,siteId,query.targetId(),model.getStartId(),model.getEndId(),list.size());
                         method.invoke(pushAPIService,siteId,list);
                         for(Method ar:methods){
                             if(ar.isAnnotationPresent(AuditReport.class)){
@@ -92,7 +95,7 @@ public class PushAPI extends BaseAPI implements ApplicationContextAware {
                 }
 
             }
-            log.info("站点siteId={}，游戏type={},当前startId={}——endId={}，开始分发",siteId,type,model.getStartId(),model.getEndId());
+            log.info("站点siteId={}，游戏type={},当前startId={}到endId={}，开始分发",siteId,type,model.getStartId(),model.getEndId());
         } catch (Exception e) {
             log.error("站点siteId={},系统异常={}", siteId,e.getMessage());
             e.printStackTrace();

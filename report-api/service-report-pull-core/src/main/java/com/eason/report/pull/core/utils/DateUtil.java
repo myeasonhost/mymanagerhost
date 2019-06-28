@@ -1,22 +1,26 @@
 package com.eason.report.pull.core.utils;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
 public class DateUtil {
-	private static final ThreadLocal<SimpleDateFormat> threadLocal = new ThreadLocal<SimpleDateFormat>();
-	private static final Object object = new Object();
-	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	private static String defaultDatePattern = "yyyy-MM-dd ";
+	public static String defaultDatePattern = "yyyy-MM-dd";
+
+	/**
+	 * 获取SimpleDateFormat
+	 * @param pattern 日期格式
+	 * @return SimpleDateFormat对象
+	 */
+	public static SimpleDateFormat getDateFormat(String pattern){
+		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+		return dateFormat;
+	}
+
 
 	public static String covertStr(Date date,String format) {
 		try {
@@ -80,30 +84,6 @@ public class DateUtil {
 		}
 		return null;
 	}
-	/**
-	 * 获取SimpleDateFormat
-	 * 
-	 * @param pattern
-	 *            日期格式
-	 * @return SimpleDateFormat对象
-	 * @throws RuntimeException
-	 *             异常：非法日期格式
-	 */
-	public static SimpleDateFormat getDateFormat(String pattern)
-			throws RuntimeException {
-		SimpleDateFormat dateFormat = threadLocal.get();
-		if (dateFormat == null) {
-			synchronized (object) {
-				if (dateFormat == null) {
-					dateFormat = new SimpleDateFormat(pattern, Locale.US);
-					dateFormat.setLenient(false);
-					threadLocal.set(dateFormat);
-				}
-			}
-		}
-		dateFormat.applyPattern(pattern);
-		return dateFormat;
-	}
 
 	/**
 	 * 获得指定日期的前一天
@@ -129,4 +109,20 @@ public class DateUtil {
 	}
 
 
+	/**
+	 * 获得指定日期的前几分钟
+	 *
+	 * @param Date
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getDayBefore(Date date,Integer num) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		int min = c.get(Calendar.MINUTE);
+		c.set(Calendar.MINUTE, min - num);
+		String dayBefore = new SimpleDateFormat("yyyy-MM-dd").format(c
+				.getTime());
+		return dayBefore;
+	}
 }

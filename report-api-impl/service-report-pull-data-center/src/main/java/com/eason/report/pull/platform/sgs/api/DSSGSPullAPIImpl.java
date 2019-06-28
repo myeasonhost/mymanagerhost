@@ -30,11 +30,11 @@ import java.util.Map;
 public class DSSGSPullAPIImpl extends BaseAPI {
 
     @Autowired
-    private DSSGSConfigDao ptConfigDao;
+    private DSSGSConfigDao configDao;
 
     @LoadConfig(name = "DS-SGS配置信息")
     public List<DsSgsGameConfigPo> loadConfig(){
-        List<DsSgsGameConfigPo> configMgoList=ptConfigDao.findConfig();
+        List<DsSgsGameConfigPo> configMgoList=configDao.findConfig();
         configMgoList.forEach(po -> {
             Map<Integer,String> map=new HashMap<>();
             String[] ary=po.getSiteId().split(","); //TYZ_1020,MHD_1040
