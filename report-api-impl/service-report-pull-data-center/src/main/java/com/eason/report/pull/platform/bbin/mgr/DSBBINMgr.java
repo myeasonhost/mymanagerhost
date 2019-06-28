@@ -76,9 +76,6 @@ public class DSBBINMgr implements IPullMgr<DSBBINMgoPo, DsBbinGameConfigPo> {
             .replaceWith(po)
             .withOptions(FindAndReplaceOptions.options().upsert())
             .findAndReplace();
-    if(result.isPresent()){
-      log.info("DS-BBIN存在重复值DSBBINMgoPo={}",result.get().toString());
-    }
   }
 
   @Override
@@ -138,7 +135,7 @@ public class DSBBINMgr implements IPullMgr<DSBBINMgoPo, DsBbinGameConfigPo> {
                   JSONArray jsonArray=loadDataAllBBIN(startDate,endDate,configPo,gamekind,subgamekind,uri);
                   return jsonArray;
                 }else{
-                  JSONArray jsonArray=loadDataAllWagers(startDate,endDate,configPo,uri);
+                  JSONArray jsonArray=loadDataAllWagers(startDate,endDate,configPo,gamekind,uri);
                   return jsonArray;
                 }
 
@@ -201,11 +198,11 @@ public class DSBBINMgr implements IPullMgr<DSBBINMgoPo, DsBbinGameConfigPo> {
     }
   }
 
-  public JSONArray loadDataAllWagers(Date startDate, Date endDate, DsBbinGameConfigPo configPo,String uri) throws BBINException {
+  public JSONArray loadDataAllWagers(Date startDate, Date endDate, DsBbinGameConfigPo configPo,Integer gamekind,String uri) throws BBINException {
     try {
       JSONArray jsonArray=new JSONArray();
       String day=getBBINRounddate(configPo);
-      String key=String.format("%s_bbin_page_%s_%s",day,configPo.getAgentId(),uri);
+      String key=String.format("%s_bbin_page_%s_%s",day,configPo.getAgentId(),gamekind);
       Object obj=stringRedisTemplate10.opsForValue().get(key);
       String pageInfo=(String)(obj==null?"{\"TotalPage\":0,\"TotalNumber\":\"0\",\"Page\":1,\"PageLimit\":"+configPo.getLength()+"}":obj);//起始值page=1
       JSONObject pagination=JSONObject.parseObject(pageInfo);
