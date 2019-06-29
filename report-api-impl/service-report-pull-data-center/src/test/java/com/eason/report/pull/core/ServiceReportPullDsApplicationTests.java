@@ -14,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.security.MessageDigest;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,4 +63,19 @@ public class ServiceReportPullDsApplicationTests {
         System.out.println(response);
     }
 
+    private static final String pidtoken="691E87938EB3A6BD774CA98D5497B081"; //明码
+
+    protected String getKey(String params){
+        try {
+            // 确定计算方法
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            Base64.Encoder base64Encoder = Base64.getEncoder();
+            // 加密字符串
+            String key = base64Encoder.encodeToString(md5.digest((params+pidtoken).getBytes("utf-8")));
+            return key;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

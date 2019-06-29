@@ -8,42 +8,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "audit_total")
-@NamedStoredProcedureQueries({
-        @NamedStoredProcedureQuery(name = "ds_gf_audit_report", procedureName = "ds_gf_audit_report",
-                parameters = {
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Object.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Object.class),
-                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
-        @NamedStoredProcedureQuery(name = "ds_jd_audit_report", procedureName = "ds_jd_audit_report",
-                parameters = {
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Object.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Object.class),
-                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
-        @NamedStoredProcedureQuery(name = "mdt_jd_audit_report", procedureName = "mdt_jd_audit_report",
-                parameters = {
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Object.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Object.class),
-                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
-        @NamedStoredProcedureQuery(name = "ds_mg_audit_report", procedureName = "ds_mg_audit_report",
-                parameters = {
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Object.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Object.class),
-                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)}),
-        @NamedStoredProcedureQuery(name = "ky_audit_report", procedureName = "ky_audit_report",
-                parameters = {
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "siteId", type = Integer.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ds_type", type = String.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "startId", type = Object.class),
-                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "endId", type = Object.class),
-                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "result", type = String.class)})})
 public class AuditTotalPo implements Serializable {
     private long id;
     private String username;

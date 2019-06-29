@@ -1,4 +1,4 @@
-package com.eason.report.pull.sgs.xstreamDemo;
+package com.eason.report.pull.core.xstreamDemo;
 
 
 import com.thoughtworks.xstream.XStream;
