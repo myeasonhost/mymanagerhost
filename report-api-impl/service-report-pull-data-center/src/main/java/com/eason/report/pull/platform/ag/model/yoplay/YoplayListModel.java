@@ -1,5 +1,7 @@
-package com.eason.report.pull.platform.ag.model;
+package com.eason.report.pull.platform.ag.model.yoplay;
 
+import com.eason.report.pull.platform.ag.model.common.AgAdditionModel;
+import com.eason.report.pull.platform.ag.model.agin.AginModel;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import lombok.AllArgsConstructor;
@@ -13,9 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @XStreamAlias("result")
-public class AginListModel {
+public class YoplayListModel {
     @XStreamImplicit(itemFieldName="row")
-    private List<AginModel> agList;
+    private List<YoplayModel> agList;
     @XStreamAlias("info")
     private String info;
     @XStreamAlias("addition")

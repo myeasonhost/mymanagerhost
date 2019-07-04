@@ -24,7 +24,7 @@ public class DSAGAginMgoPo extends BasePo {
     private String billNo;
     private String agentId;
     private String username;
-    private String playerName;
+    private String playName;
     private String gameCode;
     private BigDecimal netAmount;
     private Byte winLossType;

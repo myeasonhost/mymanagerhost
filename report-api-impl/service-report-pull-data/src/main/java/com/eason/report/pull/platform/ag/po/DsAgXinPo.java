@@ -13,7 +13,7 @@ public class DsAgXinPo implements Serializable {
     private String agentId;
     private Integer siteId;
     private String username;
-    private String playerName;
+    private String playName;
     private Date billTime;
     private Date reckonTime;
     private String slotType;
@@ -78,13 +78,13 @@ public class DsAgXinPo implements Serializable {
     }
 
     @Basic
-    @Column(name = "player_name")
-    public String getPlayerName() {
-        return playerName;
+    @Column(name = "play_name")
+    public String getPlayName() {
+        return playName;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+    public void setPlayName(String playName) {
+        this.playName = playName;
     }
 
     @Basic
@@ -316,7 +316,7 @@ public class DsAgXinPo implements Serializable {
                 Objects.equals(agentId, dsAgXinPo.agentId) &&
                 Objects.equals(siteId, dsAgXinPo.siteId) &&
                 Objects.equals(username, dsAgXinPo.username) &&
-                Objects.equals(playerName, dsAgXinPo.playerName) &&
+                Objects.equals(playName, dsAgXinPo.playName) &&
                 Objects.equals(billTime, dsAgXinPo.billTime) &&
                 Objects.equals(reckonTime, dsAgXinPo.reckonTime) &&
                 Objects.equals(slotType, dsAgXinPo.slotType) &&
@@ -343,6 +343,6 @@ public class DsAgXinPo implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(billNo, agentId, siteId, username, playerName, billTime, reckonTime, slotType, currency, gameType, betIp, account, cusAccount, validAccount, accountBase, accountBonus, cusAccountBase, cusAccountBonus, srcAmount, dstAmount, winLossType, flag, platformType, deviceType, exttxid, createTime, updateTime);
+        return Objects.hash(billNo, agentId, siteId, username, playName, billTime, reckonTime, slotType, currency, gameType, betIp, account, cusAccount, validAccount, accountBase, accountBonus, cusAccountBase, cusAccountBonus, srcAmount, dstAmount, winLossType, flag, platformType, deviceType, exttxid, createTime, updateTime);
     }
 }

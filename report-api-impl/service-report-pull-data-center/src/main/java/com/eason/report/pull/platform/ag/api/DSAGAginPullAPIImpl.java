@@ -8,7 +8,7 @@ import com.eason.report.pull.platform.ag.dao.DSAGConfigDao;
 import com.eason.report.pull.platform.ag.exception.AGException;
 import com.eason.report.pull.platform.ag.mgo.DSAGAginMgoPo;
 import com.eason.report.pull.platform.ag.mgr.DSAGAginMgr;
-import com.eason.report.pull.platform.ag.model.AginModel;
+import com.eason.report.pull.platform.ag.model.agin.AginModel;
 import com.eason.report.pull.platform.ag.po.DsAGGameConfigPo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -32,7 +32,7 @@ public class DSAGAginPullAPIImpl extends BaseAPI {
 
     @LoadConfig(name = "DS-AG配置信息")
     public List<DsAGGameConfigPo> loadConfig(){
-        List<DsAGGameConfigPo> configMgoList=configDao.findConfig("AG-AGIN");
+        List<DsAGGameConfigPo> configMgoList=configDao.findConfig("DS-AG-AGIN");
         configMgoList.forEach(po -> {
             Map<Integer,String> map=new HashMap<>();
             String[] ary=po.getSiteId().split(","); //TYZ_1020,MHD_1040

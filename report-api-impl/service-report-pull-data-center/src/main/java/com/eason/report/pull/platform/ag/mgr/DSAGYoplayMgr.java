@@ -5,10 +5,10 @@ import com.eason.report.pull.core.mgr.IPullMgr;
 import com.eason.report.pull.core.utils.DateUtil;
 import com.eason.report.pull.core.utils.Md5Util;
 import com.eason.report.pull.platform.ag.exception.AGException;
-import com.eason.report.pull.platform.ag.mgo.DSAGAginMgoPo;
+import com.eason.report.pull.platform.ag.mgo.DSAGYoplayMgoPo;
 import com.eason.report.pull.platform.ag.model.common.AgAdditionModel;
-import com.eason.report.pull.platform.ag.model.agin.AginListModel;
-import com.eason.report.pull.platform.ag.model.agin.AginModel;
+import com.eason.report.pull.platform.ag.model.yoplay.YoplayListModel;
+import com.eason.report.pull.platform.ag.model.yoplay.YoplayModel;
 import com.eason.report.pull.platform.ag.po.DsAGGameConfigPo;
 import com.eason.report.pull.platform.ag.utils.XMLUtil;
 import com.eason.report.pull.platform.pt.exception.PTException;
@@ -38,7 +38,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
 @Slf4j
-public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
+public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo> {
   @Autowired
   private RestTemplate restTemplate;
   @Autowired
@@ -47,8 +47,8 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
   private StringRedisTemplate stringRedisTemplate10;
 
   @Override
-  public DSAGAginMgoPo extAttr(DSAGAginMgoPo po, DsAGGameConfigPo configPo) {
-    po.setAgentId(configPo.getAgentId());
+  public DSAGYoplayMgoPo extAttr(DSAGYoplayMgoPo po, DsAGGameConfigPo configPo) {
+    po.setAgentId(configPo. getAgentId());
     for(Map.Entry<Integer,String> site:configPo.getSiteMap().entrySet()){
       if(po.getPlayName().startsWith(site.getValue())){
         po.setSiteId(site.getKey());
@@ -56,11 +56,11 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
       }
     }
     //判断输赢
-    if(po.getNetAmount().doubleValue() >0){
+    if(po.getCusAccount().doubleValue() >0){
       po.setWinLossType(Byte.valueOf("2"));//赢
-    }else if(po.getNetAmount().doubleValue() < 0){
+    }else if(po.getCusAccount().doubleValue() < 0){
       po.setWinLossType(Byte.valueOf("1"));//输
-    }else if(po.getNetAmount().doubleValue() == 0){
+    }else if(po.getCusAccount().doubleValue() == 0){
       po.setWinLossType(Byte.valueOf("3"));//和
     }
     po.setCreateTime(new Date());
@@ -69,9 +69,9 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
 
   @Transactional
   @Override
-  public void saveAndUpdate(DSAGAginMgoPo po, DsAGGameConfigPo configPo){
+  public void saveAndUpdate(DSAGYoplayMgoPo po, DsAGGameConfigPo configPo){
     po=this.extAttr(po,configPo);
-    Optional<DSAGAginMgoPo> result =mongoTemplate.update(DSAGAginMgoPo.class)
+    Optional<DSAGYoplayMgoPo> result =mongoTemplate.update(DSAGYoplayMgoPo.class)
             .matching(query(where("billNo").is(po.getBillNo())))
             .replaceWith(po)
             .withOptions(FindAndReplaceOptions.options().upsert())
@@ -80,14 +80,14 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
 
   @Override
   public Timestamp getMaxId(DsAGGameConfigPo configPo){
-    TypedAggregation<DSAGAginMgoPo> agg = newAggregation(DSAGAginMgoPo.class,
+    TypedAggregation<DSAGYoplayMgoPo> agg = newAggregation(DSAGYoplayMgoPo.class,
             match(where("agentId").is(configPo.getAgentId())),
-            group().max("$betTime").as("betTime")
+            group().max("$billTime").as("billTime")
     );
-    AggregationResults<DSAGAginMgoPo> results = mongoTemplate.aggregate(agg, DSAGAginMgoPo.class);
-    DSAGAginMgoPo po = results.getUniqueMappedResult();
+    AggregationResults<DSAGYoplayMgoPo> results = mongoTemplate.aggregate(agg, DSAGYoplayMgoPo.class);
+    DSAGYoplayMgoPo po = results.getUniqueMappedResult();
 
-    Object obj=stringRedisTemplate10.boundHashOps("ag_agin_pull_config").get("endTime_"+configPo.getAgentId());
+    Object obj=stringRedisTemplate10.boundHashOps("ag_yoplay_pull_config").get("endTime_"+configPo.getAgentId());
     Date endDate=obj==null?null:DateUtil.covertTime((String)obj);
     if(endDate!=null){
       return new Timestamp(endDate.getTime());
@@ -95,7 +95,7 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
     if(po==null){
       return new Timestamp(configPo.getInitStartId().getTime());
     }
-    return new Timestamp(po.getBetTime().getTime());
+    return new Timestamp(po.getBillTime().getTime());
   }
 
   @Override
@@ -104,33 +104,35 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
     return new Timestamp(startId.getTime());
   }
 
-  public List<AginModel> loadDataToEndTime(Date pullDate, Integer length, DsAGGameConfigPo configPo) throws PTException {
+  public List<YoplayModel> loadDataToEndTime(Date pullDate, Integer length, DsAGGameConfigPo configPo) throws PTException {
     try {
-      List<AginModel> list=new ArrayList<>();
+      List<YoplayModel> list=new ArrayList<>();
       Date startDate= pullDate;
       Date endDate= DateUtils.addMinutes(startDate,length);
       Date date=new Date();
-      AginListModel aginListModel=this.getRecordAG(startDate,endDate,configPo,1); //起始值page=1
-      if(aginListModel.getAgList()!=null && !aginListModel.getAgList().isEmpty()) {
-        list.addAll(aginListModel.getAgList());
+      YoplayListModel yoplayListModel=this.getRecordAG(startDate,endDate,configPo,1); //起始值page=1
+      if(yoplayListModel.getAgList()!=null && !yoplayListModel.getAgList().isEmpty()){
+        list.addAll(yoplayListModel.getAgList());
       }
-      AgAdditionModel pagination=aginListModel.getAddition();
+      AgAdditionModel pagination=yoplayListModel.getAddition();
       Integer currentPage=pagination.getCurrentPage();
       Integer totalPages=pagination.getTotalPage();
-      for(int page=currentPage;page<totalPages;page++){
-        AginListModel aginListModel2=getRecordAG(startDate,endDate,configPo,page+1);
-        if(aginListModel2.getAgList()!=null && !aginListModel2.getAgList().isEmpty()) {
-          list.addAll(aginListModel2.getAgList());
+      if(currentPage!=null && totalPages!=null){
+        for(int page=currentPage;page<totalPages;page++){
+          YoplayListModel yoplayListModel2=getRecordAG(startDate,endDate,configPo,page+1);
+          if(yoplayListModel2.getAgList()!=null && !yoplayListModel2.getAgList().isEmpty()) {
+            list.addAll(yoplayListModel.getAgList());
+          }
         }
       }
 
       if (list.isEmpty() || list.size()==0){
-        log.info("AG网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), startDate, pullDate);
+        log.info("AG网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), startDate, endDate);
         if(endDate.compareTo(date)==-1){
-          stringRedisTemplate10.boundHashOps("ag_agin_pull_config").put("endTime_"+configPo.getAgentId(), DateUtil.covertStr(endDate));
+          stringRedisTemplate10.boundHashOps("ag_yoplay_pull_config").put("endTime_"+configPo.getAgentId(), DateUtil.covertStr(endDate));
         }
       }else{
-        stringRedisTemplate10.boundHashOps("ag_agin_pull_config").delete("endTime_"+configPo.getAgentId());
+        stringRedisTemplate10.boundHashOps("ag_yoplay_pull_config").delete("endTime_"+configPo.getAgentId());
       }
       return list;
     } catch (Exception e) {
@@ -138,7 +140,7 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
     }
   }
 
-  public AginListModel getRecordAG(Date startDate, Date endDate, DsAGGameConfigPo configPo,Integer page) throws AGException {
+  public YoplayListModel getRecordAG(Date startDate, Date endDate, DsAGGameConfigPo configPo,Integer page) throws AGException {
     try {
       HttpHeaders headers = new HttpHeaders();
       headers.setContentType(MediaType.APPLICATION_XML);
@@ -152,7 +154,7 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
       request.put("5params_key", configPo.getParamsKey()); //默认拉取的条数
       request.put("6key", getParamsKey(request));
 
-      String url=configPo.getPullUrl()+"/getorders.xml?cagent={0cagent}&startdate={1startdate}" +
+      String url=configPo.getPullUrl()+"/getyoplayorders_ex.xml?cagent={0cagent}&startdate={1startdate}" +
               "&enddate={2enddate}&page={3page}&perpage={4pagelimit}&key={6key}";
       log.info("AG拉取请求={}",url);
       log.info("请求参数={}",request);
@@ -160,8 +162,8 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
       String result=restTemplate.exchange(url, HttpMethod.GET,new HttpEntity<>(headers),String.class,request).getBody();
       log.info("AG拉取返回结果={}",result);
 
-      AginListModel aginListModel= XMLUtil.xmlStrToOject(AginListModel.class,result);
-      return aginListModel;
+      YoplayListModel yoplayListModel= XMLUtil.xmlStrToOject(YoplayListModel.class,result);
+      return yoplayListModel;
     } catch (Exception e) {
       if(e instanceof HttpClientErrorException){
         log.error("AG拉取请求次数频繁，暂停1分钟,错误信息={}",e.getMessage());
@@ -182,9 +184,7 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
    */
   private String getParamsKey(Map<String, String> request){
     StringBuffer sb = new StringBuffer();
-    request.forEach((k,v)->{
-      sb.append(v);
-    });
+    request.forEach((k,v)-> sb.append(v));
     return Md5Util.makeMd5Sum(sb.toString().getBytes());
   }
 

@@ -1,4 +1,4 @@
-package com.eason.report.pull.platform.ag.model;
+package com.eason.report.pull.platform.ag.model.common;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;

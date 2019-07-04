@@ -13,7 +13,7 @@ public class DsAgYoplayPo implements Serializable {
     private String agentId;
     private Integer siteId;
     private String username;
-    private String playerName;
+    private String playName;
     private Date billTime;
     private Date reckonTime;
     private String slotType;
@@ -78,13 +78,13 @@ public class DsAgYoplayPo implements Serializable {
     }
 
     @Basic
-    @Column(name = "player_name")
-    public String getPlayerName() {
-        return playerName;
+    @Column(name = "play_name")
+    public String getPlayName() {
+        return playName;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+    public void setPlayName(String playerName) {
+        this.playName = playName;
     }
 
     @Basic
@@ -316,7 +316,7 @@ public class DsAgYoplayPo implements Serializable {
                 Objects.equals(agentId, that.agentId) &&
                 Objects.equals(siteId, that.siteId) &&
                 Objects.equals(username, that.username) &&
-                Objects.equals(playerName, that.playerName) &&
+                Objects.equals(playName, that.playName) &&
                 Objects.equals(billTime, that.billTime) &&
                 Objects.equals(reckonTime, that.reckonTime) &&
                 Objects.equals(slotType, that.slotType) &&
@@ -343,6 +343,6 @@ public class DsAgYoplayPo implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(billNo, agentId, siteId, username, playerName, billTime, reckonTime, slotType, currency, gameType, betIp, account, cusAccount, validAccount, accountBase, accountBonus, cusAccountBase, cusAccountBonus, srcAmount, dstAmount, gameCode, winLossType, flag, platformType, remark, createTime, updateTime);
+        return Objects.hash(billNo, agentId, siteId, username, playName, billTime, reckonTime, slotType, currency, gameType, betIp, account, cusAccount, validAccount, accountBase, accountBonus, cusAccountBase, cusAccountBonus, srcAmount, dstAmount, gameCode, winLossType, flag, platformType, remark, createTime, updateTime);
     }
 }

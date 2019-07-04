@@ -54,4 +54,14 @@ public class FPullAPIServiceFallback implements FPullAPIService {
     public List<ResponseModel> getPullBetForDSBBIN() throws FeignException {
         throw new FeignException();
     }
+
+    @Override
+    public List<ResponseModel> getPullBetForDSAGAgin() throws FeignException {
+        throw new FeignException();
+    }
+
+    @Override
+    public List<ResponseModel> getPullBetForDSAGYoplay() throws FeignException {
+        throw new FeignException();
+    }
 }

@@ -1,17 +1,20 @@
 package com.eason.report.pull.platform.ag.api;
 
-import com.alibaba.fastjson.JSONArray;
 import com.eason.report.pull.core.annotation.LoadConfig;
 import com.eason.report.pull.core.annotation.MQProducer;
 import com.eason.report.pull.core.annotation.TypeMgr;
 import com.eason.report.pull.core.base.BaseAPI;
 import com.eason.report.pull.platform.ag.dao.DSAGConfigDao;
-import com.eason.report.pull.platform.ag.po.DsAGGameConfigPo;
 import com.eason.report.pull.platform.ag.exception.AGException;
-import com.eason.report.pull.platform.ag.mgr.DSAGAginMgr;
+import com.eason.report.pull.platform.ag.mgo.DSAGYoplayMgoPo;
+import com.eason.report.pull.platform.ag.mgr.DSAGYoplayMgr;
+import com.eason.report.pull.platform.ag.model.yoplay.YoplayModel;
+import com.eason.report.pull.platform.ag.po.DsAGGameConfigPo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +30,9 @@ public class DSAGYoplayPullAPIImpl extends BaseAPI {
     @Autowired
     private DSAGConfigDao configDao;
 
-    @LoadConfig(name = "DS-BBIN配置信息")
+    @LoadConfig(name = "DS-AG配置信息")
     public List<DsAGGameConfigPo> loadConfig(){
-        List<DsAGGameConfigPo> configMgoList=configDao.findConfig();
+        List<DsAGGameConfigPo> configMgoList=configDao.findConfig("DS-AG-YOPLAY");
         configMgoList.forEach(po -> {
             Map<Integer,String> map=new HashMap<>();
             String[] ary=po.getSiteId().split(","); //TYZ_1020,MHD_1040
@@ -40,20 +43,24 @@ public class DSAGYoplayPullAPIImpl extends BaseAPI {
             po.setSiteMap(map);
         });
 
-        log.info("DS-BBIN读取的配置：configList="+configMgoList);
+        log.info("DS-AG读取的配置：configList="+configMgoList);
         return configMgoList;
     }
 
-    @TypeMgr(name = "拉取操作",targetMgr = DSAGAginMgr.class)
-    public int getPullBet(DsAGGameConfigPo configPo, DSAGAginMgr iPullMgr) throws AGException {
+    @TypeMgr(name = "拉取操作",targetMgr = DSAGYoplayMgr.class)
+    public int getPullBet(DsAGGameConfigPo configPo, DSAGYoplayMgr iPullMgr) throws AGException {
         try{
-            JSONArray jsonArray= iPullMgr.loadDataToEndTime(configPo);
-            int arraySize = jsonArray.size();
-//            log.info("DS-BBIN网站={},拉取到注单,数量={}",configPo.getAgentId(), arraySize);
-//            for (int i = 0; i < arraySize; i++) {
-//                DSBBINMgoPo po = jsonArray.getObject(i, DSBBINMgoPo.class);
-//                iPullMgr.saveAndUpdate(po, configPo);
-//            }
+            Timestamp startId=iPullMgr.getNextId(configPo);
+            Integer length=configPo.getLength();
+            List<YoplayModel> list= iPullMgr.loadDataToEndTime(startId,length,configPo);
+            int arraySize = list.size();
+            log.info("DS-AG网站={},拉取到注单,数量={}",configPo.getAgentId(), arraySize);
+            for (int i = 0; i < arraySize; i++) {
+                DSAGYoplayMgoPo dsagYoplayMgoPo=new DSAGYoplayMgoPo();
+                YoplayModel model = list.get(i);
+                BeanUtils.copyProperties(model,dsagYoplayMgoPo);
+                iPullMgr.saveAndUpdate(dsagYoplayMgoPo, configPo);
+            }
             return arraySize;
         }catch(Exception e){
             throw new AGException(e);

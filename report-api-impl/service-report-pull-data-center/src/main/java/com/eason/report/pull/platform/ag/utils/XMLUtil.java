@@ -1,13 +1,21 @@
 package com.eason.report.pull.platform.ag.utils;
 
 
+import com.eason.report.pull.platform.ag.model.common.AgAdditionModel;
+import com.eason.report.pull.platform.ag.model.agin.AginListModel;
+import com.eason.report.pull.platform.ag.model.agin.AginModel;
+import com.eason.report.pull.platform.ag.model.yoplay.YoplayListModel;
+import com.eason.report.pull.platform.ag.model.yoplay.YoplayModel;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.basic.DateConverter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.TimeZone;
 
 public class XMLUtil {
 
@@ -20,8 +28,14 @@ public class XMLUtil {
     public static <T> T xmlStrToOject(Class<T> clazz, String xmlStr) throws Exception {
         T xmlObject = null;
         XStream xstream = new XStream();
+        xstream.registerConverter(new DateConverter("yyyy-MM-dd HH:mm:ss", null, TimeZone.getTimeZone("GMT+8")));
+        xstream.aliasSystemAttribute(null,"class");//去掉class属性
+        xstream.autodetectAnnotations(true);//自动探测注解
+        xstream.ignoreUnknownElements();//忽略未知元素
+        XStream.setupDefaultSecurity(xstream);
         xstream.processAnnotations(clazz);
-        xstream.autodetectAnnotations(true);
+        xstream.allowTypes(new Class[]{AgAdditionModel.class, AginListModel.class, AginModel.class,
+                YoplayListModel.class, YoplayModel.class});
         xmlObject= (T)xstream.fromXML(xmlStr);
         return xmlObject;
     }
@@ -65,41 +79,4 @@ public class XMLUtil {
         }
     }
 
-    /**
-     * 将String类型的xml转换成对象
-     */
-    public static Object convertXmlStrToObject(Class clazz, String xmlStr) {
-        Object xmlObject = null;
-        try {
-            JAXBContext context = JAXBContext.newInstance(clazz);
-            // 进行将Xml转成对象的核心接口
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            StringReader sr = new StringReader(xmlStr);
-            xmlObject = unmarshaller.unmarshal(sr);
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-        return xmlObject;
-    }
-
-    /**
-     * 将file类型的xml转换成对象
-     */
-    public static Object convertXmlFileToObject(Class clazz, String xmlPath) {
-        Object xmlObject = null;
-        try {
-            JAXBContext context = JAXBContext.newInstance(clazz);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            FileReader fr = null;
-            try {
-                fr = new FileReader(xmlPath);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            xmlObject = unmarshaller.unmarshal(fr);
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-        return xmlObject;
-    }
 }

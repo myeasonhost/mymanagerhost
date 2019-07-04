@@ -52,22 +52,27 @@ public class AgList {
     public static void main(String[] args){
         RestTemplate restTemplate=new RestTemplate();
         String cagent="CS2";
-        String startdate="2019-06-28 23:50:00";
-        String enddate="2019-06-28 23:59:00";
+        String startdate="2019-06-28 00:00:00";
+        String enddate="2019-06-28 00:10:00";
+        String page="1";
+        String pageLimit="100";
         String pidtoken="691E87938EB3A6BD774CA98D5497B081";
 //        String gametype="YMFR";
-        String key= Md5Util.makeMd5Sum((cagent+startdate+enddate+pidtoken).getBytes());
+//        String key= Md5Util.makeMd5Sum((cagent+startdate+enddate+pidtoken).getBytes());
+        String key= Md5Util.makeMd5Sum((cagent+startdate+enddate+page+pageLimit+pidtoken).getBytes());
         System.out.println(key);
         MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
         request.add("cagent",cagent);
         request.add("startdate",startdate);
         request.add("enddate",enddate);
+        request.add("page",page);
+        request.add("pageLimit",pageLimit);
         request.add("key",key);
 //        String url="http://ctjjs2.gdcapi.com:3333/getyoplayorders_ex.xml?cagent=" +cagent+
 //                "&startdate="+startdate+"&enddate="+enddate+"&key="+key;
 
         String url="http://ctjjs2.gdcapi.com:3333/getorders.xml?cagent=" +cagent+
-                "&startdate="+startdate+"&enddate="+enddate+"&key="+key;
+                "&startdate="+startdate+"&enddate="+enddate+"&page="+page+"&perpage="+pageLimit+"&key="+key;
 
         String str=restTemplate.getForObject(url,String.class);
         System.out.println("str="+str);

@@ -13,7 +13,7 @@ public class DsAgAginPo implements Serializable {
     private String agentId;
     private Integer siteId;
     private String username;
-    private String playerName;
+    private String playName;
     private String gameCode;
     private BigDecimal netAmount;
     private Byte winLossType;
@@ -75,13 +75,13 @@ public class DsAgAginPo implements Serializable {
     }
 
     @Basic
-    @Column(name = "player_name")
-    public String getPlayerName() {
-        return playerName;
+    @Column(name = "play_name")
+    public String getPlayName() {
+        return playName;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+    public void setPlayName(String playName) {
+        this.playName = playName;
     }
 
     @Basic
@@ -283,7 +283,7 @@ public class DsAgAginPo implements Serializable {
                 Objects.equals(agentId, that.agentId) &&
                 Objects.equals(siteId, that.siteId) &&
                 Objects.equals(username, that.username) &&
-                Objects.equals(playerName, that.playerName) &&
+                Objects.equals(playName, that.playName) &&
                 Objects.equals(gameCode, that.gameCode) &&
                 Objects.equals(netAmount, that.netAmount) &&
                 Objects.equals(winLossType, that.winLossType) &&
@@ -307,6 +307,6 @@ public class DsAgAginPo implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(billNo, agentId, siteId, username, playerName, gameCode, netAmount, winLossType, betTime, gameType, betAmount, validBetAmount, flag, playType, currency, tableCode, recalcuTime, beforeCredit, betIp, platformType, deviceType, remark, createTime, updateTime);
+        return Objects.hash(billNo, agentId, siteId, username, playName, gameCode, netAmount, winLossType, betTime, gameType, betAmount, validBetAmount, flag, playType, currency, tableCode, recalcuTime, beforeCredit, betIp, platformType, deviceType, remark, createTime, updateTime);
     }
 }

@@ -24,7 +24,7 @@ public class DSAGYoplayMgoPo extends BasePo {
     private String billNo;
     private String agentId;
     private String username;
-    private String playerName;
+    private String playName;
     private Date billTime;
     private Date reckonTime;
     private String slotType;
