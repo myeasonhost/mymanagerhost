@@ -4,10 +4,15 @@ package com.eason.report.pull.platform.ag.utils;
 import com.eason.report.pull.platform.ag.model.common.AgAdditionModel;
 import com.eason.report.pull.platform.ag.model.agin.AginListModel;
 import com.eason.report.pull.platform.ag.model.agin.AginModel;
+import com.eason.report.pull.platform.ag.model.xin.XinListModel;
+import com.eason.report.pull.platform.ag.model.xin.XinModel;
 import com.eason.report.pull.platform.ag.model.yoplay.YoplayListModel;
 import com.eason.report.pull.platform.ag.model.yoplay.YoplayModel;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.basic.BigDecimalConverter;
 import com.thoughtworks.xstream.converters.basic.DateConverter;
+import com.thoughtworks.xstream.io.naming.NoNameCoder;
+import com.thoughtworks.xstream.io.xml.Xpp3Driver;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -25,9 +30,9 @@ public class XMLUtil {
      * @param xmlStr @return
      * @throws Exception
      */
-    public static <T> T xmlStrToOject(Class<T> clazz, String xmlStr) throws Exception {
+    public static <T> T xmlStrToOject(Class<T> clazz, String xmlStr){
         T xmlObject = null;
-        XStream xstream = new XStream();
+        XStream xstream = new XStream(new Xpp3Driver(new NoNameCoder())); //不修改属性名
         xstream.registerConverter(new DateConverter("yyyy-MM-dd HH:mm:ss", null, TimeZone.getTimeZone("GMT+8")));
         xstream.aliasSystemAttribute(null,"class");//去掉class属性
         xstream.autodetectAnnotations(true);//自动探测注解
@@ -35,7 +40,7 @@ public class XMLUtil {
         XStream.setupDefaultSecurity(xstream);
         xstream.processAnnotations(clazz);
         xstream.allowTypes(new Class[]{AgAdditionModel.class, AginListModel.class, AginModel.class,
-                YoplayListModel.class, YoplayModel.class});
+                YoplayListModel.class, YoplayModel.class, XinListModel.class, XinModel.class});
         xmlObject= (T)xstream.fromXML(xmlStr);
         return xmlObject;
     }

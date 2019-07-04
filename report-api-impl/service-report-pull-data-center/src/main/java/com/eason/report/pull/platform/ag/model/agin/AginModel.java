@@ -39,6 +39,9 @@ public class AginModel {
     @XStreamAlias("betTime")
     private Date betTime;
     @XStreamAsAttribute
+    @XStreamAlias("round")
+    private String round;
+    @XStreamAsAttribute
     @XStreamAlias("gameType")
     private String gameType;
     @XStreamAsAttribute

@@ -20,7 +20,7 @@ public class DSAGYoplayPushAPIImpl {
     @Autowired
     private SourceServiceImpl sourceService;
 
-    @SourceQuery(targetId = "billTime",targetMgo = DSAGYoplayMgoPo.class)
+    @SourceQuery(targetId = "reckonTime",targetMgo = DSAGYoplayMgoPo.class)
     public void getPushBet(Integer siteId, List<DSAGYoplayMgoPo> list) throws ServiceException {
         try{
             log.info("DS-AG站点siteId={}，接收数据rows={}",siteId,list.size());

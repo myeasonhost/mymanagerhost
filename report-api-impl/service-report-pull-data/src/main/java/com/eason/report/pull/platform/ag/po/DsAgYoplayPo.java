@@ -83,7 +83,7 @@ public class DsAgYoplayPo implements Serializable {
         return playName;
     }
 
-    public void setPlayName(String playerName) {
+    public void setPlayName(String playName) {
         this.playName = playName;
     }
 

@@ -25,6 +25,7 @@ public class DSAGAginMgoPo extends BasePo {
     private String agentId;
     private String username;
     private String playName;
+    private String round;
     private String gameCode;
     private BigDecimal netAmount;
     private Byte winLossType;

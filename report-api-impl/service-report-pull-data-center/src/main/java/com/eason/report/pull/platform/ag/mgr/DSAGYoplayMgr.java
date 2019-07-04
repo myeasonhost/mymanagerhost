@@ -11,7 +11,6 @@ import com.eason.report.pull.platform.ag.model.yoplay.YoplayListModel;
 import com.eason.report.pull.platform.ag.model.yoplay.YoplayModel;
 import com.eason.report.pull.platform.ag.po.DsAGGameConfigPo;
 import com.eason.report.pull.platform.ag.utils.XMLUtil;
-import com.eason.report.pull.platform.pt.exception.PTException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +49,9 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
   public DSAGYoplayMgoPo extAttr(DSAGYoplayMgoPo po, DsAGGameConfigPo configPo) {
     po.setAgentId(configPo. getAgentId());
     for(Map.Entry<Integer,String> site:configPo.getSiteMap().entrySet()){
-      if(po.getPlayName().startsWith(site.getValue())){
+      if(po.getUsername().startsWith(site.getValue())){
         po.setSiteId(site.getKey());
+        po.setPlayName(po.getUsername());
         po.setUsername(po.getPlayName().substring(site.getValue().length()));
       }
     }
@@ -82,7 +82,7 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
   public Timestamp getMaxId(DsAGGameConfigPo configPo){
     TypedAggregation<DSAGYoplayMgoPo> agg = newAggregation(DSAGYoplayMgoPo.class,
             match(where("agentId").is(configPo.getAgentId())),
-            group().max("$billTime").as("billTime")
+            group().max("$reckonTime").as("reckonTime")
     );
     AggregationResults<DSAGYoplayMgoPo> results = mongoTemplate.aggregate(agg, DSAGYoplayMgoPo.class);
     DSAGYoplayMgoPo po = results.getUniqueMappedResult();
@@ -95,7 +95,7 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
     if(po==null){
       return new Timestamp(configPo.getInitStartId().getTime());
     }
-    return new Timestamp(po.getBillTime().getTime());
+    return new Timestamp(po.getReckonTime().getTime());
   }
 
   @Override
@@ -104,7 +104,7 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
     return new Timestamp(startId.getTime());
   }
 
-  public List<YoplayModel> loadDataToEndTime(Date pullDate, Integer length, DsAGGameConfigPo configPo) throws PTException {
+  public List<YoplayModel> loadDataToEndTime(Date pullDate, Integer length, DsAGGameConfigPo configPo) throws AGException {
     try {
       List<YoplayModel> list=new ArrayList<>();
       Date startDate= pullDate;
@@ -136,7 +136,7 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
       }
       return list;
     } catch (Exception e) {
-      throw new PTException(e);
+      throw new AGException(e);
     }
   }
 
@@ -154,7 +154,7 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
       request.put("5params_key", configPo.getParamsKey()); //默认拉取的条数
       request.put("6key", getParamsKey(request));
 
-      String url=configPo.getPullUrl()+"/getyoplayorders_ex.xml?cagent={0cagent}&startdate={1startdate}" +
+      String url=configPo.getPullUrl()+"?cagent={0cagent}&startdate={1startdate}" +
               "&enddate={2enddate}&page={3page}&perpage={4pagelimit}&key={6key}";
       log.info("AG拉取请求={}",url);
       log.info("请求参数={}",request);

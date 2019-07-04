@@ -5,13 +5,12 @@ import com.eason.report.pull.core.mgr.IPullMgr;
 import com.eason.report.pull.core.utils.DateUtil;
 import com.eason.report.pull.core.utils.Md5Util;
 import com.eason.report.pull.platform.ag.exception.AGException;
-import com.eason.report.pull.platform.ag.mgo.DSAGAginMgoPo;
+import com.eason.report.pull.platform.ag.mgo.DSAGXinMgoPo;
 import com.eason.report.pull.platform.ag.model.common.AgAdditionModel;
-import com.eason.report.pull.platform.ag.model.agin.AginListModel;
-import com.eason.report.pull.platform.ag.model.agin.AginModel;
+import com.eason.report.pull.platform.ag.model.xin.XinListModel;
+import com.eason.report.pull.platform.ag.model.xin.XinModel;
 import com.eason.report.pull.platform.ag.po.DsAGGameConfigPo;
 import com.eason.report.pull.platform.ag.utils.XMLUtil;
-import com.eason.report.pull.platform.pt.exception.PTException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
 @Slf4j
-public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
+public class DSAGXinMgr implements IPullMgr<DSAGXinMgoPo, DsAGGameConfigPo> {
   @Autowired
   private RestTemplate restTemplate;
   @Autowired
@@ -47,20 +46,21 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
   private StringRedisTemplate stringRedisTemplate10;
 
   @Override
-  public DSAGAginMgoPo extAttr(DSAGAginMgoPo po, DsAGGameConfigPo configPo) {
-    po.setAgentId(configPo.getAgentId());
+  public DSAGXinMgoPo extAttr(DSAGXinMgoPo po, DsAGGameConfigPo configPo) {
+    po.setAgentId(configPo. getAgentId());
     for(Map.Entry<Integer,String> site:configPo.getSiteMap().entrySet()){
-      if(po.getPlayName().startsWith(site.getValue())){
+      if(po.getUsername().startsWith(site.getValue())){
         po.setSiteId(site.getKey());
+        po.setPlayName(po.getUsername());
         po.setUsername(po.getPlayName().substring(site.getValue().length()));
       }
     }
     //判断输赢
-    if(po.getNetAmount().doubleValue() >0){
+    if(po.getCusAccount().doubleValue() >0){
       po.setWinLossType(Byte.valueOf("2"));//赢
-    }else if(po.getNetAmount().doubleValue() < 0){
+    }else if(po.getCusAccount().doubleValue() < 0){
       po.setWinLossType(Byte.valueOf("1"));//输
-    }else if(po.getNetAmount().doubleValue() == 0){
+    }else if(po.getCusAccount().doubleValue() == 0){
       po.setWinLossType(Byte.valueOf("3"));//和
     }
     po.setCreateTime(new Date());
@@ -69,9 +69,9 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
 
   @Transactional
   @Override
-  public void saveAndUpdate(DSAGAginMgoPo po, DsAGGameConfigPo configPo){
+  public void saveAndUpdate(DSAGXinMgoPo po, DsAGGameConfigPo configPo){
     po=this.extAttr(po,configPo);
-    Optional<DSAGAginMgoPo> result =mongoTemplate.update(DSAGAginMgoPo.class)
+    Optional<DSAGXinMgoPo> result =mongoTemplate.update(DSAGXinMgoPo.class)
             .matching(query(where("billNo").is(po.getBillNo())))
             .replaceWith(po)
             .withOptions(FindAndReplaceOptions.options().upsert())
@@ -80,14 +80,14 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
 
   @Override
   public Timestamp getMaxId(DsAGGameConfigPo configPo){
-    TypedAggregation<DSAGAginMgoPo> agg = newAggregation(DSAGAginMgoPo.class,
+    TypedAggregation<DSAGXinMgoPo> agg = newAggregation(DSAGXinMgoPo.class,
             match(where("agentId").is(configPo.getAgentId())),
-            group().max("$recalcuTime").as("recalcuTime")
+            group().max("$reckonTime").as("reckonTime")
     );
-    AggregationResults<DSAGAginMgoPo> results = mongoTemplate.aggregate(agg, DSAGAginMgoPo.class);
-    DSAGAginMgoPo po = results.getUniqueMappedResult();
+    AggregationResults<DSAGXinMgoPo> results = mongoTemplate.aggregate(agg, DSAGXinMgoPo.class);
+    DSAGXinMgoPo po = results.getUniqueMappedResult();
 
-    Object obj=stringRedisTemplate10.boundHashOps("ag_agin_pull_config").get("endTime_"+configPo.getAgentId());
+    Object obj=stringRedisTemplate10.boundHashOps("ag_xin_pull_config").get("endTime_"+configPo.getAgentId());
     Date endDate=obj==null?null:DateUtil.covertTime((String)obj);
     if(endDate!=null){
       return new Timestamp(endDate.getTime());
@@ -95,7 +95,7 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
     if(po==null){
       return new Timestamp(configPo.getInitStartId().getTime());
     }
-    return new Timestamp(po.getRecalcuTime().getTime());
+    return new Timestamp(po.getReckonTime().getTime());
   }
 
   @Override
@@ -104,41 +104,43 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
     return new Timestamp(startId.getTime());
   }
 
-  public List<AginModel> loadDataToEndTime(Date pullDate, Integer length, DsAGGameConfigPo configPo) throws PTException {
+  public List<XinModel> loadDataToEndTime(Date pullDate, Integer length, DsAGGameConfigPo configPo) throws AGException {
     try {
-      List<AginModel> list=new ArrayList<>();
+      List<XinModel> list=new ArrayList<>();
       Date startDate= pullDate;
       Date endDate= DateUtils.addMinutes(startDate,length);
       Date date=new Date();
-      AginListModel aginListModel=this.getRecordAG(startDate,endDate,configPo,1); //起始值page=1
-      if(aginListModel.getAgList()!=null && !aginListModel.getAgList().isEmpty()) {
-        list.addAll(aginListModel.getAgList());
+      XinListModel xinListModel=this.getRecordAG(startDate,endDate,configPo,1); //起始值page=1
+      if(xinListModel.getAgList()!=null && !xinListModel.getAgList().isEmpty()){
+        list.addAll(xinListModel.getAgList());
       }
-      AgAdditionModel pagination=aginListModel.getAddition();
+      AgAdditionModel pagination=xinListModel.getAddition();
       Integer currentPage=pagination.getCurrentPage();
       Integer totalPages=pagination.getTotalPage();
-      for(int page=currentPage;page<totalPages;page++){
-        AginListModel aginListModel2=getRecordAG(startDate,endDate,configPo,page+1);
-        if(aginListModel2.getAgList()!=null && !aginListModel2.getAgList().isEmpty()) {
-          list.addAll(aginListModel2.getAgList());
+      if(currentPage!=null && totalPages!=null){
+        for(int page=currentPage;page<totalPages;page++){
+          XinListModel xinListModel2=getRecordAG(startDate,endDate,configPo,page+1);
+          if(xinListModel2.getAgList()!=null && !xinListModel2.getAgList().isEmpty()) {
+            list.addAll(xinListModel.getAgList());
+          }
         }
       }
 
       if (list.isEmpty() || list.size()==0){
-        log.info("AG网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), startDate, pullDate);
+        log.info("AG网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), startDate, endDate);
         if(endDate.compareTo(date)==-1){
-          stringRedisTemplate10.boundHashOps("ag_agin_pull_config").put("endTime_"+configPo.getAgentId(), DateUtil.covertStr(endDate));
+          stringRedisTemplate10.boundHashOps("ag_xin_pull_config").put("endTime_"+configPo.getAgentId(), DateUtil.covertStr(endDate));
         }
       }else{
-        stringRedisTemplate10.boundHashOps("ag_agin_pull_config").delete("endTime_"+configPo.getAgentId());
+        stringRedisTemplate10.boundHashOps("ag_xin_pull_config").delete("endTime_"+configPo.getAgentId());
       }
       return list;
     } catch (Exception e) {
-      throw new PTException(e);
+      throw new AGException(e);
     }
   }
 
-  public AginListModel getRecordAG(Date startDate, Date endDate, DsAGGameConfigPo configPo,Integer page) throws AGException {
+  public XinListModel getRecordAG(Date startDate, Date endDate, DsAGGameConfigPo configPo,Integer page) throws AGException {
     try {
       HttpHeaders headers = new HttpHeaders();
       headers.setContentType(MediaType.APPLICATION_XML);
@@ -160,8 +162,8 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
       String result=restTemplate.exchange(url, HttpMethod.GET,new HttpEntity<>(headers),String.class,request).getBody();
       log.info("AG拉取返回结果={}",result);
 
-      AginListModel aginListModel= XMLUtil.xmlStrToOject(AginListModel.class,result);
-      return aginListModel;
+      XinListModel xinListModel= XMLUtil.xmlStrToOject(XinListModel.class,result);
+      return xinListModel;
     } catch (Exception e) {
       if(e instanceof HttpClientErrorException){
         log.error("AG拉取请求次数频繁，暂停1分钟,错误信息={}",e.getMessage());
@@ -182,9 +184,7 @@ public class DSAGAginMgr implements IPullMgr<DSAGAginMgoPo, DsAGGameConfigPo> {
    */
   private String getParamsKey(Map<String, String> request){
     StringBuffer sb = new StringBuffer();
-    request.forEach((k,v)->{
-      sb.append(v);
-    });
+    request.forEach((k,v)-> sb.append(v));
     return Md5Util.makeMd5Sum(sb.toString().getBytes());
   }
 

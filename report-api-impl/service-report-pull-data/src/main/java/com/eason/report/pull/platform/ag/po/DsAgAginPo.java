@@ -14,6 +14,7 @@ public class DsAgAginPo implements Serializable {
     private Integer siteId;
     private String username;
     private String playName;
+    private String round;
     private String gameCode;
     private BigDecimal netAmount;
     private Byte winLossType;
@@ -82,6 +83,16 @@ public class DsAgAginPo implements Serializable {
 
     public void setPlayName(String playName) {
         this.playName = playName;
+    }
+
+    @Basic
+    @Column(name = "round")
+    public String getRound() {
+        return round;
+    }
+
+    public void setRound(String round) {
+        this.round = round;
     }
 
     @Basic

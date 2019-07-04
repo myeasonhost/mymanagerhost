@@ -1,4 +1,4 @@
-package com.eason.report.pull.platform.ag.model.yoplay;
+package com.eason.report.pull.platform.ag.model.xin;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @XStreamAlias("row")
-public class YoplayModel {
+public class XinModel {
     @XStreamAsAttribute
     @XStreamAlias("billno")
     private String billNo;
@@ -72,20 +72,20 @@ public class YoplayModel {
     @XStreamAlias("dst_amount")
     private BigDecimal dstAmount;
     @XStreamAsAttribute
-    @XStreamAlias("gmcode")
-    private String gameCode;
-    @XStreamAsAttribute
     @XStreamAlias("winLossType")
     private Byte winLossType;
     @XStreamAsAttribute
     @XStreamAlias("flag")
     private String flag;
     @XStreamAsAttribute
+    @XStreamAlias("devicetype")
+    private String deviceType;
+    @XStreamAsAttribute
+    @XStreamAlias("exttxid")
+    private String exttxid;
+    @XStreamAsAttribute
     @XStreamAlias("platformtype")
     private String platformType;
-    @XStreamAsAttribute
-    @XStreamAlias("remark")
-    private String remark;
     @XStreamAsAttribute
     @XStreamAlias("createTime")
     private Date createTime;
