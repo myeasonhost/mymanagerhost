@@ -5,10 +5,10 @@ import com.eason.report.pull.core.mgr.IPullMgr;
 import com.eason.report.pull.core.utils.DateUtil;
 import com.eason.report.pull.core.utils.Md5Util;
 import com.eason.report.pull.platform.ag.exception.AGException;
-import com.eason.report.pull.platform.ag.mgo.DSAGYoplayMgoPo;
+import com.eason.report.pull.platform.ag.mgo.DSAGSportMgoPo;
 import com.eason.report.pull.platform.ag.model.common.AgAdditionModel;
-import com.eason.report.pull.platform.ag.model.yoplay.YoplayListModel;
-import com.eason.report.pull.platform.ag.model.yoplay.YoplayModel;
+import com.eason.report.pull.platform.ag.model.sport.SportListModel;
+import com.eason.report.pull.platform.ag.model.sport.SportModel;
 import com.eason.report.pull.platform.ag.po.DsAGGameConfigPo;
 import com.eason.report.pull.platform.ag.utils.XMLUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
 @Slf4j
-public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo> {
+public class DSAGSportMgr implements IPullMgr<DSAGSportMgoPo, DsAGGameConfigPo> {
   @Autowired
   private RestTemplate restTemplate;
   @Autowired
@@ -46,7 +46,7 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
   private StringRedisTemplate stringRedisTemplate10;
 
   @Override
-  public DSAGYoplayMgoPo extAttr(DSAGYoplayMgoPo po, DsAGGameConfigPo configPo) {
+  public DSAGSportMgoPo extAttr(DSAGSportMgoPo po, DsAGGameConfigPo configPo) {
     po.setAgentId(configPo. getAgentId());
     for(Map.Entry<Integer,String> site:configPo.getSiteMap().entrySet()){
       if(po.getUsername().startsWith(site.getValue())){
@@ -69,9 +69,9 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
 
   @Transactional
   @Override
-  public void saveAndUpdate(DSAGYoplayMgoPo po, DsAGGameConfigPo configPo){
+  public void saveAndUpdate(DSAGSportMgoPo po, DsAGGameConfigPo configPo){
     po=this.extAttr(po,configPo);
-    Optional<DSAGYoplayMgoPo> result =mongoTemplate.update(DSAGYoplayMgoPo.class)
+    Optional<DSAGSportMgoPo> result =mongoTemplate.update(DSAGSportMgoPo.class)
             .matching(query(where("billNo").is(po.getBillNo())))
             .replaceWith(po)
             .withOptions(FindAndReplaceOptions.options().upsert())
@@ -80,14 +80,14 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
 
   @Override
   public Timestamp getMaxId(DsAGGameConfigPo configPo){
-    TypedAggregation<DSAGYoplayMgoPo> agg = newAggregation(DSAGYoplayMgoPo.class,
+    TypedAggregation<DSAGSportMgoPo> agg = newAggregation(DSAGSportMgoPo.class,
             match(where("agentId").is(configPo.getAgentId())),
             group().max("$reckonTime").as("reckonTime")
     );
-    AggregationResults<DSAGYoplayMgoPo> results = mongoTemplate.aggregate(agg, DSAGYoplayMgoPo.class);
-    DSAGYoplayMgoPo po = results.getUniqueMappedResult();
+    AggregationResults<DSAGSportMgoPo> results = mongoTemplate.aggregate(agg, DSAGSportMgoPo.class);
+    DSAGSportMgoPo po = results.getUniqueMappedResult();
 
-    Object obj=stringRedisTemplate10.boundHashOps("ag_yoplay_pull_config").get("endTime_"+configPo.getAgentId());
+    Object obj=stringRedisTemplate10.boundHashOps("ag_sport_pull_config").get("endTime_"+configPo.getAgentId());
     Date endDate=obj==null?null:DateUtil.covertTime((String)obj);
     if(endDate!=null){
       return new Timestamp(endDate.getTime());
@@ -104,24 +104,24 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
     return new Timestamp(startId.getTime());
   }
 
-  public List<YoplayModel> loadDataToEndTime(Date pullDate, Integer length, DsAGGameConfigPo configPo) throws AGException {
+  public List<SportModel> loadDataToEndTime(Date pullDate, Integer length, DsAGGameConfigPo configPo) throws AGException {
     try {
-      List<YoplayModel> list=new ArrayList<>();
+      List<SportModel> list=new ArrayList<>();
       Date startDate= pullDate;
       Date endDate= DateUtils.addMinutes(startDate,length);
       Date date=new Date();
-      YoplayListModel yoplayListModel=this.getRecordAG(startDate,endDate,configPo,1); //起始值page=1
-      if(yoplayListModel.getAgList()!=null && !yoplayListModel.getAgList().isEmpty()){
-        list.addAll(yoplayListModel.getAgList());
+      SportListModel sportListModel=this.getRecordAG(startDate,endDate,configPo,1); //起始值page=1
+      if(sportListModel.getAgList()!=null && !sportListModel.getAgList().isEmpty()){
+        list.addAll(sportListModel.getAgList());
       }
-      AgAdditionModel pagination=yoplayListModel.getAddition();
+      AgAdditionModel pagination=sportListModel.getAddition();
       Integer currentPage=pagination.getCurrentPage();
       Integer totalPages=pagination.getTotalPage();
       if(currentPage!=null && totalPages!=null){
         for(int page=currentPage;page<totalPages;page++){
-          YoplayListModel yoplayListModel2=getRecordAG(startDate,endDate,configPo,page+1);
-          if(yoplayListModel2.getAgList()!=null && !yoplayListModel2.getAgList().isEmpty()) {
-            list.addAll(yoplayListModel.getAgList());
+          SportListModel sportListModel2=getRecordAG(startDate,endDate,configPo,page+1);
+          if(sportListModel2.getAgList()!=null && !sportListModel2.getAgList().isEmpty()) {
+            list.addAll(sportListModel.getAgList());
           }
         }
       }
@@ -129,10 +129,10 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
       if (list.isEmpty() || list.size()==0){
         log.info("AG网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), DateUtil.covertStr(startDate), DateUtil.covertStr(endDate));
         if(endDate.compareTo(date)==-1){
-          stringRedisTemplate10.boundHashOps("ag_yoplay_pull_config").put("endTime_"+configPo.getAgentId(), DateUtil.covertStr(endDate));
+          stringRedisTemplate10.boundHashOps("ag_sport_pull_config").put("endTime_"+configPo.getAgentId(), DateUtil.covertStr(endDate));
         }
       }else{
-        stringRedisTemplate10.boundHashOps("ag_yoplay_pull_config").delete("endTime_"+configPo.getAgentId());
+        stringRedisTemplate10.boundHashOps("ag_sport_pull_config").delete("endTime_"+configPo.getAgentId());
       }
       return list;
     } catch (Exception e) {
@@ -140,7 +140,7 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
     }
   }
 
-  public YoplayListModel getRecordAG(Date startDate, Date endDate, DsAGGameConfigPo configPo,Integer page) throws AGException {
+  public SportListModel getRecordAG(Date startDate, Date endDate, DsAGGameConfigPo configPo,Integer page) throws AGException {
     try {
       HttpHeaders headers = new HttpHeaders();
       headers.setContentType(MediaType.APPLICATION_XML);
@@ -162,8 +162,8 @@ public class DSAGYoplayMgr implements IPullMgr<DSAGYoplayMgoPo, DsAGGameConfigPo
       String result=restTemplate.exchange(url, HttpMethod.GET,new HttpEntity<>(headers),String.class,request).getBody();
       log.info("AG拉取返回结果={}",result);
 
-      YoplayListModel yoplayListModel= XMLUtil.xmlStrToOject(YoplayListModel.class,result);
-      return yoplayListModel;
+      SportListModel sportListModel= XMLUtil.xmlStrToOject(SportListModel.class,result);
+      return sportListModel;
     } catch (Exception e) {
       if(e instanceof HttpClientErrorException){
         log.error("AG拉取请求次数频繁，暂停1分钟,错误信息={}",e.getMessage());

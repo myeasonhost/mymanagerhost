@@ -127,7 +127,7 @@ public class DSAGXinMgr implements IPullMgr<DSAGXinMgoPo, DsAGGameConfigPo> {
       }
 
       if (list.isEmpty() || list.size()==0){
-        log.info("AG网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), startDate, endDate);
+        log.info("AG网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), DateUtil.covertStr(startDate), DateUtil.covertStr(endDate));
         if(endDate.compareTo(date)==-1){
           stringRedisTemplate10.boundHashOps("ag_xin_pull_config").put("endTime_"+configPo.getAgentId(), DateUtil.covertStr(endDate));
         }

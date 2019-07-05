@@ -92,15 +92,14 @@ public class DSPTMgr implements IPullMgr<DSPTMgoPo, DsPtGameConfigPo> {
     );
     AggregationResults<DSPTMgoPo> results = mongoTemplate.aggregate(agg, DSPTMgoPo.class);
     DSPTMgoPo po = results.getUniqueMappedResult();
-    if(po==null){
-      return new Timestamp(configPo.getInitStartId().getTime());
-    }
+
     Object obj=stringRedisTemplate10.boundHashOps("pt_pull_config").get("endTime_"+configPo.getAgentId());
     Date endDate=obj==null?null:DateUtil.covertTime((String)obj);
-    if(endDate!=null && endDate.compareTo(po.getGamedate())==1){
+    if(endDate!=null){
       return new Timestamp(endDate.getTime());
-    }else{
-      stringRedisTemplate10.boundHashOps("pt_pull_config").delete("endTime_"+configPo.getAgentId());
+    }
+    if(po==null){
+      return new Timestamp(configPo.getInitStartId().getTime());
     }
     return new Timestamp(po.getGamedate().getTime());
   }
@@ -158,11 +157,13 @@ public class DSPTMgr implements IPullMgr<DSPTMgoPo, DsPtGameConfigPo> {
       Integer totalPages=pagination.getInteger("totalPages");
       for(int page=currentPage;page<totalPages;page++){
         JSONObject jsonObject2=getRecordHandle(startDate,endDate,configPo,page+1);
-        jsonArray.addAll(jsonObject2.getJSONArray("result"));
+        if(jsonObject2.getJSONArray("result")!=null && !jsonObject2.getJSONArray("result").isEmpty()){
+          jsonArray.addAll(jsonObject2.getJSONArray("result"));
+        }
       }
 
       if (jsonArray.isEmpty() || jsonArray.size()==0){
-        log.info("PT网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), startDate, pullDate);
+        log.info("PT网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), DateUtil.covertStr(startDate), DateUtil.covertStr(endDate));
         if(endDate.compareTo(date)==-1){
           stringRedisTemplate10.boundHashOps("pt_pull_config").put("endTime_"+configPo.getAgentId(), DateUtil.covertStr(endDate));
         }

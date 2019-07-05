@@ -60,7 +60,7 @@ public class MGMgr implements IPullMgr<MGMgoPo, MgGameConfigPo> {
       JSONArray jsonArray=this.viewHorTxCall(token,startDate,endDate,configPo);
 
       if (jsonArray.isEmpty() || jsonArray.size()==0){
-        log.info("MG大富豪网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), startDate, pullDate);
+        log.info("MG大富豪网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(),  DateUtil.covertStr(startDate), DateUtil.covertStr(endDate));
         if(endDate.compareTo(date)==-1){
           stringRedisTemplate10.boundHashOps("mg_pull_config").put("endTime_"+configPo.getAgentId(), DateUtil.covertStr(endDate));
         }
@@ -193,15 +193,14 @@ public class MGMgr implements IPullMgr<MGMgoPo, MgGameConfigPo> {
     );
     AggregationResults<MGMgoPo> results = mongoTemplate.aggregate(agg,MGMgoPo.class);
     MGMgoPo po = results.getUniqueMappedResult();
-    if(po==null){
-      return new Timestamp(configPo.getInitStartId().getTime());
-    }
+
     Object obj=stringRedisTemplate10.boundHashOps("mg_pull_config").get("endTime_"+configPo.getAgentId());
     Date endDate=obj==null?null:DateUtil.covertTime((String)obj);
-    if(endDate!=null && endDate.compareTo(po.getTransTime())==1){
+    if(endDate!=null){
       return new Timestamp(endDate.getTime());
-    }else{
-      stringRedisTemplate10.boundHashOps("mg_pull_config").delete("endTime_"+configPo.getAgentId());
+    }
+    if(po==null){
+      return new Timestamp(configPo.getInitStartId().getTime());
     }
     return new Timestamp(po.getTransTime().getTime());
   }

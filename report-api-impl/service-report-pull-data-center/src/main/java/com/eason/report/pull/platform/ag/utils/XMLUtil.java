@@ -4,6 +4,8 @@ package com.eason.report.pull.platform.ag.utils;
 import com.eason.report.pull.platform.ag.model.common.AgAdditionModel;
 import com.eason.report.pull.platform.ag.model.agin.AginListModel;
 import com.eason.report.pull.platform.ag.model.agin.AginModel;
+import com.eason.report.pull.platform.ag.model.sport.SportListModel;
+import com.eason.report.pull.platform.ag.model.sport.SportModel;
 import com.eason.report.pull.platform.ag.model.xin.XinListModel;
 import com.eason.report.pull.platform.ag.model.xin.XinModel;
 import com.eason.report.pull.platform.ag.model.yoplay.YoplayListModel;
@@ -40,7 +42,7 @@ public class XMLUtil {
         XStream.setupDefaultSecurity(xstream);
         xstream.processAnnotations(clazz);
         xstream.allowTypes(new Class[]{AgAdditionModel.class, AginListModel.class, AginModel.class,
-                YoplayListModel.class, YoplayModel.class, XinListModel.class, XinModel.class});
+                YoplayListModel.class, YoplayModel.class, XinListModel.class, XinModel.class, SportListModel.class, SportModel.class});
         xmlObject= (T)xstream.fromXML(xmlStr);
         return xmlObject;
     }

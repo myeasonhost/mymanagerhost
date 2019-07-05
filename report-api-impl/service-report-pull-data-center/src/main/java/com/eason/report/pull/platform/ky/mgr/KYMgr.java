@@ -86,16 +86,14 @@ public class KYMgr implements IPullMgr<KyMgoPo, KYGameConfigPo> {
     );
     AggregationResults<KyMgoPo> results = mongoTemplate.aggregate(agg,KyMgoPo.class);
     KyMgoPo po = results.getUniqueMappedResult();
-    if(po==null){
-      return new Timestamp(configPo.getInitStartId().getTime());
-    }
 
     Object obj=stringRedisTemplate10.boundHashOps("ky_pull_config").get("endTime_"+configPo.getAgentId());
     Date endDate=obj==null?null:DateUtil.covertTime((String)obj);
-    if(endDate!=null && endDate.compareTo(po.getGameEndTime())==1){
+    if(endDate!=null){
       return new Timestamp(endDate.getTime());
-    }else{
-      stringRedisTemplate10.boundHashOps("ky_pull_config").delete("endTime_"+configPo.getAgentId());
+    }
+    if(po==null){
+      return new Timestamp(configPo.getInitStartId().getTime());
     }
     return new Timestamp(po.getGameEndTime().getTime());
   }
@@ -120,7 +118,7 @@ public class KYMgr implements IPullMgr<KyMgoPo, KYGameConfigPo> {
       JSONArray jsonArray=this.getRecordHandle(startDate,endDate,configPo);
 
       if (jsonArray.isEmpty() || jsonArray.size()==0){
-        log.info("KY网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), startDate, pullDate);
+        log.info("KY网站={} 拉取成功,但注单数量为0,时间段{}——{}",configPo.getAgentId(), DateUtil.covertStr(startDate), DateUtil.covertStr(endDate));
         if(endDate.compareTo(date)==-1){
           stringRedisTemplate10.boundHashOps("ky_pull_config").put("endTime_"+configPo.getAgentId(), DateUtil.covertStr(endDate));
         }
