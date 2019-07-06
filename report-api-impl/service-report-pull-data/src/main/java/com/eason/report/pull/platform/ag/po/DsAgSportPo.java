@@ -1,13 +1,14 @@
 package com.eason.report.pull.platform.ag.po;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "ds_ag_sport")
-public class DsAgSportPo {
+public class DsAgSportPo implements Serializable {
     private String billNo;
     private String agentId;
     private Integer siteId;

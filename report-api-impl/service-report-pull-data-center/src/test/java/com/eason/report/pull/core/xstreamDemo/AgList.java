@@ -59,8 +59,8 @@ public class AgList {
     public static void main(String[] args) throws UnsupportedEncodingException {
         RestTemplate restTemplate=new RestTemplate();
         String cagent="CS2";
-        Long startdate=DateUtil.covertTime("2019-07-05 06:50:00").getTime();
-        Long enddate=DateUtil.covertTime("2019-07-05 07:00:00").getTime();
+        Long startdate=DateUtil.covertTime("2019-07-05 17:00:00").getTime()/1000;
+        Long enddate=DateUtil.covertTime("2019-07-05 18:05:00").getTime()/1000;
         String page="1";
         String pageLimit="100";
         String pidtoken="691E87938EB3A6BD774CA98D5497B081";
@@ -75,8 +75,8 @@ public class AgList {
         request.add("page",page);
         request.add("pageLimit",pageLimit);
         request.add("key",key);
-        String url="http://hctjjs2.gdcapi.com:7733/api?act=getgameorders&pidtoken=691E87938EB3A6BD774CA98D5497B081&productid=" +cagent+
-                "&begintime="+startdate+"&endtime="+enddate+"&order="+order+"&numperpage="+page+"&page="+pageLimit+"&sessionkey="+key;
+        String url="http://hctjjs2.gdcapi.com:7733/api?act=getscenesofuserreportExt&pidtoken=691E87938EB3A6BD774CA98D5497B081&productid=" +cagent+
+                "&begintime="+startdate+"&endtime="+enddate+"&order="+order+"&numperpage="+pageLimit+"&page="+page+"&sessionkey="+key;
 
 //        String url="http://ctjjs2.gdcapi.com:3333/getagsportorders_ex.xml?cagent=" +cagent+
 //                "&startdate="+startdate+"&enddate="+enddate+"&page="+page+"&perpage="+pageLimit+"&key="+key;

@@ -166,7 +166,9 @@ public class DSSGSMgr implements IPullMgr<DSSGSMgoPo, DsSgsGameConfigPo> {
       CsvToBean csvToBean = new CsvToBeanBuilder(new StringReader(result)).withMappingStrategy(mapper).build();
       List<SgsCsvVo> list=csvToBean.parse();
       JSONArray jsonArray=new JSONArray();
-      jsonArray.addAll(list);
+      if(list!=null && !list.isEmpty()){
+        jsonArray.addAll(list);
+      }
       log.info("SGS拉取返回结果={}",jsonArray.toJSONString());
       return jsonArray;
     } catch (Exception e) {
