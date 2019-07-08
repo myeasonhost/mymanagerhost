@@ -2,5 +2,4 @@
 
 |日期|操作人|模块|API名称|修订记录|
 |:--|:--|:--|:--|:--|
-|2017/11/11 |EASON|用户API |关注/取消关注|新增渠道字段，用于后台统计；API调整：/user/{userId}/**{channel}**/isAttention/{zbId}/{isAttention}|
-|2017/11/14 |EASON|三方平台API|获取列表IM/Media地址|新增主播id，用于auth认证；API调整：/api/platform/im/get/**{zbId}**；修改端口字段调整Integer类型|
+|2019/11/11 |EASON|数据库配置 |MQ的时间配置说明|set global time_zone = '+8:00';set time_zone = '+8:00';flush privileges;show variables like '%time_zone%';|
