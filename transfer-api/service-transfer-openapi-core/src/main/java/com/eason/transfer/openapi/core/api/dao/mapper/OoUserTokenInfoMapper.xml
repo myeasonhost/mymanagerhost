@@ -26,7 +26,7 @@
 	</select>
 	
 	<!--新增TOKEN和电话信息  -->
-	<insert id="insertUserToken" parameterType="UserTokenInfo">
+	<insert id="insertUserToken" parameterType="com.eason.transfer.openapi.core.api.dao.model.UserTokenInfo">
 		INSERT INTO USER_TOKEN_INFO(
 				USER_ID,
 				TOKEN,
@@ -44,7 +44,7 @@
 			)
 	</insert>
 	
-	<update id="updateToken" parameterType="UserTokenInfo" >
+	<update id="updateToken" parameterType="com.eason.transfer.openapi.core.api.dao.model.UserTokenInfo" >
 	    UPDATE USER_TOKEN_INFO SET TOKEN = #{token}, PHONE =#{phone},UPDATE_TIME=now()
 	    WHERE
 	    USER_ID = #{userId}

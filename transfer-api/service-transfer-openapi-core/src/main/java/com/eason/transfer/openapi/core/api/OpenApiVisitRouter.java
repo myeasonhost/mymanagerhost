@@ -8,19 +8,20 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
+@Path("/api")
 public interface OpenApiVisitRouter {
 
 	@POST
 	@Path("/router")
-	@Consumes({ "application/x-www-form-urlencoded" })
-	public String router(MultivaluedMap<String, String> paramMap, @Context HttpServletRequest request, @Context HttpServletResponse response);
-	
-	
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	String router(MultivaluedMap<String, String> paramMap, @Context HttpServletRequest request, @Context HttpServletResponse response);
+
 	@POST
 	@Path("/router")
-	@Consumes({ "multipart/form-data" })
-	public String routerWithFile(MultipartBody body, @Context HttpServletRequest request, @Context HttpServletResponse response);
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	String routerWithFile(MultipartBody body, @Context HttpServletRequest request, @Context HttpServletResponse response);
 
 }

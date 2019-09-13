@@ -18,10 +18,15 @@ public class ApiSystemParam {
 	private String format;
 	
 	/**接口版本号*/
-	private String ver = "1.0";
+	private String ver;
 	
 	/**加密密钥*/
 	private String appSecret;
+
+	String postUrl;
+	String paramsNames;
+	String paramsTypes;
+
 
 	public String getAppKey() {
 		return appKey;
@@ -70,5 +75,28 @@ public class ApiSystemParam {
 	public void setAppSecret(String appSecret) {
 		this.appSecret = appSecret;
 	}
-	
+
+	public String getPostUrl() {
+		return postUrl;
+	}
+
+	public void setPostUrl(String postUrl) {
+		this.postUrl = postUrl;
+	}
+
+	public String getParamsNames() {
+		return paramsNames;
+	}
+
+	public void setParamsNames(String paramsNames) {
+		this.paramsNames = paramsNames;
+	}
+
+	public String getParamsTypes() {
+		return paramsTypes;
+	}
+
+	public void setParamsTypes(String paramsTypes) {
+		this.paramsTypes = paramsTypes;
+	}
 }

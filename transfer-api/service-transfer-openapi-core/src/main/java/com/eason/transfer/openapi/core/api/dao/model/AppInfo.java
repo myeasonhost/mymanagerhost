@@ -47,5 +47,15 @@ public class AppInfo {
 	public void setAppUserTable(String appUserTable) {
 		this.appUserTable = appUserTable;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "AppInfo{" +
+				"id=" + id +
+				", appName='" + appName + '\'' +
+				", appKey='" + appKey + '\'' +
+				", appSecret='" + appSecret + '\'' +
+				", appUserTable='" + appUserTable + '\'' +
+				'}';
+	}
 }

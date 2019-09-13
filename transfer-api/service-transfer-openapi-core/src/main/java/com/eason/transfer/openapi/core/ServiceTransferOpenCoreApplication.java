@@ -9,7 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableCaching
-@MapperScan(basePackages={"com.eason.transfer.openapi.core.api.dao.mapper"})
+@MapperScan(basePackages={"com.eason.transfer.openapi.core.api.dao"})
 public class ServiceTransferOpenCoreApplication {
 
     public static void main(String[] args) {

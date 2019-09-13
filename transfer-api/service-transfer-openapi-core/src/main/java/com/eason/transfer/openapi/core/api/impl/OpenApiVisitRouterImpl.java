@@ -37,10 +37,11 @@ import java.util.Map.Entry;
 
 @Service
 public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
-	
-	
+
+
 	private final static Log log = LogFactory.getLog(OpenApiVisitRouterImpl.class);
 	/** 系统级参数校验 */
+	@Autowired
 	private OpenApiSystemParamFilterBean openApiSystemParamFilterBean;
 	@Autowired
 	private MessageSource messageSource;
@@ -56,8 +57,8 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 	 */
 	public String router(MultivaluedMap<String, String> multivaluedMap, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
 		httpResponse.addHeader("Access-Control-Allow-Origin","*");
-		httpResponse.addHeader("Access-Control-Allow-Methods","GET,POST,OPTIONS"); 
-		
+		httpResponse.addHeader("Access-Control-Allow-Methods","GET,POST,OPTIONS");
+
 		// 记录开始访问时间
 		Long startTime = System.currentTimeMillis();
 		// 获取语言环境
@@ -72,7 +73,7 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 		} catch (Exception e){
 			language = 1;
 		}
-		
+
 		// 把参数保存到paramMap中
 		Map<String, String> paramMap = new HashMap<String, String>();
 		Iterator<Entry<String, List<String>>> entryIterator = multivaluedMap.entrySet().iterator();
@@ -81,12 +82,12 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 			String key = entry.getKey();
 			paramMap.put(key, multivaluedMap.getFirst(key));
 		}
-		
+
 		//format参数
 		String format = OpenApiCommonConst.FORMAT_JSON;
 		if(paramMap.containsKey(OpenApiCommonConst.STRING_FORMAT)){
 			format = paramMap.get(OpenApiCommonConst.STRING_FORMAT);
-		}	
+		}
 		String method = multivaluedMap.getFirst(OpenApiCommonConst.STRING_METHOD);
 		//获取https请求的方法
 		String httpsMethod = MessageUtils.getMessage(messageSource, OpenApiCommonConst.HTTPS_METHOD, null, language);
@@ -98,8 +99,8 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 				Response response = new Response();
 				String result = REQUEST_HTTPS.ERROR_399;
 				String msg = MessageUtils.getMessage(messageSource, REQUEST_HTTPS.METHOD + result, null, language);
-				response.addErrInfo(result, msg, null);	
-				
+				response.addErrInfo(result, msg, null);
+
 				//String responseReslut = JSONObject.fromObject(response).toString();
 				String responseReslut = OpenApiCommonUtil.getResponseInfo(response, format);
 				return responseReslut;
@@ -107,40 +108,40 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 				log.info("开始https请求");
 			}
 		}
-		
-		
+
+
 		// 调用ws
 		Response response = invokeRouter(paramMap, null, httpRequest, language);
 
 		//插入log记录
 		insertIntoLog(paramMap, httpRequest, response, startTime);
-		
+
 		//解析response对象
 		String responseReslut = OpenApiCommonUtil.getResponseInfo(response, format);
-		
+
 		return responseReslut;
-		
+
 
 	}
-	
-	
-	
-	
+
+
+
+
 	public String routerWithFile(MultipartBody body, HttpServletRequest httpRequest, HttpServletResponse httpResponse){
 		httpResponse.addHeader("Access-Control-Allow-Origin","*");
-		httpResponse.addHeader("Access-Control-Allow-Methods","GET,POST,OPTIONS"); 
-		
+		httpResponse.addHeader("Access-Control-Allow-Methods","GET,POST,OPTIONS");
+
 		// 记录开始访问时间
 		Long startTime = System.currentTimeMillis();
-		
+
 		//参数Map
 		Map<String, String> paramMap = new HashMap<String, String>();
 		//附件list
 		Map<String, FileItem> fileItemMap = new HashMap<String, FileItem>();
-		
+
 		//解析文本参数与附件
 		OpenApiCommonUtil.parseParamAttachment(body, paramMap, fileItemMap);
-		
+
 		// 获取语言环境
 		int language = 1;
 		try{
@@ -149,7 +150,7 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 			language = 1;
 		}
 		String method = paramMap.get(OpenApiCommonConst.STRING_METHOD);
-		
+
 		//format参数
 		String format = OpenApiCommonConst.FORMAT_JSON;
 		if(paramMap.containsKey(OpenApiCommonConst.STRING_FORMAT)){
@@ -165,8 +166,8 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 				Response response = new Response();
 				String result = REQUEST_HTTPS.ERROR_399;
 				String msg = MessageUtils.getMessage(messageSource, REQUEST_HTTPS.METHOD + result, null, language);
-				response.addErrInfo(result, msg, null);	
-				
+				response.addErrInfo(result, msg, null);
+
 				//String responseReslut = JSONObject.fromObject(response).toString();
 				String responseReslut = OpenApiCommonUtil.getResponseInfo(response, format);
 				return responseReslut;
@@ -174,22 +175,22 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 				log.info("开始https请求");
 			}
 		}
-		
-	
+
+
 		// 调用ws
 		Response response = invokeRouter(paramMap, fileItemMap, httpRequest, language);
 		//插入log记录
 		insertIntoLog(paramMap, httpRequest, response, startTime);
-		
+
 		//解析response对象
 		String responseReslut = OpenApiCommonUtil.getResponseInfo(response, format);
-		
+
 		return responseReslut;
-		
+
 	}
-	
-	
-	
+
+
+
 	private Response invokeRouter(Map<String, String> paramMap, Map<String, FileItem> fileItemMap, HttpServletRequest request, int language){
 		// 系统级参数校验
 		Response response = openApiSystemParamFilterBean.checkSystemParam(paramMap, request, 0, language);
@@ -207,16 +208,16 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 		if(response != null) {
 			return response;
 		}
-		
+
 		// 调用ws
 		response = invokeService(paramMap, fileItemMap, request, language);
-		
+
 		return response;
-		
+
 	}
-	
-	
-	
+
+
+
 	private void insertIntoLog(Map<String, String> paramMap, HttpServletRequest request, Response response, Long startTime ){
 		try{
 			Long endTime = System.currentTimeMillis();
@@ -234,16 +235,16 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 			String	systemVer = paramMap.get("systemVer");
 			/** app版本号 */
 			String	appVer = paramMap.get("appVer");
-			
+
 			String resultCode = null;
 			Integer resultType = 1;
-			
+
 			if(response.getErrInfoList() != null && response.getErrInfoList().size() > 0){
 				//有错误信息,默认参数问题
 				resultType = 3;
 				for(ErrDetailInfo errDetailInfo : response.getErrInfoList()){
 					if(StringUtils.isNotBlank(errDetailInfo.getErrorCode())){
-						if(errDetailInfo.getErrorCode().startsWith(ERROR_MSG.SYSTEM_ERROR) || 
+						if(errDetailInfo.getErrorCode().startsWith(ERROR_MSG.SYSTEM_ERROR) ||
 								errDetailInfo.getErrorCode().startsWith(ERROR_MSG.HEDWIG_SERVICE_ERROR)){
 							resultType = 2;
 							resultCode = errDetailInfo.getErrorCode();
@@ -254,7 +255,7 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 					}
 				}
 			}
-			
+
 			Integer userId = null;
 			if(StringUtils.isNotBlank(paramMap.get("sessionKey"))){
 				UserTokenInfo token = ooUserTokenInfoMapper.getUserTokenInfoByToken(paramMap.get("sessionKey"));
@@ -280,8 +281,8 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 			String param = paramMap.toString();
 			if(StringUtils.isNotBlank(param) && param.length() > 3000){
 				param = param.substring(0, 3000);
-			} 
-			
+			}
+
 			accessLog.setInvokeParam(param);
 			accessLog.setIp(ip);
 			accessLog.setMethodVer(paramMap.get("ver"));
@@ -304,61 +305,61 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 			log.error("日志插入错误", e);
 		}
 		response.setException(new Exception(""));
-		
+
 	}
-	
-	
+
+
 	/**
 	 * 调用ws服务
-	 * 
+	 *
 	 * @param paramMap
 	 * @param request
 	 * @return
 	 */
 	private Response invokeService(Map<String, String> paramMap, Map<String, FileItem> fileItemMap, HttpServletRequest request, int language){
-		
+
 		//调用接口的版本
 		String ver = paramMap.get(OpenApiCommonConst.STRING_VER);
 		//调用接口的方法名
 		String merthod = paramMap.get(OpenApiCommonConst.STRING_METHOD);
-		
+
 		// 系统级参数校验
 		Response response = null;
-		
+
 		//URL 重定向配置的key
 		String key = merthod + "_" + ver ;
 		ApiMethodInfo apiMethodInfo = OpenApiCommonConst.allMethodInfoMap.get(key);
-		
+
 		String redirectValue = OpenApiCommonUtil.stringTrim(apiMethodInfo.getMethodCfg());
-		
+
 		if(StringUtils.isEmpty(redirectValue)){
-			
+
 			return OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.EDIRECT_ERROR, null, null, messageSource, language);
 		}
-		
+
 		try{
-			
+
 			if("local".equals(redirectValue.substring(0, 5))){
-				
+
 				String[] hedwigBeanValues = redirectValue.split(";");
-				
-				if( hedwigBeanValues.length != 4 || StringUtils.isEmpty(hedwigBeanValues[1]) 
+
+				if( hedwigBeanValues.length != 4 || StringUtils.isEmpty(hedwigBeanValues[1])
 						|| StringUtils.isEmpty(hedwigBeanValues[2]) || StringUtils.isEmpty(hedwigBeanValues[3])){
-					
+
 					return OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.EDIRECT_ERROR, null, null, messageSource, language);
 				}
-				
+
 				//获取service bean
 				ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
 				Object serviceObj = context.getBean(OpenApiCommonUtil.stringTrim(hedwigBeanValues[1]));
-				
+
 				//设置request对象
 				Class<?> hedwigRequest = Class.forName(OpenApiCommonUtil.stringTrim(hedwigBeanValues[3]));
 				Object objRequest = hedwigRequest.newInstance();
 				OpenApiCommonUtil.setBeanPropertyValue(objRequest, paramMap, fileItemMap);
-				
+
 				String methodName = OpenApiCommonUtil.stringTrim(hedwigBeanValues[2]) ;
-				
+
 				try{
 					response = (Response) serviceObj.getClass().getMethod(methodName, new Class[]{objRequest.getClass()}).invoke(serviceObj, new Object[]{objRequest});
 				} catch(InvocationTargetException baseException){
@@ -382,16 +383,16 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 					response.setException(exception);
 					return response;
 				}
-				
+
 				if(response == null){
 					log.error("调用服务返回空！");
 					String[] params = new String[]{"返回值为空"};
 					return OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.HEDWIG_SERVICE_ERROR, params, redirectValue, messageSource, language);
 				}
-				
+
 				//解析response对象
 				return response;
-				
+
 			}
 		}catch(NoSuchBeanDefinitionException noSuchBeanException){
 			String[] params = new String[]{"客户端配置错误"};
@@ -402,7 +403,7 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 		}
 		return response;
 	}
-	
+
 
 	public OpenApiSystemParamFilterBean getOpenApiSystemParamFilterBean() {
 		return openApiSystemParamFilterBean;

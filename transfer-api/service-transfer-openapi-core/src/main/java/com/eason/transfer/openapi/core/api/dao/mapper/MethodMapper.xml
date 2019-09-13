@@ -107,7 +107,7 @@
         where id = #{id}  
 	</update>
 	
-	<insert id="saveMethod" parameterType="method">
+	<insert id="saveMethod" parameterType="com.eason.transfer.openapi.core.api.dao.model.ApiMethod">
 	insert into API_METHOD(METHOD_TYPE,METHOD,METHOD_NAME,METHOD_MEMO,INVOKE_MIN_MAX_NUM,
 	INVOKE_DAY_MAX_NUM,AUTH_LEVEL,IS_UPDATED,CREATE_TIME,IS_OPEN,IS_EXTRAS) 
 	values(#{methodType},#{method},#{methodName},#{methodMemo},#{invokeMinMaxNum},#{invokeDayMaxNum},#{authLevel},#{isUpdated},#{createTime},#{isOpen},#{isExtras})

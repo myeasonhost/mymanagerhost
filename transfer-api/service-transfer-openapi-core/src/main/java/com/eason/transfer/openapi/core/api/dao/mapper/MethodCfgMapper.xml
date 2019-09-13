@@ -21,11 +21,12 @@
 		<result property="method" column="METHOD" />
 		<result property="methodName" column="METHOD_NAME" />
 		<result property="methodMemo" column="METHOD_MEMO" />
-		
 	</resultMap>
+
 	<select id="methodcfgTotalRecord" resultType="int">
       select count(1) from API_METHOD_CFG where 1=1
    </select>
+
    	<select id="methodcfgConditionTotalRecord" resultType="int" parameterType="java.util.HashMap">
 		 select count(1) from API_METHOD_CFG c,OO_API_METHOD m   where 1=1 and c.METHOD_ID=m.id
 		<if test="methodName !=null and methodName !='' ">  
@@ -113,7 +114,7 @@
         where id = #{id}  
 	</update>
 	
-	<insert id="saveMethodCfg" parameterType="method">
+	<insert id="saveMethodCfg" parameterType="com.eason.transfer.openapi.core.api.dao.model.ApiMethod">
 	insert into API_METHOD_CFG(METHOD_ID,VER,CFG_VALUE,IS_DELETED,CREATE_TIME) 
 	values(#{methodId},#{ver},#{cfgValue},#{isDeleted},#{createTime})
 		
