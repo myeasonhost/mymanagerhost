@@ -31,7 +31,7 @@ public final class OpenApiCommonConst {
 	public static final String METHOD_VER = "1.0";
 	
 	/**所有接口频率控制接口名称*/
-	public static final String YHD_COMMON_VISIT_SET = "jiuwu.common.visit.set";
+	public static final String YHD_COMMON_VISIT_SET = "eason.common.visit.set";
 	
 	/**所有接口频率*/
 	public static final Map<String,Long> allMethodLimit = new HashMap<String,Long>();
@@ -189,98 +189,98 @@ public final class OpenApiCommonConst {
 	public interface ERROR_MSG{
 		
 		/** 每分钟的访问频率 */
-		public static final String MIN_PRE_VISIT_OVER = "jiuwu.visit.error.min_pre_visit_over";
+		public static final String MIN_PRE_VISIT_OVER = "eason.visit.error.min_pre_visit_over";
 		/** 每天的访问总数 */
-		public static final String DAY_PRE_VISIT_OVER = "jiuwu.visit.error.day_pre_visit_over";
+		public static final String DAY_PRE_VISIT_OVER = "eason.visit.error.day_pre_visit_over";
 		/** APP每天访问总数*/
-		public static final String DAY_PER_APP_VISIT_OVER = "jiuwu.visit.error.day_pre_app_visit_over";
+		public static final String DAY_PER_APP_VISIT_OVER = "eason.visit.error.day_pre_app_visit_over";
 		
 		/** 系统参数{0}为空或非法 */
-		public static final String SYSTEM_PARAM_ERROR = "jiuwu.system.param.error";
+		public static final String SYSTEM_PARAM_ERROR = "eason.system.param.error";
 		/** 请求时间超过误差限制（最大10分钟） */
-		public static final String TIMESTAMP_INVALID  = "jiuwu.system.param.timestamp_invalid";
+		public static final String TIMESTAMP_INVALID  = "eason.system.param.timestamp_invalid";
 		/** 接口名称或者版本非法 */
-		public static final String METHOD_VER_INVALID = "jiuwu.system.param.method_ver_invalid";
+		public static final String METHOD_VER_INVALID = "eason.system.param.method_ver_invalid";
 		/** 接口级别信息未找到 */
-		public static final String METHOD_LEVEL_NOT_FOUND = "jiuwu.system.param.method_level_not_found";
+		public static final String METHOD_LEVEL_NOT_FOUND = "eason.system.param.method_level_not_found";
 		/** 接口级别有误（0、1、2、3） */
-		public static final String METHOD_LEVEL_INVALID = "jiuwu.system.param.method_level_invalid";
+		public static final String METHOD_LEVEL_INVALID = "eason.system.param.method_level_invalid";
 		/** app无权限调用该增值接口 */
-		public static final String METHOD_EXTRA_INVALID = "jiuwu.system.param.method_extra_invalid";
+		public static final String METHOD_EXTRA_INVALID = "eason.system.param.method_extra_invalid";
 		/** 校验app调用增值接口出错 */
-		public static final String METHOD_EXTRA_ERROR = "jiuwu.system.param.method_extra_error";
+		public static final String METHOD_EXTRA_ERROR = "eason.system.param.method_extra_error";
 		/** 服务跳转有误，请检查配置是否正确 */
-		public static final String EDIRECT_ERROR = "jiuwu.system.param.redirect_error";
+		public static final String EDIRECT_ERROR = "eason.system.param.redirect_error";
 		/** sign非法 */
-		public static final String SIGN_INVALID = "jiuwu.system.param.sign_invalid";
+		public static final String SIGN_INVALID = "eason.system.param.sign_invalid";
 		/** 系统错误 */
-		public static final String SYSTEM_ERROR = "jiuwu.system.error";
+		public static final String SYSTEM_ERROR = "eason.system.error";
 		/** 接口错误 */
-		public static final String METHOD_ERROR = "jiuwu.system.method.error";
+		public static final String METHOD_ERROR = "eason.system.method.error";
 		/** Hedwig服务调用异常:{0} */
-		public static final String HEDWIG_SERVICE_ERROR = "jiuwu.system.service.error";
+		public static final String HEDWIG_SERVICE_ERROR = "eason.system.service.error";
 		
 		/** SDK调用方法未找到 */
-		public static final String SDK_REQUEST_METHOD_NOT_FOUND = "jiuwu.system.sdk.request_method_not_found";
+		public static final String SDK_REQUEST_METHOD_NOT_FOUND = "eason.system.sdk.request_method_not_found";
 		
 		/** SDK请求类未找到 */
-		public static final String SDK_REQUEST_CLASS_NOT_FOUND = "jiuwu.system.sdk.request_class_not_found";
+		public static final String SDK_REQUEST_CLASS_NOT_FOUND = "eason.system.sdk.request_class_not_found";
 		
 		/** SDK解析异常 */
-		public static final String SDK_PARSE_ERROR = "jiuwu.system.sdk.parse_error";
+		public static final String SDK_PARSE_ERROR = "eason.system.sdk.parse_error";
 		
 		/** 商家接口调用成功率低被限制 */
-		public static final String METHOD_SERVICE_LIMIT = "jiuwu.system.method.limit";
+		public static final String METHOD_SERVICE_LIMIT = "eason.system.method.limit";
 		
 		/** 参数包含非法字符 */
-		public static final String PARAM_INVALID = "jiuwu.system.param.invalid";
+		public static final String PARAM_INVALID = "eason.system.param.invalid";
 		/** 图片上传失败 */
-		public static final String IMG_UPLOAD_ERROR = "jiuwu.system.img.upload_error";
+		public static final String IMG_UPLOAD_ERROR = "eason.system.img.upload_error";
 		/** 上传图片数量超过设置上限 */
-		public static final String IMG_NUM_OVER = "jiuwu.system.img.num_over";
+		public static final String IMG_NUM_OVER = "eason.system.img.num_over";
 		/** 上传图片大小超过1m */
-		public static final String IMG_SIZE_OVER = "jiuwu.system.img.size_over";
+		public static final String IMG_SIZE_OVER = "eason.system.img.size_over";
 		/**上传的图片数量不能为0*/
-		public static final String IMG_NUM_NULL = "jiuwu.system.img.num_null";
+		public static final String IMG_NUM_NULL = "eason.system.img.num_null";
 		/** 上传图片文件格式错误 */
-		public static final String IMG_FORMAT_ERROR = "jiuwu.system.img.format_error";
+		public static final String IMG_FORMAT_ERROR = "eason.system.img.format_error";
 		/** 上传图片分辨率错误 */
-		public static final String IMG_RESOLUTION_ERROR = "jiuwu.system.img.resolution_error";
+		public static final String IMG_RESOLUTION_ERROR = "eason.system.img.resolution_error";
 		/** 上传图片 比例错误 */
-		public static final String IMG_SCALE_ERROR = "jiuwu.system.img.scale_error";
+		public static final String IMG_SCALE_ERROR = "eason.system.img.scale_error";
 		/**商家权限不足*/
-		public static final String MERCHANT_TYPE_ERROR = "jiuwu.system.merchant.type.error";
+		public static final String MERCHANT_TYPE_ERROR = "eason.system.merchant.type.error";
 		
 		//SBY异常信息
 		/** SBY接口异常 :{0}*/
-		public static final String SBY_ERROR = "jiuwu.system.sby.error";
+		public static final String SBY_ERROR = "eason.system.sby.error";
 		/** AppKey({0})不存在*/
-		public static final String APPKEY_NOT_FPUND = "jiuwu.system.param.appkey_not_found";
+		public static final String APPKEY_NOT_FPUND = "eason.system.param.appkey_not_found";
 		/** SessionKey({0})不存在*/
-		public static final String SESSIONKEY_NOT_FOUND = "jiuwu.system.param.sessionkey_not_found";
+		public static final String SESSIONKEY_NOT_FOUND = "eason.system.param.sessionkey_not_found";
 		/** SBY用户不存在*/
-		public static final String SBYUSER_NOT_FOUND = "jiuwu.system.param.sbyuser_not_found";
+		public static final String SBYUSER_NOT_FOUND = "eason.system.param.sbyuser_not_found";
 		/** AppKey({0})和SessionKey({1})不匹配*/
-		public static final String SBY_APPKEY_SESSIONKEY_NOT_MATCH = "jiuwu.system.param.appkey_sessionkey_not_match";
+		public static final String SBY_APPKEY_SESSIONKEY_NOT_MATCH = "eason.system.param.appkey_sessionkey_not_match";
 		/** Sessionkey({0})已失效*/
-		public static final String SBY_SESSIONKEY_EXPIRED = "jiuwu.system.param.sessionkey_expired";
+		public static final String SBY_SESSIONKEY_EXPIRED = "eason.system.param.sessionkey_expired";
 		/** SessionKey({0})的失效时间格式不正确*/
-		public static final String SBY_SESSIONKEY_EXPIREDATE_INVALID = "jiuwu.system.param.sessionkey_expiredate_invalid";
+		public static final String SBY_SESSIONKEY_EXPIREDATE_INVALID = "eason.system.param.sessionkey_expiredate_invalid";
 		/** SBY用户不存在*/
-		public static final String SBY_USER_NOT_FOUND = "jiuwu.system.param.user_not_found";
+		public static final String SBY_USER_NOT_FOUND = "eason.system.param.user_not_found";
 		/** SBY用户对应的商家不存在*/
-		public static final String SBY_MERCHANT_NOT_FOUND = "jiuwu.system.param.merchantid_not_found";
+		public static final String SBY_MERCHANT_NOT_FOUND = "eason.system.param.merchantid_not_found";
 		/** SBY用户类型错误，与应用接口类型不匹配*/
-		public static final String SBY_USER_TYPE_ERROR = "jiuwu.system.param.sby_user_type_error";
+		public static final String SBY_USER_TYPE_ERROR = "eason.system.param.sby_user_type_error";
 		/** Category type不存在*/
-		public static final String CATEGORY_TYPE_NOT_FOUND = "jiuwu.system.param.category_type_not_found";
+		public static final String CATEGORY_TYPE_NOT_FOUND = "eason.system.param.category_type_not_found";
 		/** 访问接口的IP白名单中不包含用户的IP*/
-		public static final String USER_IP_NOT_IN_WHITEIP = "jiuwu.system.param.suer_ip_not_in_whiteip";
+		public static final String USER_IP_NOT_IN_WHITEIP = "eason.system.param.suer_ip_not_in_whiteip";
 		
 		/**批量上传图片失败{0}*/
-		public static final String YHD_PIC_SPACE_PICS_UPLOAD_ERROR = "jiuwu.pic.space.pics.upload.error";
+		public static final String YHD_PIC_SPACE_PICS_UPLOAD_ERROR = "eason.pic.space.pics.upload.error";
 		/**图片分类ID有误*/
-		public static final String YHD_PIC_SPACE_PICS_UPLOAD_PARAM_INVALID = "jiuwu.pic.space.pics.upload.param_invalid";
+		public static final String YHD_PIC_SPACE_PICS_UPLOAD_PARAM_INVALID = "eason.pic.space.pics.upload.param_invalid";
 		
 	}
 	

@@ -54,7 +54,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface INSERT_USER {
-		public static final String METHOD = "jiuwu.user.register_";
+		public static final String METHOD = "eason.user.register_";
 		/**
 		 * 请求对象为空
 		 */
@@ -123,7 +123,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface UPDATE_USER_INFO {
-		public static final String METHOD = "jiuwu.user.update_";
+		public static final String METHOD = "eason.user.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -197,7 +197,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface FIND_REGISTERED_USER {
-		public static final String METHOD = "jiuwu.user.registered.find_";
+		public static final String METHOD = "eason.user.registered.find_";
 		/**
 		 * 请求对象为空
 		 */
@@ -227,7 +227,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_FRIENDS_INFO {
-		public static final String METHOD = "jiuwu.friend.info.get_";
+		public static final String METHOD = "eason.friend.info.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -247,7 +247,7 @@ public class MessageConstant {
 	 */
 	public interface GET_USERCODE {
 
-		public static final String METHOD = "jiuwu.user.usercode.find_";
+		public static final String METHOD = "eason.user.usercode.find_";
 		/**
 		 * 请求对象为空
 		 */
@@ -344,7 +344,7 @@ public class MessageConstant {
 	 */
 	public interface VER_CODE {
 
-		public static final String METHOD = "jiuwu.user.verify_";
+		public static final String METHOD = "eason.user.verify_";
 
 		/**
 		 * 验证码是否匹配 0为不匹配
@@ -410,7 +410,7 @@ public class MessageConstant {
 	 */
 	public interface SET_PASSWORD {
 
-		public static final String METHOD = "jiuwu.user.setpw.update_";
+		public static final String METHOD = "eason.user.setpw.update_";
 		/**
 		 * 请求对象为空
 		 * 
@@ -461,7 +461,7 @@ public class MessageConstant {
 	 */
 	public interface UPDATE_PASSWORD {
 
-		public static final String METHOD = "jiuwu.user.updatepw.update_";
+		public static final String METHOD = "eason.user.updatepw.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -505,7 +505,7 @@ public class MessageConstant {
 	 */
 	public interface SEARCH_FRIEND {
 
-		public static final String METHOD = "jiuwu.user.search.friend.find_";
+		public static final String METHOD = "eason.user.search.friend.find_";
 		/**
 		 * 请求对象为空
 		 */
@@ -559,7 +559,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface UPDATE_FRIEND {
-		public static final String METHOD = "jiuwu.friend.update_";
+		public static final String METHOD = "eason.friend.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -585,7 +585,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface UPDATE_FRIEND_TEMP_PHONE {
-		public static final String METHOD = "jiuwu.friend.tempPhone.update_";
+		public static final String METHOD = "eason.friend.tempPhone.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -615,7 +615,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface INSERT_FILEINFO {
-		public static final String METHOD = "jiuwu.file.insert_";
+		public static final String METHOD = "eason.file.insert_";
 		/**
 		 * 上传的文件为空
 		 */
@@ -720,7 +720,7 @@ public class MessageConstant {
 	 */
 	public interface GET_USERINFO {
 
-		public static final String METHOD = "jiuwu.user.find_";
+		public static final String METHOD = "eason.user.find_";
 
 		/**
 		 * 请求对象为空
@@ -762,7 +762,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface INSERT_USERDEVICEINFO {
-		public static final String METHOD = "jiuwu.user.device.insert_";
+		public static final String METHOD = "eason.user.device.insert_";
 		/**
 		 * 请求对象为空
 		 */
@@ -792,7 +792,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface QUERY_USERS {
-		public static final String METHOD = "jiuwu.user.query_";
+		public static final String METHOD = "eason.user.query_";
 		/**
 		 * 请求对象为空
 		 */
@@ -814,7 +814,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface INSERT_OFFLINESMS {
-		public static final String METHOD = "jiuwu.message.offlinesms.insert_";
+		public static final String METHOD = "eason.message.offlinesms.insert_";
 		/**
 		 * 请求对象为空
 		 */
@@ -858,7 +858,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_OFFLINESMS {
-		public static final String METHOD = "jiuwu.message.offlinesms.get_";
+		public static final String METHOD = "eason.message.offlinesms.get_";
 		/**
 		 * 不存在离线
 		 */
@@ -878,7 +878,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface INSERT_SMSFILE {
-		public static final String METHOD = "jiuwu.message.sms.file.insert_";
+		public static final String METHOD = "eason.message.sms.file.insert_";
 		/**
 		 * 请求对象为空
 		 */
@@ -911,7 +911,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface UPDATE_PHONE {
-		public static final String METHOD = "jiuwu.phone.update_";
+		public static final String METHOD = "eason.phone.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -961,7 +961,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface UPDATE_SMSINFORMATION {
-		public static final String METHOD = "jiuwu.smsinformation.update_";
+		public static final String METHOD = "eason.smsinformation.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -983,7 +983,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface USER_LOGIN {
-		public static final String METHOD = "jiuwu.user.login_";
+		public static final String METHOD = "eason.user.login_";
 		/**
 		 * 请求对象为空
 		 */
@@ -1033,7 +1033,7 @@ public class MessageConstant {
 	 * 创建群聊
 	 */
 	public interface CREATE_GROUPCHAT {
-		public static final String METHOD = "jiuwu.user.groupchat.create_";
+		public static final String METHOD = "eason.user.groupchat.create_";
 		/**
 		 * 用户主键id为空
 		 */
@@ -1066,7 +1066,7 @@ public class MessageConstant {
 	 */
 	public interface EXIT_GROUPCHAT {
 
-		public static final String METHOD = "jiuwu.chat.exit_";
+		public static final String METHOD = "eason.chat.exit_";
 		/**
 		 * 用户主键id为空
 		 */
@@ -1114,7 +1114,7 @@ public class MessageConstant {
 	 */
 	public interface JOIN_GROUPCHAT {
 
-		public static final String METHOD = "jiuwu.chat.join_";
+		public static final String METHOD = "eason.chat.join_";
 		/** 用户主键id为空 */
 		public static final String ERROR_100 = "100";
 		/** 群聊id为空 */
@@ -1134,7 +1134,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_ALL_GROUPCHAT {
-		public static final String METHOD = "jiuwu.chat.get_";
+		public static final String METHOD = "eason.chat.get_";
 
 		/**
 		 * 用户id为空
@@ -1165,7 +1165,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_GROUPCHAT {
-		public static final String METHOD = "jiuwu.chat.find_";
+		public static final String METHOD = "eason.chat.find_";
 
 		/**
 		 * 用户id为空
@@ -1186,7 +1186,7 @@ public class MessageConstant {
 	}
 
 	public interface ADD_FRIEND {
-		public static final String METHOD = "jiuwu.friend.request.add_";
+		public static final String METHOD = "eason.friend.request.add_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1226,7 +1226,7 @@ public class MessageConstant {
 	}
 
 	public interface DELETE_FRIEND {
-		public static final String METHOD = "jiuwu.friend.delete_";
+		public static final String METHOD = "eason.friend.delete_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1246,7 +1246,7 @@ public class MessageConstant {
 	}
 
 	public interface FRIEND_REQUEST {
-		public static final String METHOD = "jiuwu.friend.request.handle_";
+		public static final String METHOD = "eason.friend.request.handle_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1286,7 +1286,7 @@ public class MessageConstant {
 	}
 
 	public interface USER_LOGO {
-		public static final String METHOD = "jiuwu.user.logo.get_";
+		public static final String METHOD = "eason.user.logo.get_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1306,7 +1306,7 @@ public class MessageConstant {
 	}
 
 	public interface REQUEST_HTTPS {
-		public static final String METHOD = "jiuwu.request.https_";
+		public static final String METHOD = "eason.request.https_";
 
 		/**
 		 * 不是https请求
@@ -1315,7 +1315,7 @@ public class MessageConstant {
 	}
 
 	public interface FRIEND_TYPE {
-		public static final String METHOD = "jiuwu.friend.friendType.update_";
+		public static final String METHOD = "eason.friend.friendType.update_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1339,7 +1339,7 @@ public class MessageConstant {
 	}
 
 	public interface OUT_FRIEND {
-		public static final String METHOD = "jiuwu.friend.outFriend.find_";
+		public static final String METHOD = "eason.friend.outFriend.find_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1355,7 +1355,7 @@ public class MessageConstant {
 	}
 
 	public interface CHAT_SET {
-		public static final String METHOD = "jiuwu.chat.chatSet_";
+		public static final String METHOD = "eason.chat.chatSet_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1389,7 +1389,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_ATME {
-		public static final String METHOD = "jiuwu.atme.get_";
+		public static final String METHOD = "eason.atme.get_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1410,7 +1410,7 @@ public class MessageConstant {
 	 *
 	 */
 	public interface DELETE_ATME{
-		public static final String METHOD = "jiuwu.atme.delete_";
+		public static final String METHOD = "eason.atme.delete_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1432,7 +1432,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface REMOVE_TREND {
-		public static final String METHOD = "jiuwu.trend.remove_";
+		public static final String METHOD = "eason.trend.remove_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1454,7 +1454,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface REMOVE_REPLY {
-		public static final String METHOD = "jiuwu.trend.reply.remove_";
+		public static final String METHOD = "eason.trend.reply.remove_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1482,7 +1482,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface UN_PRAISE {
-		public static final String METHOD = "jiuwu.trend.unpraise_";
+		public static final String METHOD = "eason.trend.unpraise_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1508,7 +1508,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface INSERT_TREND {
-		public static final String METHOD = "jiuwu.trend.insert_";
+		public static final String METHOD = "eason.trend.insert_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1532,7 +1532,7 @@ public class MessageConstant {
 	}
 
 	public interface REPORT_REQUEST {
-		public static final String METHOD = "jiuwu.report.add_";
+		public static final String METHOD = "eason.report.add_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1562,7 +1562,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface ADD_ADVICE_REQUEST {
-		public static final String METHOD = "jiuwu.advice.add_";
+		public static final String METHOD = "eason.advice.add_";
 		/**
 		 * 请求参数为空
 		 */
@@ -1588,7 +1588,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_SYSTEM_INTEREST {
-		public static final String METHOD = "jiuwu.interest.system.interest.get_";
+		public static final String METHOD = "eason.interest.system.interest.get_";
 		/**
 		 * 查询数据为空
 		 */
@@ -1608,7 +1608,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_INTEREST_BY_USER {
-		public static final String METHOD = "jiuwu.interest.user.interest.get_";
+		public static final String METHOD = "eason.interest.user.interest.get_";
 		/**
 		 * 查询记录为空
 		 */
@@ -1628,7 +1628,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_USER_BY_INTEREST {
-		public static final String METHOD = "jiuwu.interest.userinfo.get_";
+		public static final String METHOD = "eason.interest.userinfo.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -1658,7 +1658,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface DEL_BATCH_USER_INTEREST {
-		public static final String METHOD = "jiuwu.interest.batch.user.del_";
+		public static final String METHOD = "eason.interest.batch.user.del_";
 		/**
 		 * 请求对象为空
 		 */
@@ -1693,7 +1693,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface DEL_USER_INTEREST {
-		public static final String METHOD = "jiuwu.interest.user.del_";
+		public static final String METHOD = "eason.interest.user.del_";
 		/**
 		 * 删除的记录为空
 		 */
@@ -1718,7 +1718,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_HOT_INTEREST {
-		public static final String METHOD = "jiuwu.interest.hot.interest.get_";
+		public static final String METHOD = "eason.interest.hot.interest.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -1738,7 +1738,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface INSERT_INTEREST {
-		public static final String METHOD = "jiuwu.interest.interest.insert_";
+		public static final String METHOD = "eason.interest.interest.insert_";
 		/**
 		 * 兴趣名称超过长度限制
 		 */
@@ -1768,7 +1768,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface INSERT_USER_INTEREST {
-		public static final String METHOD = "jiuwu.interest.user.interest.insert_";
+		public static final String METHOD = "eason.interest.user.interest.insert_";
 		/**
 		 * 请求对象为空
 		 */
@@ -1808,7 +1808,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_INTEREST_BY_NAME {
-		public static final String METHOD = "jiuwu.interest.interest.by.name.get_";
+		public static final String METHOD = "eason.interest.interest.by.name.get_";
 		/**
 		 * 查询的记录条数为空
 		 */
@@ -1833,7 +1833,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_INTEREST_BY_CLASS {
-		public static final String METHOD = "jiuwu.interest.class.system.interest.get_";
+		public static final String METHOD = "eason.interest.class.system.interest.get_";
 		/**
 		 * 用户id为空
 		 */
@@ -1858,7 +1858,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface INSERT_MARRY_INFO {
-		public static final String METHOD = "jiuwu.interest.marry.info.insert_";
+		public static final String METHOD = "eason.interest.marry.info.insert_";
 		/**
 		 * 请求对象为空
 		 */
@@ -1937,7 +1937,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface UPDATE_MARRY_INFO {
-		public static final String METHOD = "jiuwu.interest.marry.info.update_";
+		public static final String METHOD = "eason.interest.marry.info.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2016,7 +2016,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_MARRY_INFO {
-		public static final String METHOD = "jiuwu.interest.marry.info.get_";
+		public static final String METHOD = "eason.interest.marry.info.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2041,7 +2041,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_MARRY_EXIST {
-		public static final String METHOD = "jiuwu.interest.marry.exist.get_";
+		public static final String METHOD = "eason.interest.marry.exist.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2061,7 +2061,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface IS_SELECT_INTEREST {
-		public static final String METHOD = "jiuwu.interest.user.first.is_";
+		public static final String METHOD = "eason.interest.user.first.is_";
 
 		/**
 		 * 系统异常
@@ -2077,7 +2077,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface GET_MARRY_USER {
-		public static final String METHOD = "jiuwu.interest.marry.user.get_";
+		public static final String METHOD = "eason.interest.marry.user.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2143,7 +2143,7 @@ public class MessageConstant {
 	 * 获取鹊桥里面的用户信息 lishun
 	 */
 	public interface GET_MARRY_USER_BY_USER_ID {
-		public static final String METHOD = "jiuwu.interest.marry.user.info.get_";
+		public static final String METHOD = "eason.interest.marry.user.info.get_";
 		/**
 		 * otherUserId为空
 		 */
@@ -2172,7 +2172,7 @@ public class MessageConstant {
 	 */
 	public interface ADD_USER_COORDINATE {
 
-		public static final String METHOD = "jiuwu.roam.add_";
+		public static final String METHOD = "eason.roam.add_";
 		/**
 		 * 请求参数为空
 		 */
@@ -2218,7 +2218,7 @@ public class MessageConstant {
 	 */
 	public interface RANDOM_SET_ROAM {
 
-		public static final String METHOD = "jiuwu.roam.find_";
+		public static final String METHOD = "eason.roam.find_";
 
 		/**
 		 * 漫游类型，0为随机漫游
@@ -2284,7 +2284,7 @@ public class MessageConstant {
 	 */
 	public interface GET_USER_MONGODB {
 
-		public static final String METHOD = "jiuwu.interest.mongodb.find_";
+		public static final String METHOD = "eason.interest.mongodb.find_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2325,7 +2325,7 @@ public class MessageConstant {
 	 */
 	public interface INSERT_REPLY {
 
-		public static final String METHOD = "jiuwu.trend.reply.insert_";
+		public static final String METHOD = "eason.trend.reply.insert_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2353,7 +2353,7 @@ public class MessageConstant {
 	 */
 	public interface GET_ONE_TREND {
 
-		public static final String METHOD = "jiuwu.trend.onetrend.get_";
+		public static final String METHOD = "eason.trend.onetrend.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2397,7 +2397,7 @@ public class MessageConstant {
 	 */
 	public interface GET_USERS_TREND {
 
-		public static final String METHOD = "jiuwu.trend.userstrend.get_";
+		public static final String METHOD = "eason.trend.userstrend.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2425,7 +2425,7 @@ public class MessageConstant {
 	 */
 	public interface GET_USER_TREND {
 
-		public static final String METHOD = "jiuwu.trend.usertrend.get_";
+		public static final String METHOD = "eason.trend.usertrend.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2458,7 +2458,7 @@ public class MessageConstant {
 	 */
 	public interface GET_USER_LASTTREND {
 
-		public static final String METHOD = "jiuwu.trend.lasttrend.get_";
+		public static final String METHOD = "eason.trend.lasttrend.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2482,7 +2482,7 @@ public class MessageConstant {
 	 */
 	public interface GET_SYSTREND_COVERS {
 
-		public static final String METHOD = "jiuwu.trend.syscovers.get_";
+		public static final String METHOD = "eason.trend.syscovers.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2498,7 +2498,7 @@ public class MessageConstant {
 	 */
 	public interface UPDATE_TREND_COVER {
 
-		public static final String METHOD = "jiuwu.trend.cover.update_";
+		public static final String METHOD = "eason.trend.cover.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2530,7 +2530,7 @@ public class MessageConstant {
 	 */
 	public interface GET_USER_DEVICE {
 
-		public static final String METHOD = "jiuwu.user.device.get_";
+		public static final String METHOD = "eason.user.device.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2550,7 +2550,7 @@ public class MessageConstant {
 	 */
 	public interface REQUEST_UPDATE_PHONE {
 
-		public static final String METHOD = "jiuwu.userphone.update.request_";
+		public static final String METHOD = "eason.userphone.update.request_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2590,7 +2590,7 @@ public class MessageConstant {
 	 */
 	public interface UPDATE_USERSETTING {
 
-		public static final String METHOD = "jiuwu.usersetting.update_";
+		public static final String METHOD = "eason.usersetting.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2618,7 +2618,7 @@ public class MessageConstant {
 	 */
 	public interface GET_USERSETTING {
 
-		public static final String METHOD = "jiuwu.usersetting.get_";
+		public static final String METHOD = "eason.usersetting.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2638,7 +2638,7 @@ public class MessageConstant {
 	 */
 	public interface UPDATE_SHOWTREND {
 
-		public static final String METHOD = "jiuwu.showtrend.update_";
+		public static final String METHOD = "eason.showtrend.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2666,7 +2666,7 @@ public class MessageConstant {
 	 */
 	public interface UPDATE_BLACKLIST {
 
-		public static final String METHOD = "jiuwu.blacklist.update_";
+		public static final String METHOD = "eason.blacklist.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2694,7 +2694,7 @@ public class MessageConstant {
 	 */
 	public interface GET_BLACKLIST {
 
-		public static final String METHOD = "jiuwu.blacklist.get_";
+		public static final String METHOD = "eason.blacklist.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2710,7 +2710,7 @@ public class MessageConstant {
 	}
 
 	public interface FIND_FRIEND_INFO {
-		public static final String METHOD = "jiuwu.friend.findInfo_";
+		public static final String METHOD = "eason.friend.findInfo_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2743,7 +2743,7 @@ public class MessageConstant {
 	 * @author lishun
 	 */
 	public interface INSERT_BATCH_USER_ALBUM {
-		public static final String METHOD = "jiuwu.album.batch.album.insert_";
+		public static final String METHOD = "eason.album.batch.album.insert_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2768,7 +2768,7 @@ public class MessageConstant {
 	 * @author lishun
 	 */
 	public interface DEL_BATCH_USER_ALBUM {
-		public static final String METHOD = "jiuwu.album.batch.album.del_";
+		public static final String METHOD = "eason.album.batch.album.del_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2793,7 +2793,7 @@ public class MessageConstant {
 	 * @author lishun
 	 */
 	public interface UPDATE_BATCH_USER_ALBUM {
-		public static final String METHOD = "jiuwu.album.batch.album.update_";
+		public static final String METHOD = "eason.album.batch.album.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2821,7 +2821,7 @@ public class MessageConstant {
 	}
 
 	public interface FIND_FRIEND_REQUEST {
-		public static final String METHOD = "jiuwu.friend.findRequest_";
+		public static final String METHOD = "eason.friend.findRequest_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2868,7 +2868,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface FORBID_SPEAK {
-		public static final String METHOD = "jiuwu.user.forbid_";
+		public static final String METHOD = "eason.user.forbid_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2897,7 +2897,7 @@ public class MessageConstant {
 	}
 
 	public interface DELETE_FRIEND_REQUEST {
-		public static final String METHOD = "jiuwu.friend.request.delete_";
+		public static final String METHOD = "eason.friend.request.delete_";
 		/**
 		 * 请求对象为空
 		 */
@@ -2921,7 +2921,7 @@ public class MessageConstant {
 	}
 
 	public interface FRIEND_FAVOURITE {
-		public static final String METHOD = "jiuwu.friend.favourite_";
+		public static final String METHOD = "eason.friend.favourite_";
 		/**
 		 * userId为空
 		 */
@@ -2951,7 +2951,7 @@ public class MessageConstant {
 	 * @create Date 2014-10-21
 	 */
 	public interface UPLOAD_ELEC_FENCE {
-		public static final String METHOD = "jiuwu.router.elec.fence.upload_";
+		public static final String METHOD = "eason.router.elec.fence.upload_";
 		/**
 		 * elecFenceInfo为空
 		 */
@@ -2979,7 +2979,7 @@ public class MessageConstant {
 	 * @create Date 2014-10-23
 	 */
 	public interface GET_EMOJI_GROUP {
-		public static final String METHOD = "jiuwu.emojo.group.get_";
+		public static final String METHOD = "eason.emojo.group.get_";
 
 		/**
 		 * 系统错误
@@ -2995,7 +2995,7 @@ public class MessageConstant {
 	 * @create Date 2014-10-23
 	 */
 	public interface GET_EMOJI_DETAIL {
-		public static final String METHOD = "jiuwu.emojo.detail.get_";
+		public static final String METHOD = "eason.emojo.detail.get_";
 
 		/**
 		 * 表情包id为空
@@ -3010,7 +3010,7 @@ public class MessageConstant {
 
 	public interface GET_SENSITIVE {
 
-		public static final String METHOD = "jiuwu.sensitive.get_";
+		public static final String METHOD = "eason.sensitive.get_";
 		/**
 		 * 获取敏感词列表为空
 		 */
@@ -3028,7 +3028,7 @@ public class MessageConstant {
 	 * @create Date 2014-12-05
 	 */
 	public interface USER_SERVICE_EXIST{
-		public static final String METHOD = "jiuwu.user.service.exist_";
+		public static final String METHOD = "eason.user.service.exist_";
 		
 		/**
 		 * 请求对象为空
@@ -3050,7 +3050,7 @@ public class MessageConstant {
 	 * @create Date 2014-12-05
 	 */
 	public interface GET_SERVICE_NAME{
-		public static final String METHOD = "jiuwu.service.name.get_";
+		public static final String METHOD = "eason.service.name.get_";
 		/**
 		 * 服务id为空
 		 */
@@ -3067,7 +3067,7 @@ public class MessageConstant {
 	 * @create Date 2014-12-05
 	 */
 	public interface GET_SYSTEM_SERVICE_LIST{
-		public static final String METHOD = "jiuwu.system.service.list.get_";
+		public static final String METHOD = "eason.system.service.list.get_";
 
 		/**
 		 * 系统错误
@@ -3081,7 +3081,7 @@ public class MessageConstant {
 	 * @create Date 2014-12-05
 	 */
 	public interface GET_SERVICE_LIST{
-		public static final String METHOD = "jiuwu.service.list.get_";
+		public static final String METHOD = "eason.service.list.get_";
 		
 		/**
 		 * 请求对象为空
@@ -3103,7 +3103,7 @@ public class MessageConstant {
 	 *
 	 */
 	public interface INSERT_SERVICE{
-		public static final String METHOD = "jiuwu.service.insert_";
+		public static final String METHOD = "eason.service.insert_";
 		/**
 		 * 用户id为空
 		 */
@@ -3143,7 +3143,7 @@ public class MessageConstant {
 	 * @create Date 2014-12-05
 	 */
 	public interface DELETE_SERVICE{
-		public static final String METHOD = "jiuwu.service.delete_";
+		public static final String METHOD = "eason.service.delete_";
 		
 		/**
 		 * 用户id为空
@@ -3165,7 +3165,7 @@ public class MessageConstant {
 	 * @create Date 2014-12-05
 	 */
 	public interface DELETE_DIY_SKILL{
-		public static final String METHOD = "jiuwu.diy.skill.delete_";
+		public static final String METHOD = "eason.diy.skill.delete_";
 		
 		/**
 		 * 用户id为空
@@ -3187,7 +3187,7 @@ public class MessageConstant {
 	 * @create Date 2014-12-05
 	 */
 	public interface GET_HOT_SERVICE_LIST{
-		public static final String METHOD = "jiuwu.hot.service.list.get_";
+		public static final String METHOD = "eason.hot.service.list.get_";
 		
 		/**
 		 * 系统错误
@@ -3201,7 +3201,7 @@ public class MessageConstant {
 	 *
 	 */
 	public interface INSERT_DIY_SERVICE{
-		public static final String METHOD = "jiuwu.service.diy.insert_";
+		public static final String METHOD = "eason.service.diy.insert_";
 		/**
 		 * 服务名称超过长度限制
 		 */
@@ -3238,7 +3238,7 @@ public class MessageConstant {
 	 *
 	 */
 	public interface INSERT_DIY_SKILL{
-		public static final String METHOD = "jiuwu.skill.diy.insert_";
+		public static final String METHOD = "eason.skill.diy.insert_";
 		/**
 		 * 服务名称超过长度限制
 		 */
@@ -3276,7 +3276,7 @@ public class MessageConstant {
 	 */
 	public interface COMMENT_ORDER{
 		
-		public static final String METHOD = "jiuwu.hire.order.comment_";
+		public static final String METHOD = "eason.hire.order.comment_";
 		/** 请求对象为空 */
 		public static final String ERROR_100 = "100";
 		/** 订单ID为空*/
@@ -3305,7 +3305,7 @@ public class MessageConstant {
 	 */
 	public interface DEPLOY_DEMAND{
 		
-		public static final String METHOD = "jiuwu.hire.order.deploy_";
+		public static final String METHOD = "eason.hire.order.deploy_";
 		/** 请求对象为空 */
 		public static final String ERROR_100 = "100";
 		/** 请填写正确的时间*/
@@ -3339,7 +3339,7 @@ public class MessageConstant {
 	 */
 	public interface SINGLE_ORDER{
 		
-		public static final String METHOD = "jiuwu.hire.order.single.find_";
+		public static final String METHOD = "eason.hire.order.single.find_";
 		/** 请求对象为空 */
 		public static final String ERROR_100 = "100";
 		/** 订单ID为空*/
@@ -3358,7 +3358,7 @@ public class MessageConstant {
 	 */
 	public interface BATCH_ORDER{
 		
-		public static final String METHOD = "jiuwu.hire.order.batch.find_";
+		public static final String METHOD = "eason.hire.order.batch.find_";
 		/** 请求对象为空 */
 		public static final String ERROR_100 = "100";
 		/** 雇主ID为空 */
@@ -3375,7 +3375,7 @@ public class MessageConstant {
 	 */
 	public interface GET_HIRE_ORDER_LINK{
 		
-		public static final String METHOD = "jiuwu.hire.order.link.get_";
+		public static final String METHOD = "eason.hire.order.link.get_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 订单id为空 */
@@ -3391,7 +3391,7 @@ public class MessageConstant {
 	 */
 	public interface REFUSE_PAYMENT{
 		
-		public static final String METHOD = "jiuwu.hire.order.payment.refuse_";
+		public static final String METHOD = "eason.hire.order.payment.refuse_";
 		/** 请求对象为空 */
 		public static final String ERROR_100 = "100";
 		/** 订单ID为空 */
@@ -3410,7 +3410,7 @@ public class MessageConstant {
 	 */
 	public interface CANCEL_ORDER{
 		
-		public static final String METHOD = "jiuwu.hire.order.cancle_";
+		public static final String METHOD = "eason.hire.order.cancle_";
 		/** 请求对象为空 */
 		public static final String ERROR_100 = "100";
 		/** 订单ID 或者 取消来源为空 */
@@ -3431,7 +3431,7 @@ public class MessageConstant {
 	 */
 	public interface CONFIRM_PAYMENT{
 		
-		public static final String METHOD = "jiuwu.hire.order.payment.confirm_";
+		public static final String METHOD = "eason.hire.order.payment.confirm_";
 		/** 请求对象为空 */
 		public static final String ERROR_100 = "100";
 		/** 订单ID为空 */
@@ -3452,7 +3452,7 @@ public class MessageConstant {
 	 */
 	public interface GET_ADDRESS{
 		
-		public static final String METHOD = "jiuwu.hire.address.get_";
+		public static final String METHOD = "eason.hire.address.get_";
 		/** 请求对象为空 */
 		public static final String ERROR_100 = "100";
 		/** 用户ID为空 */
@@ -3467,7 +3467,7 @@ public class MessageConstant {
 	 */
 	public interface REOPEN_ORDER{
 		
-		public static final String METHOD = "jiuwu.hire.order.reopen_";
+		public static final String METHOD = "eason.hire.order.reopen_";
 		/** 请求对象为空 */
 		public static final String ERROR_100 = "100";
 		/** 订单ID为空 */
@@ -3484,7 +3484,7 @@ public class MessageConstant {
 	 */
 	public interface RETUEN_ORDER{
 		
-		public static final String METHOD = "jiuwu.hire.order.return	_";
+		public static final String METHOD = "eason.hire.order.return	_";
 		/** 请求对象为空 */
 		public static final String ERROR_100 = "100";
 		/** 订单ID为空 */
@@ -3499,7 +3499,7 @@ public class MessageConstant {
 	 */
 	public interface COMPLETE_LG_USER_INFO{
 		
-		public static final String METHOD = "jiuwu.linggong.user.register_";
+		public static final String METHOD = "eason.linggong.user.register_";
 		/** 请求对象为空 */
 		public static final String ERROR_100 = "100";
 		/** 头像文件为空 */
@@ -3536,7 +3536,7 @@ public class MessageConstant {
 	 */
 	public interface UPDATE_LG_USER_INFO{
 		
-		public static final String METHOD = "jiuwu.linggong.user.update_";
+		public static final String METHOD = "eason.linggong.user.update_";
 		/** 用户为空 */
 		public static final String ERROR_101 = "101";
 		/** 昵称过长 */
@@ -3557,7 +3557,7 @@ public class MessageConstant {
 	 */
 	public interface INSERT_LG_USER_INFO{
 		
-		public static final String METHOD = "jiuwu.linggong.user.insert_";
+		public static final String METHOD = "eason.linggong.user.insert_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 用户类别为空 */
@@ -3579,7 +3579,7 @@ public class MessageConstant {
 	 */
 	public interface IS_NEED_COMPLETE{
 		
-		public static final String METHOD = "jiuwu.is.complete.need_";
+		public static final String METHOD = "eason.is.complete.need_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 没有找到该用户 */
@@ -3595,7 +3595,7 @@ public class MessageConstant {
 	 */
 	public interface GET_LG_USER_INFO{
 		
-		public static final String METHOD = "jiuwu.linggong.user.get_";
+		public static final String METHOD = "eason.linggong.user.get_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 没有找到该用户 */
@@ -3613,7 +3613,7 @@ public class MessageConstant {
 	 */
 	public interface CHECK_LG_USER{
 		
-		public static final String METHOD = "jiuwu.lg.user.check_";
+		public static final String METHOD = "eason.lg.user.check_";
 		/** 请求对象为空 */
 		public static final String ERROR_100 = "100";
 		/** 用户ID为空 */
@@ -3633,7 +3633,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface FIND_SERVICE{
-		public static final String METHOD = "jiuwu.service.find_";
+		public static final String METHOD = "eason.service.find_";
 		/**
 		 * 查询的记录条数为空
 		 */
@@ -3660,7 +3660,7 @@ public class MessageConstant {
 	 * @author lishun
 	 */
 	public interface GET_SERVICE_BY_CLASS{
-		public static final String METHOD = "jiuwu.service.by.class.get_";
+		public static final String METHOD = "eason.service.by.class.get_";
 		/**
 		 * 请求对象为空
 		 */
@@ -3684,7 +3684,7 @@ public class MessageConstant {
 	 */
 	public interface GET_ORDER{
 		
-		public static final String METHOD = "jiuwu.employee.order.get_";
+		public static final String METHOD = "eason.employee.order.get_";
 		/**
 		 * 雇员id为空
 		 */
@@ -3729,7 +3729,7 @@ public class MessageConstant {
 	 */
 	public interface GET_EMPLOYEE_ORDER{
 		
-		public static final String METHOD = "jiuwu.employee.order.select_";
+		public static final String METHOD = "eason.employee.order.select_";
 		
 		/**
 		 * 系统错误
@@ -3745,7 +3745,7 @@ public class MessageConstant {
 	 */
 	public interface QUERY_EMPLOYEE_ORDER{
 		
-		public static final String METHOD = "jiuwu.employee.order.query_";
+		public static final String METHOD = "eason.employee.order.query_";
 		/**
 		 * 订单id为空
 		 */
@@ -3762,7 +3762,7 @@ public class MessageConstant {
 	 */
 	public interface GRAB_ORDER{
 		
-		public static final String METHOD="jiuwu.employee.order.grab_";
+		public static final String METHOD="eason.employee.order.grab_";
 		/**
 		 * 订单id为空
 		 */
@@ -3811,7 +3811,7 @@ public class MessageConstant {
 	 */
 	public interface RETURN_ORDER{
 		
-		public static final String METHOD="jiuwu.order.return_";
+		public static final String METHOD="eason.order.return_";
 	
 	    /**
 	     * 被退单人id为空
@@ -3837,7 +3837,7 @@ public class MessageConstant {
 	 */
 	public interface FIND_EMPLOYEE{
 		
-		public static final String METHOD="jiuwu.employee.find_";
+		public static final String METHOD="eason.employee.find_";
 		/**
 		 * 用户id为空
 		 */
@@ -3879,7 +3879,7 @@ public class MessageConstant {
 	 */
 	public interface LOAD_EMPLOYEE{
 		
-		public static final String METHOD="jiuwu.employee.load_";
+		public static final String METHOD="eason.employee.load_";
 		/**
 		 * 用户id为空
 		 */
@@ -3922,7 +3922,7 @@ public class MessageConstant {
 	 */
 	public interface INSERT_SERVICE_INFO{
 		
-		public static final String METHOD="jiuwu.service.info.insert_";
+		public static final String METHOD="eason.service.info.insert_";
 		/**
 		 * 用户id为空
 		 */
@@ -3944,7 +3944,7 @@ public class MessageConstant {
 	 */
 	public interface GET_SERVICE_INFO{
 		
-		public static final String METHOD="jiuwu.service.info.get_";
+		public static final String METHOD="eason.service.info.get_";
 		/**
 		 * 雇员id为空
 		 */
@@ -3974,7 +3974,7 @@ public class MessageConstant {
 	 */
 	public interface GET_SERVICE_SKILL{
 		
-		public static final String METHOD="jiuwu.service.skill.get_";
+		public static final String METHOD="eason.service.skill.get_";
 		/**
 		 * 用户id为空
 		 */
@@ -3993,7 +3993,7 @@ public class MessageConstant {
 	 */
 	public interface ALIPAY_API{
 		
-		public static final String METHOD="jiuwu.service.pay.alipay.api_";
+		public static final String METHOD="eason.service.pay.alipay.api_";
 		/**
 		 * 订单号不能为空
 		 */
@@ -4033,7 +4033,7 @@ public class MessageConstant {
 	 */
 	public interface CHECK_SKILL_COUNT{
 		
-		public static final String METHOD="jiuwu.skill.count.check_";
+		public static final String METHOD="eason.skill.count.check_";
 		/**
 		 * 用户id为空
 		 */
@@ -4051,7 +4051,7 @@ public class MessageConstant {
 	 */
 	public interface INSERT_SERVICE_SKILL{
 		
-		public static final String METHOD="jiuwu.service.skill.insert_";
+		public static final String METHOD="eason.service.skill.insert_";
 		/**
 		 * 用户id为空
 		 */
@@ -4078,7 +4078,7 @@ public class MessageConstant {
 	 */
 	public interface CONFIRM_RETURN{
 		
-		public static final String METHOD="jiuwu.return.confirm_";
+		public static final String METHOD="eason.return.confirm_";
 		/** 退单id为空*/
 		public static final String ERROR_100 ="100";
 		/** 退单结果为空 */
@@ -4093,7 +4093,7 @@ public class MessageConstant {
 	 */
 	public interface EMPLOYEE_BALANCE{
 		
-		public static final String METHOD="jiuwu.employee.order.balance_";
+		public static final String METHOD="eason.employee.order.balance_";
 		/** 订单id为空*/
 		public static final String ERROR_100 = "100";
 		/** 雇员请求结算金额为空 */
@@ -4113,7 +4113,7 @@ public class MessageConstant {
 	 */
 	public interface FIND_SERVICE_TYPE{
 		
-		public static final String METHOD="jiuwu.service.type.find_";
+		public static final String METHOD="eason.service.type.find_";
 		/**
 		 * 搜索关键字为空
 		 */
@@ -4130,7 +4130,7 @@ public class MessageConstant {
 	 *
 	 */
 	public interface ACCOUNT_OPER{
-		public static final String METHOD = "jiuwu.account.oper_";
+		public static final String METHOD = "eason.account.oper_";
 		/**用户ID为空*/
 		public static final String ERROR_101="101";
 		/**身份证不合法*/
@@ -4153,7 +4153,7 @@ public class MessageConstant {
 	 *
 	 */
 	public interface ACCOUNT_ORDER{
-		public static final String METHOD = "jiuwu.account.order_";
+		public static final String METHOD = "eason.account.order_";
 		/**用户ID为空*/
 		public static final String ERROR_101="101";
 		/**订单编号为空*/
@@ -4196,7 +4196,7 @@ public class MessageConstant {
 	 *
 	 */
 	public interface ACCOUNT_TRANSFER{
-		public static final String METHOD = "jiuwu.account.transfer_";
+		public static final String METHOD = "eason.account.transfer_";
 		/**用户ID为空*/
 		public static final String ERROR_101="101";
 		/**身份证为空*/
@@ -4229,7 +4229,7 @@ public class MessageConstant {
 	 *
 	 */
 	public interface ACCOUNT_HISTORY{
-		public static final String METHOD = "jiuwu.account.history_";
+		public static final String METHOD = "eason.account.history_";
 		/**用户ID为空*/
 		public static final String ERROR_101="101";
 		/**业务类型不合法*/
@@ -4242,7 +4242,7 @@ public class MessageConstant {
 	 *
 	 */
 	public interface BANK_ACCOUNT{
-		public static final String METHOD = "jiuwu.bank.account_";
+		public static final String METHOD = "eason.bank.account_";
 		/**用户ID为空*/
 		public static final String ERROR_101="101";
 		/**卡类型不合法*/
@@ -4263,7 +4263,7 @@ public class MessageConstant {
 	 */
 	public interface DELETE_ORDER{
 		
-		public static final String METHOD = "jiuwu.order.delete_";
+		public static final String METHOD = "eason.order.delete_";
 		/** 订单id为空*/
 		public static final String ERROR_100 = "100";
 		/** 要删除的订单类型为空 */
@@ -4281,7 +4281,7 @@ public class MessageConstant {
 	 */
 	public interface CHECK_SERVICE{
 		
-		public static final String METHOD = "jiuwu.user.service.check_";
+		public static final String METHOD = "eason.user.service.check_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4298,7 +4298,7 @@ public class MessageConstant {
 	 */
 	public interface CHECK_SKILL{
 		
-		public static final String METHOD = "jiuwu.user.skill.check_";
+		public static final String METHOD = "eason.user.skill.check_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4315,7 +4315,7 @@ public class MessageConstant {
 	 */
 	public interface SERVICE_INFO_EXIST{
 		
-		public static final String METHOD = "jiuwu.service.info.exist_";
+		public static final String METHOD = "eason.service.info.exist_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4330,7 +4330,7 @@ public class MessageConstant {
 	 */
 	public interface SERVICE_INFO_INSTALL{
 		
-		public static final String METHOD = "jiuwu.service.info.install_";
+		public static final String METHOD = "eason.service.info.install_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4345,7 +4345,7 @@ public class MessageConstant {
 	 */
 	public interface GET_PHONE_NUM{
 		
-		public static final String METHOD = "jiuwu.user.phone.get_";
+		public static final String METHOD = "eason.user.phone.get_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4360,7 +4360,7 @@ public class MessageConstant {
 	 */
 	public interface GET_NICKNAME{
 		
-		public static final String METHOD = "jiuwu.user.nickname.get_";
+		public static final String METHOD = "eason.user.nickname.get_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4375,7 +4375,7 @@ public class MessageConstant {
 	 */
 	public interface DELETE_SERVICE_SKILL{
 		
-		public static final String METHOD = "jiuwu.service.skill.delete_";
+		public static final String METHOD = "eason.service.skill.delete_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4392,7 +4392,7 @@ public class MessageConstant {
 	 */
 	public interface GET_USER_SERVICE_INFO{
 		
-		public static final String METHOD = "jiuwu.user.service.info.get_";
+		public static final String METHOD = "eason.user.service.info.get_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4407,7 +4407,7 @@ public class MessageConstant {
 	 */
 	public interface GET_USER_SERVICE_INFO_BY_ID{
 		
-		public static final String METHOD = "jiuwu.user.service.info.get.by.id_";
+		public static final String METHOD = "eason.user.service.info.get.by.id_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4423,7 +4423,7 @@ public class MessageConstant {
 	 */
 	public interface REQUEST_UPDATE_SERVICE_PHONE {
 
-		public static final String METHOD = "jiuwu.service.phone.update.request_";
+		public static final String METHOD = "eason.service.phone.update.request_";
 		/**
 		 * 用户id为空
 		 */
@@ -4455,7 +4455,7 @@ public class MessageConstant {
 	 */
 	public interface CHECKPHON_PHONE_UPDATE_TIME {
 
-		public static final String METHOD = "jiuwu.phone.update.time.check_";
+		public static final String METHOD = "eason.phone.update.time.check_";
 		/**
 		 * 用户id为空
 		 */
@@ -4477,7 +4477,7 @@ public class MessageConstant {
 	 * 
 	 */
 	public interface UPDATE_SERVICE_PHONE {
-		public static final String METHOD = "jiuwu.service.phone.update_";
+		public static final String METHOD = "eason.service.phone.update_";
 		/**
 		 * 请求对象为空
 		 */
@@ -4522,7 +4522,7 @@ public class MessageConstant {
 	 */
 	public interface UPDATE_USER_SERVICE_INFO{
 		
-		public static final String METHOD = "jiuwu.service.info.update_";
+		public static final String METHOD = "eason.service.info.update_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4537,7 +4537,7 @@ public class MessageConstant {
 	 */
 	public interface UPDATE_USER_SERVICE_INFO_BY_ID{
 		
-		public static final String METHOD = "jiuwu.service.info.update.by.id_";
+		public static final String METHOD = "eason.service.info.update.by.id_";
 
 		/** 资料id为空 */
 		public static final String ERROR_101 = "101";
@@ -4554,7 +4554,7 @@ public class MessageConstant {
 	 */
 	public interface SUBMIT_SERVICE_INFO{
 		
-		public static final String METHOD = "jiuwu.service.info.submit_";
+		public static final String METHOD = "eason.service.info.submit_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4571,7 +4571,7 @@ public class MessageConstant {
 	 */
 	public interface GET_MY_SERVICE_INFO{
 		
-		public static final String METHOD = "jiuwu.my.service.info.get_";
+		public static final String METHOD = "eason.my.service.info.get_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4588,7 +4588,7 @@ public class MessageConstant {
 	 */
 	public interface COLLECT_EMPLOYEE{
 		
-		public static final String METHOD = "jiuwu.employee.collect_";
+		public static final String METHOD = "eason.employee.collect_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4611,7 +4611,7 @@ public class MessageConstant {
 	 */
 	public interface COLLECT{
 		
-		public static final String METHOD = "jiuwu.agent.collect_";
+		public static final String METHOD = "eason.agent.collect_";
 
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
@@ -4639,7 +4639,7 @@ public class MessageConstant {
 	 */
 	public interface GET_COLLECTION{
 		
-		public static final String METHOD="jiuwu.collection.get_";
+		public static final String METHOD="eason.collection.get_";
 		/**
 		 * 用户id为空
 		 */
@@ -4669,7 +4669,7 @@ public class MessageConstant {
 	 */
 	public interface GET_STAFF_COLLECTION{
 		
-		public static final String METHOD="jiuwu.staff.collection.get_";
+		public static final String METHOD="eason.staff.collection.get_";
 		/**
 		 * 用户id为空
 		 */
@@ -4695,7 +4695,7 @@ public class MessageConstant {
 	 */
 	public interface GET_STORE_COLLECTION{
 		
-		public static final String METHOD="jiuwu.store.collection.get_";
+		public static final String METHOD="eason.store.collection.get_";
 		/**
 		 * 用户id为空
 		 */
@@ -4721,7 +4721,7 @@ public class MessageConstant {
 	 */
 	public interface GET_COLLECTION_DETAILS{
 		
-		public static final String METHOD="jiuwu.collection.details.get_";
+		public static final String METHOD="eason.collection.details.get_";
 		/**
 		 * 雇员id为空
 		 */
@@ -4743,7 +4743,7 @@ public class MessageConstant {
 	 */
 	public interface GET_SUGGESTED_PRICE{
 		
-		public static final String METHOD="jiuwu.suggested.price.get_";
+		public static final String METHOD="eason.suggested.price.get_";
 		/**
 		 * 服务id为空
 		 */
@@ -4760,7 +4760,7 @@ public class MessageConstant {
 	 * @create Date 2014-12-25
 	 */
 	public interface GET_PUSH_MESSAGE_LIST{
-		public static final String METHOD="jiuwu.service.push.get_";
+		public static final String METHOD="eason.service.push.get_";
 		/**
 		 * 系统错误
 		 */
@@ -4773,7 +4773,7 @@ public class MessageConstant {
 	 * @create Date 2014-12-25
 	 */
 	public interface UPDATE_ALREADY_READ{
-		public static final String METHOD="jiuwu.service.push.already.update_";
+		public static final String METHOD="eason.service.push.already.update_";
 		/**
 		 * 通知Id不能为空
 		 */
@@ -4790,7 +4790,7 @@ public class MessageConstant {
 	 * @create Date 2014-12-25
 	 */
 	public interface DELETE_MESSAGE{
-		public static final String METHOD="jiuwu.service.message.delete_";
+		public static final String METHOD="eason.service.message.delete_";
 		/**
 		 * 订单Id不能为空
 		 */
@@ -4806,7 +4806,7 @@ public class MessageConstant {
 	 * @create Date 2014-12-25
 	 */
 	public interface GET_ALREADY_READ_NUM{
-		public static final String METHOD="jiuwu.service.push.already.get_";
+		public static final String METHOD="eason.service.push.already.get_";
 		
 		/**
 		 * 系统错误
@@ -4819,7 +4819,7 @@ public class MessageConstant {
 	 * @create Date 2014-12-25
 	 */
 	public interface FIND_HIRE_BY_TYPE{
-		public static final String METHOD="jiuwu.order.find.hire_";
+		public static final String METHOD="eason.order.find.hire_";
 		
 		/**
 		 * 系统错误
@@ -4834,7 +4834,7 @@ public class MessageConstant {
 	 */
 	public interface GET_EMPLOYEE_COMMENT{
 		
-		public static final String METHOD = "jiuwu.order.employee.get.comment_";
+		public static final String METHOD = "eason.order.employee.get.comment_";
 		/**
 		 * 用户id为空
 		 */
@@ -4851,7 +4851,7 @@ public class MessageConstant {
 	 */
 	public interface JUDGE_EMPLOYEE_CAN_DRAG{
 		
-		public static final String METHOD = "jiuwu.order.employee.can.drag_";
+		public static final String METHOD = "eason.order.employee.can.drag_";
 		/**
 		 * 用户id为空
 		 */
@@ -4888,7 +4888,7 @@ public class MessageConstant {
 	 * @author mazhengzheng
 	 */
 	public interface AGENT_STAFF{
-		public static final String METHOD = "jiuwu.agent.staff.oper_";
+		public static final String METHOD = "eason.agent.staff.oper_";
 		/**用户ID为空*/
 		public static final String ERROR_101="101";
 		/**技能ID为空*/
@@ -4912,7 +4912,7 @@ public class MessageConstant {
 	 * @author lishun
 	 */
 	public interface GET_STAFF_DETAIL_BY_ID{
-		public static final String METHOD = "jiuwu.staff.detail.get_";
+		public static final String METHOD = "eason.staff.detail.get_";
 		/**用户ID为空*/
 		public static final String ERROR_101="101";
 		/**职员ID为空*/
@@ -4928,7 +4928,7 @@ public class MessageConstant {
 	 * @author lishun
 	 */
 	public interface GET_STORE_DETAIL_BY_ID{
-		public static final String METHOD = "jiuwu.store.detail.get_";
+		public static final String METHOD = "eason.store.detail.get_";
 		/**用户ID为空*/
 		public static final String ERROR_101="101";
 		/**店铺ID为空*/
@@ -4946,7 +4946,7 @@ public class MessageConstant {
 	 */
 	public interface FIND_BUSSINESS_BY_SERVICEID{
 		
-		public static final String METHOD = "jiuwu.shandian.select.bussiness_";
+		public static final String METHOD = "eason.shandian.select.bussiness_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 服务类别为空  */
@@ -4961,7 +4961,7 @@ public class MessageConstant {
 	 */
 	public interface SELECT_LIST_BY_SERVICEID{
 		
-		public static final String METHOD = "jiuwu.shandian.select.service_";
+		public static final String METHOD = "eason.shandian.select.service_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 服务类别为空  */
@@ -4976,7 +4976,7 @@ public class MessageConstant {
 	 */
 	public interface GET_SERVICE_WASH{
 		
-		public static final String METHOD = "jiuwu.shandian.service.wash.get_";
+		public static final String METHOD = "eason.shandian.service.wash.get_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 服务类别为空  */
@@ -4991,7 +4991,7 @@ public class MessageConstant {
 	 */
 	public interface GET_BUSSINESS_SERVICE_INFO{
 		
-		public static final String METHOD = "jiuwu.shandian.get.serviceinfo_";
+		public static final String METHOD = "eason.shandian.get.serviceinfo_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 订单id为空  */
@@ -5010,7 +5010,7 @@ public class MessageConstant {
 	 */
 	public interface GET_WASH_INFO{
 		
-		public static final String METHOD = "jiuwu.shandian.select.wash_";
+		public static final String METHOD = "eason.shandian.select.wash_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 衣服信息为空  */
@@ -5025,7 +5025,7 @@ public class MessageConstant {
 	 */
 	public interface GET_NO_COMPLETE_INFO{
 		
-		public static final String METHOD = "jiuwu.linggong.order.nocomplete_";
+		public static final String METHOD = "eason.linggong.order.nocomplete_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 当前用户不是零工用户 */
@@ -5039,7 +5039,7 @@ public class MessageConstant {
 	 */
 	public interface UPDATA_ORDER_INFO{
 		
-		public static final String METHOD = "jiuwu.linggong.order.update_";
+		public static final String METHOD = "eason.linggong.order.update_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 订单不存在 */
@@ -5054,7 +5054,7 @@ public class MessageConstant {
 	 */
 	public interface DELETE_SERVICE_ADDRESS{
 		
-		public static final String METHOD = "jiuwu.linggong.address.delete_";
+		public static final String METHOD = "eason.linggong.address.delete_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 此服务地址不存在*/
@@ -5069,7 +5069,7 @@ public class MessageConstant {
 	 *
 	 */
 	public interface WEIXIN_AUTH{
-		public static final String METHOD = "jiuwu.linggong.weixin.auth_";
+		public static final String METHOD = "eason.linggong.weixin.auth_";
 		/**电话为空*/
 		public static final String ERROR_100 = "100";
 		/**密码为空*/
@@ -5103,7 +5103,7 @@ public class MessageConstant {
 	 * @author lishun
 	 */
 	public interface GET_COMMENT{
-		public static final String METHOD = "jiuwu.agent.comment.get_";
+		public static final String METHOD = "eason.agent.comment.get_";
 		/**用户ID为空*/
 		public static final String ERROR_101="101";
 		/**评论类别为空*/
@@ -5117,7 +5117,7 @@ public class MessageConstant {
 	}
 	
 	public interface GET_AGENT_STAFF_LIST{
-		public static final String METHOD = "jiuwu.linggong.agent.staff.list.get_";
+		public static final String METHOD = "eason.linggong.agent.staff.list.get_";
 		/**经度不能为空*/
 		public static final String ERROR_100="100";
 		/**维度不能为空*/
@@ -5125,7 +5125,7 @@ public class MessageConstant {
 	}
 	
 	public interface PUSH_AGENT_MESSAGE{
-		public static final String METHOD = "jiuwu.linggong.agent.message.get_";
+		public static final String METHOD = "eason.linggong.agent.message.get_";
 		/**订单号不能为空*/
 		public static final String ERROR_100="100";
 		
@@ -5138,7 +5138,7 @@ public class MessageConstant {
 	 */
 	public interface GET_AGENT_STORE{
 		
-		public static final String METHOD = "jiuwu.agent.store.get_";
+		public static final String METHOD = "eason.agent.store.get_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 服务类别id为空 */
@@ -5160,7 +5160,7 @@ public class MessageConstant {
 	 */
 	public interface FIND_FRIEND_BY_PHONE{
 		
-		public static final String METHOD = "jiuwu.daboo.friend.find.by.phone_";
+		public static final String METHOD = "eason.daboo.friend.find.by.phone_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 手机号为空 */
@@ -5180,7 +5180,7 @@ public class MessageConstant {
 	 */
 	public interface GET_FRIEND_BY_ID{
 		
-		public static final String METHOD = "jiuwu.daboo.friend.get.by.id_";
+		public static final String METHOD = "eason.daboo.friend.get.by.id_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 好友id为空 */
@@ -5198,7 +5198,7 @@ public class MessageConstant {
 	 */
 	public interface QUERY_USER_INFO_BY_ID{
 		
-		public static final String METHOD = "jiuwu.daboo.user.info.query.by.id_";
+		public static final String METHOD = "eason.daboo.user.info.query.by.id_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 查询用户id为空 */
@@ -5216,7 +5216,7 @@ public class MessageConstant {
 	 */
 	public interface GET_HOT_CHAT{
 		
-		public static final String METHOD = "jiuwu.db.get.hotchat_";
+		public static final String METHOD = "eason.db.get.hotchat_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 经度为空 */
@@ -5240,7 +5240,7 @@ public class MessageConstant {
 	 */
 	public interface ADD_USER_GROUP{
 		
-		public static final String METHOD = "jiuwu.daboo.user.group.add_";
+		public static final String METHOD = "eason.daboo.user.group.add_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 热聊id为空 */
@@ -5262,7 +5262,7 @@ public class MessageConstant {
 	 */
 	public interface GET_USER_GROUP{
 		
-		public static final String METHOD = "jiuwu.daboo.user.group.get_";
+		public static final String METHOD = "eason.daboo.user.group.get_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 暂无收藏热聊 */
@@ -5278,7 +5278,7 @@ public class MessageConstant {
 	 */
 	public interface DELETE_USER_GROUP{
 		
-		public static final String METHOD = "jiuwu.daboo.user.group.delete_";
+		public static final String METHOD = "eason.daboo.user.group.delete_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 热聊id为空 */
@@ -5295,7 +5295,7 @@ public class MessageConstant {
 	 */
 	public interface FIND_FRIEND{
 		
-		public static final String METHOD = "jiuwu.daboo.friend.find_";
+		public static final String METHOD = "eason.daboo.friend.find_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 查询关键字为空 */
@@ -5312,7 +5312,7 @@ public class MessageConstant {
 	 */
 	public interface DB_DEVICE{
 		
-		public static final String METHOD = "jiuwu.daboo.device_";
+		public static final String METHOD = "eason.daboo.device_";
 		/** 定时类型错误 */
 		public static final String ERROR_101 = "101";
 		/** 参数为空 */
@@ -5344,7 +5344,7 @@ public class MessageConstant {
 	 */
 	public interface GET_USER_GROUP_LIST{
 		
-		public static final String METHOD = "jiuwu.daboo.user.group.list.get_";
+		public static final String METHOD = "eason.daboo.user.group.list.get_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 暂未加入热聊 */
@@ -5360,7 +5360,7 @@ public class MessageConstant {
 	 */
 	public interface SEND_GIFT{
 		
-		public static final String METHOD = "jiuwu.daboo.gift.send_";
+		public static final String METHOD = "eason.daboo.gift.send_";
 		/** 商户bid为空 */
 		public static final String ERROR_100 = "100";
 	}
@@ -5372,7 +5372,7 @@ public class MessageConstant {
 	 */
 	public interface GET_ACTIVE_USER{
 		
-		public static final String METHOD = "jiuwu.db.get.active.user_";
+		public static final String METHOD = "eason.db.get.active.user_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 经度为空 */
@@ -5391,7 +5391,7 @@ public class MessageConstant {
 	 */
 	public interface GET_BUSINESS_NUM{
 		
-		public static final String METHOD = "jiuwu.db.get.business.people_";
+		public static final String METHOD = "eason.db.get.business.people_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 店铺id为空  */
@@ -5404,7 +5404,7 @@ public class MessageConstant {
 	 */
 	public interface GET_NEAR_HOT_CHAT{
 		
-		public static final String METHOD = "jiuwu.db.get.near.hotchat_";
+		public static final String METHOD = "eason.db.get.near.hotchat_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 经度为空 */
@@ -5427,7 +5427,7 @@ public class MessageConstant {
 	 */
 	public interface GET_CHAT_SEARCH_NAME{
 		
-		public static final String METHOD = "jiuwu.db.get.hotchat.search_";
+		public static final String METHOD = "eason.db.get.hotchat.search_";
 		/** 用户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 名称为空  */
@@ -5441,7 +5441,7 @@ public class MessageConstant {
 	 */
 	public interface GET_RECOMMENT_BUSINESS{
 		
-		public static final String METHOD = "jiuwu.db.recomment.business_";
+		public static final String METHOD = "eason.db.recomment.business_";
 		/** rmac为空  */
 		public static final String ERROR_100 = "100";
 		/** 经度为空 */
@@ -5461,7 +5461,7 @@ public class MessageConstant {
 	 */
 	public interface GET_NEAR_PEOPLE{
 		
-		public static final String METHOD = "jiuwu.db.near.people_";
+		public static final String METHOD = "eason.db.near.people_";
 		/** 经度为空 */
 		public static final String ERROR_100 = "100";
 		/** 经度为空 */
@@ -5476,7 +5476,7 @@ public class MessageConstant {
 	 */
 	public interface SEARCH_NEAR_PEOPLE{
 		
-		public static final String METHOD = "jiuwu.db.near.people.search_";
+		public static final String METHOD = "eason.db.near.people.search_";
 		/** 经度为空 */
 		public static final String ERROR_100 = "100";
 		/** 经度为空 */
@@ -5494,7 +5494,7 @@ public class MessageConstant {
 	 */
 	public interface GET_BUSINESS_INFO{
 		
-		public static final String METHOD = "jiuwu.db.get.businessInfo_";
+		public static final String METHOD = "eason.db.get.businessInfo_";
 		/** 商户id为空 */
 		public static final String ERROR_100 = "100";
 		/** 没有获取到商户信息 */
@@ -5510,7 +5510,7 @@ public class MessageConstant {
 	 */
 	public interface UPDATE_USER_LOC{
 		
-		public static final String METHOD = "jiuwu.daboo.user.loc.update_";
+		public static final String METHOD = "eason.daboo.user.loc.update_";
 		/** 用户id为空 */
 		public static final String ERROR_101 = "101";
 		/** 坐标信息为空 */
@@ -5526,7 +5526,7 @@ public class MessageConstant {
 	 */
 	public interface CHECK_UPDATE{
 		
-		public static final String METHOD = "jiuwu.app.update.check_";
+		public static final String METHOD = "eason.app.update.check_";
 		/** 设备类型为空 */
 		public static final String ERROR_101 = "101";
 		/** app版本号为空 */
