@@ -14,7 +14,7 @@ public class UserServiceImpl {
     public DemoResponse test(DemoRequest request) {
         System.out.println(request);
         DemoResponse response=new DemoResponse();
-        response.setResult("demo返回结果111111111111111111111111");
+        response.setResult("demo返回结果2222222222222222");
         return response;
     }
 
