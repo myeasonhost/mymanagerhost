@@ -263,13 +263,15 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 					userId = Integer.parseInt(token.getUserId());
 				}else{
 					//从缓存中获取token
-					try{
+					if(stringRedisTemplate.boundValueOps(paramMap.get("sessionKey")).get()!=null){
+						try{
 //						userId = (Integer)memCachedClient.get(paramMap.get("sessionKey"));
-						userId = Integer.parseInt(stringRedisTemplate.boundValueOps(paramMap.get("sessionKey")).get());
-					}catch(Exception e){
-						log.error(stringRedisTemplate.boundValueOps(paramMap.get("sessionKey")).get().getClass().getName());
-						log.error("缓存信息错误,Key=[" + paramMap.get("sessionKey") + "], value =[" + stringRedisTemplate.boundValueOps(paramMap.get("sessionKey")).get() + "]", e);
-						stringRedisTemplate.delete(paramMap.get("sessionKey"));
+							userId = Integer.parseInt(stringRedisTemplate.boundValueOps(paramMap.get("sessionKey")).get());
+						}catch(Exception e){
+							log.error(stringRedisTemplate.boundValueOps(paramMap.get("sessionKey")).get().getClass().getName());
+							log.error("缓存信息错误,Key=[" + paramMap.get("sessionKey") + "], value =[" + stringRedisTemplate.boundValueOps(paramMap.get("sessionKey")).get() + "]", e);
+							stringRedisTemplate.delete(paramMap.get("sessionKey"));
+						}
 					}
 				}
 			}
@@ -304,7 +306,6 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 		} catch (Exception e){
 			log.error("日志插入错误", e);
 		}
-		response.setException(new Exception(""));
 
 	}
 

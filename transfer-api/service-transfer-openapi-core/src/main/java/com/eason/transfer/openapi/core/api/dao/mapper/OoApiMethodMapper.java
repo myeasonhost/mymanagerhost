@@ -12,6 +12,7 @@ import java.util.List;
  * OoApiMethodDAO接口
  * @author eason
  */
+@Repository
 public interface OoApiMethodMapper{
 	
 	public List<OoApiMethodModel> getApiMethodInfoList();
