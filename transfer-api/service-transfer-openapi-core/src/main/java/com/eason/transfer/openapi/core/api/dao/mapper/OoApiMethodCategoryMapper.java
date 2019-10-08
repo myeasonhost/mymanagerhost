@@ -8,10 +8,11 @@ import java.util.List;
 
 /**
  * OoApiMethodCategoryDAO接口
+ *
  * @author eason
  */
 @Repository
-public interface OoApiMethodCategoryMapper{
+public interface OoApiMethodCategoryMapper {
 
     public OoApiMethodCategoryModel getObjectById(Integer id);
 
@@ -21,8 +22,8 @@ public interface OoApiMethodCategoryMapper{
 
     public int insertModel(OoApiMethodCategoryModel obj);
 
-	public int updateModelById(OoApiMethodCategoryModel obj);
+    public int updateModelById(OoApiMethodCategoryModel obj);
 
-	public int deleteById(Integer id);
-    
+    public int deleteById(Integer id);
+
 }

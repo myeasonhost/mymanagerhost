@@ -15,15 +15,21 @@ import java.io.Serializable;
 @XStreamAlias("errDetailInfo")
 public class ErrDetailInfo implements Serializable {
 
-	private static final long serialVersionUID = 4049522523279414519L;
+    private static final long serialVersionUID = 4049522523279414519L;
 
-	/** 错误编码 */
-	private String errorCode;
+    /**
+     * 错误编码
+     */
+    private String errorCode;
 
-	/** 错误描述 */
-	private String errorDes;
+    /**
+     * 错误描述
+     */
+    private String errorDes;
 
-	/** 主键信息 */
-	private String pkInfo;
+    /**
+     * 主键信息
+     */
+    private String pkInfo;
 
 }

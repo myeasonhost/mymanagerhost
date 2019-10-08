@@ -3,34 +3,34 @@ package com.eason.transfer.openapi.core.api.model;
 
 public class FileItem {
 
-	private String fileName;
+    private String fileName;
 
-	private byte[] content;
+    private byte[] content;
 
-	private String mimeType;
+    private String mimeType;
 
-	public String getFileName() {
-		return fileName;
-	}
+    public String getFileName() {
+        return fileName;
+    }
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
-	public byte[] getContent() {
-		return content;
-	}
+    public byte[] getContent() {
+        return content;
+    }
 
-	public void setContent(byte[] content) {
-		this.content = content;
-	}
+    public void setContent(byte[] content) {
+        this.content = content;
+    }
 
-	public String getMimeType() {
-		return mimeType;
-	}
+    public String getMimeType() {
+        return mimeType;
+    }
 
-	public void setMimeType(String mimeType) {
-		this.mimeType = mimeType;
-	}
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
 
 }

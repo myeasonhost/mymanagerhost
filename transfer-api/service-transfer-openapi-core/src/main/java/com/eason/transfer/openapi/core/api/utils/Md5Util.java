@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 public final class Md5Util {
 
-    private Md5Util(){
+    private Md5Util() {
 
     }
 
@@ -93,9 +93,10 @@ public final class Md5Util {
         }
         return orgin;
     }
+
     public static void main(String[] args) throws Exception {
         MessageDigest md = MessageDigest.getInstance("MD5");
-        String s="asdfghjkqwertyuappKeyappKey00001content官网意见反馈内容formatxmlmethodas.user.feedbacksessionKeytoken_test_001title官网意见反馈userId1ver1.0asdfghjkqwertyu";
+        String s = "asdfghjkqwertyuappKeyappKey00001content官网意见反馈内容formatxmlmethodas.user.feedbacksessionKeytoken_test_001title官网意见反馈userId1ver1.0asdfghjkqwertyu";
         System.out.println(bytes2Hex(md.digest(s.getBytes("utf-8"))));
     }
 }

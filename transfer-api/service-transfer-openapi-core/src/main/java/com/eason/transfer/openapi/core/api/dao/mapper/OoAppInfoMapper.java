@@ -9,11 +9,11 @@ import java.util.List;
 
 /**
  * OoAppInfoDAO接口
- * @author eason
  *
+ * @author eason
  */
 @Repository
-public interface OoAppInfoMapper{
+public interface OoAppInfoMapper {
 
     public List<AppInfo> getAppinfoList();
 
@@ -25,8 +25,8 @@ public interface OoAppInfoMapper{
 
     public int insertModel(OoAppInfoModel obj);
 
-	public int updateModelById(OoAppInfoModel obj);
+    public int updateModelById(OoAppInfoModel obj);
 
-	public int deleteById(Integer id);
-    
+    public int deleteById(Integer id);
+
 }

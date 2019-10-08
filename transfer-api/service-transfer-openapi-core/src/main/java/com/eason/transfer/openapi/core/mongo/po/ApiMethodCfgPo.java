@@ -14,7 +14,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ApiMethodCfgPo extends BasePo{
+public class ApiMethodCfgPo extends BasePo {
     @Id
     private String tid;
     private Integer methodId;

@@ -14,7 +14,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AppInfoPo extends BasePo{
+public class AppInfoPo extends BasePo {
     @Id
     private String tid;
     private String appName;

@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class ApiMethodMgr {
 
-  @Autowired
-  private MongoTemplate mongoTemplate;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-  @Transactional
-  public <T extends BasePo> void saveAndUpdate(T po,Class<T> tClass){
+    @Transactional
+    public <T extends BasePo> void saveAndUpdate(T po, Class<T> tClass) {
 //    Optional<T> result =mongoTemplate.update(tClass)
 //            .matching(query(where("id").is(po.getId())))
 //            .replaceWith(po)
@@ -25,8 +25,7 @@ public class ApiMethodMgr {
 //    if(result.isPresent()){
 //      log.info("API方法覆盖更新成功po="+po);
 //    }
-  }
-
+    }
 
 
 }

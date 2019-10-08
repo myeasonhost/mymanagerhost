@@ -1,6 +1,6 @@
 package com.eason.transfer.openapi.core.exception;
 
-public class ApiException extends Exception{
+public class ApiException extends Exception {
     public ApiException() {
         super();
     }

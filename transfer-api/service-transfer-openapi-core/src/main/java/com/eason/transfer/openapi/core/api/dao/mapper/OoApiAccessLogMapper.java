@@ -9,19 +9,20 @@ import java.util.Map;
 
 /**
  * OoApiAccessLogDAO接口
+ *
  * @author eason
  */
 @Repository
-public interface OoApiAccessLogMapper{
+public interface OoApiAccessLogMapper {
 
 
-	public int addPartition(OoApiAccessLogModel obj);
-	
-	public List<OoApiAccessLogModel> getApiLogPage(Map<String, Object> map);
+    public int addPartition(OoApiAccessLogModel obj);
 
-	public int getCountByCiteria(Map<String, Object> map);
+    public List<OoApiAccessLogModel> getApiLogPage(Map<String, Object> map);
 
-	public int deletePartition(OoApiAccessLogModel obj);
+    public int getCountByCiteria(Map<String, Object> map);
+
+    public int deletePartition(OoApiAccessLogModel obj);
 
     public OoApiAccessLogModel getObjectById(Integer id);
 
@@ -31,8 +32,8 @@ public interface OoApiAccessLogMapper{
 
     public Integer insertModel(OoApiAccessLogModel obj);
 
-	public int updateModelById(OoApiAccessLogModel obj);
+    public int updateModelById(OoApiAccessLogModel obj);
 
-	public int deleteById(Integer id);
-    
+    public int deleteById(Integer id);
+
 }

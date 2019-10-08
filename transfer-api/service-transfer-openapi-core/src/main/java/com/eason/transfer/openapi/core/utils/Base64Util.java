@@ -27,8 +27,8 @@ public class Base64Util {
     /**
      * FunName:convertNickNameToBytes Description:将字符串转换成二进制码的字符串
      *
-     * @param:nickName
      * @return String
+     * @param:nickName
      * @Author:fanchangfei
      * @Create Date: 2014-7-30
      */
@@ -49,8 +49,8 @@ public class Base64Util {
     /**
      * FunName:convertNickNameToString Description:将二进制码的字符串还原成真实的字符串
      *
-     * @param:nickName
      * @return String
+     * @param:nickName
      * @Author:fanchangfei
      * @Create Date: 2014-7-30
      */

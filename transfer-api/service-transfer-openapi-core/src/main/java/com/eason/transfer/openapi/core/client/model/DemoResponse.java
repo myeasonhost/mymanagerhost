@@ -6,21 +6,21 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("demoResponse")
 public class DemoResponse extends Response {
 
-	private static final long serialVersionUID = 1L;
-	
-	private String result;
+    private static final long serialVersionUID = 1L;
 
-	public String getResult() {
-		return result;
-	}
+    private String result;
 
-	public void setResult(String result) {
-		this.result = result;
-	}
+    public String getResult() {
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return "DemoResponse [result=" + result + "]";
-	}
-	
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "DemoResponse [result=" + result + "]";
+    }
+
 }

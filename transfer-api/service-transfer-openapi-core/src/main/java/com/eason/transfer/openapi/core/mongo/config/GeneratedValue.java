@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * @author EASON LI
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD })
+@Target({ElementType.FIELD})
 public @interface GeneratedValue {
 
 }

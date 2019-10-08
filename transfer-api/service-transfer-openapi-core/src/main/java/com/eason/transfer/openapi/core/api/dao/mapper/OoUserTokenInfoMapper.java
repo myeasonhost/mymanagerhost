@@ -8,12 +8,12 @@ import java.util.Date;
 @Repository
 public interface OoUserTokenInfoMapper {
 
-	public UserTokenInfo getUserTokenInfoByToken(String token);
+    public UserTokenInfo getUserTokenInfoByToken(String token);
 
-	public Integer insertUserToken(UserTokenInfo obj);
+    public Integer insertUserToken(UserTokenInfo obj);
 
-	public Integer updateToken(UserTokenInfo obj);
+    public Integer updateToken(UserTokenInfo obj);
 
-	public Date getLoginDateByUserId(String userId);
-	
+    public Date getLoginDateByUserId(String userId);
+
 }

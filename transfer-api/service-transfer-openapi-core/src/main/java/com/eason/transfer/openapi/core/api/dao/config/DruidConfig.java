@@ -67,10 +67,10 @@ public class DruidConfig {
 
     @Value("${spring.datasource.logSlowSql}")
     private String logSlowSql;
-    
+
     @Value("${spring.datasource.connectionProperties}")
     private String connectionProperties;
-    
+
     @Bean
     public ServletRegistrationBean druidServlet() {
         ServletRegistrationBean reg = new ServletRegistrationBean();

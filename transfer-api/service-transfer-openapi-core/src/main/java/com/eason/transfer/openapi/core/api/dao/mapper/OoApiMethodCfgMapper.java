@@ -7,10 +7,11 @@ import java.util.List;
 
 /**
  * OoApiMethodCfgDAO接口
+ *
  * @author eason
  */
 @Repository
-public interface OoApiMethodCfgMapper{
+public interface OoApiMethodCfgMapper {
 
     public OoApiMethodCfgModel getObjectById(Integer id);
 
@@ -22,8 +23,8 @@ public interface OoApiMethodCfgMapper{
 
     public int addModel(OoApiMethodCfgModel obj);
 
-	public int updateModelById(OoApiMethodCfgModel obj);
+    public int updateModelById(OoApiMethodCfgModel obj);
 
-	public int deleteById(Integer id);
-    
+    public int deleteById(Integer id);
+
 }

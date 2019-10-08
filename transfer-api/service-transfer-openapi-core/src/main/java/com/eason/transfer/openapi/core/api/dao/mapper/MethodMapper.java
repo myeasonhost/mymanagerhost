@@ -8,32 +8,32 @@ import java.util.List;
 import java.util.Map;
 
 /**
-* @ClassName: MethodMapper
-* @Description:API方法管理DAO层接口
-* @author: eason
-*/
+ * @ClassName: MethodMapper
+ * @Description:API方法管理DAO层接口
+ * @author: eason
+ */
 @Repository
 public interface MethodMapper {
-	
-	public List<ApiMethodType> getMethodTypeList();
-	
-	public void saveMethod(ApiMethod method);
-	
-	public List<ApiMethod> getMethodList();
-	
-	public void deleteMethodById(int id);
-	
-	public List<ApiMethod> getMethodListByCondition(Map<String, Object> map);
 
-	public ApiMethod getMethodById(int id);
-	
-	public void updateMethod(ApiMethod method);
-	
-	public List<ApiMethod> methodPageSelect(Map<String, Integer> map) throws Exception;
+    public List<ApiMethodType> getMethodTypeList();
 
-	public int methodConditionTotalRecord(Map<String, Object> map);
+    public void saveMethod(ApiMethod method);
 
-	public int methodTotalRecord() throws Exception;
+    public List<ApiMethod> getMethodList();
 
-	public List<ApiMethod> methodPageSelectByCondition(Map<String, Object> map);
+    public void deleteMethodById(int id);
+
+    public List<ApiMethod> getMethodListByCondition(Map<String, Object> map);
+
+    public ApiMethod getMethodById(int id);
+
+    public void updateMethod(ApiMethod method);
+
+    public List<ApiMethod> methodPageSelect(Map<String, Integer> map) throws Exception;
+
+    public int methodConditionTotalRecord(Map<String, Object> map);
+
+    public int methodTotalRecord() throws Exception;
+
+    public List<ApiMethod> methodPageSelectByCondition(Map<String, Object> map);
 }

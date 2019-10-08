@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ApiAccessLogPo extends BasePo{
+public class ApiAccessLogPo extends BasePo {
     @Id
     private String tid;
     private Integer userId;

@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ApiMethodCategoryPo extends BasePo{
+public class ApiMethodCategoryPo extends BasePo {
     @Id
     private String tid;
     private String cateEnName;

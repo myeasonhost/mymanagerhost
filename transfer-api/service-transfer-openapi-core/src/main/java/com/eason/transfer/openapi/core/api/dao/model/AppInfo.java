@@ -2,60 +2,60 @@ package com.eason.transfer.openapi.core.api.dao.model;
 
 public class AppInfo {
 
-	private Long id;
-	private String appName;
-	private String appKey;
-	private String appSecret;
-	private String appUserTable;
+    private Long id;
+    private String appName;
+    private String appKey;
+    private String appSecret;
+    private String appUserTable;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getAppName() {
-		return appName;
-	}
+    public String getAppName() {
+        return appName;
+    }
 
-	public void setAppName(String appName) {
-		this.appName = appName;
-	}
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
 
-	public String getAppKey() {
-		return appKey;
-	}
+    public String getAppKey() {
+        return appKey;
+    }
 
-	public void setAppKey(String appKey) {
-		this.appKey = appKey;
-	}
+    public void setAppKey(String appKey) {
+        this.appKey = appKey;
+    }
 
-	public String getAppSecret() {
-		return appSecret;
-	}
+    public String getAppSecret() {
+        return appSecret;
+    }
 
-	public void setAppSecret(String appSecret) {
-		this.appSecret = appSecret;
-	}
+    public void setAppSecret(String appSecret) {
+        this.appSecret = appSecret;
+    }
 
-	public String getAppUserTable() {
-		return appUserTable;
-	}
+    public String getAppUserTable() {
+        return appUserTable;
+    }
 
-	public void setAppUserTable(String appUserTable) {
-		this.appUserTable = appUserTable;
-	}
+    public void setAppUserTable(String appUserTable) {
+        this.appUserTable = appUserTable;
+    }
 
-	@Override
-	public String toString() {
-		return "AppInfo{" +
-				"id=" + id +
-				", appName='" + appName + '\'' +
-				", appKey='" + appKey + '\'' +
-				", appSecret='" + appSecret + '\'' +
-				", appUserTable='" + appUserTable + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "AppInfo{" +
+                "id=" + id +
+                ", appName='" + appName + '\'' +
+                ", appKey='" + appKey + '\'' +
+                ", appSecret='" + appSecret + '\'' +
+                ", appUserTable='" + appUserTable + '\'' +
+                '}';
+    }
 }

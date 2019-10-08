@@ -15,22 +15,22 @@ import java.io.Serializable;
 @Builder
 public class Request implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Integer language=1; //语言设置默认1 （1：中文、2：英文、3：韩文）
+    private Integer language = 1; //语言设置默认1 （1：中文、2：英文、3：韩文）
 
-	private String ip;
-	@NotEmpty(message = "方法名不能为空")
-	private String method;
-	@NotEmpty(message = "应用签名不能为空")
-	@MyConstraint(message = "应用签名不正确")
-	private String appKey;
-	@NotEmpty(message = "版本不能为空")
-	private String version;
+    private String ip;
+    @NotEmpty(message = "方法名不能为空")
+    private String method;
+    @NotEmpty(message = "应用签名不能为空")
+    @MyConstraint(message = "应用签名不正确")
+    private String appKey;
+    @NotEmpty(message = "版本不能为空")
+    private String version;
 
-	@MyConstraint(message = "应用签名不正确")
-	private String sessionKey;
-	private String appSecret;
+    @MyConstraint(message = "应用签名不正确")
+    private String sessionKey;
+    private String appSecret;
 
-	
+
 }

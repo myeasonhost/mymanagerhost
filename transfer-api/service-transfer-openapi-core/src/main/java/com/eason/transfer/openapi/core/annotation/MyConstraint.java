@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Documented
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy= MyConstraintValidator.class)
+@Constraint(validatedBy = MyConstraintValidator.class)
 public @interface MyConstraint {
 
     boolean required() default true;

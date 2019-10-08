@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class MyConstraintValidator implements ConstraintValidator<MyConstraint, String>{
+public class MyConstraintValidator implements ConstraintValidator<MyConstraint, String> {
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -20,7 +20,7 @@ public class MyConstraintValidator implements ConstraintValidator<MyConstraint, 
 
     @Override
     public boolean isValid(String target, ConstraintValidatorContext constraintValidatorContext) {
-        if(target.equals("eason")){
+        if (target.equals("eason")) {
             return true;
         }
         return false;

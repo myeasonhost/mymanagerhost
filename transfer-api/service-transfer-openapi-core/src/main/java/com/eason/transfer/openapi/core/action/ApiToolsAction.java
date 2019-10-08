@@ -50,10 +50,10 @@ public class ApiToolsAction {
     @Autowired
     private OoApiMethodParamMapper ooApiMethodParamMapper;
 
-	@RequestMapping(value = "/api")
-	public Response router(@Validated Request requestParams, BindingResult bindingResult, @RequestBody Map<String, Object> map){
+    @RequestMapping(value = "/api")
+    public Response router(@Validated Request requestParams, BindingResult bindingResult, @RequestBody Map<String, Object> map) {
         List<ErrDetailInfo> errResultList = new ArrayList<>();
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             List<FieldError> errors = bindingResult.getFieldErrors();
             for (FieldError err : errors) {
                 ErrDetailInfo errDetailInfo = new ErrDetailInfo();
@@ -63,7 +63,7 @@ public class ApiToolsAction {
                 errResultList.add(errDetailInfo);
             }
         }
-        if(!errResultList.isEmpty()){
+        if (!errResultList.isEmpty()) {
             return Response.builder().errorCount(errResultList.size()).errInfoList(errResultList).successCount(0).build();
         }
         System.out.println(requestParams);
@@ -71,7 +71,7 @@ public class ApiToolsAction {
 //        System.out.println(req);
 
         return Response.builder().successCount(1).build();
-	}
+    }
 
     /**
      * 查询接口类别下拉列表
@@ -93,15 +93,15 @@ public class ApiToolsAction {
      * 查询接口类别下拉列表
      */
     @RequestMapping(value = "/queryMethodCategorys")
-    public String queryMethodCategorys() throws Exception{
-        try{
+    public String queryMethodCategorys() throws Exception {
+        try {
             OoApiMethodCategoryModel obj = new OoApiMethodCategoryModel();
             List<OoApiMethodCategoryModel> apiCategoryList = ooApiMethodCategoryMapper.getListByModel(obj);
             JSONArray jsonArray = JSONArray.fromObject(apiCategoryList);
             return jsonArray.toString();
         } catch (Exception e) {
-           e.printStackTrace();
-           throw new Exception(e);
+            e.printStackTrace();
+            throw new Exception(e);
         }
     }
 
@@ -109,8 +109,8 @@ public class ApiToolsAction {
      * 查询方法名称下拉列表
      */
     @RequestMapping(value = "/queryMethods")
-    public String queryMethods(Integer methodType) throws Exception{
-        try{
+    public String queryMethods(Integer methodType) throws Exception {
+        try {
             //根据接口类别ID和方法名称查询接口基本信息
             OoApiMethodModel obj = new OoApiMethodModel();
             obj.setMethodType(methodType);
@@ -127,8 +127,8 @@ public class ApiToolsAction {
      * 根据方法ID查询输入参数
      */
     @RequestMapping(value = "/queryMethodInParams")
-    public String queryMethodInParams(Integer methodId) throws Exception{
-        try{
+    public String queryMethodInParams(Integer methodId) throws Exception {
+        try {
             //设置方法id，参数类型为输入参数
             OoApiMethodParamModel methodParamDto = new OoApiMethodParamModel();
             methodParamDto.setMethodId(methodId);
@@ -147,15 +147,15 @@ public class ApiToolsAction {
      */
     @RequestMapping(value = "/handleSubmitRequest")
     public ModelAndView handleSubmitRequest(@ModelAttribute ApiSystemParam systemParam,
-                                            HttpServletRequest request) throws Exception{
-        try{
+                                            HttpServletRequest request) throws Exception {
+        try {
 
             Map<String, String> appParamMap = new HashMap<String, String>();
             //设置用户输入的系统级参数appKey、sessionKey、format、method
-            if(!StringUtils.isEmpty(systemParam.getAppKey())) {
+            if (!StringUtils.isEmpty(systemParam.getAppKey())) {
                 appParamMap.put(OpenApiCommonConst.STRING_APPKEY, systemParam.getAppKey());
             }
-            if(!StringUtils.isEmpty(systemParam.getSessionKey())) {
+            if (!StringUtils.isEmpty(systemParam.getSessionKey())) {
                 appParamMap.put(OpenApiCommonConst.STRING_SESSIONKEY, systemParam.getSessionKey());
             }
             appParamMap.put(OpenApiCommonConst.STRING_FORMAT, systemParam.getFormat());
@@ -166,15 +166,15 @@ public class ApiToolsAction {
             //依次设置应用级参数到map中
             String paramNames[] = systemParam.getParamsNames().split(",");
             String paramTypes[] = systemParam.getParamsTypes().split(",");
-            for(int i=0;i<paramNames.length;i++) {
+            for (int i = 0; i < paramNames.length; i++) {
                 //输入的应用级参数
                 String tmpAppParams = request.getParameter(paramNames[i]);
                 //有输入值
-                if(!StringUtils.isEmpty(tmpAppParams)) {
+                if (!StringUtils.isEmpty(tmpAppParams)) {
                     appParamMap.put(paramNames[i], tmpAppParams.trim());
 
-                    if("String".equals(paramTypes[i])) {
-                        paramMap.put(paramNames[i], "\""+tmpAppParams+"\"");
+                    if ("String".equals(paramTypes[i])) {
+                        paramMap.put(paramNames[i], "\"" + tmpAppParams + "\"");
                     } else {
                         paramMap.put(paramNames[i], tmpAppParams);
                     }
@@ -184,8 +184,8 @@ public class ApiToolsAction {
             StringBuilder tmpPostParams = new StringBuilder();
             //向服务器发送请求，调用API接口
             String[] httpMethods = messageSource.getMessage("https_method", null, null).split(",");
-            for(String item : httpMethods){
-                if(appParamMap.get(OpenApiCommonConst.STRING_METHOD).indexOf(item) != -1){
+            for (String item : httpMethods) {
+                if (appParamMap.get(OpenApiCommonConst.STRING_METHOD).indexOf(item) != -1) {
                     systemParam.setPostUrl(systemParam.getPostUrl().replace("http", "https"));
                     systemParam.setPostUrl(systemParam.getPostUrl().replace("8080", "443"));
                 }
@@ -196,10 +196,10 @@ public class ApiToolsAction {
 //            }
 
             String appResult = PostClient.sendRequest(systemParam.getPostUrl(), appParamMap, fileParams, systemParam.getAppSecret(), tmpPostParams);
-            ModelAndView modelAndView=new ModelAndView();
+            ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject(systemParam);
-            modelAndView.addObject("appResult",appResult);
-            modelAndView.addObject("postParams",tmpPostParams.toString());
+            modelAndView.addObject("appResult", appResult);
+            modelAndView.addObject("postParams", tmpPostParams.toString());
             modelAndView.setViewName("page/apiTestResult");
             return modelAndView;
         } catch (Exception e) {

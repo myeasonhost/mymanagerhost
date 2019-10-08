@@ -19,58 +19,60 @@ import java.util.List;
 @XStreamAlias("response")
 public class Response implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/*** 成功记录数 */
-	private Integer successCount = 1;
+    /*** 成功记录数 */
+    private Integer successCount = 1;
 
-	/** 错误数 */
-	private Integer errorCount = 0;
+    /**
+     * 错误数
+     */
+    private Integer errorCount = 0;
 
-	/** 错误信息列表 */
-	private List<ErrDetailInfo> errInfoList = null;
+    /**
+     * 错误信息列表
+     */
+    private List<ErrDetailInfo> errInfoList = null;
 
-	/** 异常错误信息 */
-	private String exception = null;
-	
-	/**
-	 * 累积添加错误信息，同时增长errorCount值
-	 * 
-	 * @param response
-	 *            返回对象
-	 * @param errorCode
-	 *            错误编码
-	 * @param errorDes
-	 *            错误描述
-	 * @param pkInfo
-	 *            关键词
-	 */
-	public void addErrInfo(String errorCode, String errorDes, String pkInfo) {
+    /**
+     * 异常错误信息
+     */
+    private String exception = null;
 
-		if (errInfoList == null) {
-			errInfoList = new ArrayList<ErrDetailInfo>();
-		}
+    /**
+     * 累积添加错误信息，同时增长errorCount值
+     *
+     * @param response  返回对象
+     * @param errorCode 错误编码
+     * @param errorDes  错误描述
+     * @param pkInfo    关键词
+     */
+    public void addErrInfo(String errorCode, String errorDes, String pkInfo) {
 
-		ErrDetailInfo detailInfo = new ErrDetailInfo(errorCode, errorDes,
-				pkInfo);
-		errInfoList.add(detailInfo);
+        if (errInfoList == null) {
+            errInfoList = new ArrayList<ErrDetailInfo>();
+        }
 
-		// 设置错误个数
-		errorCount = errInfoList.size();
-		
-		successCount = 0;
-	}
+        ErrDetailInfo detailInfo = new ErrDetailInfo(errorCode, errorDes,
+                pkInfo);
+        errInfoList.add(detailInfo);
 
-	public void setException(Exception e) {
-		try {
-			if (e != null) {
-				StringWriter sw = new StringWriter();
-				e.printStackTrace(new PrintWriter(sw, true));
-				String str = sw.toString();
-				exception = str;
-			}
-		} catch (Exception ex) {
-		}
-	}
+        // 设置错误个数
+        errorCount = errInfoList.size();
+
+        successCount = 0;
+    }
+
+    public void setException(Exception e) {
+        try {
+            if (e != null) {
+                StringWriter sw = new StringWriter();
+                e.printStackTrace(new PrintWriter(sw, true));
+                String str = sw.toString();
+                exception = str;
+            }
+        } catch (Exception ex) {
+        }
+    }
 
 }

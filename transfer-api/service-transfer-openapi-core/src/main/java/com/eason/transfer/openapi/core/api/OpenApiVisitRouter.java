@@ -14,14 +14,14 @@ import javax.ws.rs.core.MultivaluedMap;
 @Path("/api")
 public interface OpenApiVisitRouter {
 
-	@POST
-	@Path("/router")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	String router(MultivaluedMap<String, String> paramMap, @Context HttpServletRequest request, @Context HttpServletResponse response);
+    @POST
+    @Path("/router")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    String router(MultivaluedMap<String, String> paramMap, @Context HttpServletRequest request, @Context HttpServletResponse response);
 
-	@POST
-	@Path("/router")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	String routerWithFile(MultipartBody body, @Context HttpServletRequest request, @Context HttpServletResponse response);
+    @POST
+    @Path("/router")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    String routerWithFile(MultipartBody body, @Context HttpServletRequest request, @Context HttpServletResponse response);
 
 }
