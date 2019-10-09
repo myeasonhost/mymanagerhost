@@ -1,6 +1,4 @@
-package com.eason.transfer.openapi.core.client.model;
-
-
+package com.eason.transfer.openapi.core.client.demo.model;
 import com.eason.transfer.openapi.core.api.request.Request;
 
 public class DemoRequest extends Request {

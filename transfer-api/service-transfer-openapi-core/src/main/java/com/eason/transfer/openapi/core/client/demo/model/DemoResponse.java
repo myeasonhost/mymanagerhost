@@ -1,5 +1,4 @@
-package com.eason.transfer.openapi.core.client.model;
-
+package com.eason.transfer.openapi.core.client.demo.model;
 import com.eason.transfer.openapi.core.api.response.Response;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

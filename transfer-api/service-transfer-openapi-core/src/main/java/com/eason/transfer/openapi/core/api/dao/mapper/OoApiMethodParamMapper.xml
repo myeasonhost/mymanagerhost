@@ -106,6 +106,7 @@
                 AND CREATE_TIME = #{createTime}
             </if>
         </where>
+        ORDER BY CREATE_TIME
     </select>
 
     <insert id="insertModel" parameterType="com.eason.transfer.openapi.core.api.dao.model.OoApiMethodParamModel">

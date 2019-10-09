@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableCaching
-@MapperScan(basePackages = {"com.eason.transfer.openapi.core.api.dao"})
+@MapperScan(basePackages = {"com.eason.transfer.openapi.core.api.dao","com.eason.transfer.openapi.core.client"})
 public class ServiceTransferOpenCoreApplication {
 
     @Bean

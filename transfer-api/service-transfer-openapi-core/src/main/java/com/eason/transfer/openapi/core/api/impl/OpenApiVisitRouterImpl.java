@@ -11,7 +11,6 @@ import com.eason.transfer.openapi.core.api.filter.OpenApiSystemParamFilterBean;
 import com.eason.transfer.openapi.core.api.model.FileItem;
 import com.eason.transfer.openapi.core.api.response.ErrDetailInfo;
 import com.eason.transfer.openapi.core.api.response.Response;
-import com.eason.transfer.openapi.core.api.utils.MessageConstant.REQUEST_HTTPS;
 import com.eason.transfer.openapi.core.api.utils.MessageUtils;
 import com.eason.transfer.openapi.core.api.utils.OpenApiCommonConst;
 import com.eason.transfer.openapi.core.api.utils.OpenApiCommonConst.ERROR_MSG;
@@ -101,15 +100,16 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
         //是否需要HTTPS请求
         if (StringUtils.isNotBlank(method) && httpsMethod.indexOf(method + ",") != -1) {
             if (!httpRequest.isSecure()) {
-                log.error("需要用https访问此接口。");
+                log.error("目前不支持https访问此接口。");
+                String responseReslut="目前不支持https访问此接口";
                 //不安全的请求
-                Response response = new Response();
-                String result = REQUEST_HTTPS.ERROR_399;
-                String msg = MessageUtils.getMessage(messageSource, REQUEST_HTTPS.METHOD + result, null, language);
-                response.addErrInfo(result, msg, null);
-
-                //String responseReslut = JSONObject.fromObject(response).toString();
-                String responseReslut = OpenApiCommonUtil.getResponseInfo(response, format);
+//                Response response = new Response();
+//                String result = REQUEST_HTTPS.ERROR_399;
+//                String msg = MessageUtils.getMessage(messageSource, REQUEST_HTTPS.METHOD + result, null, language);
+//                response.addErrInfo(result, msg, null);
+//
+//                //String responseReslut = JSONObject.fromObject(response).toString();
+//                String responseReslut = OpenApiCommonUtil.getResponseInfo(response, format);
                 return responseReslut;
             } else {
                 log.info("开始https请求");
@@ -166,15 +166,16 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
         //是否需要HTTPS请求
         if (StringUtils.isNotBlank(method) && httpsMethod.indexOf(method + ",") != -1) {
             if (!httpRequest.isSecure()) {
-                log.error("需要用https访问此接口。");
+                log.error("目前不支持https访问此接口。");
+                String responseReslut="目前不支持https访问此接口";
                 //不安全的请求
-                Response response = new Response();
-                String result = REQUEST_HTTPS.ERROR_399;
-                String msg = MessageUtils.getMessage(messageSource, REQUEST_HTTPS.METHOD + result, null, language);
-                response.addErrInfo(result, msg, null);
-
-                //String responseReslut = JSONObject.fromObject(response).toString();
-                String responseReslut = OpenApiCommonUtil.getResponseInfo(response, format);
+//                Response response = new Response();
+//                String result = REQUEST_HTTPS.ERROR_399;
+//                String msg = MessageUtils.getMessage(messageSource, REQUEST_HTTPS.METHOD + result, null, language);
+//                response.addErrInfo(result, msg, null);
+//
+//                //String responseReslut = JSONObject.fromObject(response).toString();
+//                String responseReslut = OpenApiCommonUtil.getResponseInfo(response, format);
                 return responseReslut;
             } else {
                 log.info("开始https请求");
@@ -185,7 +186,7 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
         // 调用ws
         Response response = invokeRouter(paramMap, fileItemMap, httpRequest, language);
         //插入log记录
-        insertIntoLog(paramMap, httpRequest, response, startTime);
+//        insertIntoLog(paramMap, httpRequest, response, startTime);
 
         //解析response对象
         String responseReslut = OpenApiCommonUtil.getResponseInfo(response, format);
