@@ -19,5 +19,7 @@
         <javaClientGenerator targetPackage="com.eason.transfer.openapi.core.client.user.dao.mapper" targetProject="./src/main/java" type="XMLMAPPER" />
         <!-- 6.table指定生成策略 -->
         <table tableName="t_user_info" domainObjectName="TUserInfo"></table>
+<!--        <table tableName="t_index_swiper" domainObjectName="TIndexSwiper"></table>-->
+
     </context>
 </generatorConfiguration>

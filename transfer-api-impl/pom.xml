@@ -17,7 +17,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>service-transfer-pull-data</module>
+        <module>service-transfer-api-user</module>
     </modules>
 
     <!--SpringCloud的配置-->

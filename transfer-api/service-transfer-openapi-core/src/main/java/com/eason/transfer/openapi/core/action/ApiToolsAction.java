@@ -13,20 +13,21 @@ import com.eason.transfer.openapi.core.api.response.ErrDetailInfo;
 import com.eason.transfer.openapi.core.api.response.Response;
 import com.eason.transfer.openapi.core.api.utils.OpenApiCommonConst;
 import com.eason.transfer.openapi.core.api.utils.PostClient;
+import com.eason.transfer.openapi.core.utils.VerifyCodeUtil;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,6 +72,28 @@ public class ApiToolsAction {
 //        System.out.println(req);
 
         return Response.builder().successCount(1).build();
+    }
+
+    @GetMapping(value = "/api/vcode")
+    public void vcode(String code,HttpServletResponse response) {
+        if(StringUtils.isEmpty(code)){
+            return;
+        }
+        if(code.length()!=4){
+            return;
+        }
+        response.setHeader("Pragma", "No-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
+        response.setContentType("image/jpeg");
+        //生成随机字符串
+//        String verifyCode = VerifyCodeUtil.generateVerifyCode(4);
+        //将字符串写入输出流 130宽 40高
+        try{
+            VerifyCodeUtil.outputImage(130, 40, response.getOutputStream(), code);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
