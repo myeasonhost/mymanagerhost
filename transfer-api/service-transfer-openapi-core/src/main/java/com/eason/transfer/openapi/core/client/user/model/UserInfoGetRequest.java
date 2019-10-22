@@ -13,6 +13,6 @@ public class UserInfoGetRequest extends Request {
 
     private static final long serialVersionUID = 1L;
 
-    private Long userId;   // 用户id
-
+    private String username;   // 用户名
+    private String token;   //用户登录token
 }

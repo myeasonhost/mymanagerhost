@@ -15,6 +15,7 @@ public class UserLoginResponse extends Response {
     private static final long serialVersionUID = 1L;
 
     private Long userId;
+    private String username;
     private String token;
     private String result;
 
