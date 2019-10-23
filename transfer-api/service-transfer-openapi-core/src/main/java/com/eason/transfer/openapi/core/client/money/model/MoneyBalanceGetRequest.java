@@ -1,4 +1,4 @@
-package com.eason.transfer.openapi.core.client.user.model;
+package com.eason.transfer.openapi.core.client.money.model;
 
 
 import com.eason.transfer.openapi.core.api.request.Request;
@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class UserInfoGetRequest extends Request {
+@NoArgsConstructor
+public class MoneyBalanceGetRequest extends Request {
 
     private static final long serialVersionUID = 1L;
 
+    private String type;
 }

@@ -23,4 +23,6 @@ public class Request implements Serializable {
     private String version;
     private String sessionKey;
     private String appSecret;
+    private String userId;
+    private String userType;
 }

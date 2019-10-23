@@ -153,9 +153,8 @@ public class UserServiceImpl {
                 response.setSuccessCount(0);
                 return response;
             }
-            String token=EncryptUtil.MD5(userInfo.getId()+userInfo.getUsername()+userInfo.getPassword()+System.currentTimeMillis());
-            stringRedisTemplate.opsForValue().set(request.getAppKey()+"_"+userInfo.getUsername(),
-                    token,1, TimeUnit.HOURS);
+            String token=EncryptUtil.MD5(request.getAppKey()+userInfo.getId()+userInfo.getUsername()+userInfo.getPassword()+System.currentTimeMillis());
+            stringRedisTemplate.opsForValue().set(token,String.valueOf(userInfo.getId()),1, TimeUnit.HOURS);
             response.setUserId(userInfo.getId());
             response.setUsername(userInfo.getUsername());
             response.setToken(token);
@@ -174,49 +173,17 @@ public class UserServiceImpl {
             UserInfoGetResponse response=new UserInfoGetResponse();
             String code = null;
             String result = null;
-            if (StringUtils.isEmpty(request.getUsername())) {
-                code ="username";
-                result ="用户名不能为空";
-                response.addErrInfo(code, result, null);
-                response.setSuccessCount(0);
-                return response;
-            }
-            if (StringUtils.isEmpty(request.getToken())) {
-                code ="token";
-                result ="用户token不能为空";
-                response.addErrInfo(code, result, null);
-                response.setSuccessCount(0);
-                return response;
-            }else{
-                String token=stringRedisTemplate.opsForValue().get(request.getAppKey()+"_"+request.getUsername());
-                if(StringUtils.isEmpty(token)){
-                    code ="token";
-                    result ="用户token已经失效，请重新登录";
-                    response.addErrInfo(code, result, null);
-                    response.setSuccessCount(0);
-                    return response;
-                }else if(!token.equals(request.getToken())){
-                    code ="token";
-                    result ="用户token错误，请重新登录";
-                    response.addErrInfo(code, result, null);
-                    response.setSuccessCount(0);
-                    return response;
-                }
-            }
-            TUserInfoExample example=new TUserInfoExample();
-            example.createCriteria()
-                    .andUsernameEqualTo(request.getUsername());
-            List<TUserInfo> list=tUserInfoMapper.selectByExample(example);
-            if (list.size()!=1){
+
+            TUserInfo tUserInfo=tUserInfoMapper.selectByPrimaryKey(Long.parseLong(request.getUserId()));
+            if (tUserInfo==null){
                 code="username";
                 response.addErrInfo(code, "用户名不存在", null);
                 response.setSuccessCount(0);
                 return response;
             }
-            TUserInfo tUserInfo=list.get(0);
             BeanUtils.copyProperties(tUserInfo,response);
             response.setUserId(tUserInfo.getId());
-            response.setToken(stringRedisTemplate.opsForValue().get(request.getAppKey()+"_"+tUserInfo.getUsername()));
+            response.setToken(request.getSessionKey());
             //获取该用户的钱包余额
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -227,7 +194,7 @@ public class UserServiceImpl {
             requestParam.put("siteId","1040");
             requestParam.put("key","12345"+EncryptUtil.MD5("ds_money_key"+tUserInfo.getUsername())+"123456");
 
-            String url="http://10.10.4.74:8094/ds-money-api/getMoney";
+            String url="http://52.194.214.25:8094/ds-money-api/getMoney";
             log.info("钱包拉取请求={}",url);
             log.info("请求参数={}",requestParam);
             MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
@@ -244,7 +211,7 @@ public class UserServiceImpl {
             response.setMainMoney(resultObj.getJSONObject("data").getDouble("money"));
             return response;
         }catch (Exception e){
-            log.error("用户登录失败", e);
+            log.error("用户详情获取失败", e);
             OpenApiBaseException excp = new OpenApiBaseException(e);
             throw excp;
         }

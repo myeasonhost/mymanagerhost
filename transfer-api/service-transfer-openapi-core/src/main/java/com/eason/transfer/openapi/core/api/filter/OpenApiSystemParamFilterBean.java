@@ -280,34 +280,21 @@ public class OpenApiSystemParamFilterBean {
                     ERROR_MSG.SYSTEM_PARAM_ERROR, params,
                     OpenApiCommonConst.STRING_SESSIONKEY, messageSource, language);
         }
-        //  验证token
-        if (appKey.endsWith("appKey00001")) {
-            UserTokenInfo userTokenInfo = logOperatorService.getUserTokenInfoByToken(sessionKey);
-            if (userTokenInfo == null) {
-                String[] params = new String[]{OpenApiCommonConst.STRING_SESSIONKEY};
-                return OpenApiCommonUtil.setResponseObjByError(
-                        ERROR_MSG.SYSTEM_PARAM_ERROR, params,
-                        OpenApiCommonConst.STRING_SESSIONKEY, messageSource, language);
-            }
-        } else {
-            //从缓存中获取token
-            Integer userId = null;
-            try {
-//				userId = (Integer)memCachedClient.get(sessionKey);
-                userId = Integer.parseInt(stringRedisTemplate.boundValueOps(sessionKey).get());
-            } catch (Exception e) {
-                log.error(stringRedisTemplate.boundValueOps(sessionKey).get().getClass().getName());
-                log.error("缓存信息错误,Key=[" + sessionKey + "], value =[" + stringRedisTemplate.boundValueOps(sessionKey).get() + "]", e);
-                stringRedisTemplate.delete(sessionKey);
-            }
-            if (userId == null) {
-                String[] params = new String[]{OpenApiCommonConst.STRING_SESSIONKEY};
-                return OpenApiCommonUtil.setResponseObjByError(
-                        ERROR_MSG.SYSTEM_PARAM_ERROR, params,
-                        OpenApiCommonConst.STRING_SESSIONKEY, messageSource, language);
-            }
-            paramMap.put(OpenApiCommonConst.STRING_USER_ID, String.valueOf(userId));
+        // 验证token
+        String userId = null;
+        try {
+            userId = stringRedisTemplate.opsForValue().get(sessionKey);
+        } catch (Exception e) {
+            log.error("缓存信息错误,Key=[" + sessionKey + "], value =[" + stringRedisTemplate.opsForValue().get(sessionKey) + "]", e);
+            stringRedisTemplate.delete(sessionKey);
         }
+        if (userId == null) {
+            String[] params = new String[]{OpenApiCommonConst.STRING_SESSIONKEY};
+            return OpenApiCommonUtil.setResponseObjByError(
+                    ERROR_MSG.SYSTEM_PARAM_ERROR, params,
+                    OpenApiCommonConst.STRING_SESSIONKEY, messageSource, language);
+        }
+        paramMap.put(OpenApiCommonConst.STRING_USER_ID, userId);
         paramMap.put(OpenApiCommonConst.APP_KEY, appInfo.getAppKey());
         paramMap.put(OpenApiCommonConst.STRING_USER_TYPE, String.valueOf(appInfo.getId()));
         paramMap.put(OpenApiCommonConst.STRING_IP, OpenApiCommonUtil.getRemoteIp(request));
