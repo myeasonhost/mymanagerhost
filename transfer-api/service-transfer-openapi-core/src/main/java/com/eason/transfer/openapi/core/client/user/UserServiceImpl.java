@@ -22,10 +22,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service("userServiceImpl")
@@ -167,7 +165,6 @@ public class UserServiceImpl {
         }
     }
 
-    @Transactional
     public UserInfoGetResponse getUserInfo(UserInfoGetRequest request) throws OpenApiBaseException {
         try{
             UserInfoGetResponse response=new UserInfoGetResponse();
@@ -191,7 +188,7 @@ public class UserServiceImpl {
             Map<String, String> requestParam= new TreeMap<>();
             requestParam.put("username", tUserInfo.getUsername());
             requestParam.put("fromKey","ds_money_key");
-            requestParam.put("siteId","1040");
+            requestParam.put("siteId",request.getAppKey());
             requestParam.put("key","12345"+EncryptUtil.MD5("ds_money_key"+tUserInfo.getUsername())+"123456");
 
             String url="http://52.194.214.25:8094/ds-money-api/getMoney";
@@ -212,6 +209,68 @@ public class UserServiceImpl {
             return response;
         }catch (Exception e){
             log.error("用户详情获取失败", e);
+            OpenApiBaseException excp = new OpenApiBaseException(e);
+            throw excp;
+        }
+    }
+
+    public PlayGameResponse playGame(PlayGameRequest request) throws OpenApiBaseException {
+        try{
+            PlayGameResponse response=new PlayGameResponse();
+            String code = null;
+            String result = null;
+            if (StringUtils.isBlank(request.getLive())){
+                code="live";
+                response.addErrInfo(code, "游戏编码不能为空", null);
+                response.setSuccessCount(0);
+                return response;
+            }
+            TUserInfo tUserInfo=tUserInfoMapper.selectByPrimaryKey(Long.parseLong(request.getUserId()));
+            if (tUserInfo==null){
+                code="username";
+                response.addErrInfo(code, "用户名不存在", null);
+                response.setSuccessCount(0);
+                return response;
+            }
+
+            //获取该用户的钱包余额
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+            Map<String, String> requestParam= new TreeMap<>();
+            requestParam.put("username", tUserInfo.getUsername());
+            requestParam.put("live", request.getLive());
+            requestParam.put("siteId",request.getAppKey());
+            requestParam.put("action","login");
+            requestParam.put("gameType",request.getAction());
+
+            String keyB="df943b52c6182761bf75e7cbfc1ad85d";
+            TimeZone timeZone = TimeZone.getTimeZone("GMT-4:00");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+            simpleDateFormat.setTimeZone(timeZone);
+            String key="1234"+EncryptUtil.MD5(
+                    tUserInfo.getUsername()+keyB+simpleDateFormat.format(new Date()))+"0";
+            requestParam.put("key",key);
+
+            String url="http://52.194.214.25:8095/transfer-api/login";
+            log.info("游戏登录请求={}",url);
+            log.info("请求参数={}",requestParam);
+            MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+            map.setAll(requestParam);
+
+            JSONObject resultObj=restTemplate.exchange(url, HttpMethod.POST,new HttpEntity<>(map,headers),JSONObject.class).getBody();
+            log.info("游戏登录返回结果={}",resultObj.toString());
+            if(!"10000".equals(resultObj.getString("status"))){
+                code="login";
+                response.addErrInfo(code, "游戏登录获取出错："+resultObj.getString("message"), null);
+                response.setSuccessCount(0);
+                return response;
+            }
+            response.setStatus(resultObj.getString("status"));
+            response.setMessage(resultObj.getString("message"));
+            return response;
+        }catch (Exception e){
+            log.error("游戏登录获取失败", e);
             OpenApiBaseException excp = new OpenApiBaseException(e);
             throw excp;
         }

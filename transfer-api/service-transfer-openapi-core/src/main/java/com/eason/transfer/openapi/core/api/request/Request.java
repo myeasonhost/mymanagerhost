@@ -20,7 +20,7 @@ public class Request implements Serializable {
     private String ip;
     private String method;
     private String appKey;
-    private String version;
+    private String ver;
     private String sessionKey;
     private String appSecret;
     private String userId;
