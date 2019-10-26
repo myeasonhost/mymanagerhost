@@ -242,7 +242,14 @@ public class UserServiceImpl {
             requestParam.put("live", request.getLive());
             requestParam.put("siteId",request.getAppKey());
             requestParam.put("action","login");
-            requestParam.put("gameType",request.getAction());
+            if(request.getLive().equals("18")){
+                requestParam.put("line","0");
+                requestParam.put("gameType",request.getAction());
+            }else if(request.getLive().equals("11")){
+                requestParam.put("pageSite","live");
+            }else if(request.getLive().equals("90")){
+                requestParam.put("gameCode",request.getAction());
+            }
 
             String keyB="df943b52c6182761bf75e7cbfc1ad85d";
             TimeZone timeZone = TimeZone.getTimeZone("GMT-4:00");
