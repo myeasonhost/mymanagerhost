@@ -1,8 +1,8 @@
 package com.eason.transfer.openapi.core.api.utils;
 
 import com.eason.transfer.openapi.core.api.exception.OpenApiBaseException;
-import com.eason.transfer.openapi.core.api.model.FileItem;
-import com.eason.transfer.openapi.core.api.response.Response;
+import com.eason.transfer.openapi.core.common.model.FileItem;
+import com.eason.transfer.openapi.core.common.response.Response;
 import com.eason.transfer.openapi.core.api.utils.json.JsonConfigFactory;
 import com.eason.transfer.openapi.core.api.utils.typeConvert.PropertyConverts;
 import com.eason.transfer.openapi.core.api.utils.xml.XmlDateValueConverter;

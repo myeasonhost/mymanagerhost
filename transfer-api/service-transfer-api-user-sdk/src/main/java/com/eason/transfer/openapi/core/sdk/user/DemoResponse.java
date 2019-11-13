@@ -1,6 +1,6 @@
-package com.eason.transfer.openapi.user.api.model;
+package com.eason.transfer.openapi.core.sdk.user;
 
-import com.eason.transfer.openapi.user.model.response.Response;
+import com.eason.transfer.openapi.core.common.response.Response;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("demoResponse")

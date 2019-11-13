@@ -17,12 +17,21 @@
     <description>核心算法</description>
     <dependencies>
         <dependency>
+            <groupId>com.eason.transfer</groupId>
+            <artifactId>service-transfer-api-user-sdk</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,16 +66,6 @@
             <artifactId>jsr311-api</artifactId>
             <version>1.1.1</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>1.16.18</version>
-    </dependency>
-        <dependency>
-            <groupId>com.thoughtworks.xstream</groupId>
-            <artifactId>xstream</artifactId>
-            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>net.sf.json-lib</groupId>

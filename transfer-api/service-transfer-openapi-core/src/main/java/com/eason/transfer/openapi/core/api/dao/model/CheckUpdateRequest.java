@@ -1,6 +1,6 @@
 package com.eason.transfer.openapi.core.api.dao.model;
 
-import com.eason.transfer.openapi.core.api.request.Request;
+import com.eason.transfer.openapi.core.common.request.Request;
 
 public class CheckUpdateRequest extends Request {
 

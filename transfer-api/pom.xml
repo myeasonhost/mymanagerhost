@@ -18,6 +18,8 @@
 
     <modules>
         <module>service-transfer-openapi-core</module>
+        <module>openapi-common</module>
+        <module>service-transfer-api-user-sdk</module>
     </modules>
 
     <!--SpringCloud的配置-->
@@ -45,15 +47,6 @@
 
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
     <repositories>
         <repository>

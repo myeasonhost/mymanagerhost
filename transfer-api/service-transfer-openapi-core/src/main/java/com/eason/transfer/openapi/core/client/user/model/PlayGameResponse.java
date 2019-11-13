@@ -1,7 +1,7 @@
 package com.eason.transfer.openapi.core.client.user.model;
 
 
-import com.eason.transfer.openapi.core.api.response.Response;
+import com.eason.transfer.openapi.core.common.response.Response;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.AllArgsConstructor;
 import lombok.Data;

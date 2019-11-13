@@ -8,22 +8,28 @@ import com.eason.transfer.openapi.core.api.dao.model.OoApiAccessLogModel;
 import com.eason.transfer.openapi.core.api.dao.model.UserTokenInfo;
 import com.eason.transfer.openapi.core.api.exception.OpenApiBaseException;
 import com.eason.transfer.openapi.core.api.filter.OpenApiSystemParamFilterBean;
-import com.eason.transfer.openapi.core.api.model.FileItem;
-import com.eason.transfer.openapi.core.api.response.ErrDetailInfo;
-import com.eason.transfer.openapi.core.api.response.Response;
 import com.eason.transfer.openapi.core.api.utils.MessageUtils;
 import com.eason.transfer.openapi.core.api.utils.OpenApiCommonConst;
 import com.eason.transfer.openapi.core.api.utils.OpenApiCommonConst.ERROR_MSG;
 import com.eason.transfer.openapi.core.api.utils.OpenApiCommonUtil;
+import com.eason.transfer.openapi.core.common.model.FileItem;
+import com.eason.transfer.openapi.core.common.response.ErrDetailInfo;
+import com.eason.transfer.openapi.core.common.response.Response;
+import feign.Feign;
+import feign.Request;
+import feign.Retryer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -32,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MultivaluedMap;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -55,6 +62,9 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private DiscoveryClient client;
 
     /**
      * 跳转ws路由器（不可接收附件）
@@ -313,7 +323,6 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 
     }
 
-
     /**
      * 调用ws服务
      *
@@ -343,12 +352,13 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
 
         try {
             String[] hedwigBeanValues = redirectValue.split(";");
-            if (hedwigBeanValues.length != 4 || StringUtils.isEmpty(hedwigBeanValues[1])
-                    || StringUtils.isEmpty(hedwigBeanValues[2]) || StringUtils.isEmpty(hedwigBeanValues[3])) {
-                return OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.EDIRECT_ERROR, null, null, messageSource, language);
-            }
+
             String prex = hedwigBeanValues[0];
             if ("local".equals(prex)) {
+                if (hedwigBeanValues.length != 4 || StringUtils.isEmpty(hedwigBeanValues[1])
+                        || StringUtils.isEmpty(hedwigBeanValues[2]) || StringUtils.isEmpty(hedwigBeanValues[3])) {
+                    return OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.EDIRECT_ERROR, null, null, messageSource, language);
+                }
                 //获取service bean
                 ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
                 Object serviceObj = context.getBean(OpenApiCommonUtil.stringTrim(hedwigBeanValues[1]));
@@ -392,9 +402,44 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
                 //解析response对象
                 return response;
             } else if ("remote".equals(prex)) {
-                String unitBoot = OpenApiCommonUtil.stringTrim(hedwigBeanValues[1]);
-                String url = String.format("http://%s/%s", unitBoot, hedwigBeanValues[2]);
-                response = restTemplate.getForEntity(url, Response.class, paramMap).getBody();
+                if (hedwigBeanValues.length != 4 || StringUtils.isEmpty(hedwigBeanValues[1])
+                        || StringUtils.isEmpty(hedwigBeanValues[2]) || StringUtils.isEmpty(hedwigBeanValues[3])) {
+                    return OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.EDIRECT_ERROR, null, null, messageSource, language);
+                }
+
+                //设置request对象
+                Class<?> hedwigRequest = Class.forName(OpenApiCommonUtil.stringTrim(hedwigBeanValues[3]));
+                Object objRequest = hedwigRequest.newInstance();
+                OpenApiCommonUtil.setBeanPropertyValue(objRequest, paramMap, fileItemMap);
+
+                //获取service bean
+                ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
+                Object serviceObj = context.getBean(Class.forName(OpenApiCommonUtil.stringTrim(hedwigBeanValues[1])));
+
+                String methodName = OpenApiCommonUtil.stringTrim(hedwigBeanValues[2]);
+                try {
+                    response = (Response) serviceObj.getClass().getMethod(methodName, new Class[]{objRequest.getClass()}).invoke(serviceObj, new Object[]{objRequest});
+                } catch (InvocationTargetException baseException) {
+                    baseException.printStackTrace();
+                    try {
+                        OpenApiBaseException e = (OpenApiBaseException) baseException.getTargetException();
+                        if (response == null) {
+                            response = new Response();
+                        }
+                        response.addErrInfo(e.getErrorCode(), e.getErrorMsg(), e.getPkinfo());
+                        //			response.setException(baseException);
+                        return response;
+                    } catch (Exception exception) {
+                        response = OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.METHOD_ERROR, null, null, messageSource, language);
+                        response.setException(exception);
+                        return response;
+                    }
+                } catch (Exception exception) {
+                    log.error(exception);
+                    response = OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.METHOD_ERROR, null, null, messageSource, language);
+                    response.setException(exception);
+                    return response;
+                }
                 if (response == null) {
                     log.error("调用服务返回空！");
                     String[] params = new String[]{"返回值为空"};

@@ -1,4 +1,4 @@
-package com.eason.transfer.openapi.core.api.model;
+package com.eason.transfer.openapi.core.common.model;
 
 
 public class FileItem {

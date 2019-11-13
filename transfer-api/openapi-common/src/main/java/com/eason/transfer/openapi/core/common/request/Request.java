@@ -1,4 +1,4 @@
-package com.eason.transfer.openapi.core.api.request;
+package com.eason.transfer.openapi.core.common.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

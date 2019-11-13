@@ -1,6 +1,6 @@
-package com.eason.transfer.openapi.user.api.model;
+package com.eason.transfer.openapi.core.sdk.user;
 
-import com.eason.transfer.openapi.user.model.request.Request;
+import com.eason.transfer.openapi.core.common.request.Request;
 
 public class DemoRequest extends Request {
 

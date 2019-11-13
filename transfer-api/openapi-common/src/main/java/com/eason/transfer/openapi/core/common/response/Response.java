@@ -1,4 +1,4 @@
-package com.eason.transfer.openapi.core.api.response;
+package com.eason.transfer.openapi.core.common.response;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.AllArgsConstructor;

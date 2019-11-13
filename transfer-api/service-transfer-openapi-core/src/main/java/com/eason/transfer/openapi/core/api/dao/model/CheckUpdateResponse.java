@@ -1,7 +1,7 @@
 package com.eason.transfer.openapi.core.api.dao.model;
 
 
-import com.eason.transfer.openapi.core.api.response.Response;
+import com.eason.transfer.openapi.core.common.response.Response;
 
 public class CheckUpdateResponse extends Response {
 
