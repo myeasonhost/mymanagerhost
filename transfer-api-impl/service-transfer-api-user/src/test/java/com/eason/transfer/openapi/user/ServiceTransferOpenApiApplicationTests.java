@@ -1,7 +1,6 @@
 package com.eason.transfer.openapi.user;
 
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,8 +16,8 @@ public class ServiceTransferOpenApiApplicationTests {
     public void contextLoads1() throws Exception {
         Long timestamp=System.currentTimeMillis();
         String date= DateFormatUtils.format(new Date(timestamp),"yyyyMMddHHmmssSSS");
-        String orderId="91208"+date+"jack";
-        String params="s=0&account=jack&money=100&orderid="+orderId+"&ip=127.0.0.1&lineCode=1000&KindID=0";
+        String orderId="91208"+date+"eason";
+        String params="s=0&account=eason&money=0&orderid="+orderId+"&ip=127.0.0.1&lineCode=1000&KindID=0";
         String DESKey="273859B4ADE935A2";
         String MD5Key="C0BA1D7016A6CFA1";
         System.out.println("timestamp="+timestamp);

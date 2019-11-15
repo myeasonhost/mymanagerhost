@@ -1,21 +1,36 @@
 package com.eason.transfer.openapi.user.api;
 
-import com.eason.transfer.openapi.core.sdk.user.DemoRequest;
-import com.eason.transfer.openapi.core.sdk.user.DemoResponse;
-import com.eason.transfer.openapi.core.sdk.user.DemoServiceImpl;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.eason.transfer.openapi.core.sdk.user.*;
+import com.eason.transfer.openapi.user.aop.TransferStart;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("userServiceImpl")
-public class UserServiceImpl implements DemoServiceImpl {
+@RestController
+public class UserServiceImpl implements UserService {
 
-    @RequestMapping(value = "/test")
-    public DemoResponse test(@RequestBody DemoRequest request) {
+    @TransferStart
+    @Override
+    public LoginResponse login(LoginRequest request) {
         System.out.println(request);
-        DemoResponse response=new DemoResponse();
-        response.setResult("demo返回结果2222222222222222");
+        LoginResponse response=new LoginResponse();
+        response.setResult("demo返回结果="+request.toString());
         return response;
     }
 
+    @TransferStart
+    @Override
+    public TransferInResponse transferIn(TransferInRequest request) {
+        System.out.println(request);
+        TransferInResponse response=new TransferInResponse();
+        response.setResult("demo返回结果="+request.toString());
+        return response;
+    }
+
+    @TransferStart
+    @Override
+    public TransferOutResponse transferOut(TransferOutRequest request) {
+        System.out.println(request);
+        TransferOutResponse response=new TransferOutResponse();
+        response.setResult("demo返回结果="+request.toString());
+        return response;
+    }
 }
