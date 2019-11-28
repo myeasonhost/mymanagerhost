@@ -1,0 +1,1059 @@
+define({ "api": [
+  {
+    "version": "1.0.0",
+    "group": "1user",
+    "type": "POST",
+    "url": "/user/getBetRecordList",
+    "title": "（6）投注明细记录",
+    "name": "getBetRecordList",
+    "description": "<blockquote> <p>投注明细记录流程： </br> （1）前提条件，平台注单拉取完成</br> （2）校验查询参数</br> （3）返回查询结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"1000=宏发,1020=星空\""
+            ],
+            "optional": false,
+            "field": "siteId",
+            "description": "<p>站点ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"LC\""
+            ],
+            "optional": false,
+            "field": "loginType",
+            "description": "<p>平台类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "startTime",
+            "description": "<p>投注开始日期(yyyy-MM-dd HH:mm:ss)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "endTime",
+            "description": "<p>投注结束日期(yyyy-MM-dd HH:mm:ss)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "page",
+            "description": "<p>第几页(0=第一页，1=第二页)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页显示多少行</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Long",
+            "optional": false,
+            "field": "total",
+            "description": "<p>总数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "List",
+            "optional": false,
+            "field": "rows",
+            "description": "<p>rows-&gt;row</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.gameId",
+            "description": "<p>游戏编号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.kindName",
+            "description": "<p>游戏名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.roomName",
+            "description": "<p>房间号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.betAmount",
+            "description": "<p>投注金额</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.winAmount",
+            "description": "<p>输赢</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.revenue",
+            "description": "<p>抽水</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.betTime",
+            "description": "<p>投注时间</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n  {\n    \"successCount\": 1,\n    \"errorCount\": 0,\n    \"errInfoList\": null,\n    \"exception\": null,\n    \"total\": 15,\n    \"list\": [\n        {\n            \"gameId\": \"50-1574227923-475016658-3\",\n            \"gameName\": \"看四张抢庄牛新手房\",\n            \"roomName\": \"看四张抢庄牛\",\n            \"betAmount\": 1,\n            \"winAmount\": 0.95,\n            \"revenue\": 0.05,\n            \"betTime\": \"2019-11-20 13:32:28\"\n        },\n        {\n            \"gameId\": \"50-1574227974-475018277-4\",\n            \"gameName\": \"抢庄牛牛新手房\",\n            \"roomName\": \"抢庄牛牛\",\n            \"betAmount\": 2,\n            \"winAmount\": -2,\n            \"revenue\": 0,\n            \"betTime\": \"2019-11-20 13:33:22\"\n        },\n        {\n            \"gameId\": \"50-1574228027-475019921-4\",\n            \"gameName\": \"炸金花新手房\",\n            \"roomName\": \"炸金花\",\n            \"betAmount\": 1,\n            \"winAmount\": -1,\n            \"revenue\": 0,\n            \"betTime\": \"2019-11-20 13:34:15\"\n        }\n    ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "groupTitle": "用户API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.81:8082/ws/chess/user/getBetRecordList"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "1user",
+    "type": "POST",
+    "url": "/user/getWalletList",
+    "title": "（7）用户账户流水",
+    "name": "getWalletList",
+    "description": "<blockquote> <p>用户账户流水流程： </br> （1）平台转入IN棋牌记录</br> （2）平台转出OUT棋牌记录</br> （3）IN=平台-&gt;棋牌，OUT=平台&lt;-棋牌</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"1000=宏发,1020=星空\""
+            ],
+            "optional": false,
+            "field": "siteId",
+            "description": "<p>站点ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"LC\""
+            ],
+            "optional": false,
+            "field": "loginType",
+            "description": "<p>平台类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "startTime",
+            "description": "<p>查询开始日期(yyyy-MM-dd HH:mm:ss)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "endTime",
+            "description": "<p>查询结束日期(yyyy-MM-dd HH:mm:ss)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "page",
+            "description": "<p>第几页(0=第一页，1=第二页)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页显示多少行</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Long",
+            "optional": false,
+            "field": "total",
+            "description": "<p>总数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "List",
+            "optional": false,
+            "field": "rows",
+            "description": "<p>rows-&gt;row</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.recordId",
+            "description": "<p>游戏编号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.account",
+            "description": "<p>账户</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.gameKindA",
+            "description": "<p>平台A</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.optType",
+            "description": "<p>操作类型</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.gameKindB",
+            "description": "<p>棋牌B</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.optAmount",
+            "description": "<p>操作金额</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.balance",
+            "description": "<p>账户余额</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Integer",
+            "allowedValues": [
+              "\"-1=不存在,0=成功,2=失败,3=正在处理中\""
+            ],
+            "optional": false,
+            "field": "row.status",
+            "description": "<p>状态</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.createTime",
+            "description": "<p>创建时间</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n  {\n    \"successCount\": 1,\n    \"errorCount\": 0,\n    \"errInfoList\": null,\n    \"exception\": null,\n    \"total\": 1,\n    \"list\": [\n        {\n            \"recordId\": \"9120820191127110507590eason\",\n            \"account\": \"eason\",\n            \"gameKindA\": \"主账户\",\n            \"optType\": \"IN\",\n            \"gameKindB\": \"LC\",\n            \"optAmount\": \"+100.0\",\n            \"balance\": 100,\n            \"status\": 2,\n            \"createTime\": \"2019-11-27 11:05:07\"\n        }\n    ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "groupTitle": "用户API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.81:8082/ws/chess/user/getWalletList"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "1user",
+    "type": "POST",
+    "url": "/user/login",
+    "title": "（1）用户登录",
+    "name": "login",
+    "description": "<blockquote> <p>登录流程： </br> （1）校验登录参数</br> （2）验证用户权限</br> （3）登录第三方接口</br> （4）登录成功，初始化本地用户</br> （5）返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"1000=宏发,1020=星空\""
+            ],
+            "optional": false,
+            "field": "siteId",
+            "description": "<p>站点ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"LC\""
+            ],
+            "optional": false,
+            "field": "loginType",
+            "description": "<p>平台类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "allowedValues": [
+              "\"0=大厅\"",
+              "\"220=炸金花\"",
+              "\"620=德州扑克\"",
+              "\"720=二八杠\"",
+              "\"*编号*=*游戏*\""
+            ],
+            "optional": false,
+            "field": "gameType",
+            "description": "<p>游戏类型</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>登录结果</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "url",
+            "description": "<p>跳转页面</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " HTTP/1.1 200 OK\n {\n   \"successCount\": 1,\n   \"errorCount\": 0,\n   \"errInfoList\": null,\n   \"exception\": null,\n   \"result\": \"登录成功\",\n   \"url\": \"https://68lc.lc6689.com/index.html?account=91208_eason&token=eyJkYXRhIjoiOTEyMDhfZWFzb24iLCJjcmVhdGVkIjoxNTc0MDU4NzAzLCJleHAiOjE1MH0=.PiCifqQNwAUAixZhk6SZN/tyLJpKkfZ8gQ3VV/okMP8=&lang=zh-CN&route=68lcws.lc6689.com&loudou=https://cont.lc6689.com/statisticsHandle&gameId=0\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "groupTitle": "用户API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.81:8082/ws/chess/user/login"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "1user",
+    "type": "POST",
+    "url": "/user/queryOrderStatus",
+    "title": "（4）查询订单状态",
+    "name": "queryOrderStatus",
+    "description": "<blockquote> <p>查询订单状态流程： </br> （1）校验转出参数</br> （2）验证用户权限</br> （3）第三方查询订单接口</br> （4）返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"1000=宏发,1020=星空\""
+            ],
+            "optional": false,
+            "field": "siteId",
+            "description": "<p>站点ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"LC\""
+            ],
+            "optional": false,
+            "field": "loginType",
+            "description": "<p>平台类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "orderId",
+            "description": "<p>订单号</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>转出结果</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Integer",
+            "allowedValues": [
+              "\"-1=不存在,0=成功,2=失败,3=正在处理中\""
+            ],
+            "optional": false,
+            "field": "status",
+            "description": "<p>状态</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "money",
+            "description": "<p>金额</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n   {\n    \"successCount\": 1,\n    \"errorCount\": 0,\n    \"errInfoList\": null,\n    \"exception\": null,\n    \"status\": 0,\n    \"money\": 1,\n    \"result\": \"查询订单成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "groupTitle": "用户API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.81:8082/ws/chess/user/queryOrderStatus"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "1user",
+    "type": "POST",
+    "url": "/user/queryPlayerStatus",
+    "title": "（5）查询玩家在线状态",
+    "name": "queryPlayerStatus",
+    "description": "<blockquote> <p>查询玩家状态流程： </br> （1）校验转出参数</br> （2）验证用户权限</br> （3）第三方查询玩家状态接口</br> （4）返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"1000=宏发,1020=星空\""
+            ],
+            "optional": false,
+            "field": "siteId",
+            "description": "<p>站点ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"LC\""
+            ],
+            "optional": false,
+            "field": "loginType",
+            "description": "<p>平台类型</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>转出结果</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Integer",
+            "allowedValues": [
+              "\"-1=不存在,0=存在,2=在线\""
+            ],
+            "optional": false,
+            "field": "status",
+            "description": "<p>状态</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n  {\n    \"successCount\": 1,\n    \"errorCount\": 0,\n    \"errInfoList\": null,\n    \"exception\": null,\n    \"status\": 0,\n    \"result\": \"玩家状态返回成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "groupTitle": "用户API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.81:8082/ws/chess/user/queryPlayerStatus"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "1user",
+    "type": "POST",
+    "url": "/user/transferIn",
+    "title": "（2）转入上分",
+    "name": "transferIn",
+    "description": "<blockquote> <p>转入上分流程： </br> （1）校验转入参数</br> （2）验证用户权限</br> （3）钱包转出接口</br> （4）第三方上分接口</br> （5）记录转入日志，返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"1000=宏发,1020=星空\""
+            ],
+            "optional": false,
+            "field": "siteId",
+            "description": "<p>站点ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"LC\""
+            ],
+            "optional": false,
+            "field": "loginType",
+            "description": "<p>平台类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Double",
+            "optional": false,
+            "field": "money",
+            "description": "<p>金额</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>转入结果</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n   {\n    \"successCount\": 1,\n    \"errorCount\": 0,\n    \"errInfoList\": null,\n    \"exception\": null,\n    \"result\": \"上分成功，可用余额306.65\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "groupTitle": "用户API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.81:8082/ws/chess/user/transferIn"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "1user",
+    "type": "POST",
+    "url": "/user/transferOut",
+    "title": "（3）转出下分",
+    "name": "transferOut",
+    "description": "<blockquote> <p>转出下分流程： </br> （1）校验转出参数</br> （2）验证用户权限</br> （3）第三方下分接口</br> （4）钱包转出接口</br> （5）记录转出日志，返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"1000=宏发,1020=星空\""
+            ],
+            "optional": false,
+            "field": "siteId",
+            "description": "<p>站点ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"LC\""
+            ],
+            "optional": false,
+            "field": "loginType",
+            "description": "<p>平台类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Double",
+            "optional": false,
+            "field": "money",
+            "description": "<p>金额</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>转出结果</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n   {\n    \"successCount\": 1,\n    \"errorCount\": 0,\n    \"errInfoList\": null,\n    \"exception\": null,\n    \"result\": \"下分成功，可用余额305.65\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "groupTitle": "用户API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.81:8082/ws/chess/user/transferOut"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "2report",
+    "type": "POST",
+    "url": "/report/getUserGameKindReport",
+    "title": "（9）平台汇总报表",
+    "name": "getUserGameKindReport",
+    "description": "<blockquote> <p>按天统计用户输赢报表： </br> （1）平台类型投注详情</br> （2）按游戏类型分组统计输赢、投注额</br> （3）以天为单位，定时刷新平台汇总统计</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"1000=宏发,1020=星空\""
+            ],
+            "optional": false,
+            "field": "siteId",
+            "description": "<p>站点ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"LC\""
+            ],
+            "optional": true,
+            "field": "loginType",
+            "description": "<p>平台类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "startTime",
+            "description": "<p>投注开始日期(yyyy-MM-dd)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "endTime",
+            "description": "<p>投注结束日期(yyyy-MM-dd)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "page",
+            "description": "<p>第几页(0=第一页，1=第二页)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页显示多少行</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Long",
+            "optional": false,
+            "field": "total",
+            "description": "<p>总数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "List",
+            "optional": false,
+            "field": "rows",
+            "description": "<p>rows-&gt;row</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.username",
+            "description": "<p>用户名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.kindName",
+            "description": "<p>平台名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.betCounts",
+            "description": "<p>总投注数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.betAmounts",
+            "description": "<p>总投注金额</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.validAmounts",
+            "description": "<p>总有效投注金额</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.payAmounts",
+            "description": "<p>总输赢金额</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.betTime",
+            "description": "<p>投注时间</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n  {\n    \"successCount\": 1,\n    \"errorCount\": 0,\n    \"errInfoList\": null,\n    \"exception\": null,\n    \"total\": 15,\n    \"list\": [\n        {\n            \"id\": 1,\n            \"username\": \"eason\",\n            \"gameKind\": \"LC\",\n            \"betCounts\": 35,\n            \"betAmounts\": 144,\n            \"validAmounts\": 142,\n            \"payAmounts\": -2.05,\n            \"betTime\": \"2019-11-27\"\n        },\n        {\n            \"id\": 3,\n            \"username\": \"jarvis\",\n            \"gameKind\": \"LC\",\n            \"betCounts\": 14,\n            \"betAmounts\": 86.54,\n            \"validAmounts\": 84.04,\n            \"payAmounts\": -23.11,\n            \"betTime\": \"2019-11-27\"\n        }\n    ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IReportService.java",
+    "groupTitle": "报表API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.81:8082/ws/chess/report/getUserGameKindReport"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "2report",
+    "type": "POST",
+    "url": "/report/getUserGameTypeReport",
+    "title": "（8）用户游戏报表",
+    "name": "getUserGameTypeReport",
+    "description": "<blockquote> <p>按每个用户的投注记录汇总输赢数据： </br> （1）游戏类型投注详情</br> （2）按房间分组统计输赢、投注额</br> （3）以天为单位，定时刷新游戏汇总统计</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"1000=宏发,1020=星空\""
+            ],
+            "optional": false,
+            "field": "siteId",
+            "description": "<p>站点ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"LC\""
+            ],
+            "optional": true,
+            "field": "loginType",
+            "description": "<p>平台类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "startTime",
+            "description": "<p>投注开始日期(yyyy-MM-dd)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "endTime",
+            "description": "<p>投注结束日期(yyyy-MM-dd)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "page",
+            "description": "<p>第几页(0=第一页，1=第二页)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页显示多少行</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Long",
+            "optional": false,
+            "field": "total",
+            "description": "<p>总数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "List",
+            "optional": false,
+            "field": "rows",
+            "description": "<p>rows-&gt;row</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.username",
+            "description": "<p>用户名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.kindName",
+            "description": "<p>平台名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.typeName",
+            "description": "<p>游戏名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.roomName",
+            "description": "<p>房间号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.betCount",
+            "description": "<p>投注数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.betAmount",
+            "description": "<p>投注金额</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.validAmount",
+            "description": "<p>有效投注金额</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "row.payAmount",
+            "description": "<p>输赢金额</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.betTime",
+            "description": "<p>投注时间</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n  {\n    \"successCount\": 1,\n    \"errorCount\": 0,\n    \"errInfoList\": null,\n    \"exception\": null,\n    \"total\": 15,\n    \"list\": [\n        {\n            \"id\": 1,\n            \"username\": \"eason\",\n            \"gameKind\": \"LC\",\n            \"gameType\": \"220\",\n            \"gameRoom\": \"2201\",\n            \"betCount\": 4,\n            \"betAmount\": 35,\n            \"validAmount\": 35,\n            \"payAmount\": 32,\n            \"betTime\": \"2019-11-27\"\n        },\n        {\n            \"id\": 2,\n            \"username\": \"eason\",\n            \"gameKind\": \"LC\",\n            \"gameType\": \"890\",\n            \"gameRoom\": \"8901\",\n            \"betCount\": 6,\n            \"betAmount\": 21,\n            \"validAmount\": 21,\n            \"payAmount\": -21,\n            \"betTime\": \"2019-11-27\"\n        }\n    ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IReportService.java",
+    "groupTitle": "报表API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.81:8082/ws/chess/report/getUserGameTypeReport"
+      }
+    ]
+  }
+] });

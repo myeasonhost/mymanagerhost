@@ -10,16 +10,21 @@
             <property name="suppressAllComments" value="true" />
         </commentGenerator>
         <!-- 2.连接数据库 -->
-        <jdbcConnection connectionURL="jdbc:mysql://10.10.4.230:3306/myeason?serverTimezone=UTC&amp;useSSL=true" driverClass="com.mysql.jdbc.Driver" userId="root" password="eason" />
+        <jdbcConnection connectionURL="jdbc:mysql://10.28.10.230:3306/chess?serverTimezone=UTC&amp;useSSL=true" driverClass="com.mysql.jdbc.Driver" userId="root" password="eason" />
         <!-- 3.指定javabean生成位置 -->
-        <javaModelGenerator targetPackage="com.eason.transfer.openapi.core.client.user.dao.entity" targetProject="./src/main/java" />
+        <javaModelGenerator targetPackage="com.eason.transfer.openapi.core.client.chess.dao.entity" targetProject="./src/main/java" />
         <!-- 4.指定sql.mapper映射文件生成位置 -->
-        <sqlMapGenerator targetPackage="com.eason.transfer.openapi.core.client.user.dao.mapper" targetProject="./src/main/java" />
+        <sqlMapGenerator targetPackage="com.eason.transfer.openapi.core.client.chess.dao.mapper" targetProject="./src/main/java" />
         <!-- 5.指定sql.interface接口生成位置 -->
-        <javaClientGenerator targetPackage="com.eason.transfer.openapi.core.client.user.dao.mapper" targetProject="./src/main/java" type="XMLMAPPER" />
+        <javaClientGenerator targetPackage="com.eason.transfer.openapi.core.client.chess.dao.mapper" targetProject="./src/main/java" type="XMLMAPPER" />
         <!-- 6.table指定生成策略 -->
-        <table tableName="t_user_info" domainObjectName="TUserInfo"></table>
-<!--        <table tableName="t_index_swiper" domainObjectName="TIndexSwiper"></table>-->
+        <table tableName="t_chess_game" domainObjectName="TChessGamePo"></table>
+        <table tableName="t_chess_game_config" domainObjectName="TChessGameConfigPo"></table>
+        <table tableName="t_chess_game_kind" domainObjectName="TChessGameKindPo"></table>
+        <table tableName="t_chess_user" domainObjectName="TChessUserPo"></table>
+        <table tableName="t_chess_wallet_correction_record" domainObjectName="TChessWalletCorrectionRecordPo"></table>
+        <table tableName="t_report_day_user" domainObjectName="TReportDayUserPo"></table>
+        <table tableName="t_report_audit_total" domainObjectName="TReportAuditTotalPo"></table>
 
     </context>
 </generatorConfiguration>

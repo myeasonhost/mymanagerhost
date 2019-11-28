@@ -15,5 +15,5 @@ public class LoginRequest extends Request {
 	private String username;
 	private String siteId;
 	private String loginType;
-	private	String gameType;
+	private	Integer gameType;
 }
