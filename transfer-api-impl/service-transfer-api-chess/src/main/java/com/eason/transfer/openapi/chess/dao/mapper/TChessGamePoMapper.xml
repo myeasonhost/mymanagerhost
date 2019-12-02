@@ -23,16 +23,6 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
 
-  <resultMap id="BetRecordMap" type="com.hs3.models.chess.BetRecordVo">
-    <id column="GameID" jdbcType="VARCHAR" property="gameId" />
-    <result column="gameName" jdbcType="VARCHAR" property="gameName" />
-    <result column="roomName" jdbcType="VARCHAR" property="roomName" />
-    <result column="AllBet" jdbcType="DECIMAL" property="betAmount" />
-    <result column="Profit" jdbcType="DECIMAL" property="winAmount" />
-    <result column="Revenue" jdbcType="DECIMAL" property="revenue" />
-    <result column="betTime" jdbcType="VARCHAR" property="betTime" />
-  </resultMap>
-
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -99,7 +89,7 @@
   <select id="getMaxTime" parameterType="com.eason.transfer.openapi.chess.dao.entity.TChessGamePo" resultType="java.sql.Timestamp">
     select max(t.GameEndTime) from t_chess_game t where t.ChannelID=#{channelId}
   </select>
-  <select id="selectBetRecord" parameterType="com.eason.transfer.openapi.chess.dao.entity.TChessGamePoExample" resultMap="BetRecordMap">
+  <select id="selectBetRecord" parameterType="com.eason.transfer.openapi.chess.dao.entity.TChessGamePoExample">
     SELECT
     `GameID`,
     game.Account AS username,

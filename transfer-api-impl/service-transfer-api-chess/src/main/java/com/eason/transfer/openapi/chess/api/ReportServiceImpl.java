@@ -14,6 +14,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class ReportServiceImpl implements IReportService {
     @Autowired
     private TReportDayUserPoMapper reportDayUserPoMapper;
 
+    @CrossOrigin(origins = "*")
+    @Override
     public ReportUserGameTypeResponse getUserGameTypeReport(ReportUserGameTypeRequest request) throws Exception {
         ReportUserGameTypeResponse response=new ReportUserGameTypeResponse();
         String code = null;
@@ -108,6 +111,8 @@ public class ReportServiceImpl implements IReportService {
         return response;
     }
 
+    @CrossOrigin(origins = "*")
+    @Override
     public ReportUserGameKindResponse getUserGameKindReport(ReportUserGameKindRequest request) throws Exception {
         ReportUserGameKindResponse response=new ReportUserGameKindResponse();
         String code = null;

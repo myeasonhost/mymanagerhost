@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BetRecordVo {
+public class PullBetBetRecordVo {
 
     private String gameId;
     private String gameName;

@@ -15,6 +15,7 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -50,7 +51,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      * @throws Exception
      */
-    @PostMapping(value = "/user/login")
+    @CrossOrigin(origins = "*")
     @TransferStart
     @Override
     public LoginResponse login(LoginRequest request) throws Exception {
@@ -142,6 +143,7 @@ public class UserServiceImpl implements IUserService {
      * @param request
      * @return
      */
+    @CrossOrigin(origins = "*")
     @TransferStart
     @Override
     public TransferInResponse transferIn(TransferInRequest request) throws Exception {
@@ -239,6 +241,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @TransferStart
     @Override
     public TransferOutResponse transferOut(TransferOutRequest request) throws Exception{
@@ -334,6 +337,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @TransferStart
     @Override
     public QueryBalanceResponse queryBalance(QueryBalanceRequest request) throws Exception {
@@ -397,6 +401,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @TransferStart
     @Override
     public OrderStatusResponse queryOrderStatus(OrderStatusRequest request) throws Exception{
@@ -466,6 +471,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @TransferStart
     @Override
     public PlayerStatusResponse queryPlayerStatus(PlayerStatusRequest request) throws Exception{
@@ -529,6 +535,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @Override
     public PullBetResponse getBetRecordList(PullBetRequest request) throws Exception{
         PullBetResponse response=new PullBetResponse();
@@ -592,12 +599,13 @@ public class UserServiceImpl implements IUserService {
 
         example.setStartRow(request.getPage()*request.getPageSize());
         example.setPageSize(request.getPageSize());
-        List<BetRecordVo> listVo=this.chessGamePoMapper.selectBetRecord(example);
+        List<PullBetBetRecordVo> listVo=this.chessGamePoMapper.selectBetRecord(example);
         response.setList(listVo);
         response.setTotal(total);
         return response;
     }
 
+    @CrossOrigin(origins = "*")
     @Override
     public WalletListResponse getWalletList(WalletListRequest request) throws Exception{
         WalletListResponse response=new WalletListResponse();

@@ -16,6 +16,6 @@ public class PullBetResponse extends Response {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<BetRecordVo> list;
+	private List<PullBetBetRecordVo> list;
 	private Long total;
 }
