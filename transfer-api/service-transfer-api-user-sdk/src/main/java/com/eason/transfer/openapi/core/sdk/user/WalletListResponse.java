@@ -17,5 +17,6 @@ public class WalletListResponse extends Response {
 	private static final long serialVersionUID = 1L;
 	
 	private List<WalletListRecordVo> list;
+	private Long total;
 
 }

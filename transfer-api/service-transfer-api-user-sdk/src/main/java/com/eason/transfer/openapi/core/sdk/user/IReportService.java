@@ -12,7 +12,7 @@ public interface IReportService {
     /**
      * @apiVersion 1.0.0
      * @apiGroup 2report
-     * @api {POST} /report/getUserGameTypeReport    （8）用户游戏报表
+     * @api {POST} /report/getUserGameTypeReport    （3）用户游戏报表
      * @apiName getUserGameTypeReport
      *
      *
@@ -80,12 +80,12 @@ public interface IReportService {
      *
      */
     @PostMapping(value = "/report/getUserGameTypeReport")
-    ReportUserGameTypeResponse getUserGameTypeReport(ReportUserGameTypeRequest request);
+    ReportUserGameTypeResponse getUserGameTypeReport(ReportUserGameTypeRequest request) throws Exception;
 
     /**
      * @apiVersion 1.0.0
      * @apiGroup 2report
-     * @api {POST} /report/getUserGameKindReport    （9）平台汇总报表
+     * @api {POST} /report/getUserGameKindReport    （4）平台汇总报表
      * @apiName getUserGameKindReport
      *
      *
@@ -147,7 +147,7 @@ public interface IReportService {
      *
      */
     @PostMapping(value = "/report/getUserGameKindReport")
-    ReportUserGameKindResponse getUserGameKindReport(ReportUserGameKindRequest request);
+    ReportUserGameKindResponse getUserGameKindReport(ReportUserGameKindRequest request) throws Exception;
 
 
 }

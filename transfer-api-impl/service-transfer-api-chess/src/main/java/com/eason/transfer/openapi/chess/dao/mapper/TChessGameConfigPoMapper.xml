@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eason.transfer.openapi.chess.dao.mapper.TChessGameConfigPoMapper">
+  <resultMap id="BaseResultMap" type="com.eason.transfer.openapi.chess.dao.entity.TChessGameConfigPo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="agent_id" jdbcType="VARCHAR" property="agentId" />
+    <result column="game_kind" jdbcType="VARCHAR" property="gameKind" />
+    <result column="game_kind_name" jdbcType="VARCHAR" property="gameKindName" />
+    <result column="site_id" jdbcType="VARCHAR" property="siteId" />
+    <result column="DesKey" jdbcType="VARCHAR" property="deskey" />
+    <result column="Md5Key" jdbcType="VARCHAR" property="md5key" />
+    <result column="walletUrl" jdbcType="VARCHAR" property="walleturl" />
+    <result column="transferUrl" jdbcType="VARCHAR" property="transferurl" />
+    <result column="pullUrl" jdbcType="VARCHAR" property="pullurl" />
+    <result column="length" jdbcType="TINYINT" property="length" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="initStartId" jdbcType="TIMESTAMP" property="initstartid" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, agent_id, game_kind, game_kind_name, site_id, DesKey, Md5Key, walletUrl, transferUrl, 
+    pullUrl, length, status, initStartId, info
+  </sql>
+  <select id="selectByExample" parameterType="com.eason.transfer.openapi.chess.dao.entity.TChessGameConfigPoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_chess_game_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_chess_game_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_chess_game_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.eason.transfer.openapi.chess.dao.entity.TChessGameConfigPoExample">
+    delete from t_chess_game_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.eason.transfer.openapi.chess.dao.entity.TChessGameConfigPo">
+    insert into t_chess_game_config (id, agent_id, game_kind, 
+      game_kind_name, site_id, DesKey, 
+      Md5Key, walletUrl, transferUrl, 
+      pullUrl, length, status, 
+      initStartId, info)
+    values (#{id,jdbcType=INTEGER}, #{agentId,jdbcType=VARCHAR}, #{gameKind,jdbcType=VARCHAR}, 
+      #{gameKindName,jdbcType=VARCHAR}, #{siteId,jdbcType=VARCHAR}, #{deskey,jdbcType=VARCHAR}, 
+      #{md5key,jdbcType=VARCHAR}, #{walleturl,jdbcType=VARCHAR}, #{transferurl,jdbcType=VARCHAR}, 
+      #{pullurl,jdbcType=VARCHAR}, #{length,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
+      #{initstartid,jdbcType=TIMESTAMP}, #{info,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.eason.transfer.openapi.chess.dao.entity.TChessGameConfigPo">
+    insert into t_chess_game_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="agentId != null">
+        agent_id,
+      </if>
+      <if test="gameKind != null">
+        game_kind,
+      </if>
+      <if test="gameKindName != null">
+        game_kind_name,
+      </if>
+      <if test="siteId != null">
+        site_id,
+      </if>
+      <if test="deskey != null">
+        DesKey,
+      </if>
+      <if test="md5key != null">
+        Md5Key,
+      </if>
+      <if test="walleturl != null">
+        walletUrl,
+      </if>
+      <if test="transferurl != null">
+        transferUrl,
+      </if>
+      <if test="pullurl != null">
+        pullUrl,
+      </if>
+      <if test="length != null">
+        length,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="initstartid != null">
+        initStartId,
+      </if>
+      <if test="info != null">
+        info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="agentId != null">
+        #{agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="gameKind != null">
+        #{gameKind,jdbcType=VARCHAR},
+      </if>
+      <if test="gameKindName != null">
+        #{gameKindName,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null">
+        #{siteId,jdbcType=VARCHAR},
+      </if>
+      <if test="deskey != null">
+        #{deskey,jdbcType=VARCHAR},
+      </if>
+      <if test="md5key != null">
+        #{md5key,jdbcType=VARCHAR},
+      </if>
+      <if test="walleturl != null">
+        #{walleturl,jdbcType=VARCHAR},
+      </if>
+      <if test="transferurl != null">
+        #{transferurl,jdbcType=VARCHAR},
+      </if>
+      <if test="pullurl != null">
+        #{pullurl,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        #{length,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="initstartid != null">
+        #{initstartid,jdbcType=TIMESTAMP},
+      </if>
+      <if test="info != null">
+        #{info,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.eason.transfer.openapi.chess.dao.entity.TChessGameConfigPoExample" resultType="java.lang.Long">
+    select count(*) from t_chess_game_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_chess_game_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.agentId != null">
+        agent_id = #{record.agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gameKind != null">
+        game_kind = #{record.gameKind,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gameKindName != null">
+        game_kind_name = #{record.gameKindName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.siteId != null">
+        site_id = #{record.siteId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deskey != null">
+        DesKey = #{record.deskey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.md5key != null">
+        Md5Key = #{record.md5key,jdbcType=VARCHAR},
+      </if>
+      <if test="record.walleturl != null">
+        walletUrl = #{record.walleturl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transferurl != null">
+        transferUrl = #{record.transferurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pullurl != null">
+        pullUrl = #{record.pullurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.length != null">
+        length = #{record.length,jdbcType=TINYINT},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.initstartid != null">
+        initStartId = #{record.initstartid,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.info != null">
+        info = #{record.info,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_chess_game_config
+    set id = #{record.id,jdbcType=INTEGER},
+      agent_id = #{record.agentId,jdbcType=VARCHAR},
+      game_kind = #{record.gameKind,jdbcType=VARCHAR},
+      game_kind_name = #{record.gameKindName,jdbcType=VARCHAR},
+      site_id = #{record.siteId,jdbcType=VARCHAR},
+      DesKey = #{record.deskey,jdbcType=VARCHAR},
+      Md5Key = #{record.md5key,jdbcType=VARCHAR},
+      walletUrl = #{record.walleturl,jdbcType=VARCHAR},
+      transferUrl = #{record.transferurl,jdbcType=VARCHAR},
+      pullUrl = #{record.pullurl,jdbcType=VARCHAR},
+      length = #{record.length,jdbcType=TINYINT},
+      status = #{record.status,jdbcType=TINYINT},
+      initStartId = #{record.initstartid,jdbcType=TIMESTAMP},
+      info = #{record.info,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eason.transfer.openapi.chess.dao.entity.TChessGameConfigPo">
+    update t_chess_game_config
+    <set>
+      <if test="agentId != null">
+        agent_id = #{agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="gameKind != null">
+        game_kind = #{gameKind,jdbcType=VARCHAR},
+      </if>
+      <if test="gameKindName != null">
+        game_kind_name = #{gameKindName,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null">
+        site_id = #{siteId,jdbcType=VARCHAR},
+      </if>
+      <if test="deskey != null">
+        DesKey = #{deskey,jdbcType=VARCHAR},
+      </if>
+      <if test="md5key != null">
+        Md5Key = #{md5key,jdbcType=VARCHAR},
+      </if>
+      <if test="walleturl != null">
+        walletUrl = #{walleturl,jdbcType=VARCHAR},
+      </if>
+      <if test="transferurl != null">
+        transferUrl = #{transferurl,jdbcType=VARCHAR},
+      </if>
+      <if test="pullurl != null">
+        pullUrl = #{pullurl,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        length = #{length,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="initstartid != null">
+        initStartId = #{initstartid,jdbcType=TIMESTAMP},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eason.transfer.openapi.chess.dao.entity.TChessGameConfigPo">
+    update t_chess_game_config
+    set agent_id = #{agentId,jdbcType=VARCHAR},
+      game_kind = #{gameKind,jdbcType=VARCHAR},
+      game_kind_name = #{gameKindName,jdbcType=VARCHAR},
+      site_id = #{siteId,jdbcType=VARCHAR},
+      DesKey = #{deskey,jdbcType=VARCHAR},
+      Md5Key = #{md5key,jdbcType=VARCHAR},
+      walletUrl = #{walleturl,jdbcType=VARCHAR},
+      transferUrl = #{transferurl,jdbcType=VARCHAR},
+      pullUrl = #{pullurl,jdbcType=VARCHAR},
+      length = #{length,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      initStartId = #{initstartid,jdbcType=TIMESTAMP},
+      info = #{info,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,5 +1,6 @@
 package com.eason.transfer.openapi.chess.config;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -75,7 +76,7 @@ public class MyHandlerMethodArgumentResolver implements HandlerMethodArgumentRes
          * 注:其实默认的，当系统识别到参数前有@RequestBody注解时，就会走RequestResponseBodyMethodProcessor解析器;这里就
          *    相当于在走默认的解析器前走了个判断而已。
          */
-        if (contentType.contains(applicationXwwwFormUrlencoded)) {
+        if (StringUtils.isNotEmpty(contentType) && contentType.contains(applicationXwwwFormUrlencoded)) {
             return servletModelAttributeMethodProcessor.resolveArgument(methodParameter,
                     modelAndViewContainer, nativeWebRequest, webDataBinderFactory);
         }

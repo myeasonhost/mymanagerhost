@@ -8,16 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WalletListRequest extends Request {
+public class QueryBalanceRequest extends Request {
 
 	private static final long serialVersionUID = 1L;
 
 	private String username;
 	private String siteId;
 	private String loginType;
-	private String startTime;
-	private String endTime;
-	private Integer page;
-	private Integer pageSize;
-
 }

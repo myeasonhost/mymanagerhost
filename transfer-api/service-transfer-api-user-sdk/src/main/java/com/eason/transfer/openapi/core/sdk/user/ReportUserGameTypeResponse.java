@@ -17,5 +17,6 @@ public class ReportUserGameTypeResponse extends Response {
 	private static final long serialVersionUID = 1L;
 	
 	private List<ReportUserGameTypeVo> list;
+	private Long total;
 
 }

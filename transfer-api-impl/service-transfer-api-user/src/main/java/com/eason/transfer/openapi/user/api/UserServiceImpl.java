@@ -218,4 +218,9 @@ public class UserServiceImpl implements IUserService {
     public WalletListResponse getWalletList(WalletListRequest request) {
         return null;
     }
+
+    @Override
+    public QueryBalanceResponse queryBalance(QueryBalanceRequest request) {
+        return null;
+    }
 }

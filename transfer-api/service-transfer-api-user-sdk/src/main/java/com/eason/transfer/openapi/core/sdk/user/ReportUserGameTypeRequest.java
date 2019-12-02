@@ -17,5 +17,6 @@ public class ReportUserGameTypeRequest extends Request {
 	private String loginType;
 	private String startTime;
 	private String endTime;
-
+	private Integer page;
+	private Integer pageSize;
 }

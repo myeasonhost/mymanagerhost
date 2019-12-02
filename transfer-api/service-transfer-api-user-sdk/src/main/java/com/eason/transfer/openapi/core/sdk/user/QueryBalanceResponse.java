@@ -10,11 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @XStreamAlias("OrderStatusResponse")
-public class OrderStatusResponse extends Response {
+public class QueryBalanceResponse extends Response {
 
 	private static final long serialVersionUID = 1L;
 	
 	private String result;
-	private Integer status;
 	private double money;
 }

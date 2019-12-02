@@ -81,7 +81,7 @@ public interface IUserService {
      *
      */
     @PostMapping(value = "/user/transferIn")
-    TransferInResponse transferIn(@RequestBody TransferInRequest request);
+    TransferInResponse transferIn(@RequestBody TransferInRequest request) throws Exception;
 
     /**
      * @apiVersion 1.0.0
@@ -116,12 +116,45 @@ public interface IUserService {
      *
      */
     @PostMapping(value = "/user/transferOut")
-    TransferOutResponse transferOut(@RequestBody TransferOutRequest request);
+    TransferOutResponse transferOut(@RequestBody TransferOutRequest request) throws Exception;
 
     /**
      * @apiVersion 1.0.0
      * @apiGroup 1user
-     * @api {POST} /user/queryOrderStatus （4）查询订单状态
+     * @api {POST} /user/queryBalance （4）查询余额
+     * @apiName queryBalance
+     *
+     *
+     * @apiDescription
+     * >  查询余额流程： </br>
+     * >（1）校验转出参数</br>
+     * >（2）验证用户权限</br>
+     * >（3）第三方查询余额接口</br>
+     * >（4）记录转出日志，返回结果</br>
+     *      *
+     *      * @apiParam {String} username  用户名
+     *      * @apiParam {String="1000=宏发,1020=星空"} siteId  站点ID
+     *      * @apiParam {String="LC"} loginType  平台类型
+     *      *
+     *      * @apiSuccess {String} result  转出结果
+     *      * @apiSuccessExample Success-Response:
+     *   HTTP/1.1 200 OK
+     *    {
+     *     "successCount": 1,
+     *     "errorCount": 0,
+     *     "errInfoList": null,
+     *     "money": 100,
+     *     "result": "查询余额成功"
+     * }
+     *
+     */
+    @PostMapping(value = "/user/queryBalance")
+    QueryBalanceResponse queryBalance(@RequestBody QueryBalanceRequest request) throws Exception;
+
+    /**
+     * @apiVersion 1.0.0
+     * @apiGroup 1user
+     * @api {POST} /user/queryOrderStatus （5）查询订单状态
      * @apiName queryOrderStatus
      *
      *
@@ -138,7 +171,7 @@ public interface IUserService {
      * @apiParam {String} orderId 订单号
      *
      * @apiSuccess {String} result  转出结果
-     * @apiSuccess {Integer="-1=不存在,0=成功,2=失败,3=正在处理中"} status  状态
+     * @apiSuccess {Integer="1=正在处理中、2=成功、3=失败"} status  状态
      * @apiSuccess {Double} money  金额
      * @apiSuccessExample Success-Response:
      *   HTTP/1.1 200 OK
@@ -154,12 +187,12 @@ public interface IUserService {
      *
      */
     @PostMapping(value = "/user/queryOrderStatus")
-    OrderStatusResponse queryOrderStatus(@RequestBody OrderStatusRequest request);
+    OrderStatusResponse queryOrderStatus(@RequestBody OrderStatusRequest request) throws Exception;
 
     /**
      * @apiVersion 1.0.0
      * @apiGroup 1user
-     * @api {POST} /user/queryPlayerStatus （5）查询玩家在线状态
+     * @api {POST} /user/queryPlayerStatus （6）查询玩家在线状态
      * @apiName queryPlayerStatus
      *
      *
@@ -175,7 +208,7 @@ public interface IUserService {
      * @apiParam {String="LC"} loginType  平台类型
      *
      * @apiSuccess {String} result  转出结果
-     * @apiSuccess {Integer="-1=不存在,0=存在,2=在线"} status  状态
+     * @apiSuccess {Integer="-1=不存在,0=存在,1=在线"} status  状态
      * @apiSuccessExample Success-Response:
      *   HTTP/1.1 200 OK
      *   {
@@ -189,12 +222,12 @@ public interface IUserService {
      *
      */
     @PostMapping(value = "/user/queryPlayerStatus")
-    PlayerStatusResponse queryPlayerStatus(@RequestBody PlayerStatusRequest request);
+    PlayerStatusResponse queryPlayerStatus(@RequestBody PlayerStatusRequest request) throws Exception;
 
     /**
      * @apiVersion 1.0.0
-     * @apiGroup 1user
-     * @api {POST} /user/getBetRecordList （6）投注明细记录
+     * @apiGroup 2report
+     * @api {POST} /user/getBetRecordList （1）投注明细记录
      * @apiName getBetRecordList
      *
      *
@@ -204,7 +237,7 @@ public interface IUserService {
      * >（2）校验查询参数</br>
      * >（3）返回查询结果</br>
      *
-     * @apiParam {String} username  用户名
+     * @apiParam {String} [username]  用户名(=eason查询单个用户，=null查询所有用户)
      * @apiParam {String="1000=宏发,1020=星空"} siteId  站点ID
      * @apiParam {String="LC"} loginType  平台类型
      * @apiParam {String} startTime  投注开始日期(yyyy-MM-dd HH:mm:ss)
@@ -215,6 +248,7 @@ public interface IUserService {
      * @apiSuccess {Long} total 		总数
      * @apiSuccess {List} rows 		rows->row
      * @apiSuccess {String} row.gameId 	游戏编号
+     * @apiSuccess {String} row.username 	用户名
      * @apiSuccess {String} row.kindName 	游戏名称
      * @apiSuccess {String} row.roomName 	房间号
      * @apiSuccess {Double} row.betAmount 	投注金额
@@ -233,6 +267,7 @@ public interface IUserService {
      *     "list": [
      *         {
      *             "gameId": "50-1574227923-475016658-3",
+     *             "username": "eason",
      *             "gameName": "看四张抢庄牛新手房",
      *             "roomName": "看四张抢庄牛",
      *             "betAmount": 1,
@@ -242,6 +277,7 @@ public interface IUserService {
      *         },
      *         {
      *             "gameId": "50-1574227974-475018277-4",
+     *             "username": "eason",
      *             "gameName": "抢庄牛牛新手房",
      *             "roomName": "抢庄牛牛",
      *             "betAmount": 2,
@@ -251,6 +287,7 @@ public interface IUserService {
      *         },
      *         {
      *             "gameId": "50-1574228027-475019921-4",
+     *             "username": "eason",
      *             "gameName": "炸金花新手房",
      *             "roomName": "炸金花",
      *             "betAmount": 1,
@@ -263,12 +300,12 @@ public interface IUserService {
      *
      */
     @PostMapping(value = "/user/getBetRecordList")
-    PullBetResponse getBetRecordList(PullBetRequest request);
+    PullBetResponse getBetRecordList(PullBetRequest request) throws Exception;
 
     /**
      * @apiVersion 1.0.0
-     * @apiGroup 1user
-     * @api {POST} /user/getWalletList （7）用户账户流水
+     * @apiGroup 2report
+     * @api {POST} /user/getWalletList （2）用户账户流水
      * @apiName getWalletList
      *
      *
@@ -278,7 +315,7 @@ public interface IUserService {
      * >（2）平台转出OUT棋牌记录</br>
      * >（3）IN=平台->棋牌，OUT=平台<-棋牌</br>
      *
-     * @apiParam {String} username  用户名
+     * @apiParam {String}  [username]  用户名(=eason查询单个用户，=null查询所有用户)
      * @apiParam {String="1000=宏发,1020=星空"} siteId  站点ID
      * @apiParam {String="LC"} loginType  平台类型
      * @apiParam {String} startTime  查询开始日期(yyyy-MM-dd HH:mm:ss)
@@ -295,7 +332,7 @@ public interface IUserService {
      * @apiSuccess {String} row.gameKindB 	棋牌B
      * @apiSuccess {Double} row.optAmount   操作金额
      * @apiSuccess {Double} row.balance     账户余额
-     * @apiSuccess {Integer="-1=不存在,0=成功,2=失败,3=正在处理中"} row.status      状态
+     * @apiSuccess {Integer="1=正在处理中、2=成功、3=失败"} row.status      状态
      * @apiSuccess {String} row.createTime 	创建时间
      *
      * @apiSuccessExample Success-Response:
@@ -323,7 +360,7 @@ public interface IUserService {
      *
      */
     @PostMapping(value = "/user/getWalletList")
-    WalletListResponse getWalletList(WalletListRequest request);
+    WalletListResponse getWalletList(WalletListRequest request) throws Exception;
 
 
 }
