@@ -1,6 +1,8 @@
 package com.eason.transfer.openapi.chess.api;
 
+import com.eason.transfer.openapi.chess.aop.LoadConfig;
 import com.eason.transfer.openapi.chess.aop.TransferStart;
+import com.eason.transfer.openapi.chess.api.service.IPullService;
 import com.eason.transfer.openapi.chess.dao.entity.TChessGameConfigPo;
 import com.eason.transfer.openapi.chess.dao.entity.TChessGameConfigPoExample;
 import com.eason.transfer.openapi.chess.dao.entity.TChessUserPo;
@@ -10,19 +12,24 @@ import com.eason.transfer.openapi.chess.dao.mapper.TChessUserPoMapper;
 import com.eason.transfer.openapi.core.common.request.Request;
 import com.eason.transfer.openapi.core.common.response.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * @Author eason
@@ -30,12 +37,21 @@ import java.util.Map;
 @Aspect
 @Component
 @Slf4j
-public class EkernalServiceImpl{
+public class EkernalServiceImpl implements ApplicationContextAware {
 
     @Autowired
     private TChessUserPoMapper chessUserPoMapper;
     @Autowired
     private TChessGameConfigPoMapper chessGameConfigPoMapper;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    private ApplicationContext applicationContext;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext=applicationContext;
+    }
 
     @Around("@annotation(transferStart)")
     public Object transferStart(ProceedingJoinPoint pjd, TransferStart transferStart) throws Throwable {
@@ -172,6 +188,85 @@ public class EkernalServiceImpl{
             return response;
         }
         return result;
+    }
+
+    @Around("@annotation(loadConfig)")
+    public <K extends IPullService> Object LoadConfig(ProceedingJoinPoint pjd, LoadConfig loadConfig) throws Throwable {
+        TChessGameConfigPoExample example = new TChessGameConfigPoExample();
+        example.createCriteria()
+                .andStatusEqualTo((byte) 1);
+        List<TChessGameConfigPo> list = chessGameConfigPoMapper.selectByExample(example);
+        if (list == null || list.size() == 0) {
+            throw new Exception("无法启动拉取配置，请检查配置状态");
+        }
+        ExecutorService executorService = Executors.newFixedThreadPool(list.size());
+        CountDownLatch cdl = new CountDownLatch(list.size());
+        List<String> resultList=new ArrayList<>();
+        for (TChessGameConfigPo t : list) {
+            Future<String> future = executorService.submit(new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    try {
+                        if (!executorService.isShutdown()) {
+                            K k = (K) applicationContext.getBean(loadConfig.targetMgr());
+                            Long now=System.currentTimeMillis();
+                            Long startId;
+                            String key=String.format("chess_pull_%s_%s",t.getGameKind(),t.getAgentId());
+                            String initDate= stringRedisTemplate.opsForValue().get(key);
+                            Date endDateCache=initDate==null?null: DateUtils.parseDate(initDate,new String[]{"yyyy-MM-dd HH:mm:ss"});
+                            if(endDateCache!=null){
+                                startId=DateUtils.addSeconds(endDateCache,1).getTime();
+                            }else{
+                                startId=k.getNextId(t);
+                            }
+                            Long endId=DateUtils.addMinutes(new Date(startId),t.getLength().intValue()).getTime();
+                            List<?> listPo=k.pullBet(startId,endId,t);
+                            log.info(String.format("%s当前代理=%s拉取到注单(%s->%s)数量=%s",t.getGameKind(),t.getAgentId(),startId,t.getLength(),listPo.size()));
+                            String startDate= DateFormatUtils.format(new Date(startId),"yyyy-MM-dd HH:mm:ss");
+                            String endDate=DateFormatUtils.format(new Date(endId),"yyyy-MM-dd HH:mm:ss");
+                            if(listPo.size()==0){
+                                log.info(String.format("%s当前代理=%s拉取成功,但注单数量为0,时间段%s——%s",t.getGameKind(),t.getAgentId(),startDate,endDate));
+                                String info="注单为空，不入报表统计";
+                                log.info(info);
+                                if(endId.compareTo(now)==1){
+                                    log.info("注单明细不用存储，水位到达水平线，删除水位endDateCache="+initDate);
+                                    stringRedisTemplate.delete(key);
+                                }else{
+                                    log.info("注单明细不用存储，水位未到达水平线，添加水位endDateCache="+endDate);
+                                    stringRedisTemplate.opsForValue().set(key,endDate);
+                                }
+                                return info;
+                            }
+                            k.saveAndUpdate(listPo,t);
+                            if(endId.compareTo(now)==1){
+                                log.info("注单明细存储成功，水位到达水平线，删除水位endDateCache="+initDate);
+                                stringRedisTemplate.delete(key);
+                            }else{
+                                log.info("注单明细存储成功，水位未到达水平线，添加水位endDateCache="+endDate);
+                                stringRedisTemplate.opsForValue().set(key,endDate);
+                            }
+                            log.info(String.format("%s当前代理=%s开始报表统计(%s->%s)数量=%s", t.getGameKind(), t.getAgentId(),startId,t.getLength(),listPo.size()));
+                            String result=(String) pjd.proceed(new Object[]{new String[]{t.getAgentId(),t.getGameKind(),startDate,endDate}});
+                            return result;
+                        }
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        log.error(String.format("%s当前代理=%s拉取数据失败,错误消息=%s,请检查配置", t.getGameKind(),  t.getAgentId(), e.getMessage()));
+                    } finally {
+                        cdl.countDown();
+                    }
+                    return null;
+                }
+            });
+            try{
+                resultList.add(future.get());
+            }catch (ExecutionException e) {
+                e.printStackTrace();
+            }catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return resultList.toString();
     }
 
     private String getUserPrex(TChessGameConfigPo configPo,String siteId){

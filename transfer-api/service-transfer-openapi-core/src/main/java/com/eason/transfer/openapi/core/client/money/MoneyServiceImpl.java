@@ -39,8 +39,6 @@ public class MoneyServiceImpl {
     @Autowired
     private TUserInfoMapper tUserInfoMapper;
     @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
     private UserServiceImpl userServiceImpl;
 
     public MoneyBalanceGetResponse getBalance(MoneyBalanceGetRequest request) throws OpenApiBaseException {
@@ -86,7 +84,7 @@ public class MoneyServiceImpl {
             log.info("请求参数={}",requestParam);
             MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
             map.setAll(requestParam);
-
+            RestTemplate restTemplate=new RestTemplate();
             JSONObject resultObj=restTemplate.exchange(url, HttpMethod.POST,new HttpEntity<>(map,headers),JSONObject.class).getBody();
             log.info("钱包拉取返回结果={}",resultObj.toString());
             if(!"10000".equals(resultObj.getString("status"))){
@@ -193,6 +191,7 @@ public class MoneyServiceImpl {
             MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
             map.setAll(requestParam);
 
+            RestTemplate restTemplate=new RestTemplate();
             JSONObject resultObj=restTemplate.exchange(url, HttpMethod.POST,new HttpEntity<>(map,headers),JSONObject.class).getBody();
             log.info("转账接口返回结果={}",resultObj.toString());
             if(!"10000".equals(resultObj.getString("status"))){

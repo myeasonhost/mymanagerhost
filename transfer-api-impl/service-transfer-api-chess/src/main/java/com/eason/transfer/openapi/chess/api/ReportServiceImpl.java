@@ -13,6 +13,7 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -32,6 +33,13 @@ public class ReportServiceImpl implements IReportService {
     private TReportAuditTotalPoMapper reportAuditTotalPoMapper;
     @Autowired
     private TReportDayUserPoMapper reportDayUserPoMapper;
+    @Autowired
+    private ChessServiceImpl chessServiceImpl;
+
+    @Scheduled(fixedRate = 60000)   // 每分钟执行一次
+    public void startPull(){
+        chessServiceImpl.getPullBet();
+    }
 
     @CrossOrigin(origins = "*")
     @Override

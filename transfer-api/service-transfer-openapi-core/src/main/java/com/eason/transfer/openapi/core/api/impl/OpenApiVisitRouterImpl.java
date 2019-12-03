@@ -60,11 +60,6 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
     private OoUserTokenInfoMapper ooUserTokenInfoMapper;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
-    private DiscoveryClient client;
 
     /**
      * 跳转ws路由器（不可接收附件）
@@ -449,6 +444,7 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
             }
         } catch (NoSuchBeanDefinitionException noSuchBeanException) {
             String[] params = new String[]{"客户端配置错误"};
+            noSuchBeanException.printStackTrace();
             return OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.HEDWIG_SERVICE_ERROR, params, null, messageSource, language);
         } catch (Exception exception) {
             exception.printStackTrace();

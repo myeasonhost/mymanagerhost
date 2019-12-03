@@ -33,8 +33,6 @@ public class UserServiceImpl {
     private TUserInfoMapper tUserInfoMapper;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-    @Autowired
-    private RestTemplate restTemplate;
 
     @Transactional
     public UserInfoResponse register(UserInfoRequest request) throws OpenApiBaseException {
@@ -197,6 +195,7 @@ public class UserServiceImpl {
             MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
             map.setAll(requestParam);
 
+            RestTemplate restTemplate=new RestTemplate();
             JSONObject resultObj=restTemplate.exchange(url, HttpMethod.POST,new HttpEntity<>(map,headers),JSONObject.class).getBody();
             log.info("钱包拉取返回结果={}",resultObj.toString());
             if(!"100000".equals(resultObj.getString("code"))){
@@ -265,6 +264,7 @@ public class UserServiceImpl {
             MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
             map.setAll(requestParam);
 
+            RestTemplate restTemplate=new RestTemplate();
             JSONObject resultObj=restTemplate.exchange(url, HttpMethod.POST,new HttpEntity<>(map,headers),JSONObject.class).getBody();
             log.info("游戏登录返回结果={}",resultObj.toString());
             if(!"10000".equals(resultObj.getString("status"))){

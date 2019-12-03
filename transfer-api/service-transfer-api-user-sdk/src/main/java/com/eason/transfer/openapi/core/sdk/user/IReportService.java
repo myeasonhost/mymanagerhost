@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 /**
  * @apiDefine 2report 报表API
  */
-@FeignClient("service-transfer-api-user")
+@FeignClient(contextId = "IReportService",value = "service-transfer-api-chess")
 public interface IReportService {
 
     /**

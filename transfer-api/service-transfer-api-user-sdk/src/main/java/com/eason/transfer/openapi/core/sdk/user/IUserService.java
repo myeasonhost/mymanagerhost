@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * @apiDefine 1user 用户API
  */
-@FeignClient("service-transfer-api-user")
+@FeignClient(contextId = "IUserService",value = "service-transfer-api-chess")
 public interface IUserService {
     /**
      * @apiVersion 1.0.0
