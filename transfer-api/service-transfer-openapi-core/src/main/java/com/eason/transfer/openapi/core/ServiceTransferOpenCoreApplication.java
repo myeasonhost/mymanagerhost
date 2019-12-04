@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableCaching
 @EnableFeignClients(basePackages= {"com.eason"})
-@MapperScan(basePackages = {"com.eason.transfer.openapi.core.api.dao","com.eason.transfer.openapi.core.client"})
+@MapperScan(basePackages = {"com.eason.transfer.openapi.core.api.dao"})
 public class ServiceTransferOpenCoreApplication {
 
     public static void main(String[] args) {

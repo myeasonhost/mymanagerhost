@@ -81,7 +81,7 @@ define({ "api": [
         }
       ]
     },
-    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/chess/IUserService.java",
     "groupTitle": "用户API",
     "sampleRequest": [
       {
@@ -150,7 +150,7 @@ define({ "api": [
         }
       ]
     },
-    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/chess/IUserService.java",
     "groupTitle": "用户API",
     "sampleRequest": [
       {
@@ -243,7 +243,7 @@ define({ "api": [
         }
       ]
     },
-    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/chess/IUserService.java",
     "groupTitle": "用户API",
     "sampleRequest": [
       {
@@ -322,7 +322,7 @@ define({ "api": [
         }
       ]
     },
-    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/chess/IUserService.java",
     "groupTitle": "用户API",
     "sampleRequest": [
       {
@@ -398,7 +398,7 @@ define({ "api": [
         }
       ]
     },
-    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/chess/IUserService.java",
     "groupTitle": "用户API",
     "sampleRequest": [
       {
@@ -474,7 +474,7 @@ define({ "api": [
         }
       ]
     },
-    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/chess/IUserService.java",
     "groupTitle": "用户API",
     "sampleRequest": [
       {
@@ -579,6 +579,13 @@ define({ "api": [
             "group": "Success 200",
             "type": "String",
             "optional": false,
+            "field": "row.username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
             "field": "row.kindName",
             "description": "<p>游戏名称</p>"
           },
@@ -627,7 +634,7 @@ define({ "api": [
         }
       ]
     },
-    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/chess/IUserService.java",
     "groupTitle": "报表API",
     "sampleRequest": [
       {
@@ -780,7 +787,7 @@ define({ "api": [
         }
       ]
     },
-    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IReportService.java",
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/chess/IReportService.java",
     "groupTitle": "报表API",
     "sampleRequest": [
       {
@@ -947,7 +954,7 @@ define({ "api": [
         }
       ]
     },
-    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IReportService.java",
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/chess/IReportService.java",
     "groupTitle": "报表API",
     "sampleRequest": [
       {
@@ -1117,11 +1124,642 @@ define({ "api": [
         }
       ]
     },
-    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/user/IUserService.java",
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/chess/IUserService.java",
     "groupTitle": "报表API",
     "sampleRequest": [
       {
         "url": "http://10.28.10.230:8082/ws/chess/user/getWalletList"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "3index",
+    "type": "POST",
+    "url": "/index/user/getBalance",
+    "title": "（7）查询余额",
+    "name": "getBalance",
+    "description": "<blockquote> <p>查询余额流程： </br> （1）校验参数</br> （2）查询余额</br> （3）返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"2,16等\""
+            ],
+            "optional": false,
+            "field": "type",
+            "description": "<p>平台编码</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户ID</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "money",
+            "description": "<p>用户余额</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n  {\n    \"errInfoList\": [],\n    \"errorCount\": 0,\n    \"exception\": \"\",\n    \"money\": \"0.80\",\n    \"successCount\": 1,\n    \"userId\": 1,\n    \"username\": \"eason\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/index/user/IUserService.java",
+    "groupTitle": "首页API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.230:8082/ws/chess/index/user/getBalance"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "3index",
+    "type": "POST",
+    "url": "/index/getImgSwiper",
+    "title": "（1）首页图片轮播",
+    "name": "getImgSwiper",
+    "description": "<blockquote> <p>首页图片轮播流程： </br> （1）校验参数</br> （2）获取轮播图片</br> （3）返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"index=首页\""
+            ],
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Long",
+            "optional": false,
+            "field": "id",
+            "description": "<p>ID</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "title",
+            "description": "<p>标题</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "imgSrc",
+            "description": "<p>图片路径</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "imgLink",
+            "description": "<p>点击链接</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n  {\n    \"errInfoList\": [],\n    \"errorCount\": 0,\n    \"exception\": \"\",\n    \"list\": [\n        {\n            \"id\": 2,\n            \"imgLink\": \"\",\n            \"imgSrc\": \"http://47.52.140.84:801/appKey00001/index/swiper/562c4d0d306e7837e53701839e0cd3da.png\",\n            \"title\": \"标题二\"\n        },\n        {\n            \"id\": 1,\n            \"imgLink\": \"\",\n            \"imgSrc\": \"http://47.52.140.84:801/appKey00001/index/swiper/0b539b4b77e2ef83f1ef1b07baa8b58b.png\",\n            \"title\": \"标题一\"\n        }\n    ],\n    \"successCount\": 1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/index/swiper/ISwiperService.java",
+    "groupTitle": "首页API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.230:8082/ws/chess/index/getImgSwiper"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "3index",
+    "type": "POST",
+    "url": "/index/img/getIndexSwiper",
+    "title": "（2）首页消息轮播",
+    "name": "getIndexSwiper",
+    "description": "<blockquote> <p>首页消息轮播流程： </br> （1）校验参数</br> （2）获取轮播消息</br> （3）返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"index=首页\""
+            ],
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Long",
+            "optional": false,
+            "field": "id",
+            "description": "<p>ID</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "title",
+            "description": "<p>标题</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "context",
+            "description": "<p>内容</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n  {\n    \"errInfoList\": [],\n    \"errorCount\": 0,\n    \"exception\": \"\",\n    \"list\": [\n        {\n            \"context\": \"多年来深受众多客户及玩家的信任，现诚邀与您携手并进，共赢未来！\",\n            \"id\": 1,\n            \"title\": \"消息一\"\n        },\n        {\n            \"context\": \"真人视讯、棋牌视讯欢迎体验\",\n            \"id\": 2,\n            \"title\": \"消息二\"\n        }\n    ],\n    \"successCount\": 1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/index/swiper/ISwiperService.java",
+    "groupTitle": "首页API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.230:8082/ws/chess/index/img/getIndexSwiper"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "3index",
+    "type": "POST",
+    "url": "/index/user/getUserInfo",
+    "title": "（5）用户详情",
+    "name": "getUserInfo",
+    "description": "<blockquote> <p>用户查询流程： </br> （1）校验参数</br> （2）查询用户</br> （3）返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Long",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户ID</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "mainMoney",
+            "description": "<p>主余额</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "realName",
+            "description": "<p>真实姓名</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "phoneNum",
+            "description": "<p>电话号码</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>电子邮箱</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "wechat",
+            "description": "<p>微信号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "invite",
+            "description": "<p>推荐人</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>token</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>结果</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n  {\n    \"createBy\": \"\",\n    \"createTime\": \"2019-10-09 12:25:42\",\n    \"email\": \"myeasonhost@gmail.com\",\n    \"errInfoList\": [],\n    \"errorCount\": 0,\n    \"exception\": \"\",\n    \"invite\": \"1234\",\n    \"mainMoney\": 31495.746,\n    \"phoneNum\": \"18672117311\",\n    \"realName\": \"eason\",\n    \"status\": 0,\n    \"successCount\": 1,\n    \"token\": \"56619e408dae12a60356d3b91a67068e\",\n    \"updateBy\": \"\",\n    \"updateTime\": \"\",\n    \"userId\": 1,\n    \"username\": \"eason\",\n    \"wechat\": \"ludan\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/index/user/IUserService.java",
+    "groupTitle": "首页API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.230:8082/ws/chess/index/user/getUserInfo"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "3index",
+    "type": "POST",
+    "url": "/index/user/login",
+    "title": "（4）用户登录",
+    "name": "login",
+    "description": "<blockquote> <p>用户登录流程： </br> （1）校验参数</br> （2）登录用户</br> （3）返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>密码</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Long",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户ID</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>token</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>结果</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n  {\n    \"errInfoList\": [],\n    \"errorCount\": 0,\n    \"exception\": \"\",\n    \"result\": \"用户登录成功\",\n    \"successCount\": 1,\n    \"token\": \"56619e408dae12a60356d3b91a67068e\",\n    \"userId\": 1,\n    \"username\": \"eason\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/index/user/IUserService.java",
+    "groupTitle": "首页API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.230:8082/ws/chess/index/user/login"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "3index",
+    "type": "POST",
+    "url": "/index/user/playGame",
+    "title": "（6）进入游戏",
+    "name": "playGame",
+    "description": "<blockquote> <p>进入游戏流程： </br> （1）校验参数</br> （2）进入游戏</br> （3）返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "action",
+            "description": "<p>操作</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "live",
+            "description": "<p>操作</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>结果</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "status",
+            "description": "<p>状态</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n  {\n    \"errInfoList\": [],\n    \"errorCount\": 0,\n    \"exception\": \"\",\n    \"result\": \"http://gci.xiaoyugongsi.com:81/forwardGame.do?params=cLZAuRYrVQe/1sCtGPXJFdKysMGmKdLte7DHl4u0OhgzQu1xpptPQEjZUMJWu5hMMYAg4EmNW1vAbNUDr4GY4bjZU+70nfO2axBdvUlmNR1iIoT7cudXbSqsvskQEJb5ymJOpvsboUqSocwcAVsCz8BvMFwBBudyaZiVaGBGe1Argjyb3IDPPpjmOCyK7n98DQ7uW/CQ5YfThzaA4pkIbQ==&key=4bdaf894c68f96e31d90fabd77dc0c51\",\n    \"status\": \"10000\",\n    \"successCount\": 1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/index/user/IUserService.java",
+    "groupTitle": "首页API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.230:8082/ws/chess/index/user/playGame"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "3index",
+    "type": "POST",
+    "url": "/index/user/register",
+    "title": "（3）用户注册",
+    "name": "register",
+    "description": "<blockquote> <p>用户注册流程： </br> （1）校验参数</br> （2）注册用户</br> （3）返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>密码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "surePassword",
+            "description": "<p>确认密码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "realName",
+            "description": "<p>真实姓名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phoneNum",
+            "description": "<p>电话号码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>电子邮箱</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "wechat",
+            "description": "<p>微信号</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "invite",
+            "description": "<p>推荐人</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>结果</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "  HTTP/1.1 200 OK\n  {\n    \"errInfoList\": [],\n    \"errorCount\": 0,\n    \"exception\": \"\",\n    \"result\": \"注册成功\",\n    \"successCount\": 1,\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/index/user/IUserService.java",
+    "groupTitle": "首页API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.230:8082/ws/chess/index/user/register"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "group": "3index",
+    "type": "POST",
+    "url": "/index/user/transfer",
+    "title": "（8）用户转账",
+    "name": "transfer",
+    "description": "<blockquote> <p>用户转账流程： </br> （1）校验参数</br> （2）用户转账</br> （3）返回结果</br></p> </blockquote>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"ag_99999,99999_ag\""
+            ],
+            "optional": false,
+            "field": "action",
+            "description": "<p>平台类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"main_ag,ag_main\""
+            ],
+            "optional": false,
+            "field": "transMethod",
+            "description": "<p>转账类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "credit",
+            "description": "<p>金额</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>结果</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "status",
+            "description": "<p>状态</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " HTTP/1.1 200 OK\n {\n   \"successCount\": 1,\n   \"errorCount\": 0,\n   \"errInfoList\": null,\n   \"exception\": null,\n   \"result\": \"登录成功\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/eason/transfer/openapi/core/sdk/index/user/IUserService.java",
+    "groupTitle": "首页API",
+    "sampleRequest": [
+      {
+        "url": "http://10.28.10.230:8082/ws/chess/index/user/transfer"
       }
     ]
   }

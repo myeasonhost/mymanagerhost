@@ -23,7 +23,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
 
-  <resultMap id="BetRecordMap" type="com.eason.transfer.openapi.core.sdk.user.PullBetBetRecordVo">
+  <resultMap id="BetRecordMap" type="com.eason.transfer.openapi.core.sdk.chess.model.PullBetBetRecordVo">
     <id column="GameID" jdbcType="VARCHAR" property="gameId" />
     <result column="gameName" jdbcType="VARCHAR" property="gameName" />
     <result column="roomName" jdbcType="VARCHAR" property="roomName" />
