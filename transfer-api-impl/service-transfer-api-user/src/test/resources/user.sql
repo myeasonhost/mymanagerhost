@@ -2,7 +2,8 @@
 SQLyog Enterprise v12.08 (64 bit)
 MySQL - 5.7.26-log : Database - user
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -97,6 +98,58 @@ insert  into `t_user_info`(`id`,`username`,`password`,`real_name`,`avatar`,`phon
 insert  into `t_user_info`(`id`,`username`,`password`,`real_name`,`avatar`,`phone_num`,`email`,`wechat`,`invite`,`introduction`,`status`,`create_time`,`update_time`,`create_by`,`update_by`) values (3,'eason3','e10adc3949ba59abbe56e057f20f883e','ludan',NULL,'18300000000','11@qq.com','111111','eason',NULL,0,'2019-10-09 17:30:53',NULL,NULL,NULL);
 insert  into `t_user_info`(`id`,`username`,`password`,`real_name`,`avatar`,`phone_num`,`email`,`wechat`,`invite`,`introduction`,`status`,`create_time`,`update_time`,`create_by`,`update_by`) values (4,'xiaoming','e10adc3949ba59abbe56e057f20f883e','猫猫',NULL,'17709219599','46016501@qq.com','46016501','123',NULL,0,'2019-11-02 15:42:00',NULL,NULL,NULL);
 
+/*Table structure for table `user_device_info` */
+
+DROP TABLE IF EXISTS `user_device_info`;
+
+CREATE TABLE `user_device_info` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int(11) DEFAULT NULL COMMENT '主键',
+  `NAME` varchar(50) NOT NULL COMMENT '设备名称',
+  `LAST_LOGIN_TIME` datetime DEFAULT NULL COMMENT '最后一次登录时间',
+  `EQUIPMENT_ID` varchar(100) DEFAULT NULL COMMENT '设备唯一标识',
+  `register_id` varchar(100) DEFAULT NULL COMMENT '注册ID',
+  `TIME` int(11) NOT NULL DEFAULT '1' COMMENT '登录次数',
+  `OSVERSION` varchar(100) DEFAULT NULL COMMENT '系统版本号',
+  `CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
+  `UPDATE_TIME` datetime DEFAULT NULL COMMENT '更新时间',
+  `CREATE_BY` int(11) DEFAULT NULL COMMENT '创建人',
+  `UPDATE_BY` int(11) DEFAULT NULL COMMENT '更新人',
+  `IS_DELETED` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0：未删除  1：已删除',
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='APP设备表';
+
+/*Data for the table `user_device_info` */
+
+/*Table structure for table `user_info` */
+
+DROP TABLE IF EXISTS `user_info`;
+
+CREATE TABLE `user_info` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '用户登录名',
+  `password` varchar(32) NOT NULL COMMENT '用户密码',
+  `nick_name` varchar(50) NOT NULL COMMENT '昵称名称',
+  `avatar` varchar(100) DEFAULT NULL COMMENT '用户头像',
+  `sex` char(1) DEFAULT NULL COMMENT '性别 （女 , 男）',
+  `birthday` varchar(50) DEFAULT NULL COMMENT '生日',
+  `phone_num` varchar(50) NOT NULL COMMENT '用户手机',
+  `email` varchar(50) DEFAULT NULL COMMENT '电子邮件',
+  `wechat` varchar(50) DEFAULT NULL COMMENT '微信号',
+  `invite` varchar(50) DEFAULT NULL COMMENT '邀请人',
+  `status` tinyint(3) DEFAULT '0' COMMENT '0为启用，1为停用',
+  `signature` varchar(500) DEFAULT NULL COMMENT '个性签名',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NULL DEFAULT NULL,
+  `create_by` varchar(50) DEFAULT NULL,
+  `update_by` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username_unique` (`username`),
+  UNIQUE KEY `phone_num_unique` (`phone_num`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='会员表';
+
+/*Data for the table `user_info` */
+
 /*Table structure for table `user_setting` */
 
 DROP TABLE IF EXISTS `user_setting`;
@@ -136,6 +189,42 @@ CREATE TABLE `user_token_info` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户TOKEN表';
 
 /*Data for the table `user_token_info` */
+
+/*Table structure for table `user_validation_code` */
+
+DROP TABLE IF EXISTS `user_validation_code`;
+
+CREATE TABLE `user_validation_code` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户ID',
+  `CODE` varchar(255) NOT NULL COMMENT '验证码',
+  `TYPE` tinyint(4) NOT NULL COMMENT '1为注册,2为重置密码,3修改手机号',
+  `SEND_TIME` datetime NOT NULL COMMENT '发送时间',
+  `PHONE` varchar(255) NOT NULL COMMENT '手机号',
+  `MAC` varchar(255) DEFAULT NULL COMMENT 'MAC地址',
+  `STATE` int(11) DEFAULT NULL COMMENT '1:未使用 2：已经失效  3：已经使用',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户验证表';
+
+/*Data for the table `user_validation_code` */
+
+/*Table structure for table `user_validation_code_log` */
+
+DROP TABLE IF EXISTS `user_validation_code_log`;
+
+CREATE TABLE `user_validation_code_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `phone` varchar(40) DEFAULT NULL COMMENT '用户电话',
+  `verTime` timestamp NULL DEFAULT NULL COMMENT '验证时间',
+  `trueCode` varchar(10) DEFAULT NULL COMMENT '正确验证码',
+  `errorCode` varchar(10) DEFAULT NULL COMMENT '用户用来验证的验证码',
+  `verResult` int(11) DEFAULT NULL COMMENT '验证结果',
+  `type` int(11) DEFAULT NULL COMMENT '验证类型',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户验证日志表';
+
+/*Data for the table `user_validation_code_log` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
