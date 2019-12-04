@@ -14,8 +14,8 @@ import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * @Author eason
  */
-@Service
+@RestController
 @Slf4j
 public class ReportServiceImpl implements IReportService {
 

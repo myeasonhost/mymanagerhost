@@ -2,6 +2,7 @@ package com.eason.transfer.openapi.core.sdk.user;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @apiDefine 2report 报表API
@@ -80,7 +81,7 @@ public interface IReportService {
      *
      */
     @PostMapping(value = "/report/getUserGameTypeReport")
-    ReportUserGameTypeResponse getUserGameTypeReport(ReportUserGameTypeRequest request) throws Exception;
+    ReportUserGameTypeResponse getUserGameTypeReport(@RequestBody ReportUserGameTypeRequest request) throws Exception;
 
     /**
      * @apiVersion 1.0.0
@@ -147,7 +148,7 @@ public interface IReportService {
      *
      */
     @PostMapping(value = "/report/getUserGameKindReport")
-    ReportUserGameKindResponse getUserGameKindReport(ReportUserGameKindRequest request) throws Exception;
+    ReportUserGameKindResponse getUserGameKindReport(@RequestBody ReportUserGameKindRequest request) throws Exception;
 
 
 }

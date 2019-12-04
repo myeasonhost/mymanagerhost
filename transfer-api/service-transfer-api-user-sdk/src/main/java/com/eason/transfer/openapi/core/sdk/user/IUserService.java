@@ -300,7 +300,7 @@ public interface IUserService {
      *
      */
     @PostMapping(value = "/user/getBetRecordList")
-    PullBetResponse getBetRecordList(PullBetRequest request) throws Exception;
+    PullBetResponse getBetRecordList(@RequestBody PullBetRequest request) throws Exception;
 
     /**
      * @apiVersion 1.0.0
@@ -360,7 +360,7 @@ public interface IUserService {
      *
      */
     @PostMapping(value = "/user/getWalletList")
-    WalletListResponse getWalletList(WalletListRequest request) throws Exception;
+    WalletListResponse getWalletList(@RequestBody WalletListRequest request) throws Exception;
 
 
 }

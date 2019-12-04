@@ -1,5 +1,6 @@
 package com.eason.transfer.openapi.core.sdk.user;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@XStreamAlias("PullBetBetRecordVo")
 public class PullBetBetRecordVo {
 
     private String gameId;
@@ -14,6 +16,7 @@ public class PullBetBetRecordVo {
     private String roomName;
     private Double betAmount;
     private Double winAmount;
+    private Double revenue;
     private String betTime;
 
 }
