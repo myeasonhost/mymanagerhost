@@ -51,7 +51,6 @@ public class UserServiceImpl implements IUserService {
      * @return
      * @throws Exception
      */
-    @CrossOrigin(origins = "*")
     @TransferStart
     @Override
     public LoginResponse login(LoginRequest request) throws Exception {
@@ -143,7 +142,6 @@ public class UserServiceImpl implements IUserService {
      * @param request
      * @return
      */
-    @CrossOrigin(origins = "*")
     @TransferStart
     @Override
     public TransferInResponse transferIn(TransferInRequest request) throws Exception {
@@ -241,7 +239,6 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
-    @CrossOrigin(origins = "*")
     @TransferStart
     @Override
     public TransferOutResponse transferOut(TransferOutRequest request) throws Exception{
@@ -337,7 +334,6 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
-    @CrossOrigin(origins = "*")
     @TransferStart
     @Override
     public QueryBalanceResponse queryBalance(QueryBalanceRequest request) throws Exception {
@@ -401,7 +397,6 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
-    @CrossOrigin(origins = "*")
     @TransferStart
     @Override
     public OrderStatusResponse queryOrderStatus(OrderStatusRequest request) throws Exception{
@@ -471,7 +466,6 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
-    @CrossOrigin(origins = "*")
     @TransferStart
     @Override
     public PlayerStatusResponse queryPlayerStatus(PlayerStatusRequest request) throws Exception{
@@ -535,7 +529,6 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
-    @CrossOrigin(origins = "*")
     @Override
     public PullBetResponse getBetRecordList(PullBetRequest request) throws Exception{
         PullBetResponse response=new PullBetResponse();
@@ -605,7 +598,6 @@ public class UserServiceImpl implements IUserService {
         return response;
     }
 
-    @CrossOrigin(origins = "*")
     @Override
     public WalletListResponse getWalletList(WalletListRequest request) throws Exception{
         WalletListResponse response=new WalletListResponse();

@@ -5,6 +5,7 @@ import com.eason.transfer.openapi.core.sdk.chess.model.ReportUserGameKindRespons
 import com.eason.transfer.openapi.core.sdk.chess.model.ReportUserGameTypeRequest;
 import com.eason.transfer.openapi.core.sdk.chess.model.ReportUserGameTypeResponse;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -84,6 +85,7 @@ public interface IReportService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/report/getUserGameTypeReport")
     ReportUserGameTypeResponse getUserGameTypeReport(@RequestBody ReportUserGameTypeRequest request) throws Exception;
 
@@ -151,6 +153,7 @@ public interface IReportService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/report/getUserGameKindReport")
     ReportUserGameKindResponse getUserGameKindReport(@RequestBody ReportUserGameKindRequest request) throws Exception;
 

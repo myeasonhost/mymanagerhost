@@ -2,6 +2,7 @@ package com.eason.transfer.openapi.core.sdk.index.user;
 
 import com.eason.transfer.openapi.core.sdk.index.user.model.*;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,6 +46,7 @@ public interface IUserService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/index/user/register")
     public UserInfoResponse register(@RequestBody UserInfoRequest request) throws Exception;
 
@@ -83,6 +85,7 @@ public interface IUserService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/index/user/login")
     public UserLoginResponse login(@RequestBody UserLoginRequest request) throws Exception;
 
@@ -137,6 +140,7 @@ public interface IUserService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/index/user/getUserInfo")
     public UserInfoGetResponse getUserInfo(@RequestBody UserInfoGetRequest request) throws Exception;
 
@@ -171,6 +175,7 @@ public interface IUserService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/index/user/playGame")
     public PlayGameResponse playGame(@RequestBody PlayGameRequest request) throws Exception;
 
@@ -205,6 +210,7 @@ public interface IUserService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/index/user/getBalance")
     public MoneyBalanceGetResponse getBalance(@RequestBody MoneyBalanceGetRequest request) throws Exception;
 
@@ -238,6 +244,7 @@ public interface IUserService {
      *  }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/index/user/transfer")
     public MoneyOUTResponse transfer(@RequestBody MoneyINRequest request) throws Exception;
 

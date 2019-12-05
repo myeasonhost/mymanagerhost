@@ -42,7 +42,6 @@ public class ReportServiceImpl implements IReportService {
         chessServiceImpl.getPullBet();
     }
 
-    @CrossOrigin(origins = "*")
     @Override
     public ReportUserGameTypeResponse getUserGameTypeReport(ReportUserGameTypeRequest request) throws Exception {
         ReportUserGameTypeResponse response=new ReportUserGameTypeResponse();
@@ -120,7 +119,6 @@ public class ReportServiceImpl implements IReportService {
         return response;
     }
 
-    @CrossOrigin(origins = "*")
     @Override
     public ReportUserGameKindResponse getUserGameKindReport(ReportUserGameKindRequest request) throws Exception {
         ReportUserGameKindResponse response=new ReportUserGameKindResponse();

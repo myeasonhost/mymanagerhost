@@ -5,6 +5,7 @@ import com.eason.transfer.openapi.core.sdk.index.swiper.model.ImgResponse;
 import com.eason.transfer.openapi.core.sdk.index.swiper.model.NoticeRequest;
 import com.eason.transfer.openapi.core.sdk.index.swiper.model.NoticeResponse;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -57,6 +58,7 @@ public interface ISwiperService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/index/img/getImgSwiper")
     public ImgResponse getImgSwiper(@RequestBody ImgRequest request) throws Exception;
 
@@ -103,6 +105,7 @@ public interface ISwiperService {
      *
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/index/getNoticeSwiper")
     public NoticeResponse getNoticeSwiper(@RequestBody NoticeRequest request) throws Exception;
 

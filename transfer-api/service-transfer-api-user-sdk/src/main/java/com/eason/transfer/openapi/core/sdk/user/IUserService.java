@@ -34,7 +34,7 @@ public interface IUserService {
 	 * @apiSuccess {String} username  登陆用户名
 	 * @apiSuccess {String} nickname 用户昵称
 	 * @apiSuccess {String} avatar  用户头像
-	 *@apiSuccess {String} token  用户token
+	 * @apiSuccess {String} token  用户token
 	 *
 	 */
 	@CrossOrigin(origins = "*")

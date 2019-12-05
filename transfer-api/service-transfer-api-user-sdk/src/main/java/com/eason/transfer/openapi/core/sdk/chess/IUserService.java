@@ -2,6 +2,7 @@ package com.eason.transfer.openapi.core.sdk.chess;
 
 import com.eason.transfer.openapi.core.sdk.chess.model.*;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -44,6 +45,7 @@ public interface IUserService {
      *  }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/user/login")
     LoginResponse login(@RequestBody LoginRequest request) throws Exception;
 
@@ -81,6 +83,7 @@ public interface IUserService {
      *
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/user/transferIn")
     TransferInResponse transferIn(@RequestBody TransferInRequest request) throws Exception;
 
@@ -116,6 +119,7 @@ public interface IUserService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/user/transferOut")
     TransferOutResponse transferOut(@RequestBody TransferOutRequest request) throws Exception;
 
@@ -149,6 +153,7 @@ public interface IUserService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/user/queryBalance")
     QueryBalanceResponse queryBalance(@RequestBody QueryBalanceRequest request) throws Exception;
 
@@ -187,6 +192,7 @@ public interface IUserService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/user/queryOrderStatus")
     OrderStatusResponse queryOrderStatus(@RequestBody OrderStatusRequest request) throws Exception;
 
@@ -222,6 +228,7 @@ public interface IUserService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/user/queryPlayerStatus")
     PlayerStatusResponse queryPlayerStatus(@RequestBody PlayerStatusRequest request) throws Exception;
 
@@ -300,6 +307,7 @@ public interface IUserService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/user/getBetRecordList")
     PullBetResponse getBetRecordList(@RequestBody PullBetRequest request) throws Exception;
 
@@ -360,6 +368,7 @@ public interface IUserService {
      * }
      *
      */
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/user/getWalletList")
     WalletListResponse getWalletList(@RequestBody WalletListRequest request) throws Exception;
 

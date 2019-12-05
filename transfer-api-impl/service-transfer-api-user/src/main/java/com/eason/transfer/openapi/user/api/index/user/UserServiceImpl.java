@@ -37,6 +37,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Override
     public UserInfoResponse register(UserInfoRequest request) throws Exception {
         try{
             UserInfoResponse response=new UserInfoResponse();
@@ -110,6 +111,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @Override
     public UserLoginResponse login(UserLoginRequest request) throws Exception {
         try{
             UserLoginResponse response=new UserLoginResponse();
@@ -161,6 +163,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @Override
     public UserInfoGetResponse getUserInfo(UserInfoGetRequest request) throws Exception {
         try{
             UserInfoGetResponse response=new UserInfoGetResponse();
@@ -210,6 +213,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @Override
     public PlayGameResponse playGame(PlayGameRequest request) throws Exception {
         try{
             PlayGameResponse response=new PlayGameResponse();
