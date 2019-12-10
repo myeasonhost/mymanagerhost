@@ -1,11 +1,10 @@
 package com.eason.transfer.openapi.core.system.base;
 
+import com.eason.transfer.openapi.core.system.entity.po.User;
 import com.eason.transfer.openapi.core.system.entity.vo.MessageModel;
-import com.eason.transfer.openapi.core.system.entity.vo.UserExtForm;
 import com.eason.transfer.openapi.core.system.model.ServiceConstant;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -19,16 +18,16 @@ public class BaseAction {
 	protected MessageModel FAILURE = new MessageModel(false, "操作失败");
 	
 	
-	public void setSessionAccount(UserExtForm userExtForm) {
+	public void setSessionAccount(User user) {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder
 			      .getRequestAttributes()).getRequest();
-		request.getSession().setAttribute(ServiceConstant.SESSIONUSER, userExtForm);
+		request.getSession().setAttribute(ServiceConstant.SESSIONUSER, user);
 	}
 	
-	public UserExtForm getSessionAccount() {
+	public User getSessionAccount() {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder
 			      .getRequestAttributes()).getRequest();
-		return (UserExtForm) request.getSession().getAttribute(ServiceConstant.SESSIONUSER);
+		return (User) request.getSession().getAttribute(ServiceConstant.SESSIONUSER);
 	}
 	public void removeSessionAccount() {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder
@@ -36,14 +35,5 @@ public class BaseAction {
 		request.getSession().removeAttribute(ServiceConstant.SESSIONUSER);
 		request.getSession().invalidate();
 	}
-	
-	public final String getAppBaseUrl(String url) throws Exception {
-		if(!StringUtils.isEmpty(url) && url.startsWith("/")){
-			HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder
-				      .getRequestAttributes()).getRequest();
-			return request.getContextPath()+url;
-		}else{
-			throw new Exception("URL ERROR");
-		}
-	}
+
 }

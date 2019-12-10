@@ -112,7 +112,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.eason.transfer.openapi.user.api.app.dao.entity.UserInfoPo">
+  <insert id="insert" parameterType="com.eason.transfer.openapi.user.api.app.dao.entity.UserInfoPo" useGeneratedKeys="true" keyProperty="id">
     insert into user_info (id, username, password, 
       nick_name, avatar, sex, 
       birthday, phone_num, email, 

@@ -1,19 +1,8 @@
 package com.eason.transfer.openapi.core.system.entity.po;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
-import com.eason.system.vo.UserExtForm;
 
 /**
  * CmsUser entity.
@@ -198,32 +187,6 @@ public class User implements java.io.Serializable {
 			return false;
 		return true;
 	}
-	
-	public boolean isEquals(Object obj) {
-		UserExtForm other = (UserExtForm) obj;
-		if (account == null) {
-			if (other.getAccount() != null)
-				return false;
-		} else if (!account.equals(other.getAccount()))
-			return false;
-		if (email == null) {
-			if (other.getEmail() != null)
-				return false;
-		} else if (!email.equals(other.getEmail()))
-			return false;
-		if (mobile == null) {
-			if (other.getMobile() != null)
-				return false;
-		} else if (!mobile.equals(other.getMobile()))
-			return false;
-		if (name == null) {
-			if (other.getName() != null)
-				return false;
-		} else if (!name.equals(other.getName()))
-			return false;
-		return true;
-	}
-	
-	
+
 	
 }

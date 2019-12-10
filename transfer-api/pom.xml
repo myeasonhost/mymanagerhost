@@ -18,6 +18,7 @@
 
     <modules>
         <module>openapi-common</module>
+        <module>service-transfer-admin-core</module>
         <module>service-transfer-openapi-core</module>
         <module>service-transfer-api-user-sdk</module>
     </modules>

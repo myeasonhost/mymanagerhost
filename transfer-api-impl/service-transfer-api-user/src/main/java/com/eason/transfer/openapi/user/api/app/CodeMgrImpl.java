@@ -243,7 +243,9 @@ public class CodeMgrImpl implements ICodeService {
                 code = String.valueOf(Math.round(Math.random() * 8999 + 1000));
                 stringRedisTemplate.opsForValue().set( request.getPhone(), code, codeValidTime, TimeUnit.MINUTES);
             }
-            flag = PushUtil.sendTextCode(code, request.getPhone());
+            //TODO 实现发生验证码方法
+//            flag = PushUtil.sendTextCode(code, request.getPhone());
+            flag=true;
             if (flag) {
                 UserCodePo userCode = new UserCodePo();
                 userCode.setType(request.getCodeType().byteValue()); // 验证码类型为重置密码
