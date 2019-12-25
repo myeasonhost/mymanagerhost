@@ -10,7 +10,7 @@
             <property name="suppressAllComments" value="true" />
         </commentGenerator>
         <!-- 2.连接数据库 -->
-        <jdbcConnection connectionURL="jdbc:mysql://10.28.10.230:3306/user?serverTimezone=UTC&amp;useSSL=true" driverClass="com.mysql.jdbc.Driver" userId="root" password="eason" />
+        <jdbcConnection connectionURL="jdbc:mysql://10.20.25.230:3306/user?serverTimezone=UTC&amp;useSSL=true" driverClass="com.mysql.jdbc.Driver" userId="root" password="eason" />
         <!-- 3.指定javabean生成位置 -->
         <javaModelGenerator targetPackage="com.eason.transfer.openapi.user.api.app.dao.entity" targetProject="./src/main/java" />
         <!-- 4.指定sql.mapper映射文件生成位置 -->
