@@ -17,8 +17,8 @@
     <dependencies>
         <dependency>
             <groupId>com.eason.transfer</groupId>
-            <artifactId>service-transfer-api-user-sdk</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <artifactId>service-transfer-api-chess-sdk</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

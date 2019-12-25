@@ -1,14 +1,13 @@
 package com.eason.transfer.openapi.user.api.app;
 
 import com.eason.transfer.openapi.core.sdk.user.exception.UserServiceException;
-import com.eason.transfer.openapi.core.sdk.user.vo.UserCodeRequest;
+import com.eason.transfer.openapi.core.sdk.user.model.UserCodeRequest;
 import com.eason.transfer.openapi.user.api.app.dao.entity.UserCodePo;
 import com.eason.transfer.openapi.user.api.app.dao.entity.VerifyCodeLogPo;
 import com.eason.transfer.openapi.user.api.app.dao.mapper.UserCodePoMapper;
 import com.eason.transfer.openapi.user.api.app.dao.mapper.VerifyCodeLogMapper;
 import com.eason.transfer.openapi.user.api.app.model.CodeConfigModel;
 import com.eason.transfer.openapi.user.api.app.service.ICodeService;
-import com.eason.transfer.openapi.user.api.app.utils.PushUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

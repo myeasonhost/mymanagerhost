@@ -1,10 +1,10 @@
 {
-  "name": "棋牌接入系统架构API",
+  "name": "直播接入系统架构API文档",
   "version": "1.0.0",
   "description": "本API文档由Java技术开发，只支持棋牌系统对接的相关客户端H5/Android/IOS使用",
-  "title": "棋牌接入系统架构API文档",
-  "url" : "http://10.28.10.230:8082/ws/chess",
-  "sampleUrl": "http://10.28.10.230:8082/ws/chess",
+  "title": "直播接入系统架构API文档",
+  "url" : "http://10.20.25.48:8071",
+  "sampleUrl": "http://10.20.25.48:8071",
   "header": {
     "title": "版本迭代记录",
     "filename": "version.md"

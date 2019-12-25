@@ -26,6 +26,7 @@ public class SwiperServiceImpl implements ISwiperService {
     @Autowired
     private TIndexNoticeMapper indexNoticeMapper;
 
+    @Override
     public ImgResponse getImgSwiper(ImgRequest request) throws Exception {
         try{
             ImgResponse response=new ImgResponse();
@@ -64,6 +65,7 @@ public class SwiperServiceImpl implements ISwiperService {
         }
     }
 
+    @Override
     public NoticeResponse getNoticeSwiper(NoticeRequest request) throws Exception {
         try{
             NoticeResponse response=new NoticeResponse();

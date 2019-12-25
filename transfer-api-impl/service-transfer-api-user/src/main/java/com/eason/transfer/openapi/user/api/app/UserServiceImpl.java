@@ -3,7 +3,7 @@ package com.eason.transfer.openapi.user.api.app;
 import com.eason.transfer.openapi.core.common.model.FileItem;
 import com.eason.transfer.openapi.core.sdk.user.IUserService;
 import com.eason.transfer.openapi.core.sdk.user.exception.UserServiceException;
-import com.eason.transfer.openapi.core.sdk.user.vo.*;
+import com.eason.transfer.openapi.core.sdk.user.model.*;
 import com.eason.transfer.openapi.user.api.app.dao.entity.UserCodePo;
 import com.eason.transfer.openapi.user.api.app.dao.entity.UserInfoPo;
 import com.eason.transfer.openapi.user.api.app.dao.entity.UserInfoPoExample;
@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@RestController("appUserServiceImpl")
+@RestController
 @Slf4j
 public class UserServiceImpl implements IUserService {
     @Autowired
@@ -212,7 +212,7 @@ public class UserServiceImpl implements IUserService {
             }
             String token = TokenUtil.getToken();
             response.setToken(token);
-            stringRedisTemplate.opsForValue().set("token:"+token,userPo.getId()+"",24, TimeUnit.HOURS);
+            stringRedisTemplate.opsForValue().set(token,userPo.getId()+"",24, TimeUnit.HOURS);
 
             //3更新用户登陆时间
             userPo.setUpdateTime(new Date());

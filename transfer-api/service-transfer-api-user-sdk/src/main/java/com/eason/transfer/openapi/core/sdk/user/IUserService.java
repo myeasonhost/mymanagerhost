@@ -2,7 +2,7 @@ package com.eason.transfer.openapi.core.sdk.user;
 
 
 import com.eason.transfer.openapi.core.sdk.user.exception.UserServiceException;
-import com.eason.transfer.openapi.core.sdk.user.vo.*;
+import com.eason.transfer.openapi.core.sdk.user.model.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -87,7 +87,6 @@ public interface IUserService {
 	 * @apiSuccess {String} code  用户验证码
 	 * @apiSuccess {String} result  注册信息
 	 *
-     * @return
      */
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/user/getValidateCode")

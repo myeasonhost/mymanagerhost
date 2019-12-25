@@ -355,7 +355,7 @@ public final class OpenApiCommonConst {
          */
         public static final String SYSTEM_ERROR = "eason.system.error";
         /**
-         * 接口错误
+         * 接口错误: {0}
          */
         public static final String METHOD_ERROR = "eason.system.method.error";
         /**

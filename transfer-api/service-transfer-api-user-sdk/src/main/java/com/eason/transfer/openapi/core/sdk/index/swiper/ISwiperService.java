@@ -59,14 +59,14 @@ public interface ISwiperService {
      *
      */
     @CrossOrigin(origins = "*")
-    @PostMapping(value = "/index/img/getImgSwiper")
+    @PostMapping(value = "/index/getImgSwiper")
     public ImgResponse getImgSwiper(@RequestBody ImgRequest request) throws Exception;
 
 
     /**
      * @apiVersion 1.0.0
      * @apiGroup 3index
-     * @api {POST} /index/img/getIndexSwiper （2）首页消息轮播
+     * @api {POST} /index/getNoticeSwiper （2）首页消息轮播
      * @apiName getIndexSwiper
      *
      *

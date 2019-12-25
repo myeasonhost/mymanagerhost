@@ -369,19 +369,15 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
                     response = (Response) serviceObj.getClass().getMethod(methodName, new Class[]{objRequest.getClass()}).invoke(serviceObj, new Object[]{objRequest});
                 } catch (InvocationTargetException baseException) {
                     baseException.printStackTrace();
-                    try {
+                    if(baseException.getTargetException() instanceof OpenApiBaseException){
                         OpenApiBaseException e = (OpenApiBaseException) baseException.getTargetException();
                         if (response == null) {
                             response = new Response();
                         }
                         response.addErrInfo(e.getErrorCode(), e.getErrorMsg(), e.getPkinfo());
-                        //			response.setException(baseException);
-                        return response;
-                    } catch (Exception exception) {
-                        response = OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.METHOD_ERROR, null, null, messageSource, language);
-                        response.setException(exception);
-                        return response;
                     }
+                    response = OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.METHOD_ERROR, new String[]{baseException.getTargetException().getMessage()}, null, messageSource, language);
+                    return response;
                 } catch (Exception exception) {
                     log.error(exception);
                     response = OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.METHOD_ERROR, null, null, messageSource, language);
@@ -416,19 +412,15 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
                     response = (Response) serviceObj.getClass().getMethod(methodName, new Class[]{objRequest.getClass()}).invoke(serviceObj, new Object[]{objRequest});
                 } catch (InvocationTargetException baseException) {
                     baseException.printStackTrace();
-                    try {
+                    if(baseException.getTargetException() instanceof OpenApiBaseException){
                         OpenApiBaseException e = (OpenApiBaseException) baseException.getTargetException();
                         if (response == null) {
                             response = new Response();
                         }
                         response.addErrInfo(e.getErrorCode(), e.getErrorMsg(), e.getPkinfo());
-                        //			response.setException(baseException);
-                        return response;
-                    } catch (Exception exception) {
-                        response = OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.METHOD_ERROR, null, null, messageSource, language);
-                        response.setException(exception);
-                        return response;
                     }
+                    response = OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.HEDWIG_SERVICE_ERROR, new String[]{baseException.getTargetException().getMessage()}, null, messageSource, language);
+                    return response;
                 } catch (Exception exception) {
                     log.error(exception);
                     response = OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.METHOD_ERROR, null, null, messageSource, language);
