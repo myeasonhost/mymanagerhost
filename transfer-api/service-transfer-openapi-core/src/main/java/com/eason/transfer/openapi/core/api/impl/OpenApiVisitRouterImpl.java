@@ -423,8 +423,7 @@ public class OpenApiVisitRouterImpl implements OpenApiVisitRouter {
                     return response;
                 } catch (Exception exception) {
                     log.error(exception);
-                    response = OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.METHOD_ERROR, null, null, messageSource, language);
-                    response.setException(exception);
+                    response = OpenApiCommonUtil.setResponseObjByError(ERROR_MSG.METHOD_ERROR, new String[]{exception.getMessage()}, null, messageSource, language);
                     return response;
                 }
                 if (response == null) {

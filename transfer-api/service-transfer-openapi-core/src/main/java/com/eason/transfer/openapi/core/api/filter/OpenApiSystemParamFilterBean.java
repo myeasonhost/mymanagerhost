@@ -282,7 +282,7 @@ public class OpenApiSystemParamFilterBean {
         // 验证token
         String userId = null;
         try {
-            userId = stringRedisTemplate.opsForValue().get(sessionKey);
+            userId = stringRedisTemplate.opsForValue().get("token:"+sessionKey);
         } catch (Exception e) {
             log.error("缓存信息错误,Key=[" + sessionKey + "], value =[" + stringRedisTemplate.opsForValue().get(sessionKey) + "]", e);
             stringRedisTemplate.delete(sessionKey);

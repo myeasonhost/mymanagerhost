@@ -212,7 +212,7 @@ public class UserServiceImpl implements IUserService {
             }
             String token = TokenUtil.getToken();
             response.setToken(token);
-            stringRedisTemplate.opsForValue().set(token,userPo.getId()+"",24, TimeUnit.HOURS);
+            stringRedisTemplate.opsForValue().set("token:"+token,userPo.getId()+"",6, TimeUnit.HOURS);
 
             //3更新用户登陆时间
             userPo.setUpdateTime(new Date());
@@ -335,7 +335,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Object getValidateCode(UserCodeRequest request) throws UserServiceException {
+    public UserCodeResponse getValidateCode(UserCodeRequest request) throws UserServiceException {
         UserCodeResponse response = new UserCodeResponse();
         String code = null;
         String result = null;
@@ -431,6 +431,7 @@ public class UserServiceImpl implements IUserService {
                 }
                 response.setResult("重置验证码发送成功");
             }
+
             return response;
         } catch (Exception e) {
             log.error("重置密码或者注册用户前检验用户时出错,userPhone:" + request.getPhone(),e);

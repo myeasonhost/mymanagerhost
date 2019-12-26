@@ -90,7 +90,7 @@ public interface IUserService {
      */
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/user/getValidateCode")
-	public Object getValidateCode(@RequestBody UserCodeRequest request) throws UserServiceException;
+	public UserCodeResponse getValidateCode(@RequestBody UserCodeRequest request) throws UserServiceException;
 
 
 	/**
