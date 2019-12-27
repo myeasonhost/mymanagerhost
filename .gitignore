@@ -1,2 +1,5 @@
 /transfer-api/service-transfer-openapi-core/service-transfer-openapi-core.iml
 /transfer-api/service-transfer-api-chess-sdk/target/
+/transfer-api/openapi-common/target/
+/.idea/
+/transfer-api/service-transfer-api-user-sdk/target/
