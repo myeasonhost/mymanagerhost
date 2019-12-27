@@ -17,7 +17,7 @@
 <script type="text/javascript">
 //初始化 -> 获取用户的资源
 $(function(){
-	$.post("<%=request.getContextPath()%>/admin/user/getResourcesOfUser",
+	$.post("/admin/user/getResourcesOfUser",
 		function(data){
 			for(var i = 0;data.children != null && i<data.children.length;i++){
 				var node1 = data.children[i];
@@ -25,7 +25,7 @@ $(function(){
 				for(var j = 0;node1.children != null && j<node1.children.length;j++){					
 					var node2 = node1.children[j];					
 					htmlText += " <h3";
-					htmlText += " onclick=addTabToContentRegion('"+node2.id+"','"+node2.text+"','"+node2.attributes.href+"')";
+					htmlText += " onclick=addTabToContentRegion('"+node2.id+"','"+node2.text+"','"+node2.href+"')";
 					htmlText += " >";
 					htmlText += node2.text;
 					htmlText += " </h3>";

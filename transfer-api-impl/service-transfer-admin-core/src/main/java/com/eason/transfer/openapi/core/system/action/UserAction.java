@@ -4,6 +4,7 @@ import com.eason.transfer.openapi.core.system.base.BaseAction;
 import com.eason.transfer.openapi.core.system.dao.UserDao;
 import com.eason.transfer.openapi.core.system.entity.po.User;
 import com.eason.transfer.openapi.core.system.entity.vo.MessageModel;
+import com.eason.transfer.openapi.core.system.entity.vo.TreeModel;
 import com.eason.transfer.openapi.core.utils.SparkLib;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户管理
@@ -53,6 +57,35 @@ public class UserAction extends BaseAction {
 			this.FAILURE.setMessage("帐号和密码不能为空");
 		}
 		return this.FAILURE;
+	}
+
+	/**
+	 * 获取用户资源
+	 */
+	@RequestMapping("/admin/user/getResourcesOfUser")
+	@ResponseBody
+	public TreeModel getResourcesOfUser() {
+		try {
+			TreeModel treeModel1=new TreeModel();
+			treeModel1.setId("1");
+			treeModel1.setText("ROOT");
+			List<TreeModel> subList1=new ArrayList<>();
+
+			TreeModel treeModel2=new TreeModel();
+			treeModel2.setId("10");
+			treeModel2.setText("系统管理");
+			List<TreeModel> subList2=new ArrayList<>();
+			subList2.add(new TreeModel("100","用户管理","http://xxxx.jsp"));
+			subList2.add(new TreeModel("101","角色管理","http://xxxx.jsp"));
+			treeModel2.setChildren(subList2);
+
+			subList1.add(treeModel2);
+			treeModel1.setChildren(subList1);
+			return treeModel1;
+		} catch (Exception e) {
+			log.error("获取用户资源====" + e.getStackTrace());
+			return null;
+		}
 	}
 
 //	@Autowired
@@ -349,22 +382,5 @@ public class UserAction extends BaseAction {
 //		}
 //	}
 //
-//	/**
-//	 * 获取用户资源
-//	 *
-//	 * @param userId
-//	 * @return
-//	 */
-//	@RequestMapping("/user/getResourcesOfUser")
-//	@ResponseBody
-//	public TreeModel getResourcesOfUser(HttpSession session) {
-//		try {
-//			UserExtForm userExtForm = this.getSessionAccount();
-//			return userExtForm.getResourceTree();
-//		} catch (Exception e) {
-//			log.error("获取用户资源====" + e.getStackTrace());
-//			return null;
-//		}
-//	}
 
 }
