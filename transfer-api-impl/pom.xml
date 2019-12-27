@@ -26,7 +26,7 @@
 
     <!--SpringCloud的配置-->
     <properties>
-        <env.host>47.52.140.84:8081</env.host>
+        <env.host>47.75.90.65:8081</env.host>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.BUILD-SNAPSHOT</spring-cloud.version>
@@ -94,12 +94,12 @@
         <repository>
             <id>eason-releases</id>
             <name>eason releases Repository</name>
-            <url>http://${env.host}/nexus/content/repositories/releases/</url>
+            <url>http://${env.host}/repository/eason-releases/</url>
         </repository>
         <snapshotRepository>
             <id>eason-snapshots</id>
             <name>eason snapshots Repository</name>
-            <url>http://${env.host}/nexus/content/repositories/snapshots/</url>
+            <url>http://${env.host}/repository/eason-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
