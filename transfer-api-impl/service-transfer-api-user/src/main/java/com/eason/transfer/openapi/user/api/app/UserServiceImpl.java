@@ -123,7 +123,9 @@ public class UserServiceImpl implements IUserService {
                         userInfoPo.setUsername(request.getPhone());
                         userInfoPo.setPhoneNum(request.getPhone());
                         userInfoPo.setPassword(request.getPassword());
+                        userInfoPo.setCreateTime(new Timestamp(System.currentTimeMillis()));
                         userInfoPo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+                        userInfoPo.setCreateBy("APP");
                         userInfoPo.setStatus((byte)0);//0为启用，1为停用
 
                         userMapper.insert(userInfoPo);

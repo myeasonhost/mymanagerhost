@@ -335,7 +335,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Object getValidateCode(UserCodeRequest request) throws UserServiceException {
+    public UserCodeResponse getValidateCode(UserCodeRequest request) throws UserServiceException {
         UserCodeResponse response = new UserCodeResponse();
         String code = null;
         String result = null;

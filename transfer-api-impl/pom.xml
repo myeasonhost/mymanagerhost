@@ -20,6 +20,8 @@
         <module>service-transfer-api-user</module>
         <module>service-transfer-api-chess</module>
         <module>service-transfer-api-zb</module>
+        <module>service-transfer-admin-core</module>
+        <module>service-transfer-openapi-core</module>
     </modules>
 
     <!--SpringCloud的配置-->
