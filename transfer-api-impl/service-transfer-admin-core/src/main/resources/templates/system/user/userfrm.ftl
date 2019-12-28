@@ -1,13 +1,6 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<jsp:include page="/templates/common/head"/>
-<jsp:include page="/templates/common/system"/>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-	<head>
-		<title>用户管理</title>
-		 
-	</head>
-	<body>
+<#include "../../common/head.ftl" encoding="UTF-8" parse=true>
+
+<body>
 		<!-- begin of 用户列表 -->
 		<div id="usertoolbar">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
@@ -152,7 +145,7 @@
 			rownumbers:true,
 			fitColumns:true,
 			singleSelect:true,
-			url:"<%=request.getContextPath()%>/admin/user/getUsers",
+			url:"/admin/user/getUsers",
 			columns:[[
 				{field:'name',title:'姓名',width:100,align:'center',sortable:true},
 				{field:'account',title:'账户名',width:100,align:'center',sortable:true},
@@ -188,7 +181,7 @@
 			this.addUser = function(){
 				$('#userForm').form('clear');  
 				$('#userDialog').dialog('open').dialog('setTitle','新增用户');
-				url = '<%=request.getContextPath()%>/admin/user/addUser'; 
+				url = '/admin/user/addUser'; 
 				//启用用户名/账号输入框
 				$("#userForm input[name='name']").removeAttr("disabled");
 				$("#userForm input[name='account']").removeAttr("disabled");
@@ -198,7 +191,7 @@
 			this.updateUser = function(){
 				var row = $('#userDatagrid').datagrid('getSelected');   
 				if (row){
-					$.get("<%=request.getContextPath()%>/admin/user/getUserById",{'id':row.id},function(data){
+					$.get("/admin/user/getUserById",{'id':row.id},function(data){
 						//填充form数据						
 						$("#userForm input[name='id']").val(data.id);
 						$("#userForm input[name='name']").val(data.name);
@@ -212,7 +205,7 @@
 						//打开对话框
 					   	$('#userDialog').dialog('open').dialog('setTitle','修改用户');
 					    $("#userForm input[name='rePwd']").val($("#userForm input[name='pwd']").val()); 
-					   	url = '<%=request.getContextPath()%>/admin/user/updateUser';
+					   	url = '/admin/user/updateUser';
 					   	//禁止用户名/账号输入框
 					    //$("#userForm input[name='name']").attr("disabled","disabled");
 					   	$("#userForm input[name='account']").attr("disabled","disabled");
@@ -228,7 +221,7 @@
 				if (row){
 				    $.messager.confirm('删除','是否确定删除?',function(r){   
 			            if (r){   
-			                $.post('<%=request.getContextPath()%>/admin/user/deleteUser',{id:row.id},function(data){
+			                $.post('/admin/user/deleteUser',{id:row.id},function(data){
 			                	if(data.result){
 			                		$.messager.alert('提示','删除成功','info',function(){
 			                			$('#userDatagrid').datagrid('reload');  //刷新用户列表信息
@@ -237,7 +230,7 @@
 			                		$.messager.alert('错误',data.message,'error');   
 			                	}
 			                },'json');		                  
-			            }   
+			            }
 				    });
 				}else{
 					$.messager.alert('提示','请选择要删除的用户!','warning');
@@ -264,7 +257,7 @@
 				//判断账号是否存在
 				var id = $("#userForm input[name='id']").val();				
 				var account = $.trim($("#userForm input[name='account']").val());
-				 $.get('<%=request.getContextPath()%>/admin/user/checkUserAccount',{id:id,account:account},function(result){
+				 $.get('/admin/user/checkUserAccount',{id:id,account:account},function(result){
 		         	if(result){
 		         		$.messager.alert('提示','账号已存在!','warning');
 		         		$("#userForm input[name='account']").val("");
@@ -277,7 +270,7 @@
 				//判断手机是否存在
 				var id = $("#userForm input[name='id']").val();
 				var mobile = $.trim($("#userForm input[name='mobile']").val());
-				 $.get('<%=request.getContextPath()%>/admin/user/checkUserMobile',{id:id,mobile:mobile},function(result){
+				 $.get('/admin/user/checkUserMobile',{id:id,mobile:mobile},function(result){
 		         	if(result){
 		         		$.messager.alert('提示','手机号码已存在!','warning');
 		         		$("#userForm input[name='mobile']").val("");
@@ -290,7 +283,7 @@
 				//判断邮箱是否存在
 				var id = $("#userForm input[name='id']").val();
 		        var email = $.trim($("#userForm input[name='email']").val());				
-				$.get('<%=request.getContextPath()%>/admin/user/checkUseEmail',{id:id,email:email},function(result){
+				$.get('/admin/user/checkUseEmail',{id:id,email:email},function(result){
 		        	if(result){
 		         		$.messager.alert('提示','邮箱已存在!','warning');
 		         		$("#userForm input[name='email']").val("");
@@ -347,7 +340,7 @@
 				if(ids == ''){
 					$.messager.alert('提示','请选择要批量启用的用户!','warning');
 				}else{
-					$.post('<%=request.getContextPath()%>/admin/user/batchEnabled',{'ids[]':ids},
+					$.post('/admin/user/batchEnabled',{'ids[]':ids},
 							function(){
 								$('#userDatagrid').datagrid('reload');  //刷新用户列表信息
 							}
@@ -362,7 +355,7 @@
 				if(ids == ''){
 					$.messager.alert('提示','请选择要批量禁用的用户!','warning');
 				}else{
-					$.post('<%=request.getContextPath()%>/admin/user/batchUnabled',{'ids[]':ids},
+					$.post('/admin/user/batchUnabled',{'ids[]':ids},
 							function(){
 								$('#userDatagrid').datagrid('reload');  //刷新用户列表信息
 							}
@@ -378,7 +371,7 @@
 				}else{
 					$.messager.confirm('删除','是否确定删除?',function(isSure){
 						if(isSure){
-							$.post('<%=request.getContextPath()%>/admin/user/batchDelete',{'ids[]':ids},
+							$.post('/admin/user/batchDelete',{'ids[]':ids},
 							  function(){
 								$('#userDatagrid').datagrid('reload');  //刷新用户列表信息
 							  }
@@ -407,7 +400,7 @@
 							}
 						}
 					},
-					url:"<%=request.getContextPath()%>/admin/user/getRolesOfUser/"+row.id,
+					url:"/admin/user/getRolesOfUser/"+row.id,
 					columns:[[
 						{field:'ck',checkbox:true},
 						{field:'code',title:'角色编码',width:50,align:'center'},
@@ -424,7 +417,7 @@
 				if(ids == ''){
 					$.messager.alert('提示','请选择该用户的角色!','warning');
 				}else{
-					$.post('<%=request.getContextPath()%>/admin/user/assignRoles',{'ids[]':ids,'id':configUserId}
+					$.post('/admin/user/assignRoles',{'ids[]':ids,'id':configUserId}
 						,function(){
 							$("#configRoleDialog").dialog('close');
 							$('#userDatagrid').datagrid('reload');  //刷新用户列表信息
@@ -453,5 +446,4 @@
 		
 	});
 </script>
-	</body>
-</html>
+</body>

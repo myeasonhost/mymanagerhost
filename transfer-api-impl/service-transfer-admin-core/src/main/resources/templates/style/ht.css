@@ -1,0 +1,66 @@
+/*公用样式*/
+body { font-family: Microsoft Yahei; font-size:12px; color:#000;margin:0;padding:0; background:#ffffff;}
+div,ul,li,h1,h2,h3,h4,h5,h6,img,p,dl,dt,dd,ol,th,td{margin: 0px;padding: 0px;}
+li {list-style-type: none;}
+form,input,button,option,textarea,select{ margin: 0px;padding: 0px;}
+input,button,textarea,select{font:100% Tahoma,Helvetica,Arial,sans-serif;}
+a {;text-decoration: none;color:#000;}
+a:link,a:visited {text-decoration: none;}
+a:hover{text-decoration: none;}
+table {font-size:inherit;font:100%;}
+th { font-weight:normal;}
+img{ border: 0;}
+h3{ font-size:14px; color:#000; font-weight:bold;}
+h4 { font-size: 12px;}
+.clear { clear: both; height: 0px; overflow: hidden;}
+.section { width: 100%; clear:both; overflow: hidden;}
+.ny_section { width: 100%; clear:both; overflow: hidden;}
+.copy{ font-family:Arial, Helvetica, sans-serif;}
+.white{ color:#fff;}
+.warp1000{ width:1000px; margin:0px auto;}
+
+/*清除浮动*/
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden; }
+.clearfix{display:inline-table;}/* Hides from IE-mac \*/
+* html .clearfix{height:1%;}
+.clearfix{display:block;}/* 结束 hide from IE-mac */
+*+html .clearfix{min-height:1%;}/* IE7 */
+
+HTML {_background: url(/images/trans.gif) no-repeat fixed;}
+.bgstretcher-area { text-align: left; }
+.bgstretcher, .bgstretcher UL, .bgstretcher UL LI {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.bgstretcher UL, .bgstretcher UL LI {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.bgstretcher {
+	background: black;
+	overflow: hidden;
+	width: 100%;
+	position: fixed;
+	z-index: 1;
+	_position: absolute; /*IE6 doesn't support fixed positioning*/
+	top: 0;
+	left: 0;
+}
+.ht{ position:relative;}
+.p_top{ margin:193px auto 0px auto; width:500px;}
+.p_top p{ margin-top:11px}
+.p_top .p1{ font-size:36px; color:#ffffff; text-align:center;}
+.p_top .p2{ font-size:14px; color:#ffffff; text-align:center;}
+.logo{ margin:21px auto 0px auto; width:234px; height:124px;}
+.t_01{ width:196px; height:39px; background:url(../images/inp_01.png) no-repeat; border:none; position:absolute; top:120px; left:130px; font-size:18px; color:#FFF; padding-left:8px; padding-left:50px; outline:none;}
+.t_02{ width:196px; height:39px; background:url(../images/inp_02.png) no-repeat; border:none; position:absolute; top:120px; left:625px; font-size:18px; color:#FFF; padding-left:50px; outline:none;}
+.t_03{ width:127px; height:39px; background:url(../images/inp_03.png) no-repeat; border:none; position:absolute; top:250px; left:340px; font-size:18px; color:#FFF; padding-left:9px; outline:none; font-family: Microsoft Yahei;}
+.t_04{ width:134px; height:37px; background:#04b20b; border:none; font-size:18px; color:#FFF; position:absolute; top:250px; left:540px; border-radius:5px; -moz-border-radius:5px; outline:none;}
+.p3{ width:583px; margin:150px auto 0px auto; color:#FFF; font-size:14px;}
+
+.ht .yzm{ background:#FFF; width:115px; height:36px; position:absolute; left:350px; top:210px; border-radius:5px; -moz-border-radius:5px; display:none;}
+.ht .yzm .z{ float:left; width:100px;}
+.ht .yzm .y{ float:right; width:15px;}
+.ht .yzm .y .im34{ margin-top:6px; margin-left:3px;}

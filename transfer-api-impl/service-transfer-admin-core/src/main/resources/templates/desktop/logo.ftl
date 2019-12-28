@@ -44,17 +44,17 @@
 	$(function(){
 		//初始化 -> 绑定事件 -> 修改密码
 		$("#logo .logoLogin .pwdImg").bind("mouseover",function(){
-			$(this).attr("src","<%=request.getContextPath()%>/images/admin/key02.png");
+			$(this).attr("src","/images/admin/key02.png");
 		}).bind("mouseout",function(){
-			$(this).attr("src","<%=request.getContextPath()%>/images/admin/key01.png");
+			$(this).attr("src","/images/admin/key01.png");
 		}).bind("click",function(){
 			logoAction.updatePwd();
 		});
 		//初始化 -> 绑定事件 -> 退出
 		$("#logo .logoLogin .logoutImg").bind("mouseover",function(){
-			$(this).attr("src","<%=request.getContextPath()%>/images/admin/logout021.png");
+			$(this).attr("src","/images/admin/logout021.png");
 		}).bind("mouseout",function(){
-			$(this).attr("src","<%=request.getContextPath()%>/images/admin/logout01.png");
+			$(this).attr("src","/images/admin/logout01.png");
 		}).bind("click",function(){
 			logoAction.logOut();
 		});
@@ -80,7 +80,7 @@
 			}
 			var oldPwd = $.trim($("#logo_updatePwd_dialog input[name='oldPwd']").val());
 			var newPwd = $.trim($("#logo_updatePwd_dialog input[name='newPwd1']").val());
-			$.get("<%=request.getContextPath()%>/admin/user/updatePwd",{'oldPwd':oldPwd,'newPwd':newPwd},function(data){
+			$.get("/admin/user/updatePwd",{'oldPwd':oldPwd,'newPwd':newPwd},function(data){
 				data = eval("("+data+")");
 			 	if(data.result){
 			 		$.messager.alert('提示',data.message,'warning');
@@ -113,7 +113,7 @@
 		this.logOut = function(){
 			$.messager.confirm("退出","确认退出系统？",function(result){
 				if(result){
-					document.location.href="<%=request.getContextPath()%>/admin/user/logout";
+					document.location.href="/admin/user/logout";
 				}
 			})
 		}		
@@ -125,10 +125,10 @@
   <body>
 	<div id="logo">
    		<div class="logoImg">   
-   			<h1 >卓尔冷链后台管理</h1>
+   			<h1 >麒麟软件——后台管理</h1>
    		</div>
    		<div class="logoLogin">
-   			<image src="<%=request.getContextPath()%>/images/admin/key01.png" class="pwdImg"/><image onclick="logOut()" src="<%=request.getContextPath()%>/images/admin/logout01.png" class="logoutImg" />
+   			<image src="/images/admin/key01.png" class="pwdImg"/><image onclick="logOut()" src="/images/admin/logout01.png" class="logoutImg" />
    		</div>
 	   	<div id="logo_updatePwd_dialog" class="easyui-dialog" title="修改密码" style="width:400px;height:200px;"  
 		        data-options="iconCls:'icon-save',resizable:true,modal:true" buttons="#logo-updatePwd-buttons" closed="true">  

@@ -1,12 +1,6 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<jsp:include page="/templates/common/head"/>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-	<head>
-		<title>角色管理</title>
-		 
-	</head>
-	<body>
+<#include "../../common/head.ftl" encoding="UTF-8" parse=true>
+
+<body>
 		<!--角色列表开始 -->
 		<div id="roletoolbar">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
@@ -18,7 +12,7 @@
 		</div>
 		<table id="roleDatagrid" toolbar="#roletoolbar" fit="true"
 			border="false" idField="id" rownumbers="true" fitColumns="true"
-			singleSelect="true" url="<%=request.getContextPath()%>/admin/role/getRoles">
+			singleSelect="true" url="/admin/role/getRoles">
 
 		</table>
 		<!-- 角色列表结束 -->
@@ -111,7 +105,7 @@
 			this.addRole = function(){
 				$('#roleForm').form('clear'); //清空form
 			  	$('#roleDialog').dialog('open').dialog('setTitle','新增角色');
-			   	weburl = '<%=request.getContextPath()%>/admin/role/addRole';
+			   	weburl = '/admin/role/addRole';
 			} 
 			
 			//角色 --> 弹出修改角色对话框
@@ -121,7 +115,7 @@
 				if (row){
 					$('#roleForm').form('load',row);	   
 				  	$('#roleDialog').dialog('open').dialog('setTitle','修改角色');			   
-				   	weburl = '<%=request.getContextPath()%>/admin/role/updateRole';  
+				   	weburl = '/admin/role/updateRole';  
 				}else{
 					$.messager.alert('提示','请选择要修改的角色！','warning');
 				} 		
@@ -134,7 +128,7 @@
 			        $.messager.confirm('删除','是否确定删除?',function(r){   
 			          if (r){
 			          		$.ajax({
-							  url: '<%=request.getContextPath()%>/admin/role/deleteRole',
+							  url: '/admin/role/deleteRole',
 							  data:{id:row.id},
 							  complete: function(data) {
 							    $('#roleDatagrid').datagrid('reload');
@@ -190,7 +184,7 @@
 			//配置资源 --> 打开资源对话框
 			this.configureResource = function(roleId){
 				$('#configResourceTree').tree({  
-				    url:"<%=request.getContextPath()%>/admin/role/getResourceOfRole?roleId="+roleId 
+				    url:"/admin/role/getResourceOfRole?roleId="+roleId 
 				}); 
 				$("#configResourceDialog").dialog("open");
 				configRoleId = roleId;
@@ -202,7 +196,7 @@
 				if(ids == ''){
 					$.messager.alert('提示','请选择该角色的资源!','warning');
 				}else{
-					$.post('<%=request.getContextPath()%>/admin/role/roleConfigResource',{'ids[]':ids,'id':configRoleId});
+					$.post('/admin/role/roleConfigResource',{'ids[]':ids,'id':configRoleId});
 					$("#configResourceDialog").dialog('close');
 					$('#roleDatagrid').datagrid('reload');  //刷新角色列表信息   
 				}
@@ -226,7 +220,7 @@
 		//配置资源 --> 展开节点 --> 从服务器获取子节点
 		function getNodesFormServer(node){
 			$.ajax({
-			  url: "<%=request.getContextPath()%>/admin/role/getResourceOfRole",
+			  url: "/admin/role/getResourceOfRole",
 			  type: "POST", 
 	 		  data: {id : node.id},
 			  success: function(data) {
@@ -273,6 +267,5 @@
 	});
 	
 </script>
-	</body>
-</html>
+</body>
 

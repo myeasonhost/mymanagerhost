@@ -41,11 +41,106 @@ public class UserAction extends BaseAction {
 	public ModelAndView index() {
 		return new ModelAndView("index");
 	}
-	@RequestMapping(value = "/{path1}/{path2}/{path3}")
+	@RequestMapping(value = "/{path1}/{path2}/{path3}.ftl")
 	public ModelAndView indexPath(@PathVariable String path1, @PathVariable String path2, @PathVariable String path3) {
 		return new ModelAndView(path1+"/"+path2+"/"+path3);
 	}
 
+	/**
+	 * 新增用户
+	 */
+	@RequestMapping("/admin/user/addUser")
+	@ResponseBody
+	public MessageModel addUser(UserVo userVo) {
+		userVo.setIsEnabled(userVo.getIsEnabled() == null?"0" :"1");
+		User userPo=new User();
+		userPo.setName(userVo.getName());
+		userPo.setAccount(userVo.getAccount());
+		userPo.setEmail(userVo.getEmail());
+		userPo.setMobile(userVo.getMobile());
+		userPo.setTele(userVo.getTele());
+		userPo.setIsEnabled(userVo.getIsEnabled());
+		userPo.setPwd(SparkLib.encodePassword(userVo.getPwd(), 30));
+		userPo.setId(RandomGUID.newGuid());
+		this.userDao.save(userPo);
+		return this.SUCCESS;
+	}
+
+	/**
+	 * 查找用户
+	 */
+	@RequestMapping("/admin/user/getUserById")
+	@ResponseBody
+	public UserVo getUserById(String id) {
+		UserVo userVo=new UserVo();
+		User userPo=this.userDao.getOne(id);
+		BeanUtils.copyProperties(userPo,userVo);
+		userVo.setPwd("");
+		return userVo;
+	}
+
+
+	/**
+	 * 更新用户
+	 */
+	@RequestMapping("/admin/user/updateUser")
+	@ResponseBody
+	public MessageModel updateUser(UserVo userVo) {
+		User userPo=this.userDao.getOne(userVo.getId());
+		userVo.setIsEnabled(userVo.getIsEnabled() == null?"0" :"1");
+		userPo.setName(userVo.getName());
+		userPo.setEmail(userVo.getEmail());
+		userPo.setMobile(userVo.getMobile());
+		userPo.setTele(userVo.getTele());
+		userPo.setIsEnabled(userVo.getIsEnabled());
+		userPo.setPwd(SparkLib.encodePassword(userVo.getPwd(), 30));
+		this.userDao.save(userPo);
+		return this.SUCCESS;
+	}
+
+	/**
+	 * 获取所有用户
+	 */
+	@RequestMapping("/admin/user/getUsers")
+	@ResponseBody
+	public DataModel getUsers() {
+		DataModel<UserVo> dataModel=new DataModel();
+		List<User> list=userDao.findAll();
+		List<UserVo> listVo=new ArrayList<>();
+		list.forEach(user -> {
+			UserVo userVo=new UserVo();
+			userVo.setId(user.getId());
+			userVo.setName(user.getName());
+			userVo.setAccount(user.getAccount());
+			userVo.setEmail(user.getEmail());
+			userVo.setMobile(user.getMobile());
+			userVo.setTele(user.getTele());
+			userVo.setIsEnabled(user.getIsEnabled());
+			listVo.add(userVo);
+		});
+		dataModel.setTotal(listVo.size());
+		dataModel.setRows(listVo);
+		return dataModel;
+	}
+	/**
+	 * 用户登出
+	 */
+	@RequestMapping("/admin/user/logout")
+	@ResponseBody
+	public ModelAndView logout() {
+		this.removeSessionAccount();
+		return new ModelAndView("login");
+	}
+
+	/**
+	 * 用户更新密码
+	 */
+	@RequestMapping("/admin/user/changePassword")
+	@ResponseBody
+	public MessageModel changePassword() {
+		this.removeSessionAccount();
+		return this.SUCCESS;
+	}
 	/**
 	 * 用户登陆
 	 */
@@ -130,6 +225,16 @@ public class UserAction extends BaseAction {
 		return resourceConventerToTreeModel(list);
 	}
 
+	/**
+	 * 删除资源
+	 */
+	@RequestMapping("/admin/resource/deleteResource")
+	@ResponseBody
+	public MessageModel deleteResource(String id) {
+		resourceDao.deleteById(id);
+		resourceDao.deleteAllByParentId(id);
+		return new MessageModel(true,"删除成功");
+	}
 
 	/**
 	 * 将资源转换为对应的TreeModel

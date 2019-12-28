@@ -225,7 +225,7 @@
 					$.messager.confirm('删除','是否确定删除？',function(r){
 						if(r){
 							$.ajax({
-								url: "<%=request.getContextPath()%>/admin/resource/deleteResource",
+								url: "/admin/resource/deleteResource",
 								type: "POST",
 								data: {id:node.id},
 								complete: function(data, textStatus, jqXHR) {

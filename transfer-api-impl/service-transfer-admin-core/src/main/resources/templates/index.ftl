@@ -33,7 +33,7 @@ function setDateStr()   {
 	    $("#dateSpan").text(dateStr); 
 };
 	
-$(function(){ 
+$(function(){
 	//获取当前时间
 	setDateStr();
 	//更改密码
@@ -42,7 +42,7 @@ $(function(){
 			title : '更改密码',
 			closed : false,
 			cache : false,
-			href : "<%=path%>/admin/system/user/changePwd",
+			href : "/system/user/changePwd.ftl",
 			modal : true,
 			buttons : [{
 						text : '保存',
@@ -92,14 +92,10 @@ $(function(){
 <body class="easyui-layout"> 
 	 <div region="north" style="overflow:hidden;height:30px;padding-top:5px;text-align:right;background-image: url('images/top_bg.gif');background-repeat: no-repeat;background-position: right 0;position: relative;">
 	 	   <span id="dateSpan"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-		 ${(user.account)!''}&nbsp;&nbsp;欢迎您！<a class="link"  id="changePwd">更改密码</a>&nbsp;&nbsp;<a class="link" href="xxxx" >登出</a> &nbsp;&nbsp;
+		 ${(user.account)!''}&nbsp;&nbsp;欢迎您！<a class="link"  id="changePwd">更改密码</a>&nbsp;&nbsp;<a id="logout" class="link" href="/admin/user/logout" >登出</a> &nbsp;&nbsp;
 	</div>
 	<div id="west" region="west" split="false" title=" " style="width:200px;" >
-<#--		<jsp:include page="menu.jsp"> -->
-<#--    		<jsp:param name="user" value="${user}" /> -->
-<#--	    </jsp:include>-->
 		<#include "menu.ftl" encoding="UTF-8" parse=true>
-
 	</div>
 	
 	<div id="layout_content" region="center">

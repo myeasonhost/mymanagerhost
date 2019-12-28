@@ -36,9 +36,9 @@ $(function(){
 				});
 			}
 			$("#ayscNavigation h3").bind("mouseover",function(){
-		 		$(this).css("background","url('../../images/admin/HT-nav-hoverbg.png')");
+		 		$(this).css("background","url('../images/admin/HT-nav-hoverbg.png')");
 		 	}).bind("mouseout",function(){
-		 		$(this).css("background","url('../../images/admin/HT-nav-normalbg.png')");
+		 		$(this).css("background","url('../images/admin/HT-nav-normalbg.png')");
 		 	});
 		},
 		'json'

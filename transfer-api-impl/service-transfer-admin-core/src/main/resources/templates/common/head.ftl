@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>后台管理</title>
+<title>麒麟软件—后台管理</title>
 	<link rel="stylesheet" type="text/css" href="/js/easyui/themes/default/easyui.css"/>
 	<link rel="stylesheet" type="text/css" href="/js/easyui/themes/icon.css"/>
 	<script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>
