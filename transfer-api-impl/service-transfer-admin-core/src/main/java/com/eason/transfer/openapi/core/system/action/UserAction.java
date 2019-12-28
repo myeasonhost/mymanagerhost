@@ -1,14 +1,18 @@
 package com.eason.transfer.openapi.core.system.action;
 
 import com.eason.transfer.openapi.core.system.base.BaseAction;
+import com.eason.transfer.openapi.core.system.dao.ResourceDao;
 import com.eason.transfer.openapi.core.system.dao.UserDao;
+import com.eason.transfer.openapi.core.system.entity.po.Resource;
 import com.eason.transfer.openapi.core.system.entity.po.User;
-import com.eason.transfer.openapi.core.system.entity.vo.MessageModel;
-import com.eason.transfer.openapi.core.system.entity.vo.TreeModel;
+import com.eason.transfer.openapi.core.system.entity.vo.*;
+import com.eason.transfer.openapi.core.system.utils.RandomGUID;
 import com.eason.transfer.openapi.core.utils.SparkLib;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,14 +28,22 @@ public class UserAction extends BaseAction {
 
 	@Autowired
 	private UserDao userDao;
-	@RequestMapping(value = "/admin")
+
+	@Autowired
+	private ResourceDao resourceDao;
+
+	@RequestMapping(value = "/")
 	public ModelAndView admin() {
-		return new ModelAndView("admin/login");
+		return new ModelAndView("login");
 	}
 
-	@RequestMapping(value = "/admin/index")
+	@RequestMapping(value = "/index")
 	public ModelAndView index() {
-		return new ModelAndView("admin/index");
+		return new ModelAndView("index");
+	}
+	@RequestMapping(value = "/{path1}/{path2}/{path3}")
+	public ModelAndView indexPath(@PathVariable String path1, @PathVariable String path2, @PathVariable String path3) {
+		return new ModelAndView(path1+"/"+path2+"/"+path3);
 	}
 
 	/**
@@ -60,327 +72,102 @@ public class UserAction extends BaseAction {
 	}
 
 	/**
-	 * 获取用户资源
+	 * 获取菜单资源
 	 */
 	@RequestMapping("/admin/user/getResourcesOfUser")
 	@ResponseBody
-	public TreeModel getResourcesOfUser() {
-		try {
-			TreeModel treeModel1=new TreeModel();
-			treeModel1.setId("1");
-			treeModel1.setText("ROOT");
-			List<TreeModel> subList1=new ArrayList<>();
+	public MenuModel getResourcesOfUser() {
+		MenuModel treeModel1=new MenuModel();
+		treeModel1.setId("1");
+		treeModel1.setText("ROOT");
+		List<MenuModel> subList1=new ArrayList<>();
 
-			TreeModel treeModel2=new TreeModel();
-			treeModel2.setId("10");
-			treeModel2.setText("系统管理");
-			List<TreeModel> subList2=new ArrayList<>();
-			subList2.add(new TreeModel("100","用户管理","http://xxxx.jsp"));
-			subList2.add(new TreeModel("101","角色管理","http://xxxx.jsp"));
-			treeModel2.setChildren(subList2);
+		Resource resource=resourceDao.getOne("t0000000000000000000000000001000");
 
-			subList1.add(treeModel2);
-			treeModel1.setChildren(subList1);
-			return treeModel1;
-		} catch (Exception e) {
-			log.error("获取用户资源====" + e.getStackTrace());
-			return null;
-		}
+		MenuModel treeModel2=new MenuModel();
+		treeModel2.setId(resource.getId());
+		treeModel2.setText(resource.getTitle());
+
+		List<MenuModel> subList2=new ArrayList<>();
+		List<Resource> subResource2=resourceDao.findAllByParentId(resource.getId());
+		subResource2.forEach(subResource -> {
+			subList2.add(new MenuModel(subResource.getId(),subResource.getTitle(),subResource.getHref()));
+		});
+		treeModel2.setChildren(subList2);
+		subList1.add(treeModel2);
+		treeModel1.setChildren(subList1);
+		return treeModel1;
 	}
 
-//	@Autowired
-//	private UserManage userManage;
-//
-//	@RequestMapping(value = "/user/toDesktop/{id}")
-//	public ModelAndView goDesktop(@PathVariable String id) {
-//		ModelAndView mav = new ModelAndView();
-//		UserExtForm userExtForm=this.getSessionAccount();
-//		if (userExtForm.getId() == null|| !userExtForm.getId().equals(id)) {
-//			this.removeSessionAccount();
-//			mav.setViewName( "redirect:/admin");
-//			return mav;
-//		}  else {
-//			mav.setViewName( "redirect:/admin/desktop");
-//			mav.addObject(WebConstant.LoginAdminUser,userExtForm);
-//			return mav;
-//		}
-//	}
-//
-//	@RequestMapping(value = "/desktop")
-//	public ModelAndView desktop(HttpServletRequest request) {
-//		ModelAndView mav = new ModelAndView();
-//		if (this.getSessionAccount().getAccount() == null) {
-//			this.removeSessionAccount();
-//			mav.setViewName( "redirect:/");
-//			return mav;
-//		}  else {
-//			mav.setViewName( "/pages/desktop");
-//			mav.addObject(WebConstant.LoginAdminUser,this.getSessionAccount());
-//			return mav;
-//		}
-//
-//
-//	}
-//
-//
-//	/**
-//	 * 用户注销
-//	 */
-//	@RequestMapping(value = "/user/logout")
-//	public String userLogout(HttpSession session,HttpServletRequest request) {
-//		this.removeSessionAccount();
-//		return "redirect:/index.jsp";
-//	}
-//
-//	/**
-//	 *系统管理 修改密码专用
-//	 */
-//	@RequestMapping(value = "/user/updatePwd")
-//	@ResponseBody
-//	public MessageModel updatePwd(@RequestParam(value = "oldPwd", required = true) String oldPwd,
-//			@RequestParam(value = "newPwd", required = true) String newPwd,
-//			HttpSession session) {
-//		MessageModel messageModel = new MessageModel();
-//		UserExtForm user = this.getSessionAccount();
-//		boolean ret = userManage.exeResetPassWord(user.getId(),oldPwd, newPwd);
-//		if(ret){
-//			messageModel.setResult(true);
-//			messageModel.setMessage("密码修改正确，请牢记新密码!");
-//		}else{
-//			messageModel.setResult(false);
-//			messageModel.setMessage("原始密码错误!");
-//		}
-//		return messageModel;
-//	}
-//
-//	/**
-//	 * 个人修改密码专用
-//	 * @param userVo
-//	 * @return  1=修改成功  -1=修改失败
-//	 */
-//	@RequestMapping("/user/changePassword")
-//	@ResponseBody
-//	public String changePassword(UserVo userVo){
-//		int result=userManage.changePassword(userVo);
-//		return result+"";
-//	}
-//
-//
-//	/**
-//	 * 获取所有用户
-//	 */
-//	@RequestMapping("/user/getUsers")
-//	@ResponseBody
-//	public DataModel getUsers() {
-//		try {
-//			DataModel model = userManage.getUsers();
-//			return model;
-//		} catch (Exception e) {
-//			log.error("获取用户发生异常====" + e.getStackTrace());
-//		}
-//		return null;
-//	}
-//
-//	/**
-//	 * 新增用户
-//	 */
-//	@RequestMapping("/user/addUser")
-//	@ResponseBody
-//	public MessageModel addUser(UserExtForm user) {
-//		user.setIsEnabled(user.getIsEnabled() == null ? WebConstant.FALSE
-//				: WebConstant.TRUE);
-//		try {
-//			userManage.addUser(user);
-//			return SUCCESS;
-//		} catch (Exception e) {
-//			log.error("新增用户发生异常====" + e.getStackTrace());
-//			return FAILURE;
-//		}
-//	}
-//
-//	/**
-//	 * 修改用户
-//	 */
-//	@RequestMapping("/user/updateUser")
-//	@ResponseBody
-//	public MessageModel updateUser(UserExtForm user) {
-//		user.setIsEnabled(user.getIsEnabled() == null ? WebConstant.FALSE
-//				: WebConstant.TRUE);
-//		try {
-//			userManage.updateUser(user);
-//			return SUCCESS;
-//		} catch (Exception e) {
-//			log.error("修改用户发生异常====" + e.getStackTrace());
-//			return FAILURE;
-//		}
-//	}
-//
-//	/**
-//	 * 修改用户 -> 根据ID获取用户
-//	 */
-//	@RequestMapping("/user/getUserById")
-//	@ResponseBody
-//	public UserExtForm getUserById(String id) {
-//		try {
-//			UserExtForm userExtForm=userManage.getUserById(id);
-//			userExtForm.setPwd(null);
-//			return userExtForm;
-//		} catch (Exception e) {
-//			log.error("根据ID获取用户发生异常====" + e.getStackTrace());
-//			return null;
-//		}
-//	}
-//
-//	/**
-//	 * 校验检查密码 ->根据ID返回校验状态
-//	 * return 1=正常 0=旧密码错误 -1=失败包含异常 -2=新旧密码不一致
-//	 */
-//	@RequestMapping("/user/checkedAccountId")
-//	@ResponseBody
-//	public String checkedAccountId(UserVo userVo){
-//		int result=userManage.checkedAccountId(userVo);
-//		return result+"";
-//	}
-//
-//
-//	/**
-//	 * 获取所有角色及该用户所具有角色
-//	 *
-//	 * @param userId
-//	 */
-//	@SuppressWarnings("rawtypes")
-//	@RequestMapping("/user/getRolesOfUser/{userId}")
-//	@ResponseBody
-//	public DataModel getRolesOfUser(@PathVariable String userId) {
-//		return this.userManage.getRolesOfUser(userId);
-//	}
-//	/**
-//	 * 检查帐号是否存在
-//	 * @param id
-//	 * @param account
-//	 * @return
-//	 */
-//	@RequestMapping("/user/checkUserAccount")
-//	@ResponseBody
-//	public boolean  checkUserAccountExisted(String id, String account){
-//		boolean isExisted = userManage.checkUserAccountExisted(id, account);
-//		return isExisted;
-//	}
-//
-//	/**
-//	 * 检查手机号码是否存在
-//	 * @param id
-//	 * @param mobile
-//	 * @return
-//	 */
-//	@RequestMapping("/user/checkUserMobile")
-//	@ResponseBody
-//	boolean checkUserMobileExisted(String id, String mobile){
-//		boolean isExisted = userManage.checkUserMobileExisted(id, mobile);
-//		return isExisted;
-//	}
-//
-//
-//	/**
-//	 * 检查email是否存在
-//	 * @param id
-//	 * @param email
-//	 * @return
-//	 */
-//	@RequestMapping("/user/checkUseEmail")
-//	@ResponseBody
-//	boolean checkUseEmailExisted(String id, String email){
-//		boolean isExisted = userManage.checkUseEmailExisted(id, email);
-//		return isExisted;
-//	}
-//
-//	/**
-//	 * 删除用户
-//	 */
-//	@RequestMapping("/user/deleteUser")
-//	@ResponseBody
-//	public MessageModel deleteUser(@RequestParam(value = "id", required = true)
-//	String id) {
-//		try {
-//			userManage.deleteUser(id);
-//			return SUCCESS;
-//		} catch (Exception e) {
-//			log.error("删除用户发生异常====" + e.getStackTrace());
-//			FAILURE.setMessage(e.getMessage());
-//			return FAILURE;
-//		}
-//	}
-//
-//	/**
-//	 * 批量删除用户
-//	 */
-//	@RequestMapping("/user/batchDelete")
-//	@ResponseBody
-//	public MessageModel batchDelete(
-//			@RequestParam(value = "ids[]", required = true)
-//			String[] ids) {
-//		try {
-//			for (String id : ids) {
-//				userManage.deleteUser(id);
-//			}
-//			return SUCCESS;
-//		} catch (Exception e) {
-//			log.error("删除用户发生异常====" + e.getStackTrace());
-//			return FAILURE;
-//		}
-//	}
-//
-//	/**
-//	 * 批量启用用户
-//	 */
-//	@RequestMapping("/user/batchEnabled")
-//	@ResponseBody
-//	public MessageModel batchEnabled(
-//			@RequestParam(value = "ids[]", required = true)
-//			String[] ids) {
-//		try {
-//			userManage.setUserState(WebConstant.TRUE, ids);
-//			return SUCCESS;
-//		} catch (Exception e) {
-//			log.error("启用用户发生异常====" + e.getStackTrace());
-//			return FAILURE;
-//		}
-//	}
-//
-//	/**
-//	 * 批量禁用用户
-//	 */
-//	@RequestMapping("/user/batchUnabled")
-//	@ResponseBody
-//	public MessageModel batchUnabled(
-//			@RequestParam(value = "ids[]", required = true)
-//			String[] ids) {
-//		try {
-//			userManage.setUserState(WebConstant.FALSE, ids);
-//			return SUCCESS;
-//		} catch (Exception e) {
-//			log.error("停用户发生异常====" + e.getStackTrace());
-//			return FAILURE;
-//		}
-//	}
-//
-//	/**
-//	 * 用户指定角色
-//	 */
-//	@RequestMapping("/user/assignRoles")
-//	@ResponseBody
-//	public MessageModel assignRoles(
-//			@RequestParam(value = "ids[]", required = true)
-//			String[] ids, @RequestParam(value = "id", required = false)
-//			String userId) {
-//		try {
-//			userManage.assignRoles(userId, ids);
-//			return SUCCESS;
-//		} catch (Exception e) {
-//			log.error("停用户发生异常====" + e.getStackTrace());
-//			return FAILURE;
-//		}
-//	}
-//
+	/**
+	 * 获取资源列表
+	 */
+	@RequestMapping("/admin/resource/getResources")
+	@ResponseBody
+	public List<TreeModel> getResources(String id) {
+		return resourceConventerToTreeModel(resourceDao.findAllByParentId(id==null?"":id));
+	}
+
+	/**
+	 * 保存或者更新资源
+	 */
+	@RequestMapping("/admin/resource/saveResource")
+	@ResponseBody
+	public List<TreeModel> saveResource(ResourceVo vo) {
+		Resource po;
+		if (StringUtils.isEmpty(vo.getId())){
+			po=new Resource();
+			BeanUtils.copyProperties(vo,po);
+			po.setId(RandomGUID.newGuid());
+			resourceDao.save(po);
+		}else{
+			po=resourceDao.getOne(vo.getId());
+			BeanUtils.copyProperties(vo,po);
+			resourceDao.save(po);
+		}
+		List<Resource> list=new ArrayList<>();
+		list.add(po);
+		return resourceConventerToTreeModel(list);
+	}
+
+
+	/**
+	 * 将资源转换为对应的TreeModel
+	 */
+	private List<TreeModel> resourceConventerToTreeModel(List<Resource> resourceList) {
+		List<TreeModel> treeModelList = new ArrayList<>();
+		Resource resource;
+
+		TreeModel treeModel;
+		AttributesModel attributeModel;
+		for (int i = 0; i < resourceList.size(); i++) {
+			resource = resourceList.get(i);
+
+			treeModel = new TreeModel();
+			treeModel.setId(resource.getId());
+			treeModel.setText(resource.getTitle());
+			treeModel.setState(isHasNodes(resource.getId()));
+
+			attributeModel = new AttributesModel();
+			attributeModel.setCode(resource.getCode());
+			attributeModel.setParentId(resource.getParentId());
+			attributeModel.setHref(resource.getHref());
+
+			treeModel.setAttributes(attributeModel);
+			treeModelList.add(treeModel);
+		}
+		return treeModelList;
+	}
+
+	/**
+	 * 判断节点是否有子节点
+	 */
+	private String isHasNodes(String id){
+		if(resourceDao.findAllByParentId(id).size() < 1){
+			return "open";
+		}
+		return "closed";
+	}
+
 
 }

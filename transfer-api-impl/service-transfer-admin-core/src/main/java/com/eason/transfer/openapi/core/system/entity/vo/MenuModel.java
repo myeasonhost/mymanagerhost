@@ -12,9 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TreeModel implements Serializable{
+public class MenuModel implements Serializable{
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 2255641424466390767L;
 	/**
@@ -33,23 +33,18 @@ public class TreeModel implements Serializable{
 	private String iconCls;
 
 	/**
-	 * 指示节点是否处于选中状态
+	 * 资源路径
 	 */
-	private boolean checked = false;
-
-	/**
-	 * 节点的初始化状态(关闭或展开)
-	 */
-	private String state="closed";
-
-	/**
-	 * 自定义属性
-	 */
-	private AttributesModel attributes;
+	private String href;
 
 	/**
 	 * 子节点
 	 */
-	private List<TreeModel> children;
+	private List<MenuModel> children;
 
+	public MenuModel(String id, String text, String href) {
+		this.id = id;
+		this.text = text;
+		this.href = href;
+	}
 }
