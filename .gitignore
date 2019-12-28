@@ -3,3 +3,8 @@
 /transfer-api/openapi-common/target/
 /.idea/
 /transfer-api/service-transfer-api-user-sdk/target/
+/transfer-api-impl/service-transfer-admin-core/target/
+/transfer-api-impl/service-transfer-api-chess/target/
+/transfer-api-impl/service-transfer-api-user/target/
+/transfer-api-impl/service-transfer-api-zb/target/
+/transfer-api-impl/service-transfer-openapi-core/target/
