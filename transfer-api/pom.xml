@@ -20,6 +20,7 @@
         <module>openapi-common</module>
         <module>service-transfer-api-user-sdk</module>
         <module>service-transfer-api-chess-sdk</module>
+        <module>service-transfer-api-zb-sdk</module>
     </modules>
 
     <!--SpringCloud的配置-->
