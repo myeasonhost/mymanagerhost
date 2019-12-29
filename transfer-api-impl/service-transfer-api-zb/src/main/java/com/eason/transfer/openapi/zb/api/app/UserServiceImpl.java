@@ -496,7 +496,7 @@ public class UserServiceImpl implements IUserService {
                 response.setSuccessCount(0);
                 return response;
             }
-            FileItem fileImg=request.getFileImg();
+            FileItem fileImg=request.getAvatar();
             FileCopyUtils.copy(fileImg.getContent(), new File(fileImgLocal + fileImg.getFileName()));
             String pic = fileImgRemote + fileImg.getFileName();
             userInfoPo.setAvatar(pic);

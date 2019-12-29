@@ -21,6 +21,11 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.eason.transfer</groupId>
+            <artifactId>service-transfer-api-zb-sdk</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.0</version>
@@ -75,12 +80,6 @@
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
             <version>3.11.6</version>
-        </dependency>
-        <dependency>
-            <groupId>com.eason.transfer</groupId>
-            <artifactId>service-transfer-api-zb-sdk</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
         </dependency>
 
     </dependencies>

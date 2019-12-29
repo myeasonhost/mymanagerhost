@@ -22,11 +22,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -210,12 +211,14 @@ public class ApiToolsAction {
                     systemParam.setPostUrl(systemParam.getPostUrl().replace("8080", "443"));
                 }
             }
-            Map<String, File> fileParams = new HashMap<String, File>();
-//            if(logo != null){
-//                fileParams.put("logo", logo);
-//            }
+            // 转换request，解析出request中的文件
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
-            String appResult = PostClient.sendRequest(systemParam.getPostUrl(), appParamMap, fileParams, systemParam.getAppSecret(), tmpPostParams);
+            // 获取文件map集合
+            Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+
+
+            String appResult = PostClient.sendRequest(systemParam.getPostUrl(), appParamMap, fileMap, systemParam.getAppSecret(), tmpPostParams);
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject(systemParam);
             modelAndView.addObject("appResult", appResult);
@@ -228,4 +231,5 @@ public class ApiToolsAction {
         }
 
     }
+
 }

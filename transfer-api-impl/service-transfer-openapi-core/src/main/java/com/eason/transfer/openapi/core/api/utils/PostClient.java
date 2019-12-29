@@ -1,6 +1,7 @@
 package com.eason.transfer.openapi.core.api.utils;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.net.ssl.*;
 import java.io.*;
@@ -30,7 +31,7 @@ public class PostClient {
      * @return
      * @throws IOException
      */
-    public static String sendRequest(String postUrl, Map<String, String> params, Map<String, File> fileParams, String secretKey, StringBuilder tmpPostParams) throws IOException {
+    public static String sendRequest(String postUrl, Map<String, String> params, Map<String, MultipartFile> fileParams, String secretKey, StringBuilder tmpPostParams) throws IOException {
         Map<String, String> paramMap = new HashMap<String, String>();
 //		paramMap.put("ver", "1.0");
 //		paramMap.put("deviceManufacturer", "test page");
@@ -54,7 +55,7 @@ public class PostClient {
         return result;
     }
 
-    private static String doPostWithFile(String url, Map<String, String> params, Map<String, File> fileParams) throws IOException {
+    private static String doPostWithFile(String url, Map<String, String> params, Map<String, MultipartFile> fileParams) throws IOException {
         String boundary = System.currentTimeMillis() + ""; // 随机分隔线
         HttpURLConnection conn = null;
         OutputStream out = null;
@@ -73,11 +74,11 @@ public class PostClient {
             }
 
             // 组装文件请求参数
-            Set<Entry<String, File>> fileEntrySet = fileParams.entrySet();
-            for (Entry<String, File> fileEntry : fileEntrySet) {
-                File fileItem = fileEntry.getValue();
+            Set<Entry<String, MultipartFile>> fileEntrySet = fileParams.entrySet();
+            for (Entry<String, MultipartFile> fileEntry : fileEntrySet) {
+                MultipartFile fileItem = fileEntry.getValue();
 
-                byte[] content = getFileContent(fileItem);
+                byte[] content = fileItem.getBytes();
 
                 byte[] fileBytes = getFileEntry(fileEntry.getKey(),
                         fileItem.getName(), getMimeType(content), "UTF-8");
@@ -280,33 +281,6 @@ public class PostClient {
                 stream.close();
             }
         }
-    }
-
-    public static byte[] getFileContent(File file) throws IOException {
-        byte[] content = null;
-
-        if (file != null && file.exists()) {
-            InputStream in = null;
-            ByteArrayOutputStream out = null;
-
-            try {
-                in = new FileInputStream(file);
-                out = new ByteArrayOutputStream();
-                int ch;
-                while ((ch = in.read()) != -1) {
-                    out.write(ch);
-                }
-                content = out.toByteArray();
-            } finally {
-                if (out != null) {
-                    out.close();
-                }
-                if (in != null) {
-                    in.close();
-                }
-            }
-        }
-        return content;
     }
 
     /**

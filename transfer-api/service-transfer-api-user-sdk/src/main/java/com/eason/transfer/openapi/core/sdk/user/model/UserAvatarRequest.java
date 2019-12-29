@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserAvatarRequest extends Request {
 
-    private FileItem fileImg;
+    private FileItem avatar;
 
 }

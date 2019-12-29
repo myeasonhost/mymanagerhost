@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="log.path" value="/root/logs/report/service-transfer-api-zb/" />
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%file:%line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/service-transfer-api-zb.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/service-transfer-api-zb.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        　　　<file>${log.path}/service-transfer-api-zb-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            　　　<fileNamePattern>
+            　　　${log.path}/service-transfer-api-zb-error.%i.log
+            　　　</fileNamePattern>
+            　　　<minIndex>1</minIndex>
+            　　　<maxIndex>10</maxIndex>
+            　　　</rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            　　　　　　　<maxFileSize>100MB</maxFileSize>
+            　　　　</triggeringPolicy>
+        　　　　<encoder>
+        　　　　　　　　<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+        　　　　</encoder>
+        <!-- 此日志文件只记录debug级别，不记录大于debug级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        　</appender>
+    <logger name="com" level="DEBUG" />
+    <logger name="java.sql" level="DEBUG" />
+    <root level="INFO">
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+        <appender-ref ref="error" />
+    </root>
+</configuration>

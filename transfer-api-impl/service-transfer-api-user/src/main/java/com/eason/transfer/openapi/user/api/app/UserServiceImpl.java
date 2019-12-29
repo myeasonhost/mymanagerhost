@@ -13,16 +13,15 @@ import com.eason.transfer.openapi.user.api.app.dao.mapper.UserInfoPoMapper;
 import com.eason.transfer.openapi.user.api.app.dao.mapper.VerifyCodeLogMapper;
 import com.eason.transfer.openapi.user.api.app.model.CodeConfigModel;
 import com.eason.transfer.openapi.user.api.app.utils.TokenUtil;
+import com.eason.transfer.openapi.user.utils.FtpClientUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,14 +39,10 @@ public class UserServiceImpl implements IUserService {
     private UserCodePoMapper userCodeMapper;
     @Autowired
     private CodeMgrImpl codeMgrImpl;
-
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-
-//    @Value("${user.file.img.local}")
-    private String fileImgLocal;
-//    @Value("${user.file.img.remote}")
-    private String fileImgRemote;
+    @Autowired
+    private FtpClientUtils ftpClientUtils;
 
     @Override
     public RegisterResponse register(RegisterRequest request) throws UserServiceException {
@@ -499,15 +494,18 @@ public class UserServiceImpl implements IUserService {
                 response.setSuccessCount(0);
                 return response;
             }
-            FileItem fileImg=request.getFileImg();
-            FileCopyUtils.copy(fileImg.getContent(), new File(fileImgLocal + fileImg.getFileName()));
-            String pic = fileImgRemote + fileImg.getFileName();
+            FileItem fileImg=request.getAvatar();
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileImg.getContent());
+
+            String path=request.getAppKey()+"/avatar";
+            String host=ftpClientUtils.uploadFile(byteArrayInputStream,path,fileImg.getFileName()+"_"+userInfoPo.getUsername());
+            String pic = host +"/"+path+"/"+fileImg.getFileName()+"_"+userInfoPo.getUsername();
             userInfoPo.setAvatar(pic);
             this.userMapper.updateByPrimaryKey(userInfoPo);
-            response.setImgUrl(fileImgRemote + fileImg.getFileName());
+            response.setImgUrl(userInfoPo.getAvatar());
             response.setResult("图像上传成功");
             return response;
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new UserServiceException(e.getMessage());
         }
     }
