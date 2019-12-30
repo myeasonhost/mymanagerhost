@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @XStreamAlias("ReporttIndexList")
-public class ReporttIndexList extends Request {
+public class IndexListRequest extends Request {
 
     private static final long serialVersionUID = 1L;
 

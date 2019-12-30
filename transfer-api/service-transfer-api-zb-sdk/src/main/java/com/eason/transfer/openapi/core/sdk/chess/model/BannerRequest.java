@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @XStreamAlias("Bannerrequest")
-public class Bannerrequest extends Request {
+public class BannerRequest extends Request {
     private static final long serialVersionUID = 1L;
     String category; //房间分类：1=最热（默认）、2=收藏、3=最新、4=付费、5=游戏</br>
 }
