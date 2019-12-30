@@ -10,9 +10,7 @@
 			<a href="#" class="easyui-linkbutton" iconCls="icon-remove"
 				plain="true" onclick="roleAction.deleteRole()">删除角色</a>
 		</div>
-		<table id="roleDatagrid" toolbar="#roletoolbar" fit="true"
-			border="false" idField="id" rownumbers="true" fitColumns="true"
-			singleSelect="true" url="/admin/role/getRoles">
+		<table id="roleDatagrid">
 
 		</table>
 		<!-- 角色列表结束 -->
@@ -74,6 +72,14 @@
 		//初始化 --> 角色 --> 定义角色列表列
 		$('#roleDatagrid').datagrid({
 			remoteSort:false,
+            toolbar:"#usertoolbar",
+            fit:true,
+            border:false,
+            idField:"id",
+            rownumbers:true,
+            fitColumns:true,
+            singleSelect:true,
+            url:"/role/getRoles",
 			columns:[[
 				{field:'code',title:'角色编码',width:250,align:'center',sortable:true},
 				{field:'title',title:'角色名称',width:250,align:'center',sortable:true},
