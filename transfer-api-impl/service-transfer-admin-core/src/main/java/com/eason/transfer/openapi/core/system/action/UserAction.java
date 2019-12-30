@@ -2,8 +2,12 @@ package com.eason.transfer.openapi.core.system.action;
 
 import com.eason.transfer.openapi.core.system.base.BaseAction;
 import com.eason.transfer.openapi.core.system.dao.ResourceDao;
+import com.eason.transfer.openapi.core.system.dao.ResourceRoleDao;
+import com.eason.transfer.openapi.core.system.dao.RoleDao;
 import com.eason.transfer.openapi.core.system.dao.UserDao;
 import com.eason.transfer.openapi.core.system.entity.po.Resource;
+import com.eason.transfer.openapi.core.system.entity.po.Role;
+import com.eason.transfer.openapi.core.system.entity.po.RoleResource;
 import com.eason.transfer.openapi.core.system.entity.po.User;
 import com.eason.transfer.openapi.core.system.entity.vo.*;
 import com.eason.transfer.openapi.core.system.utils.RandomGUID;
@@ -30,7 +34,13 @@ public class UserAction extends BaseAction {
 	private UserDao userDao;
 
 	@Autowired
+	private RoleDao roleDao;
+
+	@Autowired
 	private ResourceDao resourceDao;
+
+	@Autowired
+	private ResourceRoleDao resourceRoleDao;
 
 	@RequestMapping(value = "/")
 	public ModelAndView admin() {
@@ -122,6 +132,7 @@ public class UserAction extends BaseAction {
 		dataModel.setRows(listVo);
 		return dataModel;
 	}
+
 	/**
 	 * 用户登出
 	 */
@@ -272,6 +283,91 @@ public class UserAction extends BaseAction {
 			return "open";
 		}
 		return "closed";
+	}
+
+
+	/**
+	 * 获取所有角色
+	 */
+	@RequestMapping("/admin/role/getRoles")
+	@ResponseBody
+	public DataModel getRoles() {
+		DataModel<RoleVo> dataModel=new DataModel();
+		List<Role> list=roleDao.findAll();
+		List<RoleVo> listVo=new ArrayList<>();
+		list.forEach(role -> {
+			RoleVo roleVo=new RoleVo();
+			roleVo.setId(role.getId());
+			roleVo.setCode(role.getCode());
+			roleVo.setTitle(role.getTitle());
+			listVo.add(roleVo);
+		});
+		dataModel.setTotal(listVo.size());
+		dataModel.setRows(listVo);
+		return dataModel;
+	}
+
+	/**
+	 * 获取所有角色下的所有资源
+	 */
+	@RequestMapping("/admin/role/getResourceOfRole")
+	@ResponseBody
+	public List<TreeModel> getResourceOfRole(String roleId) {
+		List<TreeModel> list = new ArrayList<>();
+
+		List<Resource> resourceList = resourceDao.findAll();
+		List<RoleResource> roleResourceList = resourceRoleDao.findAllByRoleId(roleId);
+
+		List<ResourceRoleVo> resourceRoleVos=new ArrayList<>();
+
+		resourceList.forEach(resource -> {
+			ResourceRoleVo resourceRoleVo=new ResourceRoleVo();
+			BeanUtils.copyProperties(resource,resourceRoleVo);
+
+			if(roleResourceList!=null & roleResourceList.size()>0){
+				boolean checked = false;
+				for(RoleResource uref:roleResourceList){
+					if(resource.getId().equals(uref.getResourceId())){
+						resourceRoleVo.setChecked(true);
+						checked = true;
+						break;
+					}
+				}
+				if(!checked)resourceRoleVo.setChecked(false);
+			}else{
+				resourceRoleVo.setChecked(false);
+			}
+			resourceRoleVos.add(resourceRoleVo);
+		});
+		return resourceConventerToTreeModel2(resourceRoleVos);
+	}
+
+	/**
+	 * 将资源转换为对应的TreeModel
+	 */
+	private List<TreeModel> resourceConventerToTreeModel2(List<ResourceRoleVo> resourceList) {
+		List<TreeModel> treeModelList = new ArrayList<>();
+		ResourceRoleVo resource;
+
+		TreeModel treeModel;
+		AttributesModel attributeModel;
+		for (int i = 0; i < resourceList.size(); i++) {
+			resource = resourceList.get(i);
+
+			treeModel = new TreeModel();
+			treeModel.setId(resource.getId());
+			treeModel.setText(resource.getTitle());
+			treeModel.setState(isHasNodes(resource.getId()));
+
+			attributeModel = new AttributesModel();
+			attributeModel.setCode(resource.getCode());
+			attributeModel.setParentId(resource.getParentId());
+			attributeModel.setHref(resource.getHref());
+
+			treeModel.setAttributes(attributeModel);
+			treeModelList.add(treeModel);
+		}
+		return treeModelList;
 	}
 
 
