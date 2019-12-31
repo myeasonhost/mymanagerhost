@@ -1,48 +1,87 @@
-//package com.eason.transfer.openapi.core.system.action;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpServletResponse;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.ResponseBody;
-//
-//import com.eason.cms.web.BaseAction;
-//import com.eason.system.service.RoleManager;
-//import com.eason.system.vo.DataModel;
-//import com.eason.system.vo.MessageModel;
-//import com.eason.system.vo.RoleExtForm;
-//import com.eason.system.vo.TreeModel;
-//import com.eason.system.vo.UserExtForm;
-//@Controller
-//public class RoleAction extends BaseAction {
-//
-//	@Autowired
-//	private RoleManager roleManager;
-//
-//	/**
-//	 * 获取角色列表
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@RequestMapping("/role/getRoles")
-//	@ResponseBody
-//	public DataModel getRoles(HttpServletRequest requert,
-//			HttpServletResponse response) {
-//		try {
-//			DataModel model = roleManager.getRoles();
-//			return model;
-//		} catch (Exception e) {
-//			log.error("获取角色发生异常===="+e.getStackTrace());
-//		}
-//		return null;
-//	}
-//
+package com.eason.transfer.openapi.core.system.action;
+
+
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.eason.transfer.openapi.core.system.base.BaseAction;
+import com.eason.transfer.openapi.core.system.dao.ResourceRoleDao;
+import com.eason.transfer.openapi.core.system.dao.RoleDao;
+import com.eason.transfer.openapi.core.system.entity.po.Role;
+import com.eason.transfer.openapi.core.system.entity.po.RoleResource;
+import com.eason.transfer.openapi.core.system.entity.vo.DataModel;
+import com.eason.transfer.openapi.core.system.entity.vo.MessageModel;
+import com.eason.transfer.openapi.core.system.entity.vo.UserVo;
+import com.eason.transfer.openapi.core.system.utils.RandomGUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+import java.util.Optional;
+
+@Controller
+public class RoleAction extends BaseAction {
+
+	@Autowired
+	private RoleDao roleDao;
+	@Autowired
+	private ResourceRoleDao resourceRoleDao;
+
+	/**
+	 * 获取角色列表
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/role/getRoles")
+	@ResponseBody
+	public DataModel getRoles(HttpServletRequest requert,
+                              HttpServletResponse response) {
+		try {
+            DataModel<Role> dataModel=new DataModel();
+            List<Role> list=roleDao.findAll();
+            dataModel.setRows(list);
+			return dataModel;
+		} catch (Exception e) {
+			log.error("获取角色发生异常===="+e.getStackTrace());
+		}
+		return null;
+	}
+
+
+	/**
+	 //	 * 角色配置资源
+	 //	 */
+	@RequestMapping("/admin/role/roleConfigResource")
+	@ResponseBody
+	public MessageModel roleConfigResouce(@RequestParam(value = "ids[]", required = true) String[] resourceIds,@RequestParam(value = "id", required = true) String roleId){
+		try {
+			List<RoleResource> roleResourceList = resourceRoleDao.findAllByRoleId(roleId);
+			boolean isAdd=true;
+			for (int i = 0; i < resourceIds.length ; i++) {
+				for (int j = 0; j < roleResourceList.size(); j++) {
+					if(roleResourceList.get(j).getResourceId().equals(resourceIds[i])){
+						isAdd=false;
+						break;
+					}
+				}
+				if(isAdd){
+					RoleResource roleResource=new RoleResource();
+					roleResource.setId(RandomGUID.newGuid());
+					roleResource.setResourceId(resourceIds[i]);
+					roleResource.setRoleId(roleId);
+					resourceRoleDao.save(roleResource);
+				}
+			}
+			return SUCCESS;
+		}catch(Exception e){
+			log.error("保存角色资源发生异常====" + e.getStackTrace());
+			return FAILURE;
+		}
+	}
+
 //	/**
 //	 * 新增角色
 //	 */
@@ -150,5 +189,5 @@
 //		}
 //		return model;
 //	}
-//
-//}
+
+}

@@ -312,10 +312,10 @@ public class UserAction extends BaseAction {
 	 */
 	@RequestMapping("/admin/role/getResourceOfRole")
 	@ResponseBody
-	public List<TreeModel> getResourceOfRole(String roleId) {
+	public List<TreeModel> getResourceOfRole(String roleId,String id) {
 		List<TreeModel> list = new ArrayList<>();
 
-		List<Resource> resourceList = resourceDao.findAll();
+		List<Resource> resourceList =resourceDao.findAllByParentId(id==null?"":id);
 		List<RoleResource> roleResourceList = resourceRoleDao.findAllByRoleId(roleId);
 
 		List<ResourceRoleVo> resourceRoleVos=new ArrayList<>();
@@ -365,6 +365,7 @@ public class UserAction extends BaseAction {
 			attributeModel.setHref(resource.getHref());
 
 			treeModel.setAttributes(attributeModel);
+			treeModel.setChecked(resource.isChecked());
 			treeModelList.add(treeModel);
 		}
 		return treeModelList;

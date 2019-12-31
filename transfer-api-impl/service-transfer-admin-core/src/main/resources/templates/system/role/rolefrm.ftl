@@ -184,8 +184,8 @@
 			//配置资源 --> 打开资源对话框
 			this.configureResource = function(roleId){
 				$('#configResourceTree').tree({  
-				    url:"/admin/role/getResourceOfRole?roleId="+roleId 
-				}); 
+				    url:"/admin/role/getResourceOfRole?roleId="+roleId
+				});
 				$("#configResourceDialog").dialog("open");
 				configRoleId = roleId;
 			}
@@ -221,13 +221,13 @@
 		function getNodesFormServer(node){
 			$.ajax({
 			  url: "/admin/role/getResourceOfRole",
-			  type: "POST", 
+			  type: "POST",
 	 		  data: {id : node.id},
 			  success: function(data) {
 			  	//将子节点添加到父节点
 			  	showNodes(node,data);
 			  }
-			});	
+			});
 		}
 		
 		//配置资源 --> 展开节点 --> 添加子节点到父节点
