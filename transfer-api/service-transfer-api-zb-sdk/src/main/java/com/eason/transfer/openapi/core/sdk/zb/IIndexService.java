@@ -93,7 +93,7 @@ public interface IIndexService {
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/index/getIndexList")
-    IndexResponse getIndexList(@RequestBody ReporttIndexList reporttIndexList) throws Exception;
+    IndexResponse getIndexList(@RequestBody IndexListRequest indexListRequest) throws Exception;
 
 
 
@@ -142,7 +142,7 @@ public interface IIndexService {
      */
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/index/getBannerList")
-    BannerResponse getBannerList(@RequestBody Bannerrequest request) throws Exception;
+    BannerResponse getBannerList(@RequestBody BannerRequest request) throws Exception;
 
     /**
      * @apiVersion 1.0.0
