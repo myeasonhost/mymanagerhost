@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface IRoomService {
 
     @CrossOrigin(origins = "*")
+    @PostMapping(value = "/room/findAll")
+    RoomFindAllResponse findAll(@RequestBody RoomFindAllRequest request) throws Exception;
+
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/room/create")
     RoomCreateResponse create(@RequestBody RoomCreateRequest request) throws Exception;
 

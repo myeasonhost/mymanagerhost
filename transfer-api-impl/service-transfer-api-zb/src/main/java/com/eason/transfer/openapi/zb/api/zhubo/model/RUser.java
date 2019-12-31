@@ -15,9 +15,7 @@ import java.io.Serializable;
 public class RUser implements Serializable {
     @RId
     private String id;
-
     private String username;
     private String nickName;
-
     private String avatar;
 }

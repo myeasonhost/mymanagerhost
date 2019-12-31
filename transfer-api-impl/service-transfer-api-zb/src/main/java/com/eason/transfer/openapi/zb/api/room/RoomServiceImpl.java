@@ -14,13 +14,18 @@ import com.eason.transfer.openapi.zb.api.zhubo.model.RZhubo;
 import com.eason.transfer.openapi.zb.utils.FtpClientUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.redisson.api.RLiveObjectService;
 import org.redisson.api.RedissonClient;
+import org.redisson.api.condition.Conditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -35,6 +40,28 @@ public class RoomServiceImpl implements IRoomService {
     private UserPoMapper userPoMapper;
     @Autowired
     private FtpClientUtils ftpClientUtils;
+
+    @Override
+    public RoomFindAllResponse findAll(RoomFindAllRequest request) throws Exception {
+        RoomFindAllResponse response=new RoomFindAllResponse();
+        List<RoomVo> list=new ArrayList<>();
+        RLiveObjectService liveObjectService=redisson.getLiveObjectService();
+        Collection<RRoom> roomCollection=liveObjectService.find(RRoom.class, Conditions.eq("status",0));
+        roomCollection.forEach(rRoom -> {
+            RoomVo roomVo=new RoomVo();
+            roomVo.setId(rRoom.getId());
+            roomVo.setNickName(rRoom.getRZhubo().getNickName());
+            roomVo.setAvatar(rRoom.getRZhubo().getAvatar());
+            roomVo.setRoomName(rRoom.getRoomName());
+            roomVo.setRoomBgImage(rRoom.getRoomBgImage());
+            roomVo.setUsername(rRoom.getRZhubo().getUsername());
+            roomVo.setStartTime(DateFormatUtils.format(rRoom.getStartTime().getTime(),DateFormatUtils.ISO_DATETIME_FORMAT.getPattern()));
+            roomVo.setUserCount(0);
+            list.add(roomVo);
+        });
+        response.setList(list);
+        return response;
+    }
 
     @Override
     public RoomCreateResponse create(RoomCreateRequest request) throws Exception {
@@ -77,7 +104,9 @@ public class RoomServiceImpl implements IRoomService {
         rZhubo.setAvatar(userPo.getAvatar());
         rZhubo.setFansNum(0);
         rZhubo.setIsFans(Boolean.FALSE);
+        rZhubo=liveObjectService.persist(rZhubo);
 
+        rRoom.setStatus(zhuboPo.getStatus()+0);
         rRoom.setRZhubo(rZhubo);
         liveObjectService.persist(rRoom);
 

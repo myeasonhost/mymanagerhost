@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.redisson.api.annotation.REntity;
 import org.redisson.api.annotation.RId;
+import org.redisson.api.annotation.RIndex;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -17,6 +18,9 @@ import java.sql.Timestamp;
 public class RRoom implements Serializable {
     @RId
     private String id;
+
+    @RIndex
+    private Integer status;
 
     private String roomName;
 
