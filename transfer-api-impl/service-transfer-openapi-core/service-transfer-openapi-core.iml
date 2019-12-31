@@ -29,6 +29,7 @@
     <orderEntry type="module" module-name="openapi-common" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.10" level="project" />
     <orderEntry type="module" module-name="service-transfer-api-user-sdk" />
+    <orderEntry type="module" module-name="service-transfer-api-zb-sdk" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-starter-config:2.2.2.BUILD-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-starter:2.2.2.BUILD-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-context:2.2.2.BUILD-SNAPSHOT" level="project" />

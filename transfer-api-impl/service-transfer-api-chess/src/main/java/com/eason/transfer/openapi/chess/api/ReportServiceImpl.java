@@ -6,8 +6,8 @@ import com.eason.transfer.openapi.chess.dao.entity.TReportDayUserPo;
 import com.eason.transfer.openapi.chess.dao.entity.TReportDayUserPoExample;
 import com.eason.transfer.openapi.chess.dao.mapper.TReportAuditTotalPoMapper;
 import com.eason.transfer.openapi.chess.dao.mapper.TReportDayUserPoMapper;
-import com.eason.transfer.openapi.core.sdk.chess.IReportService;
-import com.eason.transfer.openapi.core.sdk.chess.model.*;
+import com.eason.transfer.openapi.core.sdk.zb.IReportService;
+import com.eason.transfer.openapi.core.sdk.zb.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
@@ -15,7 +15,6 @@ import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;

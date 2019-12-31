@@ -2,7 +2,7 @@ package com.eason.transfer.openapi.chess.dao.mapper;
 
 import com.eason.transfer.openapi.chess.dao.entity.TChessGamePo;
 import com.eason.transfer.openapi.chess.dao.entity.TChessGamePoExample;
-import com.eason.transfer.openapi.core.sdk.chess.model.PullBetBetRecordVo;
+import com.eason.transfer.openapi.core.sdk.zb.model.PullBetBetRecordVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.sql.Timestamp;

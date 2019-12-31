@@ -72,7 +72,8 @@ public class UserServiceImpl implements IUserService {
             boolean b=(boolean)resultCodeMap.get("flag");
             if(!b){
                 String msg = (String)resultCodeMap.get("errorMsg");
-                throw new UserServiceException(msg);
+                code = "code";
+                result = msg;
             }
 
             // 3.验证用户是否注册

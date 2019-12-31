@@ -1,12 +1,11 @@
 package com.eason.transfer.openapi.zb;
 
-import com.corundumstudio.socketio.AuthorizationListener;
 import com.corundumstudio.socketio.Configuration;
-import com.corundumstudio.socketio.HandshakeData;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
 import com.corundumstudio.socketio.store.RedissonStoreFactory;
 import com.eason.transfer.openapi.zb.config.SocketConfig;
+import com.eason.transfer.openapi.zb.im.listener.SocketAuthorListener;
 import org.mybatis.spring.annotation.MapperScan;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,19 +45,9 @@ public class ServiceTransferApiZbApplication {
         // 设置最大每帧处理数据的长度，防止他人利用大数据来攻击服务器
         config.setMaxFramePayloadLength(socketConfig.getMaxFramePayloadLength());
         //该处可以用来进行身份验证
-        config.setAuthorizationListener(new AuthorizationListener() {
-            @Override
-            public boolean isAuthorized(HandshakeData data) {
-                //http://localhost:8081?username=test&password=test
-                //例如果使用上面的链接进行connect，可以使用如下代码获取用户密码信息，本文不做身份验证
-//              String username = data.getSingleUrlParam("username");
-//              String password = data.getSingleUrlParam("password");
-                return true;
-            }
-        });
+        config.setAuthorizationListener(new SocketAuthorListener());
         config.setStoreFactory(new RedissonStoreFactory(redissonClient));
         final SocketIOServer server = new SocketIOServer(config);
-
         return server;
     }
 

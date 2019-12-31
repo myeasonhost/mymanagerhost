@@ -1,8 +1,8 @@
 package com.eason.transfer.openapi.zb.api.app;
 
 
-import com.eason.transfer.openapi.core.sdk.chess.IIndexService;
-import com.eason.transfer.openapi.core.sdk.chess.model.*;
+import com.eason.transfer.openapi.core.sdk.zb.IIndexService;
+import com.eason.transfer.openapi.core.sdk.zb.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.RestController;

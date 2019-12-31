@@ -10,15 +10,17 @@
             <property name="suppressAllComments" value="true" />
         </commentGenerator>
         <!-- 2.连接数据库 -->
-        <jdbcConnection connectionURL="jdbc:mysql://10.20.25.230:3306/user?serverTimezone=UTC&amp;useSSL=true" driverClass="com.mysql.jdbc.Driver" userId="root" password="eason" />
+        <jdbcConnection connectionURL="jdbc:mysql://10.20.22.230:3306/user?serverTimezone=UTC&amp;useSSL=true" driverClass="com.mysql.jdbc.Driver" userId="root" password="eason" />
         <!-- 3.指定javabean生成位置 -->
-        <javaModelGenerator targetPackage="com.eason.transfer.openapi.user.api.app.dao.entity" targetProject="./src/main/java" />
+        <javaModelGenerator targetPackage="com.eason.transfer.openapi.zb.api.entity" targetProject="./src/main/java" />
         <!-- 4.指定sql.mapper映射文件生成位置 -->
-        <sqlMapGenerator targetPackage="com.eason.transfer.openapi.user.api.app.dao.mapper" targetProject="./src/main/java" />
+        <sqlMapGenerator targetPackage="com.eason.transfer.openapi.zb.api.mapper" targetProject="./src/main/java" />
         <!-- 5.指定sql.interface接口生成位置 -->
-        <javaClientGenerator targetPackage="com.eason.transfer.openapi.user.api.app.dao.mapper" targetProject="./src/main/java" type="XMLMAPPER" />
+        <javaClientGenerator targetPackage="com.eason.transfer.openapi.zb.api.mapper" targetProject="./src/main/java" type="XMLMAPPER" />
         <!-- 6.table指定生成策略 -->
-        <table tableName="user_info" domainObjectName="UserInfoPo"></table>
+        <table tableName="t_zb_zhubo" domainObjectName="ZbZhuboPo"></table>
+        <table tableName="user_info" domainObjectName="UserPo"></table>
+
 
     </context>
 </generatorConfiguration>
