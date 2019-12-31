@@ -10,7 +10,9 @@
 			<a href="#" class="easyui-linkbutton" iconCls="icon-remove"
 				plain="true" onclick="roleAction.deleteRole()">删除角色</a>
 		</div>
-		<table id="roleDatagrid">
+		<table id="roleDatagrid" toolbar="#roletoolbar" fit="true"
+			border="false" idField="id" rownumbers="true" fitColumns="true"
+			singleSelect="true" url="/admin/role/getRoles">
 
 		</table>
 		<!-- 角色列表结束 -->
@@ -72,14 +74,6 @@
 		//初始化 --> 角色 --> 定义角色列表列
 		$('#roleDatagrid').datagrid({
 			remoteSort:false,
-            toolbar:"#usertoolbar",
-            fit:true,
-            border:false,
-            idField:"id",
-            rownumbers:true,
-            fitColumns:true,
-            singleSelect:true,
-            url:"/role/getRoles",
 			columns:[[
 				{field:'code',title:'角色编码',width:250,align:'center',sortable:true},
 				{field:'title',title:'角色名称',width:250,align:'center',sortable:true},
@@ -190,8 +184,8 @@
 			//配置资源 --> 打开资源对话框
 			this.configureResource = function(roleId){
 				$('#configResourceTree').tree({  
-				    url:"/admin/role/getResourceOfRole?roleId="+roleId 
-				}); 
+				    url:"/admin/role/getResourceOfRole?roleId="+roleId
+				});
 				$("#configResourceDialog").dialog("open");
 				configRoleId = roleId;
 			}
@@ -227,13 +221,13 @@
 		function getNodesFormServer(node){
 			$.ajax({
 			  url: "/admin/role/getResourceOfRole",
-			  type: "POST", 
+			  type: "POST",
 	 		  data: {id : node.id},
 			  success: function(data) {
 			  	//将子节点添加到父节点
 			  	showNodes(node,data);
 			  }
-			});	
+			});
 		}
 		
 		//配置资源 --> 展开节点 --> 添加子节点到父节点

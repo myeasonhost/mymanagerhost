@@ -6,11 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.eason.transfer.openapi.core.system.base.BaseAction;
+import com.eason.transfer.openapi.core.system.dao.ResourceRoleDao;
 import com.eason.transfer.openapi.core.system.dao.RoleDao;
 import com.eason.transfer.openapi.core.system.entity.po.Role;
+import com.eason.transfer.openapi.core.system.entity.po.RoleResource;
 import com.eason.transfer.openapi.core.system.entity.vo.DataModel;
 import com.eason.transfer.openapi.core.system.entity.vo.MessageModel;
 import com.eason.transfer.openapi.core.system.entity.vo.UserVo;
+import com.eason.transfer.openapi.core.system.utils.RandomGUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class RoleAction extends BaseAction {
 
 	@Autowired
 	private RoleDao roleDao;
+	@Autowired
+	private ResourceRoleDao resourceRoleDao;
 
 	/**
 	 * 获取角色列表
@@ -42,6 +48,38 @@ public class RoleAction extends BaseAction {
 			log.error("获取角色发生异常===="+e.getStackTrace());
 		}
 		return null;
+	}
+
+
+	/**
+	 //	 * 角色配置资源
+	 //	 */
+	@RequestMapping("/admin/role/roleConfigResource")
+	@ResponseBody
+	public MessageModel roleConfigResouce(@RequestParam(value = "ids[]", required = true) String[] resourceIds,@RequestParam(value = "id", required = true) String roleId){
+		try {
+			List<RoleResource> roleResourceList = resourceRoleDao.findAllByRoleId(roleId);
+			boolean isAdd=true;
+			for (int i = 0; i < resourceIds.length ; i++) {
+				for (int j = 0; j < roleResourceList.size(); j++) {
+					if(roleResourceList.get(j).getResourceId().equals(resourceIds[i])){
+						isAdd=false;
+						break;
+					}
+				}
+				if(isAdd){
+					RoleResource roleResource=new RoleResource();
+					roleResource.setId(RandomGUID.newGuid());
+					roleResource.setResourceId(resourceIds[i]);
+					roleResource.setRoleId(roleId);
+					resourceRoleDao.save(roleResource);
+				}
+			}
+			return SUCCESS;
+		}catch(Exception e){
+			log.error("保存角色资源发生异常====" + e.getStackTrace());
+			return FAILURE;
+		}
 	}
 
 //	/**
