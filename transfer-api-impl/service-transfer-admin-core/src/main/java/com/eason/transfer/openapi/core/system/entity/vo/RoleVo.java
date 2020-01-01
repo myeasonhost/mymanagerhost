@@ -19,5 +19,8 @@ public class RoleVo implements Serializable{
 	private String id;
 	private String code;
 	private String title;
-	
+	/**
+	 * 复选框选中状态，用于展现
+	 */
+	private boolean ck = false;
 }

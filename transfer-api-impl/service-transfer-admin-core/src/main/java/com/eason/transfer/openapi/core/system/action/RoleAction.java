@@ -59,8 +59,8 @@ public class RoleAction extends BaseAction {
 	public MessageModel roleConfigResouce(@RequestParam(value = "ids[]", required = true) String[] resourceIds,@RequestParam(value = "id", required = true) String roleId){
 		try {
 			List<RoleResource> roleResourceList = resourceRoleDao.findAllByRoleId(roleId);
-			boolean isAdd=true;
 			for (int i = 0; i < resourceIds.length ; i++) {
+				boolean isAdd=true;
 				for (int j = 0; j < roleResourceList.size(); j++) {
 					if(roleResourceList.get(j).getResourceId().equals(resourceIds[i])){
 						isAdd=false;
@@ -82,52 +82,55 @@ public class RoleAction extends BaseAction {
 		}
 	}
 
-//	/**
-//	 * 新增角色
-//	 */
-//	@RequestMapping("/role/addRole")
-//	@ResponseBody
-//	public MessageModel addRole(RoleExtForm role){
-//		try{
-//			roleManager.addRole(role);
-//			return SUCCESS;
-//		}catch (Exception e) {
-//			log.error("新增角色发生异常===="+e.getStackTrace());
-//			return  null;
-//		}
-//	}
-//
-//	/**
-//	 * 修改角色
-//	 */
-//	@RequestMapping("/role/updateRole")
-//	@ResponseBody
-//	public MessageModel updateRole(RoleExtForm role){
-//		try{
-//			roleManager.updateRole(role);
-//			return SUCCESS;
-//		}catch (Exception e) {
-//			log.error("修改角色发生异常===="+e.getStackTrace());
-//			return null;
-//		}
-//	}
-//
-//	/**
-//	 * 删除角色
-//	 * @param id
-//	 * @return
-//	 */
-//	@RequestMapping("/role/deleteRole")
-//	@ResponseBody
-//	public MessageModel deleteRole2(@RequestParam(value = "id", required = true) String id){
-//		try{
-//			roleManager.deleteRole(id);
-//			return SUCCESS;
-//		}catch (Exception e) {
-//			log.error("删除角色发生异常===="+e.getStackTrace());
-//			return FAILURE;
-//		}
-//	}
+	/**
+	 * 新增角色
+	 */
+	@RequestMapping("/admin/role/addRole")
+	@ResponseBody
+	public MessageModel addRole(Role role){
+		try{
+            roleDao.save(role);
+			return SUCCESS;
+		}catch (Exception e) {
+			log.error("新增角色发生异常===="+e.getStackTrace());
+			return  null;
+		}
+	}
+
+	/**
+	 * 修改角色
+	 */
+	@RequestMapping("/admin/role/updateRole")
+	@ResponseBody
+	public MessageModel updateRole(Role role){
+		try{
+            Role newRole=new Role();
+            newRole.setCode(role.getCode());
+            newRole.setTitle(role.getTitle());
+            roleDao.save(role);
+			return SUCCESS;
+		}catch (Exception e) {
+			log.error("修改角色发生异常===="+e.getStackTrace());
+			return null;
+		}
+	}
+
+	/**
+	 * 删除角色
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/admin/role/deleteRole")
+	@ResponseBody
+	public MessageModel deleteRole2(@RequestParam(value = "id", required = true) String id){
+		try{
+            roleDao.deleteById(id);
+			return SUCCESS;
+		}catch (Exception e) {
+			log.error("删除角色发生异常===="+e.getStackTrace());
+			return FAILURE;
+		}
+	}
 //
 //	@RequestMapping("/role/getResourceOfRole")
 //	@ResponseBody
