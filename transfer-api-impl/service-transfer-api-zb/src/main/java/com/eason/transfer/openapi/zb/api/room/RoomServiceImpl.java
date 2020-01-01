@@ -1,13 +1,14 @@
 package com.eason.transfer.openapi.zb.api.room;
 
 
-import com.corundumstudio.socketio.SocketIOServer;
 import com.eason.transfer.openapi.core.common.model.FileItem;
 import com.eason.transfer.openapi.core.sdk.zb.IRoomService;
 import com.eason.transfer.openapi.core.sdk.zb.model.*;
 import com.eason.transfer.openapi.zb.api.entity.UserPo;
+import com.eason.transfer.openapi.zb.api.entity.ZbRoomReport;
 import com.eason.transfer.openapi.zb.api.entity.ZbZhuboPo;
 import com.eason.transfer.openapi.zb.api.mapper.UserPoMapper;
+import com.eason.transfer.openapi.zb.api.mapper.ZbRoomReportMapper;
 import com.eason.transfer.openapi.zb.api.mapper.ZbZhuboPoMapper;
 import com.eason.transfer.openapi.zb.api.room.model.RRoom;
 import com.eason.transfer.openapi.zb.api.zhubo.model.RZhubo;
@@ -25,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -33,11 +35,11 @@ public class RoomServiceImpl implements IRoomService {
     @Autowired
     private RedissonClient redisson;
     @Autowired
-    private SocketIOServer socketIOServer;
-    @Autowired
     private ZbZhuboPoMapper zbZhuboPoMapper;
     @Autowired
     private UserPoMapper userPoMapper;
+    @Autowired
+    private ZbRoomReportMapper roomReportMapper;
     @Autowired
     private FtpClientUtils ftpClientUtils;
 
@@ -49,6 +51,7 @@ public class RoomServiceImpl implements IRoomService {
         Collection<RRoom> roomCollection=liveObjectService.find(RRoom.class, Conditions.eq("status",0));
         roomCollection.forEach(rRoom -> {
             RoomVo roomVo=new RoomVo();
+            roomVo.setPlanSeqNo(rRoom.getZbSeqNo());
             roomVo.setId(rRoom.getId());
             roomVo.setNickName(rRoom.getRZhubo().getNickName());
             roomVo.setAvatar(rRoom.getRZhubo().getAvatar());
@@ -68,21 +71,29 @@ public class RoomServiceImpl implements IRoomService {
         RoomCreateResponse response=new RoomCreateResponse();
         String code = null;
         String result = null;
+        if(StringUtils.isEmpty(request.getImUrl())){
+            code="imUrl";
+            result ="聊天室地址不能为空";
+        }else if(StringUtils.isEmpty(request.getLiveUrl())){
+            code="liveUrl";
+            result ="流媒体地址不能为空";
+        }
         ZbZhuboPo zhuboPo=zbZhuboPoMapper.selectByPrimaryKey(Long.parseLong(request.getUserId()));
         if(zhuboPo==null){
             code="zhubo";
-            response.addErrInfo(code, "主播不存在，请联系管理员;", null);
-            response.setSuccessCount(0);
-            return response;
+            result ="主播不存在，请联系管理员";
         }
         if(zhuboPo.getStatus()==1){
             code="zhubo";
-            response.addErrInfo(code, "直播间已经被封，请联系管理员;", null);
+            result ="直播间已经被封，请联系管理员";
+        }
+        if (StringUtils.isNotEmpty(result)){
+            response.addErrInfo(code, result, null);
             response.setSuccessCount(0);
             return response;
         }
         RLiveObjectService liveObjectService=redisson.getLiveObjectService();
-        RRoom rRoom = liveObjectService.get(RRoom.class, request.getUserId());
+        RRoom rRoom=liveObjectService.get(RRoom.class,Long.parseLong(request.getUserId()));
         if(rRoom!=null){
             response.setResult("直播间已经存在");
             response.setRoomId(rRoom.getId());
@@ -91,9 +102,12 @@ public class RoomServiceImpl implements IRoomService {
             return response;
         }
         rRoom=new RRoom();
-        rRoom.setId(request.getUserId());
+        rRoom.setId(Long.parseLong(request.getUserId()));
+        rRoom.setZbSeqNo(DateFormatUtils.format(new Date(),DateFormatUtils.ISO_DATETIME_FORMAT.getPattern())+"_"+request.getUserId());
         rRoom.setRoomName(zhuboPo.getRoomname());
         rRoom.setRoomBgImage(zhuboPo.getRoombgimage());
+        rRoom.setImUrl(request.getImUrl());
+        rRoom.setLiveUrl(request.getLiveUrl());
         rRoom.setStartTime(new Timestamp(System.currentTimeMillis()));
 
         UserPo userPo=userPoMapper.selectByPrimaryKey(zhuboPo.getId());
@@ -179,6 +193,32 @@ public class RoomServiceImpl implements IRoomService {
 
     @Override
     public RoomDestoryResponse destory(RoomDestoryRequest request) throws Exception {
-        return null;
+        RoomDestoryResponse response=new RoomDestoryResponse();
+        RLiveObjectService liveObjectService=redisson.getLiveObjectService();
+        RRoom rRoom=liveObjectService.get(RRoom.class,Long.parseLong(request.getUserId()));
+        if(rRoom==null){
+            response.setResult("直播间不存在");
+            return response;
+        }
+        Boolean flag=liveObjectService.delete(RRoom.class,Long.parseLong(request.getUserId()));
+        if(!flag){
+            response.setResult("直播间销毁失败");
+            return response;
+        }
+        ZbRoomReport roomReport=new ZbRoomReport();
+        roomReport.setRoomname(rRoom.getRoomName());
+        roomReport.setRoomid(rRoom.getId());
+        roomReport.setZbPlanSeqno(rRoom.getZbSeqNo());
+        roomReport.setViewCount(rRoom.getViewCount());
+        roomReport.setNewFans(rRoom.getNewFans());
+        roomReport.setGiftCount(rRoom.getGiftCount());
+        Long time=System.currentTimeMillis()-rRoom.getStartTime().getTime();
+        roomReport.setLiveTimeCount(DateFormatUtils.format(time,DateFormatUtils.ISO_TIME_NO_T_FORMAT.getPattern()));
+        roomReport.setStartTime(rRoom.getStartTime());
+        roomReport.setStopTime(new Date());
+        this.roomReportMapper.insert(roomReport);
+
+        response.setResult("直播间销毁成功");
+        return response;
     }
 }

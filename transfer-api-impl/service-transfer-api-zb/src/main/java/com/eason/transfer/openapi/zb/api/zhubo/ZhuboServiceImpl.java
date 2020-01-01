@@ -59,11 +59,15 @@ public class ZhuboServiceImpl implements IZhuboService {
             response.setSuccessCount(0);
             return response;
         }
+        String imUrl="/room/"+request.getUserId();
+
         RoomCreateRequest roomCreateRequest=new RoomCreateRequest();
         BeanUtils.copyProperties(request,roomCreateRequest);
+        roomCreateRequest.setImUrl(imUrl);
+        roomCreateRequest.setLiveUrl("rtmp://live.hkstv.hk.lxdns.com/live/hks");
         this.roomServiceImpl.create(roomCreateRequest);
 
-        final SocketIONamespace chat1namespace = socketIOServer.addNamespace("/room/"+request.getUserId());
+        final SocketIONamespace chat1namespace = socketIOServer.addNamespace(imUrl);
         chat1namespace.addListeners(socketIOListener);
         response.setResult("直播开播成功");
         return response;
@@ -71,8 +75,13 @@ public class ZhuboServiceImpl implements IZhuboService {
 
     @Override
     public ZhuboStopResponse stop(ZhuboStopRequest request) throws Exception {
+        ZhuboStopResponse response1=new ZhuboStopResponse();
         socketIOServer.removeNamespace("/room_"+request.getUserId());
-        return null;
+        RoomDestoryRequest roomDestoryRequest=new RoomDestoryRequest();
+        BeanUtils.copyProperties(request,roomDestoryRequest);
+        RoomDestoryResponse response2=this.roomServiceImpl.destory(roomDestoryRequest);
+        response1.setResult(response2.getResult());
+        return response1;
     }
 
     @Override

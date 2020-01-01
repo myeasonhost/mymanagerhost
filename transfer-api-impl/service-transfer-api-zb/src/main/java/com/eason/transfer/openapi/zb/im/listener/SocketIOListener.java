@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class SocketIOListener {
 
     @Autowired
-    private RedissonClient redissonClient;
+    private RedissonClient redisson;
     @Autowired
     private SocketIOServer socketIOServer;
 
@@ -34,6 +34,7 @@ public class SocketIOListener {
                     socketIOClient.getSessionId(), userName, socketIOClient.getRemoteAddress().toString());
             // 保存
 //            clientMap.put(userName, socketIOClient.getSessionId());
+//            socketIOClient.getNamespace()
             // 发送上线通知
             this.sendMsg(socketIOClient, null, new ChatObject(userName, MsgTypeEnum.ONLINE.getValue()));
         }

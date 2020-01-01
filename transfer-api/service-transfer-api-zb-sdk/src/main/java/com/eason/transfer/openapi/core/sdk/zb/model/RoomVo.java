@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @XStreamAlias("RoomVo")
 public class RoomVo {
-    private String id;
+
+    private Long id;
+    private String planSeqNo;
     private String roomName;
     private String roomBgImage;
     private String username;

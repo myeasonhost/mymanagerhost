@@ -14,7 +14,7 @@ public class RoomCreateResponse extends Response {
     private static final long serialVersionUID = 1L;
 
     private String result;
-    private String roomId;
+    private Long roomId;
     private String roomName;
     private String roomBgImage;
 }

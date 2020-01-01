@@ -18,8 +18,7 @@
         <!-- 5.指定sql.interface接口生成位置 -->
         <javaClientGenerator targetPackage="com.eason.transfer.openapi.zb.api.mapper" targetProject="./src/main/java" type="XMLMAPPER" />
         <!-- 6.table指定生成策略 -->
-        <table tableName="t_zb_zhubo" domainObjectName="ZbZhuboPo"></table>
-        <table tableName="user_info" domainObjectName="UserPo"></table>
+        <table tableName="t_zb_room_report" domainObjectName="ZbRoomReport"></table>
 
 
     </context>
