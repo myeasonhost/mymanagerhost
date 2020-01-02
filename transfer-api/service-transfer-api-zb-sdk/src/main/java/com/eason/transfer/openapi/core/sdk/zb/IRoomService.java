@@ -34,4 +34,12 @@ public interface IRoomService {
     @PostMapping(value = "/room/destory")
     RoomDestoryResponse destory(@RequestBody RoomDestoryRequest request) throws Exception;
 
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "/room/relationFriends")
+    RelationFriendsResponse relationFriends(@RequestBody RelationFriendsRequest request) throws Exception;
+
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "/room/addGift")
+    GiftResponse addGift(@RequestBody GiftRequest request) throws Exception;
 }
