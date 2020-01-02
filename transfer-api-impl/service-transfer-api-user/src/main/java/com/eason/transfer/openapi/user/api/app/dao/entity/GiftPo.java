@@ -1,4 +1,4 @@
-package com.eason.transfer.openapi.zb.api.entity;
+package com.eason.transfer.openapi.user.api.app.dao.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

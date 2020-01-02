@@ -4,10 +4,8 @@ import com.eason.transfer.openapi.core.common.model.FileItem;
 import com.eason.transfer.openapi.core.sdk.user.IUserService;
 import com.eason.transfer.openapi.core.sdk.user.exception.UserServiceException;
 import com.eason.transfer.openapi.core.sdk.user.model.*;
-import com.eason.transfer.openapi.user.api.app.dao.entity.UserCodePo;
-import com.eason.transfer.openapi.user.api.app.dao.entity.UserInfoPo;
-import com.eason.transfer.openapi.user.api.app.dao.entity.UserInfoPoExample;
-import com.eason.transfer.openapi.user.api.app.dao.entity.VerifyCodeLogPo;
+import com.eason.transfer.openapi.user.api.app.dao.entity.*;
+import com.eason.transfer.openapi.user.api.app.dao.mapper.GiftMapper;
 import com.eason.transfer.openapi.user.api.app.dao.mapper.UserCodePoMapper;
 import com.eason.transfer.openapi.user.api.app.dao.mapper.UserInfoPoMapper;
 import com.eason.transfer.openapi.user.api.app.dao.mapper.VerifyCodeLogMapper;
@@ -43,6 +41,8 @@ public class UserServiceImpl implements IUserService {
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private FtpClientUtils ftpClientUtils;
+    @Autowired
+    private GiftMapper giftMapper;
 
     @Override
     public RegisterResponse register(RegisterRequest request) throws UserServiceException {
@@ -544,5 +544,19 @@ public class UserServiceImpl implements IUserService {
         } catch (Exception e) {
             throw new UserServiceException(e.getMessage());
         }
+    }
+
+
+    @Override
+    public GiftResponse addGift(GiftRequest request) throws Exception {
+        GiftResponse giftResponse=new GiftResponse();
+        GiftPo giftPo=new GiftPo();
+        giftPo.setGiftName(request.getGiftName());
+        giftPo.setGiftImg(request.getGiftImg());
+        giftPo.setGiftPrice(request.getGiftPrice());
+        giftPo.setSpecialStyle(request.getSpecialStyle());
+        giftMapper.insertGift(giftPo);
+        giftResponse.setResult("发送礼物成功");
+        return giftResponse;
     }
 }

@@ -19,8 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,8 +40,6 @@ public class RoomServiceImpl implements IRoomService {
     private FtpClientUtils ftpClientUtils;
     @Autowired
     private RelationFriendsMapper relationFriendsMapper;
-    @Autowired
-    private GiftMapper giftMapper;
 
     @Override
     public RoomFindAllResponse findAll(RoomFindAllRequest request) throws Exception {
@@ -244,19 +240,6 @@ public class RoomServiceImpl implements IRoomService {
         relationFriendsMapper.insertRelationFriends(relationFriendsPo);
         relationFriendsResponse.setResult("关注成功");
         return relationFriendsResponse;
-    }
-
-    @Override
-    public GiftResponse addGift(GiftRequest request) throws Exception {
-        GiftResponse giftResponse=new GiftResponse();
-        GiftPo giftPo=new GiftPo();
-        giftPo.setGiftName(request.getGiftName());
-        giftPo.setGiftImg(request.getGiftImg());
-        giftPo.setGiftPrice(request.getGiftPrice());
-        giftPo.setSpecialStyle(request.getSpecialStyle());
-        giftMapper.insertGift(giftPo);
-        giftResponse.setResult("发送礼物成功");
-        return giftResponse;
     }
 
 }
