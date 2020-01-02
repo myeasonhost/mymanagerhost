@@ -36,12 +36,12 @@ public class SocketIOListener implements ConnectListener,DisconnectListener,Data
             log.info("用户{}开启长连接通知, NettySocketSessionId: {}, NettySocketRemoteAddress: {}",
                     socketIOClient.getSessionId(), userName, socketIOClient.getRemoteAddress().toString());
             RRoom rRoom=new RRoom();
-            rRoom.setId(Long.parseLong(roomId));
+            rRoom.setId(roomId);
             redisson.getLiveObjectService().merge(rRoom);
             RUser rUser=new RUser();
             rUser.setUsername(userName);
             rUser.setSessionId(socketIOClient.getSessionId().toString());
-            redisson.getAtomicLong("viewCount_"+rRoom.getId()).incrementAndGet();
+            redisson.getLongAdder("viewCount_"+rRoom.getId()).increment();
             rRoom.getUserList().add(rUser);
 
             // 发送上线通知
@@ -61,7 +61,7 @@ public class SocketIOListener implements ConnectListener,DisconnectListener,Data
             log.info("用户{}断开长连接通知, NettySocketSessionId: {}, NettySocketRemoteAddress: {}",
                     socketIOClient.getSessionId(), userName, socketIOClient.getRemoteAddress().toString());
             RRoom rRoom=new RRoom();
-            rRoom.setId(Long.parseLong(roomId));
+            rRoom.setId(roomId);
             redisson.getLiveObjectService().merge(rRoom);
             RUser rUser=new RUser();
             rUser.setUsername(userName);

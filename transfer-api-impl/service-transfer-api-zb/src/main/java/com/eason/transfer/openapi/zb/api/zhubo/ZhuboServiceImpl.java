@@ -1,11 +1,8 @@
 package com.eason.transfer.openapi.zb.api.zhubo;
 
 
-import com.corundumstudio.socketio.AckRequest;
-import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIONamespace;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.listener.DataListener;
 import com.eason.transfer.openapi.core.common.model.FileItem;
 import com.eason.transfer.openapi.core.sdk.zb.IZhuboService;
 import com.eason.transfer.openapi.core.sdk.zb.model.*;
@@ -13,7 +10,6 @@ import com.eason.transfer.openapi.zb.api.entity.ZbZhuboPo;
 import com.eason.transfer.openapi.zb.api.mapper.UserPoMapper;
 import com.eason.transfer.openapi.zb.api.mapper.ZbZhuboPoMapper;
 import com.eason.transfer.openapi.zb.api.room.RoomServiceImpl;
-import com.eason.transfer.openapi.zb.im.dto.ChatObject;
 import com.eason.transfer.openapi.zb.im.listener.SocketIOListener;
 import com.eason.transfer.openapi.zb.utils.FtpClientUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -72,9 +68,10 @@ public class ZhuboServiceImpl implements IZhuboService {
         this.roomServiceImpl.create(roomCreateRequest);
 
         final SocketIONamespace chat1namespace = socketIOServer.addNamespace(imUrl);
-        chat1namespace.addConnectListener(socketIOListener);
-        chat1namespace.addDisconnectListener(socketIOListener);
-        chat1namespace.addEventListener("message", ChatObject.class,socketIOListener);
+        chat1namespace.addListeners(socketIOListener);
+//        chat1namespace.addConnectListener(socketIOListener);
+//        chat1namespace.addDisconnectListener(socketIOListener);
+//        chat1namespace.addEventListener("message", ChatObject.class,socketIOListener);
         response.setResult("直播开播成功");
         return response;
     }

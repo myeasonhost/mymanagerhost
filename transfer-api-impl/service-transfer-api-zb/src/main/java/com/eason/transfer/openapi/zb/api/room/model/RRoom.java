@@ -5,9 +5,7 @@ import com.eason.transfer.openapi.zb.api.zhubo.model.RZhubo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.redisson.api.RAtomicLong;
 import org.redisson.api.RCascadeType;
-import org.redisson.api.RList;
 import org.redisson.api.annotation.RCascade;
 import org.redisson.api.annotation.REntity;
 import org.redisson.api.annotation.RId;
@@ -15,6 +13,7 @@ import org.redisson.api.annotation.RIndex;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -22,11 +21,11 @@ import java.sql.Timestamp;
 @REntity
 public class RRoom implements Serializable {
     @RId
-    private Long id;
+    private String id;
 
     private String zbSeqNo;
     @RIndex
-    private Integer status;
+    private int status;
 
     private String roomName;
 
@@ -40,13 +39,13 @@ public class RRoom implements Serializable {
     private RZhubo rZhubo;
 
     @RCascade({RCascadeType.ALL})
-    private RList<RUser> userList;
+    private List<RUser> userList;
 
-    private RAtomicLong viewCount;
+    private long viewCount;
 
-    private RAtomicLong newFans;
+    private long newFans;
 
-    private RAtomicLong giftCount;
+    private long giftCount;
 
     private Timestamp startTime;
 

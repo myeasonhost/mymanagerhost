@@ -5,13 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @XStreamAlias("RoomVo")
-public class RoomVo {
+public class RoomVo implements Serializable {
 
-    private Long id;
+    private String id;
     private String planSeqNo;
     private String roomName;
     private String roomBgImage;
