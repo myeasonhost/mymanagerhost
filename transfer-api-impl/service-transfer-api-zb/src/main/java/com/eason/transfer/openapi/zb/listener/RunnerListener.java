@@ -6,6 +6,7 @@ import com.eason.transfer.openapi.zb.api.zhubo.model.RUser;
 import com.eason.transfer.openapi.zb.api.zhubo.model.RZhubo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.redisson.api.RAtomicLong;
 import org.redisson.api.RLiveObjectService;
 import org.redisson.api.RedissonClient;
 import org.redisson.api.condition.Conditions;

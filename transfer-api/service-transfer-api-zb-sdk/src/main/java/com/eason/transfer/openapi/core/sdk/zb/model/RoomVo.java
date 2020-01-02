@@ -19,5 +19,9 @@ public class RoomVo {
     private String nickName;
     private String avatar;
     private String startTime;
+    private Long viewCount;
+    private Long newFans;
+    private Long giftCount;
     private Integer userCount;
+
 }

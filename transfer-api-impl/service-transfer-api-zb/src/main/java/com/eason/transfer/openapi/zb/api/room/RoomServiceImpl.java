@@ -59,7 +59,10 @@ public class RoomServiceImpl implements IRoomService {
             roomVo.setRoomBgImage(rRoom.getRoomBgImage());
             roomVo.setUsername(rRoom.getRZhubo().getUsername());
             roomVo.setStartTime(DateFormatUtils.format(rRoom.getStartTime().getTime(),DateFormatUtils.ISO_DATETIME_FORMAT.getPattern()));
-            roomVo.setUserCount(0);
+            roomVo.setUserCount(rRoom.getUserList().size());
+            roomVo.setGiftCount(rRoom.getGiftCount().get());
+            roomVo.setNewFans(rRoom.getNewFans().get());
+            roomVo.setViewCount(rRoom.getViewCount().get());
             list.add(roomVo);
         });
         response.setList(list);
@@ -108,6 +111,10 @@ public class RoomServiceImpl implements IRoomService {
         rRoom.setRoomBgImage(zhuboPo.getRoombgimage());
         rRoom.setImUrl(request.getImUrl());
         rRoom.setLiveUrl(request.getLiveUrl());
+        rRoom.setUserList(redisson.getList(rRoom.getId()+"_userList"));
+        rRoom.setGiftCount(redisson.getAtomicLong(rRoom.getId()+"_giftCount"));
+        rRoom.setNewFans(redisson.getAtomicLong(rRoom.getId()+"_newFans"));
+        rRoom.setViewCount(redisson.getAtomicLong(rRoom.getId()+"_viewCount"));
         rRoom.setStartTime(new Timestamp(System.currentTimeMillis()));
 
         UserPo userPo=userPoMapper.selectByPrimaryKey(zhuboPo.getId());
@@ -116,7 +123,7 @@ public class RoomServiceImpl implements IRoomService {
         rZhubo.setUsername(userPo.getUsername());
         rZhubo.setNickName(userPo.getNickName());
         rZhubo.setAvatar(userPo.getAvatar());
-        rZhubo.setFansNum(0);
+        rZhubo.setFansNum(redisson.getAtomicLong(rRoom.getId()+"_fansNum"));
         rZhubo.setIsFans(Boolean.FALSE);
         rZhubo=liveObjectService.persist(rZhubo);
 
@@ -209,9 +216,9 @@ public class RoomServiceImpl implements IRoomService {
         roomReport.setRoomname(rRoom.getRoomName());
         roomReport.setRoomid(rRoom.getId());
         roomReport.setZbPlanSeqno(rRoom.getZbSeqNo());
-        roomReport.setViewCount(rRoom.getViewCount());
-        roomReport.setNewFans(rRoom.getNewFans());
-        roomReport.setGiftCount(rRoom.getGiftCount());
+        roomReport.setViewCount(rRoom.getViewCount().get());
+        roomReport.setNewFans(rRoom.getNewFans().get());
+        roomReport.setGiftCount(rRoom.getGiftCount().get());
         Long time=System.currentTimeMillis()-rRoom.getStartTime().getTime();
         roomReport.setLiveTimeCount(DateFormatUtils.format(time,DateFormatUtils.ISO_TIME_NO_T_FORMAT.getPattern()));
         roomReport.setStartTime(rRoom.getStartTime());

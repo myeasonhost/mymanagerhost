@@ -18,4 +18,5 @@ public class RUser implements Serializable {
     private String username;
     private String nickName;
     private String avatar;
+    private String sessionId;
 }

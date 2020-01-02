@@ -11,11 +11,11 @@ public class ZbRoomReport {
 
     private String roomname;
 
-    private Integer viewCount;
+    private Long viewCount;
 
-    private Integer newFans;
+    private Long newFans;
 
-    private Integer giftCount;
+    private Long giftCount;
 
     private String liveTimeCount;
 
@@ -55,27 +55,27 @@ public class ZbRoomReport {
         this.roomname = roomname;
     }
 
-    public Integer getViewCount() {
+    public Long getViewCount() {
         return viewCount;
     }
 
-    public void setViewCount(Integer viewCount) {
+    public void setViewCount(Long viewCount) {
         this.viewCount = viewCount;
     }
 
-    public Integer getNewFans() {
+    public Long getNewFans() {
         return newFans;
     }
 
-    public void setNewFans(Integer newFans) {
+    public void setNewFans(Long newFans) {
         this.newFans = newFans;
     }
 
-    public Integer getGiftCount() {
+    public Long getGiftCount() {
         return giftCount;
     }
 
-    public void setGiftCount(Integer giftCount) {
+    public void setGiftCount(Long giftCount) {
         this.giftCount = giftCount;
     }
 

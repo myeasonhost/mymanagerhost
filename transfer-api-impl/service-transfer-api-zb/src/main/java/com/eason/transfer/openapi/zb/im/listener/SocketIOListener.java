@@ -6,11 +6,14 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.OnConnect;
 import com.corundumstudio.socketio.annotation.OnDisconnect;
 import com.corundumstudio.socketio.annotation.OnEvent;
+import com.eason.transfer.openapi.zb.api.room.model.RRoom;
+import com.eason.transfer.openapi.zb.api.zhubo.model.RUser;
 import com.eason.transfer.openapi.zb.im.dto.ChatObject;
 import com.eason.transfer.openapi.zb.im.dto.MsgTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.redisson.api.RedissonClient;
+import org.redisson.api.condition.Conditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,13 +31,20 @@ public class SocketIOListener {
      */
     @OnConnect
     public void onConnect(SocketIOClient socketIOClient) {
+        String roomId = socketIOClient.getHandshakeData().getSingleUrlParam("roomId");
         String userName = socketIOClient.getHandshakeData().getSingleUrlParam("userName");
         if (StringUtils.isNotBlank(userName)) {
             log.info("用户{}开启长连接通知, NettySocketSessionId: {}, NettySocketRemoteAddress: {}",
                     socketIOClient.getSessionId(), userName, socketIOClient.getRemoteAddress().toString());
-            // 保存
-//            clientMap.put(userName, socketIOClient.getSessionId());
-//            socketIOClient.getNamespace()
+//            RRoom rRoom=new RRoom();
+//            rRoom.setId(Long.parseLong(roomId));
+//            redisson.getLiveObjectService().merge(rRoom);
+//            RUser rUser=new RUser();
+//            rUser.setUsername(userName);
+//            rUser.setSessionId(socketIOClient.getSessionId().toString());
+//            rRoom.getViewCount().incrementAndGet();
+//            rRoom.getUserList().add(rUser);
+
             // 发送上线通知
             this.sendMsg(socketIOClient, null, new ChatObject(userName, MsgTypeEnum.ONLINE.getValue()));
         }
@@ -46,12 +56,18 @@ public class SocketIOListener {
      */
     @OnDisconnect
     public void onDisConnect(SocketIOClient socketIOClient) {
+        String roomId = socketIOClient.getHandshakeData().getSingleUrlParam("roomId");
         String userName = socketIOClient.getHandshakeData().getSingleUrlParam("userName");
         if (StringUtils.isNotBlank(userName)) {
             log.info("用户{}断开长连接通知, NettySocketSessionId: {}, NettySocketRemoteAddress: {}",
                     socketIOClient.getSessionId(), userName, socketIOClient.getRemoteAddress().toString());
-            // 移除
-//            clientMap.remove(userName);
+//            RRoom rRoom=new RRoom();
+//            rRoom.setId(Long.parseLong(roomId));
+//            redisson.getLiveObjectService().merge(rRoom);
+//            RUser rUser=new RUser();
+//            rUser.setUsername(userName);
+//            rUser.setSessionId(socketIOClient.getSessionId().toString());
+//            rRoom.getUserList().remove(rUser);
             // 发送下线通知
             this.sendMsg(socketIOClient, null, new ChatObject(userName, MsgTypeEnum.OFFLINE.getValue()));
         }

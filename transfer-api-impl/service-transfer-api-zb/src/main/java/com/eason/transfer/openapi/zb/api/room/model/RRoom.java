@@ -5,16 +5,16 @@ import com.eason.transfer.openapi.zb.api.zhubo.model.RZhubo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.redisson.api.RAtomicLong;
 import org.redisson.api.RCascadeType;
+import org.redisson.api.RList;
 import org.redisson.api.annotation.RCascade;
 import org.redisson.api.annotation.REntity;
 import org.redisson.api.annotation.RId;
 import org.redisson.api.annotation.RIndex;
-import org.redisson.liveobject.resolver.LongGenerator;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -40,13 +40,13 @@ public class RRoom implements Serializable {
     private RZhubo rZhubo;
 
     @RCascade({RCascadeType.PERSIST,RCascadeType.DELETE})
-    private List<RUser> userList;
+    private RList<RUser> userList;
 
-    private Integer viewCount;
+    private RAtomicLong viewCount;
 
-    private Integer newFans;
+    private RAtomicLong newFans;
 
-    private Integer giftCount;
+    private RAtomicLong giftCount;
 
     private Timestamp startTime;
 
