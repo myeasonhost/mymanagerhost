@@ -195,4 +195,9 @@ public interface IUserService {
 	public UserDetailResponse getDetail(@RequestBody UserDetailRequest request) throws UserServiceException;
 
 
+
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "/user/addGift")
+	GiftResponse addGift(@RequestBody GiftRequest request) throws Exception;
+
 }

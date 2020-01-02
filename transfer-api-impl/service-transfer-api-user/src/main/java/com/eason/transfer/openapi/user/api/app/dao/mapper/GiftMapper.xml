@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.eason.transfer.openapi.zb.api.mapper.GiftMapper">
-  <resultMap id="BaseResultMap" type="com.eason.transfer.openapi.zb.api.entity.GiftPo">
+<mapper namespace="com.eason.transfer.openapi.user.api.app.dao.mapper.GiftMapper">
+  <resultMap id="BaseResultMap" type="com.eason.transfer.openapi.user.api.app.dao.entity.GiftPo">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="gift_name" jdbcType="VARCHAR" property="giftName" />
     <result column="gift_lmg" jdbcType="VARCHAR" property="giftImg" />
@@ -70,8 +70,8 @@
     id,gift_name,gift_lmg,gift_price,specialStyle
   </sql>
 
-  <insert id="insertGift" parameterType="com.eason.transfer.openapi.zb.api.entity.GiftPo">
-    insert into t_zb_room_gift (gift_name,gift_lmg,gift_price,specialStyle)
+  <insert id="insertGift" parameterType="com.eason.transfer.openapi.user.api.app.dao.entity.GiftPo">
+    insert into user_gift (gift_name,gift_lmg,gift_price,specialStyle)
     values (#{giftName,jdbcType=VARCHAR}, #{giftImg,jdbcType=VARCHAR}, #{giftPrice,jdbcType=DECIMAL},
     #{specialStyle,jdbcType=VARCHAR})
   </insert>

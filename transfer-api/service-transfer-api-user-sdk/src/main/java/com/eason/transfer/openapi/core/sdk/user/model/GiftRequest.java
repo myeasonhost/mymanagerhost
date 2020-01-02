@@ -1,7 +1,8 @@
-package com.eason.transfer.openapi.zb.api.entity;
+package com.eason.transfer.openapi.core.sdk.user.model;
 
+import com.eason.transfer.openapi.core.common.request.Request;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,9 +11,8 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class GiftPo {
-    private Integer id;
+@XStreamAlias("GiftRequest")
+public class GiftRequest extends Request {
     private String giftName;     //礼物名称
     private String giftImg;       //礼物图片
     private BigDecimal giftPrice;     //礼物价格
