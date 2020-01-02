@@ -60,9 +60,9 @@ public class RoomServiceImpl implements IRoomService {
             roomVo.setUsername(rRoom.getRZhubo().getUsername());
             roomVo.setStartTime(DateFormatUtils.format(rRoom.getStartTime().getTime(),DateFormatUtils.ISO_DATETIME_FORMAT.getPattern()));
             roomVo.setUserCount(rRoom.getUserList().size());
-            roomVo.setGiftCount(rRoom.getGiftCount().get());
-            roomVo.setNewFans(rRoom.getNewFans().get());
-            roomVo.setViewCount(rRoom.getViewCount().get());
+            roomVo.setGiftCount(redisson.getAtomicLong("giftCount_"+rRoom.getId()).get());
+            roomVo.setNewFans(redisson.getAtomicLong("newFans_"+rRoom.getId()).get());
+            roomVo.setViewCount(redisson.getAtomicLong("viewCount_"+rRoom.getId()).get());
             list.add(roomVo);
         });
         response.setList(list);
@@ -96,40 +96,43 @@ public class RoomServiceImpl implements IRoomService {
             return response;
         }
         RLiveObjectService liveObjectService=redisson.getLiveObjectService();
-        RRoom rRoom=liveObjectService.get(RRoom.class,Long.parseLong(request.getUserId()));
-        if(rRoom!=null){
-            response.setResult("直播间已经存在");
-            response.setRoomId(rRoom.getId());
-            response.setRoomName(rRoom.getRoomName());
-            response.setRoomBgImage(rRoom.getRoomBgImage());
-            return response;
-        }
-        rRoom=new RRoom();
+        RRoom rRoom=new RRoom();
         rRoom.setId(Long.parseLong(request.getUserId()));
+
         rRoom.setZbSeqNo(DateFormatUtils.format(new Date(),DateFormatUtils.ISO_DATETIME_FORMAT.getPattern())+"_"+request.getUserId());
         rRoom.setRoomName(zhuboPo.getRoomname());
         rRoom.setRoomBgImage(zhuboPo.getRoombgimage());
         rRoom.setImUrl(request.getImUrl());
         rRoom.setLiveUrl(request.getLiveUrl());
-        rRoom.setUserList(redisson.getList(rRoom.getId()+"_userList"));
-        rRoom.setGiftCount(redisson.getAtomicLong(rRoom.getId()+"_giftCount"));
-        rRoom.setNewFans(redisson.getAtomicLong(rRoom.getId()+"_newFans"));
-        rRoom.setViewCount(redisson.getAtomicLong(rRoom.getId()+"_viewCount"));
+        rRoom.setUserList(redisson.getList("userList_"+rRoom.getId()));
+        rRoom.setGiftCount(redisson.getAtomicLong("giftCount_"+rRoom.getId()));
+        rRoom.setNewFans(redisson.getAtomicLong("newFans_"+rRoom.getId()));
+        rRoom.setViewCount(redisson.getAtomicLong("viewCount_"+rRoom.getId()));
         rRoom.setStartTime(new Timestamp(System.currentTimeMillis()));
 
         UserPo userPo=userPoMapper.selectByPrimaryKey(zhuboPo.getId());
         RZhubo rZhubo=new RZhubo();
         rZhubo.setId(request.getUserId());
+        liveObjectService.attach(rZhubo);
         rZhubo.setUsername(userPo.getUsername());
         rZhubo.setNickName(userPo.getNickName());
         rZhubo.setAvatar(userPo.getAvatar());
-        rZhubo.setFansNum(redisson.getAtomicLong(rRoom.getId()+"_fansNum"));
+//        rZhubo.setFansNum(redisson.getAtomicLong("fansNum_"+rRoom.getId()));
         rZhubo.setIsFans(Boolean.FALSE);
-        rZhubo=liveObjectService.persist(rZhubo);
+        if(liveObjectService.isExists(rZhubo)){
+            rZhubo=liveObjectService.merge(rZhubo);
+        }else{
+            rZhubo=liveObjectService.persist(rZhubo);
+        }
 
         rRoom.setStatus(zhuboPo.getStatus()+0);
         rRoom.setRZhubo(rZhubo);
-        liveObjectService.persist(rRoom);
+
+        if(liveObjectService.isExists(rRoom)){
+            liveObjectService.merge(rRoom);
+        }else{
+            liveObjectService.persist(rRoom);
+        }
 
         response.setResult("直播间创建成功");
         response.setRoomId(rRoom.getId());
@@ -216,9 +219,9 @@ public class RoomServiceImpl implements IRoomService {
         roomReport.setRoomname(rRoom.getRoomName());
         roomReport.setRoomid(rRoom.getId());
         roomReport.setZbPlanSeqno(rRoom.getZbSeqNo());
-        roomReport.setViewCount(rRoom.getViewCount().get());
-        roomReport.setNewFans(rRoom.getNewFans().get());
-        roomReport.setGiftCount(rRoom.getGiftCount().get());
+        roomReport.setViewCount(redisson.getAtomicLong("viewCount_"+rRoom.getId()).get());
+        roomReport.setNewFans(redisson.getAtomicLong("newFans_"+rRoom.getId()).get());
+        roomReport.setGiftCount(redisson.getAtomicLong("giftCount_"+rRoom.getId()).get());
         Long time=System.currentTimeMillis()-rRoom.getStartTime().getTime();
         roomReport.setLiveTimeCount(DateFormatUtils.format(time,DateFormatUtils.ISO_TIME_NO_T_FORMAT.getPattern()));
         roomReport.setStartTime(rRoom.getStartTime());

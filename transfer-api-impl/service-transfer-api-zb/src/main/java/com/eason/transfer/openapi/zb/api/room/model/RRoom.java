@@ -36,10 +36,10 @@ public class RRoom implements Serializable {
 
     private String liveUrl;
 
-    @RCascade({RCascadeType.PERSIST,RCascadeType.DELETE})
+    @RCascade({RCascadeType.ALL})
     private RZhubo rZhubo;
 
-    @RCascade({RCascadeType.PERSIST,RCascadeType.DELETE})
+    @RCascade({RCascadeType.ALL})
     private RList<RUser> userList;
 
     private RAtomicLong viewCount;
