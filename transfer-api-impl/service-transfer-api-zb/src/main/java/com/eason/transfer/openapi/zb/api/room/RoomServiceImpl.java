@@ -4,12 +4,8 @@ package com.eason.transfer.openapi.zb.api.room;
 import com.eason.transfer.openapi.core.common.model.FileItem;
 import com.eason.transfer.openapi.core.sdk.zb.IRoomService;
 import com.eason.transfer.openapi.core.sdk.zb.model.*;
-import com.eason.transfer.openapi.zb.api.entity.UserPo;
-import com.eason.transfer.openapi.zb.api.entity.ZbRoomReport;
-import com.eason.transfer.openapi.zb.api.entity.ZbZhuboPo;
-import com.eason.transfer.openapi.zb.api.mapper.UserPoMapper;
-import com.eason.transfer.openapi.zb.api.mapper.ZbRoomReportMapper;
-import com.eason.transfer.openapi.zb.api.mapper.ZbZhuboPoMapper;
+import com.eason.transfer.openapi.zb.api.entity.*;
+import com.eason.transfer.openapi.zb.api.mapper.*;
 import com.eason.transfer.openapi.zb.api.room.model.RRoom;
 import com.eason.transfer.openapi.zb.api.zhubo.model.RZhubo;
 import com.eason.transfer.openapi.zb.utils.FtpClientUtils;
@@ -23,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +40,10 @@ public class RoomServiceImpl implements IRoomService {
     private ZbRoomReportMapper roomReportMapper;
     @Autowired
     private FtpClientUtils ftpClientUtils;
+    @Autowired
+    private RelationFriendsMapper relationFriendsMapper;
+    @Autowired
+    private GiftMapper giftMapper;
 
     @Override
     public RoomFindAllResponse findAll(RoomFindAllRequest request) throws Exception {
@@ -231,4 +233,30 @@ public class RoomServiceImpl implements IRoomService {
         response.setResult("直播间销毁成功");
         return response;
     }
+
+    @Override
+    public RelationFriendsResponse relationFriends(RelationFriendsRequest request) throws Exception {
+        RelationFriendsResponse relationFriendsResponse=new RelationFriendsResponse();
+        RelationFriendsPo relationFriendsPo=new RelationFriendsPo();
+        relationFriendsPo.setUserId(request.getUserId());
+        relationFriendsPo.setRelationTime(new Date());
+        relationFriendsPo.setRelationUserId(request.getRelationUserId());
+        relationFriendsMapper.insertRelationFriends(relationFriendsPo);
+        relationFriendsResponse.setResult("关注成功");
+        return relationFriendsResponse;
+    }
+
+    @Override
+    public GiftResponse addGift(GiftRequest request) throws Exception {
+        GiftResponse giftResponse=new GiftResponse();
+        GiftPo giftPo=new GiftPo();
+        giftPo.setGiftName(request.getGiftName());
+        giftPo.setGiftImg(request.getGiftImg());
+        giftPo.setGiftPrice(request.getGiftPrice());
+        giftPo.setSpecialStyle(request.getSpecialStyle());
+        giftMapper.insertGift(giftPo);
+        giftResponse.setResult("发送礼物成功");
+        return giftResponse;
+    }
+
 }
