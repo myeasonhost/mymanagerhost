@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * @apiDefine 4user 用户API
  */
-@FeignClient(contextId = "app#IUserService",value = "service-transfer-api-zb")
+@FeignClient(contextId = "zbUser#ZbUserService",value = "service-transfer-api-zb")
 public interface ZbUserService {
 
 	@CrossOrigin(origins = "*")
