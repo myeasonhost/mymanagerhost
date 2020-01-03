@@ -1,4 +1,4 @@
-package com.eason.transfer.openapi.core.sdk.zb.user;
+package com.eason.transfer.openapi.core.sdk.zb;
 
 
 import com.eason.transfer.openapi.core.sdk.zb.model.GiftRequest;
