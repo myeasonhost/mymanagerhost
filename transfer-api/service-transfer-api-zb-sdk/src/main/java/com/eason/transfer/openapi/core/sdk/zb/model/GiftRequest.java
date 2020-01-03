@@ -1,4 +1,4 @@
-package com.eason.transfer.openapi.core.sdk.user.model;
+package com.eason.transfer.openapi.core.sdk.zb.model;
 
 import com.eason.transfer.openapi.core.common.request.Request;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
