@@ -39,8 +39,7 @@ public class RoomServiceImpl implements IRoomService {
     @Autowired
     private FtpClientUtils ftpClientUtils;
     @Autowired
-    private RelationFriendsMapper relationFriendsMapper;
-
+    private RelationFriendsPoMapper relationFriendsPoMapper;
     @Override
     public RoomFindAllResponse findAll(RoomFindAllRequest request) throws Exception {
         RoomFindAllResponse response=new RoomFindAllResponse();
@@ -232,14 +231,20 @@ public class RoomServiceImpl implements IRoomService {
 
     @Override
     public RelationFriendsResponse relationFriends(RelationFriendsRequest request) throws Exception {
-        RelationFriendsResponse relationFriendsResponse=new RelationFriendsResponse();
+        RelationFriendsResponse response=new RelationFriendsResponse();
+        RLiveObjectService liveObjectService=redisson.getLiveObjectService();
+        RRoom rRoom=liveObjectService.get(RRoom.class,Long.parseLong(request.getUserId()));
+        if(rRoom==null){
+            response.setResult("直播间不存在");
+            return response;
+        }
         RelationFriendsPo relationFriendsPo=new RelationFriendsPo();
         relationFriendsPo.setUserId(request.getUserId());
         relationFriendsPo.setRelationTime(new Date());
-        relationFriendsPo.setRelationUserId(request.getRelationUserId());
-        relationFriendsMapper.insertRelationFriends(relationFriendsPo);
-        relationFriendsResponse.setResult("关注成功");
-        return relationFriendsResponse;
+        relationFriendsPo.setRelationUserid(request.getRelationUserId());
+        relationFriendsPoMapper.insert(relationFriendsPo);
+        response.setResult("关注成功");
+        return response;
     }
 
 }
