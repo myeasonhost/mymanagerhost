@@ -27,4 +27,6 @@ public interface GiftPoMapper {
     int updateByPrimaryKeySelective(GiftPo record);
 
     int updateByPrimaryKey(GiftPo record);
+
+    GiftPo selectByGiftName(String giftName);
 }
