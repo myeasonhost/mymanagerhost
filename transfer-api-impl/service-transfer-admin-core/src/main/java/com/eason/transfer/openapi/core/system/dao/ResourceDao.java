@@ -11,6 +11,7 @@ import java.util.List;
 public interface ResourceDao extends JpaRepository<Resource, String> {
 
     List<Resource> findAllByParentId(String parentId);
+    Resource findAllById(String Id);
 
     @Modifying
     @Transactional

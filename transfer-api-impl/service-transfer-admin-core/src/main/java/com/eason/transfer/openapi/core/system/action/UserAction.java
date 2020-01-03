@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 用户管理
@@ -181,25 +183,31 @@ public class UserAction extends BaseAction {
      */
     @RequestMapping("/admin/user/getResourcesOfUser")
     @ResponseBody
-    public MenuModel getResourcesOfUser() {
+    public MenuModel getResourcesOfUser(HttpSession session) {
+        User user = (User) session.getAttribute("user");
         MenuModel treeModel1 = new MenuModel();
         treeModel1.setId("1");
         treeModel1.setText("ROOT");
+        List<UserRole> userRoleList = userRoleDao.findAllByUserId(user.getId());
         List<MenuModel> subList1 = new ArrayList<>();
-
-        Resource resource = resourceDao.getOne("t0000000000000000000000000001000");
-
-        MenuModel treeModel2 = new MenuModel();
-        treeModel2.setId(resource.getId());
-        treeModel2.setText(resource.getTitle());
-
-        List<MenuModel> subList2 = new ArrayList<>();
-        List<Resource> subResource2 = resourceDao.findAllByParentId(resource.getId());
-        subResource2.forEach(subResource -> {
-            subList2.add(new MenuModel(subResource.getId(), subResource.getTitle(), subResource.getHref()));
-        });
-        treeModel2.setChildren(subList2);
-        subList1.add(treeModel2);
+        for (int i = 0; i < userRoleList.size(); i++) {
+            List<RoleResource> roleResourceList = resourceRoleDao.findAllByRoleId(userRoleList.get(i).getRoleId());
+            for (int j = 0; j < roleResourceList.size(); j++) {
+                List<MenuModel> subList2 = new ArrayList<>();
+                Resource resource = resourceDao.findAllById(roleResourceList.get(j).getResourceId());
+                if (resource!=null && StringUtils.isBlank(resource.getParentId()) ) {
+                    MenuModel treeModel2 = new MenuModel();
+                    treeModel2.setId(resource.getId());
+                    treeModel2.setText(resource.getTitle());
+                    List<Resource> subResource2 = resourceDao.findAllByParentId(resource.getId());
+                    subResource2.forEach(subResource -> {
+                        subList2.add(new MenuModel(subResource.getId(), subResource.getTitle(), subResource.getHref()));
+                    });
+                    treeModel2.setChildren(subList2);
+                    subList1.add(treeModel2);
+                }
+            }
+        }
         treeModel1.setChildren(subList1);
         return treeModel1;
     }
