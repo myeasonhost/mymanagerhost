@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-public class UserServiceImplI implements IZbUserService {
+public class UserServiceImpl implements IZbUserService {
         @Autowired
         private GiftPoMapper giftPoMapper;
 
