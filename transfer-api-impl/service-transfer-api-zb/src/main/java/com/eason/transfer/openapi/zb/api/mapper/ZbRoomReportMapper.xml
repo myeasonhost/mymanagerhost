@@ -6,6 +6,7 @@
     <result column="zb_plan_seqno" jdbcType="VARCHAR" property="zbPlanSeqno" />
     <result column="roomId" jdbcType="BIGINT" property="roomid" />
     <result column="roomName" jdbcType="VARCHAR" property="roomname" />
+    <result column="zbName" jdbcType="VARCHAR" property="zbname" />
     <result column="view_count" jdbcType="INTEGER" property="viewCount" />
     <result column="new_fans" jdbcType="INTEGER" property="newFans" />
     <result column="gift_count" jdbcType="INTEGER" property="giftCount" />
@@ -72,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, zb_plan_seqno, roomId, roomName, view_count, new_fans, gift_count, live_time_count, 
+    id, zb_plan_seqno, roomId, roomName, zbName, view_count, new_fans, gift_count, live_time_count, 
     start_time, stop_time
   </sql>
   <select id="selectByExample" parameterType="com.eason.transfer.openapi.zb.api.entity.ZbRoomReportExample" resultMap="BaseResultMap">
@@ -107,13 +108,13 @@
   </delete>
   <insert id="insert" parameterType="com.eason.transfer.openapi.zb.api.entity.ZbRoomReport">
     insert into t_zb_room_report (id, zb_plan_seqno, roomId, 
-      roomName, view_count, new_fans, 
-      gift_count, live_time_count, start_time, 
-      stop_time)
+      roomName, zbName, view_count, 
+      new_fans, gift_count, live_time_count, 
+      start_time, stop_time)
     values (#{id,jdbcType=BIGINT}, #{zbPlanSeqno,jdbcType=VARCHAR}, #{roomid,jdbcType=BIGINT}, 
-      #{roomname,jdbcType=VARCHAR}, #{viewCount,jdbcType=INTEGER}, #{newFans,jdbcType=INTEGER}, 
-      #{giftCount,jdbcType=INTEGER}, #{liveTimeCount,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{stopTime,jdbcType=TIMESTAMP})
+      #{roomname,jdbcType=VARCHAR}, #{zbname,jdbcType=VARCHAR}, #{viewCount,jdbcType=INTEGER}, 
+      #{newFans,jdbcType=INTEGER}, #{giftCount,jdbcType=INTEGER}, #{liveTimeCount,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{stopTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.eason.transfer.openapi.zb.api.entity.ZbRoomReport">
     insert into t_zb_room_report
@@ -129,6 +130,9 @@
       </if>
       <if test="roomname != null">
         roomName,
+      </if>
+      <if test="zbname != null">
+        zbName,
       </if>
       <if test="viewCount != null">
         view_count,
@@ -161,6 +165,9 @@
       </if>
       <if test="roomname != null">
         #{roomname,jdbcType=VARCHAR},
+      </if>
+      <if test="zbname != null">
+        #{zbname,jdbcType=VARCHAR},
       </if>
       <if test="viewCount != null">
         #{viewCount,jdbcType=INTEGER},
@@ -203,6 +210,9 @@
       <if test="record.roomname != null">
         roomName = #{record.roomname,jdbcType=VARCHAR},
       </if>
+      <if test="record.zbname != null">
+        zbName = #{record.zbname,jdbcType=VARCHAR},
+      </if>
       <if test="record.viewCount != null">
         view_count = #{record.viewCount,jdbcType=INTEGER},
       </if>
@@ -232,6 +242,7 @@
       zb_plan_seqno = #{record.zbPlanSeqno,jdbcType=VARCHAR},
       roomId = #{record.roomid,jdbcType=BIGINT},
       roomName = #{record.roomname,jdbcType=VARCHAR},
+      zbName = #{record.zbname,jdbcType=VARCHAR},
       view_count = #{record.viewCount,jdbcType=INTEGER},
       new_fans = #{record.newFans,jdbcType=INTEGER},
       gift_count = #{record.giftCount,jdbcType=INTEGER},
@@ -253,6 +264,9 @@
       </if>
       <if test="roomname != null">
         roomName = #{roomname,jdbcType=VARCHAR},
+      </if>
+      <if test="zbname != null">
+        zbName = #{zbname,jdbcType=VARCHAR},
       </if>
       <if test="viewCount != null">
         view_count = #{viewCount,jdbcType=INTEGER},
@@ -280,6 +294,7 @@
     set zb_plan_seqno = #{zbPlanSeqno,jdbcType=VARCHAR},
       roomId = #{roomid,jdbcType=BIGINT},
       roomName = #{roomname,jdbcType=VARCHAR},
+      zbName = #{zbname,jdbcType=VARCHAR},
       view_count = #{viewCount,jdbcType=INTEGER},
       new_fans = #{newFans,jdbcType=INTEGER},
       gift_count = #{giftCount,jdbcType=INTEGER},

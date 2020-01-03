@@ -196,8 +196,8 @@ public interface IUserService {
 
 
 
-	@CrossOrigin(origins = "*")
-	@PostMapping(value = "/user/addGift")
-	GiftResponse addGift(@RequestBody GiftRequest request) throws Exception;
+//	@CrossOrigin(origins = "*")
+//	@PostMapping(value = "/user/addGift")
+//	GiftResponse addGift(@RequestBody GiftRequest request) throws Exception;
 
 }

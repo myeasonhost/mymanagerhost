@@ -1,8 +1,11 @@
 package com.eason.transfer.openapi.zb.api.zhubo;
 
 
+import com.corundumstudio.socketio.AckRequest;
+import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIONamespace;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.listener.DataListener;
 import com.eason.transfer.openapi.core.common.model.FileItem;
 import com.eason.transfer.openapi.core.sdk.zb.IZhuboService;
 import com.eason.transfer.openapi.core.sdk.zb.model.*;
@@ -10,6 +13,7 @@ import com.eason.transfer.openapi.zb.api.entity.ZbZhuboPo;
 import com.eason.transfer.openapi.zb.api.mapper.UserPoMapper;
 import com.eason.transfer.openapi.zb.api.mapper.ZbZhuboPoMapper;
 import com.eason.transfer.openapi.zb.api.room.RoomServiceImpl;
+import com.eason.transfer.openapi.zb.im.dto.ChatObject;
 import com.eason.transfer.openapi.zb.im.listener.SocketIOListener;
 import com.eason.transfer.openapi.zb.utils.FtpClientUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -72,6 +76,16 @@ public class ZhuboServiceImpl implements IZhuboService {
 //        chat1namespace.addConnectListener(socketIOListener);
 //        chat1namespace.addDisconnectListener(socketIOListener);
 //        chat1namespace.addEventListener("message", ChatObject.class,socketIOListener);
+//        chat1namespace.addConnectListener(socketIOClient -> {
+//            System.out.println("Aaaaaaaaaaaaaaaaaaaaaaaa");
+//        });
+//        chat1namespace.addEventListener("message", ChatObject.class, new DataListener<ChatObject>() {
+//            @Override
+//            public void onData(SocketIOClient client, ChatObject data, AckRequest ackRequest) {
+//                // broadcast messages to all clients
+//                chat1namespace.getBroadcastOperations().sendEvent("message", data);
+//            }
+//        });
         response.setResult("直播开播成功");
         return response;
     }
@@ -79,7 +93,7 @@ public class ZhuboServiceImpl implements IZhuboService {
     @Override
     public ZhuboStopResponse stop(ZhuboStopRequest request) throws Exception {
         ZhuboStopResponse response1=new ZhuboStopResponse();
-        socketIOServer.removeNamespace("/room_"+request.getUserId());
+        socketIOServer.removeNamespace("/room/"+request.getUserId());
         RoomDestoryRequest roomDestoryRequest=new RoomDestoryRequest();
         BeanUtils.copyProperties(request,roomDestoryRequest);
         RoomDestoryResponse response2=this.roomServiceImpl.destory(roomDestoryRequest);

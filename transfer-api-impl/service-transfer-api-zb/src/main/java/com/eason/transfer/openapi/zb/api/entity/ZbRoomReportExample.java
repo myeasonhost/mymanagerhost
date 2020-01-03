@@ -365,6 +365,76 @@ public class ZbRoomReportExample {
             return (Criteria) this;
         }
 
+        public Criteria andZbnameIsNull() {
+            addCriterion("zbName is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameIsNotNull() {
+            addCriterion("zbName is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameEqualTo(String value) {
+            addCriterion("zbName =", value, "zbname");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameNotEqualTo(String value) {
+            addCriterion("zbName <>", value, "zbname");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameGreaterThan(String value) {
+            addCriterion("zbName >", value, "zbname");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameGreaterThanOrEqualTo(String value) {
+            addCriterion("zbName >=", value, "zbname");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameLessThan(String value) {
+            addCriterion("zbName <", value, "zbname");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameLessThanOrEqualTo(String value) {
+            addCriterion("zbName <=", value, "zbname");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameLike(String value) {
+            addCriterion("zbName like", value, "zbname");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameNotLike(String value) {
+            addCriterion("zbName not like", value, "zbname");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameIn(List<String> values) {
+            addCriterion("zbName in", values, "zbname");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameNotIn(List<String> values) {
+            addCriterion("zbName not in", values, "zbname");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameBetween(String value1, String value2) {
+            addCriterion("zbName between", value1, value2, "zbname");
+            return (Criteria) this;
+        }
+
+        public Criteria andZbnameNotBetween(String value1, String value2) {
+            addCriterion("zbName not between", value1, value2, "zbname");
+            return (Criteria) this;
+        }
+
         public Criteria andViewCountIsNull() {
             addCriterion("view_count is null");
             return (Criteria) this;

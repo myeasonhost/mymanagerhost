@@ -1,19 +1,14 @@
 package com.eason.transfer.openapi.zb.api.room.model;
 
-import com.eason.transfer.openapi.zb.api.zhubo.model.RUser;
-import com.eason.transfer.openapi.zb.api.zhubo.model.RZhubo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.redisson.api.RCascadeType;
-import org.redisson.api.annotation.RCascade;
 import org.redisson.api.annotation.REntity;
 import org.redisson.api.annotation.RId;
 import org.redisson.api.annotation.RIndex;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -35,17 +30,17 @@ public class RRoom implements Serializable {
 
     private String liveUrl;
 
-    @RCascade({RCascadeType.ALL})
-    private RZhubo rZhubo;
+    private String username;
 
-    @RCascade({RCascadeType.ALL})
-    private List<RUser> userList;
+    private String nickName;
 
-    private long viewCount;
+    private String avatar;
 
-    private long newFans;
+    private String sessionId;
 
-    private long giftCount;
+    private long fansNum;
+
+    private Boolean isFans;
 
     private Timestamp startTime;
 

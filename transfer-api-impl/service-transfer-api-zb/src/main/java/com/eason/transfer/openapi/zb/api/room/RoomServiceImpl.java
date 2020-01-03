@@ -17,8 +17,9 @@ import com.eason.transfer.openapi.zb.utils.FtpClientUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.redisson.api.RAtomicLong;
 import org.redisson.api.RLiveObjectService;
-import org.redisson.api.RLongAdder;
+import org.redisson.api.RSet;
 import org.redisson.api.RedissonClient;
 import org.redisson.api.condition.Conditions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,16 +56,16 @@ public class RoomServiceImpl implements IRoomService {
             RoomVo roomVo=new RoomVo();
             roomVo.setPlanSeqNo(rRoom.getZbSeqNo());
             roomVo.setId(rRoom.getId());
-            roomVo.setNickName(rRoom.getRZhubo().getNickName());
-            roomVo.setAvatar(rRoom.getRZhubo().getAvatar());
+            roomVo.setNickName(rRoom.getNickName());
+            roomVo.setAvatar(rRoom.getAvatar());
             roomVo.setRoomName(rRoom.getRoomName());
             roomVo.setRoomBgImage(rRoom.getRoomBgImage());
-            roomVo.setUsername(rRoom.getRZhubo().getUsername());
+            roomVo.setUsername(rRoom.getUsername());
             roomVo.setStartTime(DateFormatUtils.format(rRoom.getStartTime().getTime(),DateFormatUtils.ISO_DATETIME_FORMAT.getPattern()));
-            roomVo.setUserCount(rRoom.getUserList().size());
-            roomVo.setGiftCount(redisson.getLongAdder("giftCount_"+rRoom.getId()).sum());
-            roomVo.setNewFans(redisson.getLongAdder("newFans_"+rRoom.getId()).sum());
-            roomVo.setViewCount(redisson.getLongAdder("viewCount_"+rRoom.getId()).sum());
+            roomVo.setUserCount(redisson.getSet("userSet_"+rRoom.getId()).size());
+            roomVo.setGiftCount(redisson.getAtomicLong("giftCount_"+rRoom.getId()).get());
+            roomVo.setNewFans(redisson.getAtomicLong("newFans_"+rRoom.getId()).get());
+            roomVo.setViewCount(redisson.getAtomicLong("viewCount_"+rRoom.getId()).get());
             list.add(roomVo);
         });
         response.setList(list);
@@ -100,32 +101,23 @@ public class RoomServiceImpl implements IRoomService {
         RLiveObjectService liveObjectService=redisson.getLiveObjectService();
 
         UserPo userPo=userPoMapper.selectByPrimaryKey(zhuboPo.getId());
-        RZhubo rZhubo=new RZhubo();
-        rZhubo.setId(request.getUserId());
-        rZhubo=liveObjectService.merge(rZhubo);
-
-        rZhubo.setUsername(userPo.getUsername());
-        rZhubo.setNickName(userPo.getNickName());
-        rZhubo.setAvatar(userPo.getAvatar());
-//        rZhubo.setFansNum(redisson.getLongAdder("fansNum_"+rRoom.getId()).sum());
-        rZhubo.setIsFans(Boolean.FALSE);
-
         RRoom rRoom=new RRoom();
-        rRoom.setId(request.getUserId());
-        rRoom.setRZhubo(rZhubo);
-        rRoom=liveObjectService.merge(rRoom);
+        rRoom.setUsername(userPo.getUsername());
+        rRoom.setNickName(userPo.getNickName());
+        rRoom.setAvatar(userPo.getAvatar());
+        rRoom.setFansNum(0);
+        rRoom.setIsFans(Boolean.FALSE);
 
+        rRoom.setId(request.getUserId());
         rRoom.setZbSeqNo(DateFormatUtils.format(new Date(),DateFormatUtils.ISO_DATETIME_FORMAT.getPattern())+"_"+request.getUserId());
         rRoom.setRoomName(zhuboPo.getRoomname());
         rRoom.setRoomBgImage(zhuboPo.getRoombgimage());
         rRoom.setImUrl(request.getImUrl());
         rRoom.setLiveUrl(request.getLiveUrl());
-        rRoom.setUserList(redisson.getList("userList_"+rRoom.getId()));
-        rRoom.setGiftCount(redisson.getLongAdder("giftCount_"+rRoom.getId()).sum());
-        rRoom.setNewFans(redisson.getLongAdder("newFans_"+rRoom.getId()).sum());
-        rRoom.setViewCount(redisson.getLongAdder("viewCount_"+rRoom.getId()).sum());
         rRoom.setStartTime(new Timestamp(System.currentTimeMillis()));
         rRoom.setStatus(zhuboPo.getStatus()+0);
+
+        rRoom=liveObjectService.merge(rRoom);
 
         response.setResult("直播间创建成功");
         response.setRoomId(rRoom.getId());
@@ -199,25 +191,22 @@ public class RoomServiceImpl implements IRoomService {
         RoomDestoryResponse response=new RoomDestoryResponse();
         RLiveObjectService liveObjectService=redisson.getLiveObjectService();
 
-        RLongAdder viewCount=redisson.getLongAdder("viewCount_"+request.getUserId());
-        RLongAdder newFans=redisson.getLongAdder("newFans_"+request.getUserId());
-        RLongAdder giftCount=redisson.getLongAdder("giftCount_"+request.getUserId());
+        RAtomicLong viewCount=redisson.getAtomicLong("viewCount_"+request.getUserId());
+        RAtomicLong newFans=redisson.getAtomicLong("newFans_"+request.getUserId());
+        RAtomicLong giftCount=redisson.getAtomicLong("giftCount_"+request.getUserId());
+        RSet userSet=redisson.getSet("userSet_"+request.getUserId());
 
-
-        RZhubo rZhubo=liveObjectService.get(RZhubo.class,request.getUserId());
-        if(rZhubo!=null){
-            liveObjectService.delete(RZhubo.class,request.getUserId());
-        }
         RRoom rRoom=liveObjectService.get(RRoom.class,request.getUserId());
         if(rRoom!=null){
-            ZbRoomReport roomReport=new ZbRoomReport();
+             ZbRoomReport roomReport=new ZbRoomReport();
             roomReport.setRoomname(rRoom.getRoomName());
             roomReport.setRoomid(Long.parseLong(rRoom.getId()));
+            roomReport.setZbname(rRoom.getUsername());
             roomReport.setZbPlanSeqno(rRoom.getZbSeqNo());
-            roomReport.setViewCount(viewCount.sum());
-            roomReport.setNewFans(newFans.sum());
-            roomReport.setGiftCount(giftCount.sum());
-            Long time=System.currentTimeMillis()-rRoom.getStartTime().getTime();
+            roomReport.setGiftCount((int)redisson.getAtomicLong("giftCount_"+rRoom.getId()).get());
+            roomReport.setNewFans((int)redisson.getAtomicLong("newFans_"+rRoom.getId()).get());
+            roomReport.setViewCount((int)redisson.getAtomicLong("viewCount_"+rRoom.getId()).get());
+            Long time=new Date().getTime()-rRoom.getStartTime().getTime();
             roomReport.setLiveTimeCount(DateFormatUtils.format(time,DateFormatUtils.ISO_TIME_NO_T_FORMAT.getPattern()));
             roomReport.setStartTime(rRoom.getStartTime());
             roomReport.setStopTime(new Date());
@@ -229,15 +218,13 @@ public class RoomServiceImpl implements IRoomService {
             }else{
                 this.roomReportMapper.updateByExampleSelective(roomReport,example);
             }
-
-            liveObjectService.delete(RRoom.class,request.getUserId());
+            liveObjectService.delete(rRoom);
         }
-
-
 
         viewCount.delete();
         newFans.delete();
         giftCount.delete();
+        userSet.delete();
         response.setResult("直播间销毁成功");
         return response;
     }
