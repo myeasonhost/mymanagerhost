@@ -1,6 +1,6 @@
 package com.eason.transfer.openapi.zb.api.user;
 
-import com.eason.transfer.openapi.core.sdk.zb.ZbUserService;
+import com.eason.transfer.openapi.core.sdk.zb.IZbUserService;
 import com.eason.transfer.openapi.core.sdk.zb.model.GiftRequest;
 import com.eason.transfer.openapi.core.sdk.zb.model.GiftResponse;
 import com.eason.transfer.openapi.zb.api.entity.GiftPo;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-public class UserServiceImpl implements ZbUserService {
+public class UserServiceImplI implements IZbUserService {
         @Autowired
         private GiftPoMapper giftPoMapper;
 
