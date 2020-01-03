@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * @apiDefine index 直播首页API
  */
-@FeignClient(contextId = "index#IIndexService",value = "service-transfer-api-zb")
+@FeignClient(contextId = "zb#IIndexService",value = "service-transfer-api-zb")
 public interface IIndexService {
     /**
      * @apiVersion 1.0.0

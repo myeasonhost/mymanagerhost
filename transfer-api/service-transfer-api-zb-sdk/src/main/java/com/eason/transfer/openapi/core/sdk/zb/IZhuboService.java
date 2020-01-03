@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * @apiDefine zhubo  主播API
  */
-@FeignClient(contextId = "zhubo#IZhuboService",value = "service-transfer-api-zb")
+@FeignClient(contextId = "zb#IZhuboService",value = "service-transfer-api-zb")
 public interface IZhuboService {
 
     @CrossOrigin(origins = "*")

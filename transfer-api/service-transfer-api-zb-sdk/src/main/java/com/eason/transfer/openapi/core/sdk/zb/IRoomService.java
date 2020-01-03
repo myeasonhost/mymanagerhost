@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * @apiDefine room  房间API
  */
-@FeignClient(contextId = "room#IRoomService",value = "service-transfer-api-zb")
+@FeignClient(contextId = "zb#IRoomService",value = "service-transfer-api-zb")
 public interface IRoomService {
 
     @CrossOrigin(origins = "*")
