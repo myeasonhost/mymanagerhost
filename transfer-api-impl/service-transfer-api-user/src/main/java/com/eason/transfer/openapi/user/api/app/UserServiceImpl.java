@@ -547,16 +547,16 @@ public class UserServiceImpl implements IUserService {
     }
 
 
-    @Override
-    public GiftResponse addGift(GiftRequest request) throws Exception {
-        GiftResponse giftResponse=new GiftResponse();
-        GiftPo giftPo=new GiftPo();
-        giftPo.setGiftName(request.getGiftName());
-        giftPo.setGiftImg(request.getGiftImg());
-        giftPo.setGiftPrice(request.getGiftPrice());
-        giftPo.setSpecialStyle(request.getSpecialStyle());
-        giftMapper.insertGift(giftPo);
-        giftResponse.setResult("发送礼物成功");
-        return giftResponse;
-    }
+//    @Override
+//    public GiftResponse addGift(GiftRequest request) throws Exception {
+//        GiftResponse giftResponse=new GiftResponse();
+//        GiftPo giftPo=new GiftPo();
+//        giftPo.setGiftName(request.getGiftName());
+//        giftPo.setGiftImg(request.getGiftImg());
+//        giftPo.setGiftPrice(request.getGiftPrice());
+//        giftPo.setSpecialStyle(request.getSpecialStyle());
+//        giftMapper.insertGift(giftPo);
+//        giftResponse.setResult("发送礼物成功");
+//        return giftResponse;
+//    }
 }
