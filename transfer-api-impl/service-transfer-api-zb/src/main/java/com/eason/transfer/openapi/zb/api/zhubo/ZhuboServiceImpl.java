@@ -46,7 +46,7 @@ public class ZhuboServiceImpl implements IZhuboService {
 
 
     @Override
-    public ZhuboStartResponse start(ZhuboStartRequest request) throws Exception {
+    public ZhuboStartResponse start(ZhuboStartRequest request){
         ZhuboStartResponse response=new ZhuboStartResponse();
         String code = null;
         String result = null;
@@ -72,13 +72,11 @@ public class ZhuboServiceImpl implements IZhuboService {
         this.roomServiceImpl.create(roomCreateRequest);
 
         final SocketIONamespace chat1namespace = socketIOServer.addNamespace(imUrl);
-        chat1namespace.addListeners(socketIOListener);
+//        chat1namespace.addListeners(socketIOListener);
 //        chat1namespace.addConnectListener(socketIOListener);
-//        chat1namespace.addDisconnectListener(socketIOListener);
-//        chat1namespace.addEventListener("message", ChatObject.class,socketIOListener);
-//        chat1namespace.addConnectListener(socketIOClient -> {
-//            System.out.println("Aaaaaaaaaaaaaaaaaaaaaaaa");
-//        });
+        chat1namespace.addDisconnectListener(socketIOListener);
+        chat1namespace.addEventListener("message", ChatObject.class,socketIOListener);
+        chat1namespace.addConnectListener(socketIOListener);
 //        chat1namespace.addEventListener("message", ChatObject.class, new DataListener<ChatObject>() {
 //            @Override
 //            public void onData(SocketIOClient client, ChatObject data, AckRequest ackRequest) {

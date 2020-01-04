@@ -1,7 +1,10 @@
 package com.eason.transfer.openapi.zb.listener;
 
 import com.corundumstudio.socketio.SocketIOServer;
+import com.eason.transfer.openapi.core.sdk.zb.model.ZhuboStartRequest;
+import com.eason.transfer.openapi.core.sdk.zb.model.ZhuboStartResponse;
 import com.eason.transfer.openapi.zb.api.room.model.RRoom;
+import com.eason.transfer.openapi.zb.api.zhubo.ZhuboServiceImpl;
 import com.eason.transfer.openapi.zb.api.zhubo.model.RUser;
 import com.eason.transfer.openapi.zb.api.zhubo.model.RZhubo;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +27,8 @@ public class RunnerListener implements CommandLineRunner {
     private RedissonClient redisson;
     @Autowired
     private SocketIOServer socketIOServer;
+    @Autowired
+    private ZhuboServiceImpl zhuboServiceImpl;
 
     @Override
     public void run(String... args)  {
@@ -39,7 +44,10 @@ public class RunnerListener implements CommandLineRunner {
         roomCollection.forEach(rRoom -> {
             if(!StringUtils.isEmpty(rRoom.getImUrl())){
                 socketIOServer.addNamespace(rRoom.getImUrl());
-                log.info("主播{}的直播间，聊天室{}重建成功",rRoom.getUsername(),rRoom.getImUrl());
+                ZhuboStartRequest startRequest=new ZhuboStartRequest();
+                startRequest.setUserId(rRoom.getId());
+                ZhuboStartResponse startResponse=zhuboServiceImpl.start(startRequest);
+                log.info("主播{}的直播间{}，开播启动={}",rRoom.getUsername(),rRoom.getImUrl(),startResponse.getResult());
             }
         });
         log.info("*************************（3）直播间聊天室加载缓存完成************************");

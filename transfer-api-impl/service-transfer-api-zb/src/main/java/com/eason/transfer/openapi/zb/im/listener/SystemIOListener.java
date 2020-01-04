@@ -3,9 +3,9 @@ package com.eason.transfer.openapi.zb.im.listener;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.listener.ConnectListener;
-import com.corundumstudio.socketio.listener.DataListener;
-import com.corundumstudio.socketio.listener.DisconnectListener;
+import com.corundumstudio.socketio.annotation.OnConnect;
+import com.corundumstudio.socketio.annotation.OnDisconnect;
+import com.corundumstudio.socketio.annotation.OnEvent;
 import com.eason.transfer.openapi.zb.api.zhubo.model.RUser;
 import com.eason.transfer.openapi.zb.im.dto.ChatObject;
 import com.eason.transfer.openapi.zb.im.dto.MsgTypeEnum;
@@ -15,9 +15,10 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+
 @Component
 @Slf4j
-public class SocketIOListener implements ConnectListener,DisconnectListener,DataListener<ChatObject> {
+public class SystemIOListener{
 
     @Autowired
     private RedissonClient redisson;
@@ -27,22 +28,13 @@ public class SocketIOListener implements ConnectListener,DisconnectListener,Data
     /**
      * 当客户端发起连接时调用
      */
-//    @OnConnect
-    @Override
+    @OnConnect
     public void onConnect(SocketIOClient socketIOClient) {
         String roomId = socketIOClient.getHandshakeData().getSingleUrlParam("roomId");
         String userName = socketIOClient.getHandshakeData().getSingleUrlParam("userName");
         if (StringUtils.isNotBlank(userName)) {
-            log.info("用户{}开启长连接通知, NettySocketSessionId: {}, NettySocketRemoteAddress: {}",
-                    socketIOClient.getSessionId(), userName, socketIOClient.getRemoteAddress().toString());
-            RUser rUser=new RUser();
-            rUser.setUsername(userName);
-            rUser.setSessionId(socketIOClient.getSessionId().toString());
-            redisson.getAtomicLong("viewCount_"+roomId).incrementAndGet();
-            redisson.getSet("userSet_"+roomId).add(rUser);
-
             // 发送上线通知
-            this.sendMsg(socketIOClient, null, new ChatObject(userName, MsgTypeEnum.ONLINE.getValue()));
+            this.sendMsg(socketIOClient, null, new ChatObject("系统消息管理员", "系统公告：直播间提倡绿色直播！！！"));
         }
 
     }
@@ -50,21 +42,16 @@ public class SocketIOListener implements ConnectListener,DisconnectListener,Data
     /**
      * 客户端断开连接时调用，刷新客户端信息
      */
-//    @OnDisconnect
-    @Override
+    @OnDisconnect
     public void onDisconnect(SocketIOClient socketIOClient) {
         String roomId = socketIOClient.getHandshakeData().getSingleUrlParam("roomId");
         String userName = socketIOClient.getHandshakeData().getSingleUrlParam("userName");
         if (StringUtils.isNotBlank(userName)) {
-            log.info("用户{}断开长连接通知, NettySocketSessionId: {}, NettySocketRemoteAddress: {}",
-                    socketIOClient.getSessionId(), userName, socketIOClient.getRemoteAddress().toString());
-            RUser rUser=new RUser();
-            rUser.setUsername(userName);
-            rUser.setSessionId(socketIOClient.getSessionId().toString());
-            redisson.getSet("userSet_"+roomId).remove(rUser);
+
+            System.out.println("***********************System**********OnDisconnect***************");
 
             // 发送下线通知
-            this.sendMsg(socketIOClient, null, new ChatObject(userName, MsgTypeEnum.OFFLINE.getValue()));
+            this.sendMsg(socketIOClient, null, new ChatObject("系统消息管理员", "系统公告：直播间提倡绿色直播！！！"));
         }
 
     }
@@ -72,13 +59,11 @@ public class SocketIOListener implements ConnectListener,DisconnectListener,Data
     /**
      * sendMsg发送消息事件
      */
+    @OnEvent("message")
     public void sendMsg(SocketIOClient socketIOClient, AckRequest ackRequest, ChatObject data) {
         socketIOClient.getNamespace().getBroadcastOperations().sendEvent("message", data);
     }
 
-    @Override
-    public void onData(SocketIOClient socketIOClient, ChatObject data, AckRequest ackRequest) throws Exception {
-        socketIOClient.getNamespace().getBroadcastOperations().sendEvent("message", data);
-    }
 
 }
+

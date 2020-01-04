@@ -12,7 +12,6 @@ import com.eason.transfer.openapi.zb.api.mapper.UserPoMapper;
 import com.eason.transfer.openapi.zb.api.mapper.ZbRoomReportMapper;
 import com.eason.transfer.openapi.zb.api.mapper.ZbZhuboPoMapper;
 import com.eason.transfer.openapi.zb.api.room.model.RRoom;
-import com.eason.transfer.openapi.zb.api.zhubo.model.RZhubo;
 import com.eason.transfer.openapi.zb.utils.FtpClientUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -73,7 +72,7 @@ public class RoomServiceImpl implements IRoomService {
     }
 
     @Override
-    public RoomCreateResponse create(RoomCreateRequest request) throws Exception {
+    public RoomCreateResponse create(RoomCreateRequest request){
         RoomCreateResponse response=new RoomCreateResponse();
         String code = null;
         String result = null;
