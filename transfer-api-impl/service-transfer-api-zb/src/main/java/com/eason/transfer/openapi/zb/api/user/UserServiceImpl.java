@@ -18,15 +18,25 @@ public class UserServiceImpl implements IZbUserService {
         private GiftPoMapper giftPoMapper;
 
         @Override
-        public GiftResponse addGift(GiftRequest request) throws Exception {
+        public GiftResponse addGift(GiftRequest request) {
             GiftResponse giftResponse=new GiftResponse();
-            GiftPo giftPo=new GiftPo();
-            giftPo.setGiftName(request.getGiftName());
-            giftPo.setGiftLmg(request.getGiftImg());
-            giftPo.setGiftPrice(request.getGiftPrice());
-            giftPo.setSpecialstyle(request.getSpecialStyle());
-            giftPoMapper.insert(giftPo);
-            giftResponse.setResult("发送礼物成功");
+            try{
+                GiftPo gift=giftPoMapper.selectByGiftName(request.getGiftName());
+                if(gift!=null){
+                    giftResponse.setResult("礼物以存在");
+                    return giftResponse;
+                }
+                GiftPo giftPo=new GiftPo();
+                giftPo.setGiftName(request.getGiftName());
+                //TODO 图片上传至服务器
+                giftPo.setGiftLmg(request.getGiftImg());
+                giftPo.setGiftPrice(request.getGiftPrice());
+                giftPo.setSpecialstyle(request.getSpecialStyle());
+                giftPoMapper.insert(giftPo);
+                giftResponse.setResult("发送礼物成功");
+            }catch (Exception e){
+                giftResponse.setResult("发送礼物失败");
+            }
             return giftResponse;
         }
 }
