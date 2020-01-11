@@ -8,6 +8,7 @@ import com.eason.transfer.openapi.user.api.app.dao.mapper.UserCodePoMapper;
 import com.eason.transfer.openapi.user.api.app.dao.mapper.VerifyCodeLogMapper;
 import com.eason.transfer.openapi.user.api.app.model.CodeConfigModel;
 import com.eason.transfer.openapi.user.api.app.service.ICodeService;
+import com.eason.transfer.openapi.user.api.app.utils.PushUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -242,9 +243,9 @@ public class CodeMgrImpl implements ICodeService {
                 code = String.valueOf(Math.round(Math.random() * 8999 + 1000));
                 stringRedisTemplate.opsForValue().set( request.getPhone(), code, codeValidTime, TimeUnit.MINUTES);
             }
-            //TODO 实现发生验证码方法
-//            flag = PushUtil.sendTextCode(code, request.getPhone());
-            flag=true;
+
+           flag = PushUtil.sendTextCode(code, request.getPhone());
+
             if (flag) {
                 UserCodePo userCode = new UserCodePo();
                 userCode.setType(request.getCodeType().byteValue()); // 验证码类型为重置密码
