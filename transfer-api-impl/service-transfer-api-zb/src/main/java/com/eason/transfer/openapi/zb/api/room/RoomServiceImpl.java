@@ -182,7 +182,7 @@ public class RoomServiceImpl implements IRoomService {
         zhuboPo.setUpdateBy(request.getUserId());
         zbZhuboPoMapper.updateByPrimaryKey(zhuboPo);
         response.setResult("直播间信息更新成功");
-        return null;
+        return response;
     }
 
     @Override
