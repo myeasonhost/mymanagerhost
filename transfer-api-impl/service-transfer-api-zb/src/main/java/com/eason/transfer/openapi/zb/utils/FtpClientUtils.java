@@ -57,7 +57,8 @@ public class FtpClientUtils {
             ftpClient = connectFtpServer();
             createDirecroty(ftpClient,path);
             ftpClient.changeWorkingDirectory(rootPath+"/"+path);//进入到文件保存的目录
-            Boolean isSuccess = ftpClient.storeFile(originName,inputStream);//保存文件
+            ftpClient.setControlEncoding("UTF-8");
+            Boolean isSuccess = ftpClient.storeFile(new String(originName.getBytes("UTF-8"),"iso-8859-1"),inputStream);//保存文件
             if (!isSuccess){
                 throw new Exception(originName+"---》上传失败！");
             }
