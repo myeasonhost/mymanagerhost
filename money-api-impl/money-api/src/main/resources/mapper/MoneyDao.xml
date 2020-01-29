@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ds.money.dao.mapper.DsMoneyDao">
+  <resultMap id="BaseResultMoneyMap" type="com.ds.money.entity.DsMemberMoney" extends="com.ds.money.dao.mapper.DsMemberMoneyMapper.BaseResultMap">
+  </resultMap>
+  <resultMap id="BaseResultMap" type="com.ds.money.entity.DsMemberMoneyLog" extends="com.ds.money.dao.mapper.DsMemberMoneyLogMapper.BaseResultMap">
+  </resultMap>
+  <resultMap id="MemberResultMap" type="com.ds.money.entity.MemberEntity" extends="com.ds.money.dao.mapper.MemberEntityMapper.BaseResultMap">
+  </resultMap>
+   <resultMap id="MoneyResultMap" type="com.ds.money.entity.DsMemberMoney">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="site_id" jdbcType="INTEGER" property="siteId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+  </resultMap>
+  	<!-- 弃用的方法 -->
+  	<select id="selectMoneyForUpdate" resultMap="BaseResultMoneyMap" parameterType="Long">
+  		select * from ds_member_money where id = #{id} for update
+  	</select>
+	<select id="findMoneyLogByPage" resultMap="BaseResultMap" parameterType="com.ds.money.vo.MoneyLogParam">
+		select * from ${param.siteId}_ds_member_money_log l where 
+			1 = 1
+		<if test="param.username!=null and param.username!=''">
+		     and username = #{param.username}
+		 </if>
+		 <if test="param.remitno!=null and param.remitno!=''">
+		     and trans_id = #{param.remitno}
+		 </if>
+		 <if test="param.beginTime!=null">
+		        and l.create_time <![CDATA[>=]]>#{param.beginTime}
+		 </if>
+		 <if test="param.endTime!=null">
+		        and l.create_time <![CDATA[<=]]>#{param.endTime}
+		 </if>
+		  <if test="param.fromKeyTypeList!=null">
+		        and l.from_key_type in
+		        <foreach collection="param.fromKeyTypeList" index="index" item="item" open="(" separator="," close=")">
+		        	#{item}
+		        </foreach>
+		 </if>
+		 order by l.id desc,l.create_time desc 
+	</select>
+	
+	<select id="findMoneyLogAgentLevelByPage" resultMap="BaseResultMap" parameterType="com.ds.money.vo.MoneyLogParam">
+		select * from ${param.siteId}_ds_member_money_log l,${param.siteId}_ds_member m where
+			m.username = l.username 
+		<if test="param.username!=null and param.username!=''">
+		     and l.username = #{param.username}
+		 </if>
+		 <if test="param.beginTime!=null">
+		        and l.create_time <![CDATA[>=]]>#{param.beginTime}
+		 </if>
+		 <if test="param.endTime!=null">
+		        and l.create_time <![CDATA[<=]]>#{param.endTime}
+		 </if>
+		  <if test="param.fromKeyTypeList!=null">
+		        and l.from_key_type in
+		        <foreach collection="param.fromKeyTypeList" index="index" item="item" open="(" separator="," close=")">
+		        	#{item}
+		        </foreach>
+		 </if>
+		   <if test="param.agentLevel!=null and param.agentLevel=='agents'">
+		     and m.agents = #{param.agentName}
+		 </if>
+		<if test="param.agentLevel!=null and param.agentLevel=='world'">
+		     and m.world = #{param.agentName}
+		 </if>
+		  <if test="param.agentLevel!=null and param.agentLevel=='corprator'">
+		     and m.corprator = #{param.agentName}
+		 </if>
+		   <if test="param.agentLevel!=null and param.agentLevel=='superior'">
+		     and m.superior = #{param.agentName}
+		 </if>
+		 <if test="param.agentLevel!=null and param.agentLevel=='company'">
+		     and m.company = #{param.agentName}
+		 </if>
+		 
+		 order by l.id desc,l.create_time desc 
+	</select>
+	
+	<select id="countMoneyLogByPage" resultType="Long" parameterType="com.ds.money.vo.MoneyLogParam">
+		select count(*) from ${param.siteId}_ds_member_money_log l where 
+			1 = 1
+		 <if test="param.username!=null and param.username!=''">
+		     and username = #{param.username}
+		 </if>
+		 <if test="param.remitno!=null and param.remitno!=''">
+		     and trans_id = #{param.remitno}
+		 </if>
+		 <if test="param.beginTime!=null">
+		        and l.create_time <![CDATA[>=]]>#{param.beginTime}
+		 </if>
+		 <if test="param.endTime!=null">
+		        and l.create_time <![CDATA[<=]]>#{param.endTime}
+		 </if>
+		  <if test="param.fromKeyTypeList!=null">
+		        and l.from_key_type in
+		        <foreach collection="param.fromKeyTypeList" index="index" item="item" open="(" separator="," close=")">
+		        	#{item}
+		        </foreach>
+		 </if>
+	</select>
+	
+		<select id="countMoneyLogAgentLevelByPage" resultType="Long" parameterType="com.ds.money.vo.MoneyLogParam">
+		select count(*) from ${param.siteId}_ds_member_money_log l,${param.siteId}_ds_member m where
+			 m.username = l.username 
+		 <if test="param.username!=null and param.username!=''">
+		     and l.username = #{param.username}
+		 </if>
+		 <if test="param.beginTime!=null">
+		        and l.create_time <![CDATA[>=]]>#{param.beginTime}
+		 </if>
+		 <if test="param.endTime!=null">
+		        and l.create_time <![CDATA[<=]]>#{param.endTime}
+		 </if>
+		  <if test="param.fromKeyTypeList!=null">
+		        and l.from_key_type in
+		        <foreach collection="param.fromKeyTypeList" index="index" item="item" open="(" separator="," close=")">
+		        	#{item}
+		        </foreach>
+		 </if>
+		   <if test="param.agentLevel!=null and param.agentLevel=='agents'">
+		     and m.agents = #{param.agentName}
+		 </if>
+		<if test="param.agentLevel!=null and param.agentLevel=='world'">
+		     and m.world = #{param.agentName}
+		 </if>
+		  <if test="param.agentLevel!=null and param.agentLevel=='corprator'">
+		     and m.corprator = #{param.agentName}
+		 </if>
+		   <if test="param.agentLevel!=null and param.agentLevel=='superior'">
+		     and m.superior = #{param.agentName}
+		 </if>
+		 <if test="param.agentLevel!=null and param.agentLevel=='company'">
+		     and m.company = #{param.agentName}
+		 </if>
+	</select>
+	
+	<!-- 查询统计     -->
+	<select id="fromKeyTypeSum" resultType="Double" parameterType="com.ds.money.vo.MoneyLogParam">
+		select sum(l.remit) from ${param.siteId}_ds_member_money_log l where 
+			1 = 1
+		 <if test="param.username!=null and param.username!=''">
+		     and username = #{param.username}
+		 </if>
+		 <if test="param.beginTime!=null">
+		        and l.create_time <![CDATA[>=]]>#{param.beginTime}
+		 </if>
+		 <if test="param.endTime!=null">
+		        and l.create_time <![CDATA[<=]]>#{param.endTime}
+		 </if>
+		 and l.from_key_type = #{type}
+	</select>
+	<!-- 按天统计现金流日志 -->
+	<select id="moneyLogByDate" resultType="com.ds.money.vo.MoneyLogByDateVo" parameterType="com.ds.money.vo.MoneyLogByDateParam">
+		select sum(l.remit) as transMoney,DATE_FORMAT(l.create_time,'%Y-%m-%d 12:00:00') as transDate
+			from ${param.siteId}_ds_member_money_log l where 
+			1 = 1
+		 <if test="param.beginTime!=null">
+		        and l.create_time <![CDATA[>=]]>#{param.beginTime}
+		 </if>
+		 <if test="param.endTime!=null">
+		        and l.create_time <![CDATA[<=]]>#{param.endTime}
+		 </if>
+		 <if test="param.fromKeyTypeList!=null">
+		        and l.from_key_type in
+		        <foreach collection="param.fromKeyTypeList" index="index" item="item" open="(" separator="," close=")">
+		        	#{item}
+		        </foreach>
+		 </if>
+		 GROUP BY DATE_FORMAT(CONVERT_TZ(l.create_time,'+08:00','-04:00'),'%Y-%m-%d')
+	</select>
+	<update id="updateUserState">
+		UPDATE ds_member_money a ,ds_member b SET a.state = #{state} 
+		WHERE a.site_id = b.site_id and b.site_id = #{siteId}
+		AND a.username = b.username 
+		 <if test="agentLevel!=null and agentLevel=='agents'">
+		     and b.agents = #{agentName}
+		 </if>
+		<if test="agentLevel!=null and agentLevel=='world'">
+		     and b.world = #{agentName}
+		 </if>
+		  <if test="agentLevel!=null and agentLevel=='corprator'">
+		     and b.corprator = #{agentName}
+		 </if>
+		   <if test="agentLevel!=null and agentLevel=='superior'">
+		     and b.superior = #{agentName}
+		 </if>
+		 <if test="agentLevel!=null and agentLevel=='company'">
+		     and b.company = #{agentName}
+		 </if>
+	</update>
+	<select id="getTotalBalanceByState" parameterType="com.alibaba.fastjson.JSONObject" resultType="java.math.BigDecimal">
+		select sum(a.money) from ${param.siteId}_ds_member_money a 
+			where a.site_id = #{param.siteId} and a.state = #{state}
+	</select>
+	
+	<!-- 查询用户余额 -->
+	<select id="selectUserMoney" resultMap="MoneyResultMap">
+		select * from ${siteId}_${tableName} a 
+			where a.site_id = #{siteId} and a.username = #{username} for update
+	</select>
+	
+	<insert id="insert" parameterType="com.ds.money.entity.DsMemberMoney" >
+		INSERT INTO ${param.siteId}_${tableName}(site_id,username,money,password,state,version) VALUES 
+			(#{param.siteId},#{param.username},#{param.money},#{param.password},#{param.state},#{param.version})
+		
+	</insert>
+	<!-- 更新用户金额 -->
+	<update id="updateMoneyByVersion" parameterType="com.ds.money.entity.DsMemberMoney" >
+		UPDATE ${param.siteId}_${tableName} SET money = #{param.money},password = #{param.password} ,state = #{param.state} ,
+		version = #{param.version}
+		WHERE username = #{param.username} and site_id = #{param.siteId} AND version = #{version};
+	</update>
+
+	<insert id="insertCheck" parameterType="com.ds.money.entity.DsMemberMoney">
+		INSERT INTO ${siteId}_${tableName}(id,trans_id,status) VALUES 
+			(#{check.id},#{check.transId},#{check.status})
+	</insert>
+	
+	<select id="findCheckByTransId" resultType="com.ds.money.entity.CheckEntity">
+		select * from ${siteId}_${tableName} a 
+			where a.trans_id = #{transId}
+	</select>
+	
+	<select id="getMoneyLogByNo" resultMap="BaseResultMap">
+		select * from ${siteId}_ds_member_money_log a 
+			where a.trans_id = #{remitno} and username = #{username} and site_id = #{siteId}
+	</select>
+	<update id="updateMoneyLogMemo" >
+		UPDATE ${siteId}_ds_member_money_log SET memo = #{memo}
+		WHERE id = #{id}
+	</update>
+	<insert id="insertMember" parameterType="com.ds.money.entity.DsMemberMoney" >
+		INSERT INTO ${member.siteId}_ds_member(site_id,username,agents,world,corprator,superior,company,create_time,update_time) VALUES 
+			(#{member.siteId},#{member.username},#{member.agents},#{member.world},#{member.corprator},#{member.superior},
+			 #{member.company},#{member.createTime},#{member.updateTime})
+	</insert>
+	<update id="updateMember">
+		UPDATE ${member.siteId}_ds_member SET agents = #{member.agents},world = #{member.world} ,corprator = #{member.corprator} ,
+		superior = #{member.superior},company = #{member.company},update_time = #{member.updateTime}
+		WHERE id = #{member.id}
+	</update>
+	<select id="getUserByName" resultMap="MemberResultMap">
+		select * from ${siteId}_ds_member 
+			where username = #{username} 
+	</select>
+	<select id="getMemberInfo" resultMap="MemberResultMap">
+		select * from ${siteId}_ds_member b
+			where 1 = 1
+		<if test="userLevel!=null and userLevel=='agents'">
+		     and b.agents = #{username}
+		 </if>
+		<if test="userLevel!=null and userLevel=='world'">
+		     and b.world = #{username}
+		 </if>
+		  <if test="userLevel!=null and userLevel=='corprator'">
+		     and b.corprator = #{username}
+		 </if>
+		   <if test="userLevel!=null and userLevel=='superior'">
+		     and b.superior = #{username}
+		 </if>
+		 <if test="userLevel!=null and userLevel=='username'">
+		     and b.username = #{username}
+		 </if>	
+			
+		 <if test="agentLevel!=null and agentLevel=='agents'">
+		     and b.agents = #{agentName}
+		 </if>
+		<if test="agentLevel!=null and agentLevel=='world'">
+		     and b.world = #{agentName}
+		 </if>
+		  <if test="agentLevel!=null and agentLevel=='corprator'">
+		     and b.corprator = #{agentName}
+		 </if>
+		   <if test="agentLevel!=null and agentLevel=='superior'">
+		     and b.superior = #{agentName}
+		 </if>
+		 <if test="agentLevel!=null and agentLevel=='company'">
+		     and b.company = #{agentName}
+		 </if>
+	</select>
+</mapper>
