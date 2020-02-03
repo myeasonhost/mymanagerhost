@@ -21,6 +21,7 @@
         <module>service-transfer-api-user-sdk</module>
         <module>service-transfer-api-chess-sdk</module>
         <module>service-transfer-api-zb-sdk</module>
+        <module>service-transfer-api-money-sdk</module>
     </modules>
 
     <!--SpringCloud的配置-->
