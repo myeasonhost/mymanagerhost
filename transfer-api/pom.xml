@@ -6,46 +6,31 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.BUILD-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>2.7.3</version>
+        <relativePath/>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.eason.transfer</groupId>
     <artifactId>transfer-api</artifactId>
-    <version>2019-5-10</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>openapi-common</module>
-        <module>service-transfer-api-user-sdk</module>
         <module>service-transfer-api-chess-sdk</module>
-        <module>service-transfer-api-zb-sdk</module>
         <module>service-transfer-api-money-sdk</module>
     </modules>
 
     <!--SpringCloud的配置-->
     <properties>
-        <env.host>47.75.90.65:8081</env.host>
+<!--        <env.host>47.75.90.65:8081</env.host>-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Hoxton.BUILD-SNAPSHOT</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-actuator</artifactId>
-            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -81,16 +66,16 @@
         </pluginRepository>
     </pluginRepositories>
 
-    <distributionManagement>
-        <repository>
-            <id>eason-releases</id>
-            <name>eason releases Repository</name>
-            <url>http://${env.host}/repository/eason-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>eason-snapshots</id>
-            <name>eason snapshots Repository</name>
-            <url>http://${env.host}/repository/eason-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>eason-releases</id>-->
+<!--            <name>eason releases Repository</name>-->
+<!--            <url>http://${env.host}/repository/eason-releases/</url>-->
+<!--        </repository>-->
+<!--        <snapshotRepository>-->
+<!--            <id>eason-snapshots</id>-->
+<!--            <name>eason snapshots Repository</name>-->
+<!--            <url>http://${env.host}/repository/eason-snapshots/</url>-->
+<!--        </snapshotRepository>-->
+<!--    </distributionManagement>-->
 </project>

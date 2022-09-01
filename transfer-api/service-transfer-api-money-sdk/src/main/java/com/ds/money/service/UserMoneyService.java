@@ -2,13 +2,11 @@ package com.ds.money.service;
 
 import com.ds.money.exception.MoneyServiceException;
 import com.ds.money.vo.*;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * @apiDefine 4user app用户钱包API
  */
-@FeignClient(contextId = "money#UserMoneyService",value = "service-transfer-api-moneys")
+//@FeignClient(contextId = "money#UserMoneyService",value = "service-transfer-api-moneys")
 public interface UserMoneyService {
 
 
@@ -39,9 +37,7 @@ public interface UserMoneyService {
      * }
      *
      */
-    @CrossOrigin(origins = "*")
-    @PostMapping(value = "/money/getUserMoney")
-    UserMoneyResponse getUserMoney(@RequestBody UserMoneyRequest request) throws MoneyServiceException;
+    UserMoneyResponse getUserMoney(UserMoneyRequest request) throws MoneyServiceException;
 
     /**
      * @apiVersion 1.0.0
@@ -75,9 +71,7 @@ public interface UserMoneyService {
      * }
      *
      */
-    @CrossOrigin(origins = "*")
-    @PostMapping(value = "/money/transMoney")
-    TransMoneyResponse transMoney(@RequestBody TransMoneyRequest request) throws MoneyServiceException;
+    TransMoneyResponse transMoney(TransMoneyRequest request) throws MoneyServiceException;
 
     /**
      * @apiVersion 1.0.0
@@ -152,7 +146,5 @@ public interface UserMoneyService {
      *     "totalNumber": 1
      * }
      */
-    @CrossOrigin(origins = "*")
-    @PostMapping(value = "/money/memberMoneyLog")
-    MemberMoneyLogResponse memberMoneyLog(@RequestBody MemberMoneyLogRequest request) throws MoneyServiceException;
+    MemberMoneyLogResponse memberMoneyLog(MemberMoneyLogRequest request) throws MoneyServiceException;
 }

@@ -4,15 +4,10 @@ import com.eason.transfer.openapi.core.sdk.zb.model.ReportUserGameKindRequest;
 import com.eason.transfer.openapi.core.sdk.zb.model.ReportUserGameKindResponse;
 import com.eason.transfer.openapi.core.sdk.zb.model.ReportUserGameTypeRequest;
 import com.eason.transfer.openapi.core.sdk.zb.model.ReportUserGameTypeResponse;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @apiDefine 2report 报表API
  */
-@FeignClient(contextId = "chess#IReportService",value = "service-transfer-api-chess")
 public interface IReportService {
 
     /**
@@ -85,9 +80,7 @@ public interface IReportService {
      * }
      *
      */
-    @CrossOrigin(origins = "*")
-    @PostMapping(value = "/report/getUserGameTypeReport")
-    ReportUserGameTypeResponse getUserGameTypeReport(@RequestBody ReportUserGameTypeRequest request) throws Exception;
+    ReportUserGameTypeResponse getUserGameTypeReport(ReportUserGameTypeRequest request) throws Exception;
 
     /**
      * @apiVersion 1.0.0
@@ -153,9 +146,7 @@ public interface IReportService {
      * }
      *
      */
-    @CrossOrigin(origins = "*")
-    @PostMapping(value = "/report/getUserGameKindReport")
-    ReportUserGameKindResponse getUserGameKindReport(@RequestBody ReportUserGameKindRequest request) throws Exception;
+    ReportUserGameKindResponse getUserGameKindReport(ReportUserGameKindRequest request) throws Exception;
 
 
 }
