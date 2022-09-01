@@ -1,50 +1,77 @@
 server:
-  port: 8081
+  port: 8082
 
-# mysql
+mybatis.mapper-locations: classpath:com/eason/**/*.xml
+
+cxf:
+  path: /forward
+  servlet.init:
+    service-list-path: /info
+  jaxrs:
+    component-scan: true
+
 spring:
   datasource:
+    name: dataSource
+    url: jdbc:mysql://192.168.1.230:3306/openapi
+    username: root
+    password: eason
+    connectionProperties: config.decrypt=false
+    # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://10.20.22.230:3306/game_moeny?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-      username: root
-      password: eason
-      initial-size: 10
-      max-active: 100
-      min-idle: 10
-      max-wait: 60000
-      pool-prepared-statements: true
-      max-pool-prepared-statement-per-connection-size: 20
-      time-between-eviction-runs-millis: 60000
-      min-evictable-idle-time-millis: 300000
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: config,stat
+    maxWait: 60000
+    maxActive: 20
+    initialSize: 1
+    minIdle: 1
+    validationQuery: select 1
+    testWhileIdle: true
+    poolPreparedStatements: true
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    testOnBorrow: false
+    testOnReturn: false
+    logSlowSql: true
+  web:
+    resources:
+      static-locations: classpath:/templates/
+  # redis 配置
+  redis:
+    # 地址
+    host: 192.168.1.230
+    # 端口，默认为6379
+    port: 6379
+    # 数据库索引
+    database: 0
+    # 密码
+    password:
+    # 连接超时时间
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
 
-mybatis-plus:
-  mapper-locations: classpath*:/mapper/*.xml
-  map-underscore-to-camel-case: true
-
-# REDIS (RedisProperties)
-# Redis数据库索引（默认为0）
-spring.redis.database:  0
-spring.redis.database10:  10
-# Redis服务器地址
-spring.redis.host:  10.10.4.230
-# Redis服务器连接端口
-spring.redis.port:  6379
-# Redis服务器连接密码（默认为空）
-spring.redis.password:
-# 连接池最大连接数（使用负值表示没有限制）
-spring.redis.pool.max-active: -1
-# 连接池最大阻塞等待时间（使用负值表示没有限制）
-spring.redis.pool.max-wait: -1
-# 连接池中的最大空闲连接
-spring.redis.pool.max-idle: 8
-# 连接池中的最小空闲连接
-spring.redis.pool.min-idle: 0
-# 连接超时时间（毫秒）
-spring.redis.timeout: 0
-#TestOnBorrow设置为false，导致有时获取的连接不可用
-spring.redis.testOnBorrow:  false
+#spring.data.mongodb.uri:  mongodb://eason:eason@10.10.4.230:27017/lottery
 
 
-
+#表示放在classpath的i18n文件夹，文件前缀为exception
+spring.messages.basename: i18n.exception
+#Freemarker 配置
+#自定义模板文件配置路径 默认模板路径在resources/templates下,默认后缀.ftl
+spring.freemarker.template-loader-path: classpath:/templates/
+spring.freemarker.cache: false
+spring.freemarker.charset: UTF-8
+spring.freemarker.check-template-location: true
+spring.freemarker.content-type: text/html
+spring.freemarker.expose-request-attributes: true
+spring.freemarker.expose-session-attributes: true
+spring.freemarker.request-context-attribute: request
+spring.freemarker.suffix: .ftl

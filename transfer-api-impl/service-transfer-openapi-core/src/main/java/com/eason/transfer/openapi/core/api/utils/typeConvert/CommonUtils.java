@@ -23,23 +23,6 @@ public class CommonUtils {
     }
 
     /**
-     * FunName:convertNickNameToBytes Description:将字符串转换成二进制码的字符串
-     *
-     * @return String
-     * @param:nickName
-     * @Author:fanchangfei
-     * @Create Date: 2014-7-30
-     */
-    public static String convertNickNameToBytes(String nickName) {
-        if (StringUtils.isNotBlank(nickName)) {
-            byte[] bs = nickName.getBytes();
-            return new sun.misc.BASE64Encoder().encodeBuffer(bs);
-        }
-        return null;
-
-    }
-
-    /**
      * FunName:convertNickNameToString Description:将二进制码的字符串还原成真实的字符串
      *
      * @return String

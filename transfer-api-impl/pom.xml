@@ -19,6 +19,7 @@
     <modules>
         <module>service-transfer-admin-core</module>
         <module>service-transfer-api-money</module>
+        <module>service-transfer-openapi-core</module>
         <module>mb-pay-match-mgr</module>
     </modules>
 
