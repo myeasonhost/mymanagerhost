@@ -16,6 +16,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.eason.transfer</groupId>
             <artifactId>openapi-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
