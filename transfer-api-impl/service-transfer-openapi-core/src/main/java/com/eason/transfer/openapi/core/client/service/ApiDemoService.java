@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  */
 //@FeignClient(contextId = "money#UserMoneyService",value = "service-transfer-api-moneys")
 @Service
-public class UserMoneyService {
+public class ApiDemoService {
 
    public UserMoneyResponse getUserMoney(UserMoneyRequest request){
        UserMoneyResponse response=new UserMoneyResponse();
