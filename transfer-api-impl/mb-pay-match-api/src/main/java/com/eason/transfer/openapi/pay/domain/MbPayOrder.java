@@ -41,6 +41,9 @@ public class MbPayOrder implements Serializable {
     /** 用户名（用户ID） */
     private String userId;
 
+    /** 支付匹配ID（支付ID） */
+    private String matchId;
+
     /** 产品名 */
     private String productName;
 
@@ -56,14 +59,19 @@ public class MbPayOrder implements Serializable {
     /** 支付币种（USDT） */
     private String coinCode;
 
-    /** 商户配置的接收用户支付的钱包地址 */
-    private String coinAddress;
-
     /** 1=支付中,2=支付成功，3=支付失败，4=支付取消 */
     private String status;
 
     /** 订单过期时间 */
     private String timeout;
+
+    private String notifySucceed;
+
+    private Integer notifyTimes;
+
+    private Date lastNotifyTime;
+
+    private Date nextNotifyTime;
 
     private Date payTime;
 

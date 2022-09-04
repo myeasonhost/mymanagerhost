@@ -29,7 +29,6 @@ public class QueryStatusResponse extends Response {
     /** 金额 */
     private String amount;
 
-    /** 0=下单成功，1=支付中,2=支付审核，3=支付取消，4=支付超时，5=支付成功 **/
     private String status;
 
     /** 订单过期时间 */

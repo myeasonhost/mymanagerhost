@@ -26,7 +26,6 @@ public class ChargeCancelResponse extends Response {
     /** 产品名 */
     private String productName;
 
-    /** 1=支付中,2=支付成功，3=支付失败，4=支付取消 */
     private String status;
 
     /** 订单过期时间 */

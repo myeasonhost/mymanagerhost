@@ -7,10 +7,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.eason.transfer.openapi.core.common.model.FileItem;
 import com.eason.transfer.openapi.pay.domain.MbPayOrder;
 import com.eason.transfer.openapi.pay.mapper.MbPayOrderMapper;
+import com.eason.transfer.openapi.pay.message.MessageProducer;
 import com.eason.transfer.openapi.pay.model.*;
 import com.eason.transfer.openapi.pay.service.IMbPayOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
@@ -23,6 +25,10 @@ import java.util.List;
 @Service
 @Slf4j
 public class MbPayApi extends ServiceImpl<MbPayOrderMapper, MbPayOrder> implements IMbPayOrderService {
+
+    @Autowired
+    private MessageProducer messageProducer;
+
     /**
      * （1）代付下单接口-status=0 订单创建
      */
@@ -188,6 +194,8 @@ public class MbPayApi extends ServiceImpl<MbPayOrderMapper, MbPayOrder> implemen
 
         BeanUtils.copyProperties(mbPayOrder, response);
         response.setResult("支付中");
+        //发送超时消息通知
+        messageProducer.payTimeOutput(mbPayOrder,60); //1分钟超时测试
         return response;
     }
 
@@ -230,7 +238,7 @@ public class MbPayApi extends ServiceImpl<MbPayOrderMapper, MbPayOrder> implemen
         this.saveOrUpdate(mbPayOrder);
 
         BeanUtils.copyProperties(mbPayOrder, response);
-        response.setResult("支付审核中");
+        response.setResult("玩家确认支付，请上传凭证");
         return response;
     }
 
@@ -264,7 +272,7 @@ public class MbPayApi extends ServiceImpl<MbPayOrderMapper, MbPayOrder> implemen
         mbPayOrder.setStatus("3"); //0=下单成功，1=支付中,2=玩家确认支付，3=玩家支付取消，4=支付超时，5=支付审核，6=支付成功
         mbPayOrder.setCancelTime(new Date(System.currentTimeMillis()));
         this.saveOrUpdate(mbPayOrder);
-        response.setResult("支付取消成功");
+        response.setResult("玩家取消支付");
         return response;
     }
 
@@ -310,7 +318,7 @@ public class MbPayApi extends ServiceImpl<MbPayOrderMapper, MbPayOrder> implemen
         mbPayOrder.setStatus("5"); //0=下单成功，1=支付中,2=玩家确认支付，3=玩家支付取消，4=支付超时，5=支付审核，6=支付成功
         mbPayOrder.setApplyTime(new Date(System.currentTimeMillis()));
         this.saveOrUpdate(mbPayOrder);
-        response.setResult("支付凭证上传成功");
+        response.setResult("支付凭证上传成功，请等待审核");
         return response;
     }
 }

@@ -103,6 +103,13 @@
                 <version>${mybatis-spring-boot.version}</version>
             </dependency>
 
+            <!-- SpringBoot集成rabbitMQ框架 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+                <version>3.0.6.RELEASE</version>
+            </dependency>
+
             <!-- pagehelper 分页插件 -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>

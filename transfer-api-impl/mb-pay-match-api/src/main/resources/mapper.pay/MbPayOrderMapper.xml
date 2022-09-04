@@ -9,12 +9,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="siteId"    column="site_id"    />
         <result property="orderId"    column="order_id"    />
         <result property="userId"    column="user_id"    />
+        <result property="matchId"    column="match_id"    />
         <result property="productName"    column="product_name"    />
         <result property="amount"    column="amount"    />
         <result property="currency"    column="currency"    />
         <result property="coinAmount"    column="coin_amount"    />
         <result property="coinCode"    column="coin_code"    />
-        <result property="coinAddress"    column="coin_address"    />
         <result property="status"    column="status"    />
         <result property="timeout"    column="timeout"    />
         <result property="notifyUrl"    column="notify_url"    />

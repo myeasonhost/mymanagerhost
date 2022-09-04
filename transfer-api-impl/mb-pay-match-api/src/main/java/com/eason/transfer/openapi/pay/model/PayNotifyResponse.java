@@ -1,19 +1,13 @@
-package com.eason.transfer.openapi.core.client.vo;
+package com.eason.transfer.openapi.pay.model;
 
 import com.eason.transfer.openapi.core.common.response.Response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberMoneyLogResponse extends Response {
-    private List list;
+public class PayNotifyResponse extends Response {
     private String result;	//返回信息
-    private Integer page;
-    private Integer pageSize;
-    private long totalNumber;
 }

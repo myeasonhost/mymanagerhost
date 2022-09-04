@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="log.path" value="/root/logs/report/service-transfer-openapi-core/" />
+    <property name="log.path" value="/var/logs/mbpay/openapi/" />
     <!--输出到控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -8,10 +8,10 @@
         </encoder>
     </appender>
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/service-transfer-openapi-core.log</file>
+        <file>${log.path}/openapi.log</file>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/service-transfer-openapi-core.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log.path}/openapi.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -19,10 +19,10 @@
         </encoder>
     </appender>
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        　　　<file>${log.path}/service-transfer-openapi-core-error.log</file>
+        　　　<file>${log.path}/openapi-error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
             　　　<fileNamePattern>
-            　　　${log.path}/service-transfer-openapi-core-error.%i.log
+            　　　${log.path}/openapi-error.%i.log
             　　　</fileNamePattern>
             　　　<minIndex>1</minIndex>
             　　　<maxIndex>10</maxIndex>

@@ -1,6 +1,9 @@
 server:
   port: 8082
 
+spring:
+  profiles:
+    active: dev
 mybatis.mapper-locations: classpath:com/eason/**/*.xml
 # MyBatis配置
 # https://baomidou.com/config/
@@ -97,58 +100,6 @@ cxf:
     service-list-path: /info
   jaxrs:
     component-scan: true
-
-spring:
-  datasource:
-    name: dataSource
-    url: jdbc:mysql://192.168.1.230:3306/ry
-    username: root
-    password: eason
-    connectionProperties: config.decrypt=false
-    # 使用druid数据源
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
-    filters: config,stat
-    maxWait: 60000
-    maxActive: 20
-    initialSize: 1
-    minIdle: 1
-    validationQuery: select 1
-    testWhileIdle: true
-    poolPreparedStatements: true
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    testOnBorrow: false
-    testOnReturn: false
-    logSlowSql: true
-  web:
-    resources:
-      static-locations: classpath:/templates/
-  # redis 配置
-  redis:
-    # 地址
-    host: 192.168.1.230
-    # 端口，默认为6379
-    port: 6379
-    # 数据库索引
-    database: 0
-    # 密码
-    password:
-    # 连接超时时间
-    timeout: 10s
-    lettuce:
-      pool:
-        # 连接池中的最小空闲连接
-        min-idle: 0
-        # 连接池中的最大空闲连接
-        max-idle: 8
-        # 连接池的最大数据库连接数
-        max-active: 8
-        # #连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-wait: -1ms
-
-#spring.data.mongodb.uri:  mongodb://eason:eason@10.10.4.230:27017/lottery
-
 
 #表示放在classpath的i18n文件夹，文件前缀为exception
 spring.messages.basename: i18n.exception

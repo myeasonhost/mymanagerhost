@@ -30,7 +30,7 @@ public class ChargePayResponse extends Response {
     private String userName;
     /** 订单过期时间 */
     private String timeout;
-    private Date applyTime;
+    private Date payTime;
     private String result;
 
 }
