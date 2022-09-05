@@ -1,5 +1,9 @@
 package com.eason.transfer.openapi.pay.api;
 
+import cn.hutool.core.date.DateBetween;
+import cn.hutool.core.date.DateField;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -11,6 +15,7 @@ import com.eason.transfer.openapi.pay.message.MessageProducer;
 import com.eason.transfer.openapi.pay.model.*;
 import com.eason.transfer.openapi.pay.service.IMbPayOrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.utils.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +24,10 @@ import org.springframework.util.FileCopyUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -65,7 +72,7 @@ public class MbPayApi extends ServiceImpl<MbPayOrderMapper, MbPayOrder> implemen
             mbPayOrder.setOrderId(request.getOrderId());
             mbPayOrder.setProductName(request.getProductName());
             mbPayOrder.setStatus("0");
-            mbPayOrder.setTimeout("15分钟");
+            mbPayOrder.setTimeout("15");
             mbPayOrder.setCreateTime(new Date(System.currentTimeMillis()));
             this.saveOrUpdate(mbPayOrder);
         }
@@ -189,20 +196,24 @@ public class MbPayApi extends ServiceImpl<MbPayOrderMapper, MbPayOrder> implemen
         BeanUtils.copyProperties(bankModel, response);
         //更新订单状态
         mbPayOrder.setStatus("1"); //0=下单成功，1=支付中,2=玩家确认支付，3=玩家支付取消，4=支付超时，5=支付审核，6=支付成功
-        mbPayOrder.setPayTime(new Date(System.currentTimeMillis()));
+        Date date = DateTime.now();
+        mbPayOrder.setPayTime(date);
+        mbPayOrder.setTimeoutTime(DateUtil.offsetMinute(date,15));//15分钟超时
         this.saveOrUpdate(mbPayOrder);
 
         BeanUtils.copyProperties(mbPayOrder, response);
         response.setResult("支付中");
         //发送超时消息通知
-        messageProducer.payTimeOutput(mbPayOrder,60); //1分钟超时测试
+        messageProducer.payTimeOutput(mbPayOrder, 60 * 15); //15分钟超时
         return response;
     }
+
 
     /**
      * （5）代付转账确认接口-status=2 玩家确认支付
      */
     public ChargeFinishResponse finishRecharge(ChargeFinishRequest request) {
+
         ChargeFinishResponse response = new ChargeFinishResponse();
         String code = "pay";
         String result = null;
@@ -308,7 +319,7 @@ public class MbPayApi extends ServiceImpl<MbPayOrderMapper, MbPayOrder> implemen
         //文件上传到目标路径
         FileItem fileItem = request.getPayImage();
         String dir = this.getClass().getResource("/images").getPath();
-        File file=new File(dir, "/"+fileItem.getFileName()+"."+fileItem.getMimeType());
+        File file = new File(dir, "/" + fileItem.getFileName() + "." + fileItem.getMimeType());
         FileCopyUtils.copy(fileItem.getContent(), file);
         log.info("文件上传成功：path={}", file.getPath());
         mbPayOrder.setPayimageUrl(file.getPath());

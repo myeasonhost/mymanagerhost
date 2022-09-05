@@ -257,7 +257,7 @@
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>mb-pay-match-mgr</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
